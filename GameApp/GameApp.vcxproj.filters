@@ -2,5 +2,27 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Appmain.cpp" />
+    <ClCompile Include="PreCompile.cpp">
+      <Filter>PreCompile</Filter>
+    </ClCompile>
+    <ClCompile Include="UserGame.cpp">
+      <Filter>UserCore</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="PreCompile">
+      <UniqueIdentifier>{10137086-1ebb-4c15-95d2-2f412214d712}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserCore">
+      <UniqueIdentifier>{0bc066d9-1718-4145-ad07-3245550b3910}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PreCompile.h">
+      <Filter>PreCompile</Filter>
+    </ClInclude>
+    <ClInclude Include="UserGame.h">
+      <Filter>UserCore</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

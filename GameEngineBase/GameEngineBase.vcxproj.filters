@@ -25,6 +25,15 @@
     <ClInclude Include="GameEngineTime.h">
       <Filter>Time</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineSound.h">
+      <Filter>Media</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineSoundFile.h">
+      <Filter>Media</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineSoundPlayer.h">
+      <Filter>Media</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineDebug.cpp">
@@ -51,6 +60,15 @@
     <ClCompile Include="GameEngineTime.cpp">
       <Filter>Time</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineSound.cpp">
+      <Filter>Media</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineSoundFile.cpp">
+      <Filter>Media</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineSoundPlayer.cpp">
+      <Filter>Media</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">
@@ -71,5 +89,34 @@
     <Filter Include="Time">
       <UniqueIdentifier>{e9fd433e-4538-4900-ba51-16658968aca6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Media">
+      <UniqueIdentifier>{3335da5d-55ea-4200-8715-5c4c4ed4d456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib">
+      <UniqueIdentifier>{ce8a6a0d-ce71-44d4-8cb5-d0409fd5385e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib\FMOD">
+      <UniqueIdentifier>{3b9003a9-23c3-4e29-9d4e-18b798080f6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib\FMOD\Debug">
+      <UniqueIdentifier>{8b0585b7-ef77-4b17-b79b-578f30ecddd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib\FMOD\Release">
+      <UniqueIdentifier>{212ec99f-6555-41f8-9b4b-14423dcdfd2c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Release\FMOD\fmodL.dll">
+      <Filter>Lib\FMOD\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Release\FMOD\fmodL_vc.lib">
+      <Filter>Lib\FMOD\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Release\FMOD\fmod.dll">
+      <Filter>Lib\FMOD\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Release\FMOD\fmod_vc.lib">
+      <Filter>Lib\FMOD\Release</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

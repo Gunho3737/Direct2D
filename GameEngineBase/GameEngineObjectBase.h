@@ -33,10 +33,12 @@ public:
 	{
 		if (nullptr == parent_)
 		{
-			return isUpdate_;
+			return false == IsDeath() && isUpdate_;
 		}
 
-		return true == isUpdate_ && parent_->isUpdate_;
+		return false == IsDeath() &&
+			true == isUpdate_ &&
+			parent_->isUpdate_;
 	}
 
 

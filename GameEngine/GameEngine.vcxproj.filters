@@ -1,9 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="PreCompile.h" />
+    <ClInclude Include="GameEngineCore.h" />
+    <ClInclude Include="PreCompile.h">
+      <Filter>PreCompile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PreCompile.cpp" />
+    <ClCompile Include="GameEngineCore.cpp" />
+    <ClCompile Include="PreCompile.cpp">
+      <Filter>PreCompile</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="PreCompile">
+      <UniqueIdentifier>{33c8ebb0-ff1c-4d8f-9bb3-4539470199aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
