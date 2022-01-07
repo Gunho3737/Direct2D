@@ -23,14 +23,22 @@ public:
 	std::string DirectroyName();
 
 public:		//member Func
+	//C:\ 나 D:\ 와 같이 가장 기본 디렉터리인지 확인
 	bool IsRoot();
+
+	//상위 폴더로 이동
 	void MoveParent();
+
+	//상위 폴더중 _DirName라는 이름이 붙은 폴더로 이동
 	bool MoveParent(const std::string& _DirName);
+
+	//하위 폴더중 _DirName라는 이름이 붙은 폴더로 이동
 	bool MoveChild(const std::string& _DirName);
 
 public:
 	std::string PathToPlusFileName(const std::string& _DirName);
-	GameEngineFile PathToCreateFile(const std::string& _FileName);
-	GameEngineFile PathToGetFile(const std::string& _FileName);
+
+
+	std::vector<GameEngineFile> GetAllFile(const std::string& _filter = "*");
 };
 

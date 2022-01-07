@@ -19,6 +19,12 @@ public:
 	}
 
 public:
+	bool IsNull()
+	{
+		return nullptr == this;
+	}
+
+
 	bool IsDeath()
 	{
 		if (nullptr == parent_)

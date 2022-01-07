@@ -14,5 +14,9 @@
 #include <assert.h>
 #include <crtdbg.h>
 
+//math
+#include <math.h>
+#include <random>
+
 // io
 #include <filesystem>

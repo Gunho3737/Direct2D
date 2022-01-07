@@ -42,13 +42,17 @@ void UserGame::ResourcesLoad()
 		SoundDir.MoveChild("Sound");
 		//사운드 폴더로 이동
 
+		std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile("mp3");
 
-		GameEngineSound::GetInst().LoadSound("Green_Greens.mp3", SoundDir.PathToPlusFileName("Green_Greens.mp3"));
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			//폴더 안에 있는 모든 mp3파일을 로드했다
+			GameEngineSound::GetInst().LoadSound(AllFile[i].GetFullPath());
+		}
 	}
 
 
 
-	GameEngineSound::GetInst().PlaySoundOneShot("Green_Greens.mp3");
 
 }
 
@@ -59,13 +63,5 @@ void UserGame::Release()
 
 void UserGame::GameLoop()
 {
-	switch (_getch())
-	{
-	case 'q':
-	case 'Q':
-		EngineDestroy();
-		return;
-	default:
-		break;
-	};
+
 }
