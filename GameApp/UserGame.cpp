@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "UserGame.h"
 #include <conio.h>
+#include <GameEngineBase/GameEngineTime.h>
+#include <GameEngine/GameEngineWindow.h>
 
 UserGame::UserGame() // default constructer 디폴트 생성자
 {
@@ -31,6 +33,7 @@ void UserGame::ResourcesLoad()
 	{
 		GameEngineDirectroy SoundDir;
 		//현재 프로젝트 위치 받아옴
+		//FileSystrm을 이용해서 주소를 받아왔다
 
 
 		SoundDir.MoveParent("Popol");
@@ -56,12 +59,40 @@ void UserGame::ResourcesLoad()
 
 }
 
+static float4 RectPoint[4]
+= {
+ {0, 0},
+ { 100, 0 },
+ { 100, 100 },
+ { 0, 100 },
+};
+
+
 void UserGame::Release() 
 {
 	GameEngineSound::Destroy();
+	GameEngineWindow::Destroy();
 }
 
 void UserGame::GameLoop()
 {
+	POINT PolyGon[4];
 
+	for (size_t i = 0; i < 4; i++)
+	{
+		RectPoint[i].Rotatefloat2Degree(45 * GameEngineTime::GetInst().GetDeltaTime());
+	}
+
+	for (size_t i = 0; i < 4; i++)
+	{
+		PolyGon[i] = RectPoint[i].GetWindowPoint();
+	}
+
+
+	Polygon(GameEngineWindow::GetInst().GetWindowDC(), PolyGon, 4);
+
+	// 지역 static
+	//static float X = 0.0f;
+	//X += 10.0f * GameEngineTime::GetInst().GetDeltaTime();
+	//Rectangle(GameEngineWindow::GetInst().GetWindowDC(), 0 + X, 0, 100 + X, 100);
 }

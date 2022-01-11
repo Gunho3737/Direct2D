@@ -20,6 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineCore.h" />
+    <ClInclude Include="GameEngineIndexBuffer.h" />
+    <ClInclude Include="GameEngineRenderingPipeLine.h" />
+    <ClInclude Include="GameEngineVertexBuffer.h" />
+    <ClInclude Include="GameEngineVertexShader.h" />
     <ClInclude Include="GameEngineWindow.h">
       <SubType>
       </SubType>
@@ -31,6 +35,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
+    <ClCompile Include="GameEngineIndexBuffer.cpp" />
+    <ClCompile Include="GameEngineRenderingPipeLine.cpp" />
+    <ClCompile Include="GameEngineVertexBuffer.cpp" />
+    <ClCompile Include="GameEngineVertexShader.cpp" />
     <ClCompile Include="GameEngineWindow.cpp">
       <SubType>
       </SubType>

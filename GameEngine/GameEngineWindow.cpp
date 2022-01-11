@@ -61,14 +61,14 @@ GameEngineWindow::~GameEngineWindow()
 
 // constructer destructer
 //member Func
-void GameEngineWindow::CreateMainWindowClass()
+int GameEngineWindow::CreateMainWindowClass()
 {
     hInstance_ = GetModuleHandle(NULL);
 
     if (nullptr == hInstance_)
     {
         GameEngineDebug::AssertFalse();
-        return;
+        return 0;
     }
 
     className_ = "DEF";
@@ -89,12 +89,16 @@ void GameEngineWindow::CreateMainWindowClass()
     wcex.hIconSm = nullptr;//LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
     // 아래의 함수의 내용이 
-    RegisterClassExA(&wcex);
+    return RegisterClassExA(&wcex);
 }
 
 void GameEngineWindow::CreateMainWindow(const std::string& _titlename, const float4& _size, const float4& _pos)
 {
-    CreateMainWindowClass();
+    if (0 == CreateMainWindowClass())
+    {
+        GameEngineDebug::MsgBoxError("윈도우 클래스 등록에 실패했습니다.");
+        return;
+    }
 
     if (nullptr == hInstance_)
     {
@@ -125,7 +129,7 @@ void GameEngineWindow::CreateMainWindow(const std::string& _titlename, const flo
     UpdateWindow(windowhandle_);
 
 
-    HDC Devicecontext = ::GetDC(windowhandle_);
+    devicecontext_ = ::GetDC(windowhandle_);
     return;
 }
 

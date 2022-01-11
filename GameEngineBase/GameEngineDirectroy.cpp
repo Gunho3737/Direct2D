@@ -62,9 +62,11 @@ bool GameEngineDirectroy::MoveParent(const std::string& _DirName)
 bool GameEngineDirectroy::MoveChild(const std::string& _DirName)
 {
 	path_.append(_DirName);
+	//인자로 받은 폴더명과 같은 폴더로 이동
 
 	if (false == IsExist())
 	{
+		//IsExixt로 존재여부를 확인
 		GameEngineDebug::MsgBoxError("존재하지 않는 경로로 이동했습니다.");
 		return false;
 	}
