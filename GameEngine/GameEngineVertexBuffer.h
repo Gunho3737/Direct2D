@@ -1,10 +1,11 @@
 #pragma once
 #include <GameEngineBase/GameEngineMath.h>
+#include <GameEngineBase/GameEngineObjectNameBase.h>
 
 // 분류 : 
 // 용도 : 
 // 설명 : 
-class GameEngineVertexBuffer
+class GameEngineVertexBuffer : public GameEngineObjectNameBase
 {
 private:	// member Var
 	std::vector<float4> Vertexs_;
@@ -26,4 +27,6 @@ private:		//delete operator
 
 public:
 };
+
+
 

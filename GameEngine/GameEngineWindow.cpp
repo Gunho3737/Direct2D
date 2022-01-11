@@ -2,7 +2,7 @@
 #include "GameEngineWindow.h"
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineBase/GameEngineTime.h>
-#include <GameEngineBase/GameEngineSound.h>
+#include <GameEngineBase/GameEngineSoundManager.h>
 #include <iostream>
 
 // Æ÷ÀÎÅÍÇü ½Ì±ÛÅæ
@@ -155,7 +155,7 @@ void GameEngineWindow::Loop(void(*_loopFunc)())
         if (0 != PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
             GameEngineTime::GetInst().TimeCheck();
-            GameEngineSound::GetInst().SoundUpdate();
+            GameEngineSoundManager::GetInst().SoundUpdate();
 
             if (nullptr == _loopFunc)
             {
@@ -177,7 +177,7 @@ void GameEngineWindow::Loop(void(*_loopFunc)())
         else
         {
             GameEngineTime::GetInst().TimeCheck();
-            GameEngineSound::GetInst().SoundUpdate();
+            GameEngineSoundManager::GetInst().SoundUpdate();
 
             if (nullptr == _loopFunc)
             {

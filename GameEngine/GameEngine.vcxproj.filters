@@ -18,6 +18,13 @@
     <ClInclude Include="GameEngineVertexShader.h">
       <Filter>RenderingPileLine\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineTexture.h" />
+    <ClInclude Include="GameEngineVertexBufferManager.h">
+      <Filter>Resources\99_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexShaderManager.h">
+      <Filter>Resources\99_Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -37,6 +44,13 @@
     <ClCompile Include="GameEngineVertexShader.cpp">
       <Filter>RenderingPileLine\Shader</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineTexture.cpp" />
+    <ClCompile Include="GameEngineVertexBufferManager.cpp">
+      <Filter>Resources\99_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexShaderManager.cpp">
+      <Filter>Resources\99_Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -47,6 +61,18 @@
     </Filter>
     <Filter Include="RenderingPileLine\Shader">
       <UniqueIdentifier>{87d4feab-8b43-4b2e-bdf6-e9e709139a60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{ad69f924-a325-4e0f-9756-f67ae6e79f1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\00_Buffer">
+      <UniqueIdentifier>{4fc918c9-66be-4aa4-91c1-d107c381dc7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\01_Shader">
+      <UniqueIdentifier>{305a2645-4560-43b2-a393-cec22b4e0704}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\99_Manager">
+      <UniqueIdentifier>{aa5c4ee1-d73b-4bfa-afac-62099835d629}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1,17 +1,17 @@
 #pragma once
 #include "FMOD/fmod.hpp"
-#include "GameEngineSoundFile.h"
 #include "GameEngineSound.h"
+#include "GameEngineSoundManager.h"
 
 // 분류 :
 // 용도 :
 // 설명 :
 class GameEngineSoundPlayer
 {
-	friend GameEngineSound;
+	friend GameEngineSoundManager;
 
 private:	// member Var
-	GameEngineSound* playSoundFile_;
+	GameEngineSoundManager* playSoundFile_;
 	FMOD::Channel* playChannel_; // 
 	int PlayCount;
 

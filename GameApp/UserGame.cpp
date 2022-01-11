@@ -24,7 +24,7 @@ UserGame::UserGame(UserGame&& _other) noexcept  // default RValue Copy construct
 void UserGame::Initialize() 
 {
 
-	GameEngineSound::GetInst().Initialize();
+	GameEngineSoundManager::GetInst().Initialize();
 	return;
 }
 
@@ -50,7 +50,7 @@ void UserGame::ResourcesLoad()
 		for (size_t i = 0; i < AllFile.size(); i++)
 		{
 			//폴더 안에 있는 모든 mp3파일을 로드했다
-			GameEngineSound::GetInst().LoadSound(AllFile[i].GetFullPath());
+			GameEngineSoundManager::GetInst().LoadSound(AllFile[i].GetFullPath());
 		}
 	}
 
@@ -70,7 +70,7 @@ static float4 RectPoint[4]
 
 void UserGame::Release() 
 {
-	GameEngineSound::Destroy();
+	GameEngineSoundManager::Destroy();
 	GameEngineWindow::Destroy();
 }
 

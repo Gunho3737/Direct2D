@@ -9,13 +9,19 @@ class GameEngineVertexShader;
 class GameEngineRenderingPipeLine
 {
 private:	// member Var
-	std::vector<float4> CopyVertex;
+	// 
+
+	GameEngineVertexBuffer* VertexBuffer_;
+	GameEngineVertexShader* VertexShader_;
 
 public:
 	void SetInputAssembler1(GameEngineVertexBuffer* _Ptr);
-	// void SetVertexShader(GameEngineVertexShader* _Vertex);
 
-	void OutPutMerger();
+	void SetVertexShader(GameEngineVertexShader* _Ptr);
+
+public:
+	void Rendering();
+
 
 public:
 	GameEngineRenderingPipeLine(); // default constructer 디폴트 생성자

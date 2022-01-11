@@ -22,8 +22,20 @@
     <ClInclude Include="GameEngineCore.h" />
     <ClInclude Include="GameEngineIndexBuffer.h" />
     <ClInclude Include="GameEngineRenderingPipeLine.h" />
+    <ClInclude Include="GameEngineTexture.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexBufferManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineVertexBuffer.h" />
     <ClInclude Include="GameEngineVertexShader.h" />
+    <ClInclude Include="GameEngineVertexShaderManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineWindow.h">
       <SubType>
       </SubType>
@@ -37,8 +49,20 @@
     <ClCompile Include="GameEngineCore.cpp" />
     <ClCompile Include="GameEngineIndexBuffer.cpp" />
     <ClCompile Include="GameEngineRenderingPipeLine.cpp" />
+    <ClCompile Include="GameEngineTexture.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexBufferManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineVertexBuffer.cpp" />
     <ClCompile Include="GameEngineVertexShader.cpp" />
+    <ClCompile Include="GameEngineVertexShaderManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineWindow.cpp">
       <SubType>
       </SubType>

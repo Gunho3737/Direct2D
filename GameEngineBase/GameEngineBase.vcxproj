@@ -33,8 +33,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineSoundManager.h" />
     <ClInclude Include="GameEngineSound.h" />
-    <ClInclude Include="GameEngineSoundFile.h" />
     <ClInclude Include="GameEngineSoundPlayer.h" />
     <ClInclude Include="GameEngineString.h">
       <SubType>
@@ -61,8 +61,8 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineSoundManager.cpp" />
     <ClCompile Include="GameEngineSound.cpp" />
-    <ClCompile Include="GameEngineSoundFile.cpp" />
     <ClCompile Include="GameEngineSoundPlayer.cpp" />
     <ClCompile Include="GameEngineString.cpp">
       <SubType>

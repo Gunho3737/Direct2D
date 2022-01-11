@@ -2,15 +2,17 @@
 #include <vector>
 #include <GameEngineBase/GameEngineMath.h>
 
+
 // 분류 : 
 // 용도 : 
 // 설명 : 
 class GameEngineVertexShader
 {
-private:	// member Var
-	// virtual float4 VertexShaderFunction(const float4& _Vertex);
+public:	// member Var
+	std::function<float4(const float4& _Vertex)> VertexShaderFunction;
+	//std::function -> 함수포인터를 대신하는 std기능
 
-	
+	// virtual float4 VertexShaderFunction(const float4& _Vertex);
 
 public:
 	GameEngineVertexShader(); // default constructer 디폴트 생성자

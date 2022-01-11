@@ -18,7 +18,7 @@ GameEngineVertexBuffer::GameEngineVertexBuffer(GameEngineVertexBuffer&& _other) 
 
 
 
-const std::vector<float4>& GameEngineVertexBuffer::GetVertexs() 
+const std::vector<float4>& GameEngineVertexBuffer::GetVertexs()
 {
 	return Vertexs_;
 }
