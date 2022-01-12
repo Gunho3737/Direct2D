@@ -29,7 +29,7 @@ private:	// member Var
 
 public:
 	// 직접 만들수 있다.
-	GameEngineVertexBuffer* Create(const std::string& _Name);
+	GameEngineVertexBuffer* Create(const std::string& _Name, const std::vector<float4>& _Vertex);
 	// 파일에서 로드
 	GameEngineVertexBuffer* Load(const std::string& _Path);
 	// 

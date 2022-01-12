@@ -1,16 +1,16 @@
 #pragma once
 #include <vector>
 #include <GameEngineBase/GameEngineMath.h>
+#include <GameEngineBase/GameEngineObjectNameBase.h>
 
 
 // 분류 : 
 // 용도 : 
 // 설명 : 
-class GameEngineVertexShader
+class GameEngineVertexShader : public GameEngineObjectNameBase
 {
 public:	// member Var
 	std::function<float4(const float4& _Vertex)> VertexShaderFunction;
-	//std::function -> 함수포인터를 대신하는 std기능
 
 	// virtual float4 VertexShaderFunction(const float4& _Vertex);
 

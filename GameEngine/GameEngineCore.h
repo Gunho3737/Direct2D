@@ -33,6 +33,8 @@ public:
 	template<typename UserGameType>
 	static void Start()
 	{
+		GameEngineDebug::LeakCheckOn();
+
 		WindowCreate();
 
 		UserGameType NewUserGame;

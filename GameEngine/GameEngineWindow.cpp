@@ -176,9 +176,6 @@ void GameEngineWindow::Loop(void(*_loopFunc)())
         }
         else
         {
-            GameEngineTime::GetInst().TimeCheck();
-            GameEngineSoundManager::GetInst().SoundUpdate();
-
             if (nullptr == _loopFunc)
             {
                 GameEngineDebug::AssertFalse();

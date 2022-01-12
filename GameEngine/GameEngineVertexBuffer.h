@@ -26,6 +26,7 @@ private:		//delete operator
 	GameEngineVertexBuffer& operator=(const GameEngineVertexBuffer&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
+	void Create(const std::vector<float4>& _Vertexs);
 };
 
 

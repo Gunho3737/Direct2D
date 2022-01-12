@@ -23,12 +23,13 @@ public:
 	static const float4 DOWN;
 
 public:
-	static float4 Rotatefloat2Degree(float4 _OriginVector, float _Degree)
+	static float4 RotateZfloat2Degree(float4 _OriginVector, float _Degree)
 	{
-		return Rotatefloat2Radian(_OriginVector, _Degree * GameEngineMath::DegreeToRadian);
+		//z축 회전
+		return RotateZfloat2Radian(_OriginVector, _Degree * GameEngineMath::DegreeToRadian);
 	}
 
-	static float4 Rotatefloat2Radian(float4 _OriginVector, float _Radian)
+	static float4 RotateZfloat2Radian(float4 _OriginVector, float _Radian)
 	{
 		float4 NextVector;
 
@@ -43,7 +44,7 @@ public:
 		return Dirfloat2Radian(_Degree * GameEngineMath::DegreeToRadian);
 	}
 
-	// 0도일때의 벡터를 회전시키는 공식인겁니다.
+	// 0도 {1, 0} 일때의 벡터를 회전시키는 공식인겁니다.
 	static float4 Dirfloat2Radian(float _Radian)
 	{
 		return float4(cosf(_Radian), sinf(_Radian));
@@ -158,6 +159,16 @@ public:
 		return *this;
 	}
 
+	float4& operator*=(const float _Value)
+	{
+		this->x *= _Value;
+		this->y *= _Value;
+		this->z *= _Value;
+		this->w *= _Value;
+		return *this;
+	}
+
+
 	float4& operator/=(const float4 _other)
 	{
 		this->x /= _other.x;
@@ -235,9 +246,9 @@ public:
 		return { ix(), iy() };
 	}
 
-	void Rotatefloat2Degree(float _Deg)
+	void RotateZfloat2Degree(float _Deg)
 	{
-		*this = Rotatefloat2Degree(*this, _Deg);
+		*this = RotateZfloat2Degree(*this, _Deg);
 		return;
 	}
 

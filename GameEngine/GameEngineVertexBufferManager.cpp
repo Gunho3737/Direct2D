@@ -2,6 +2,8 @@
 #include "GameEngineVertexBufferManager.h"
 #include "GameEngineVertexBuffer.h"
 
+GameEngineVertexBufferManager* GameEngineVertexBufferManager::Inst = new GameEngineVertexBufferManager();
+
 GameEngineVertexBufferManager::GameEngineVertexBufferManager() // default constructer 디폴트 생성자
 {
 
@@ -27,7 +29,7 @@ GameEngineVertexBufferManager::GameEngineVertexBufferManager(GameEngineVertexBuf
 
 
 
-GameEngineVertexBuffer* GameEngineVertexBufferManager::Create(const std::string& _Name)
+GameEngineVertexBuffer* GameEngineVertexBufferManager::Create(const std::string& _Name, const std::vector<float4>& _Vertex)
 {
 	GameEngineVertexBuffer* FindRes = Find(_Name);
 
@@ -39,10 +41,12 @@ GameEngineVertexBuffer* GameEngineVertexBufferManager::Create(const std::string&
 
 	GameEngineVertexBuffer* NewRes = new GameEngineVertexBuffer();
 	NewRes->SetName(_Name);
+	NewRes->Create(_Vertex);
 
 	// 그리고 뭘할거냐?
 
 	ResourcesMap.insert(std::map<std::string, GameEngineVertexBuffer*>::value_type(_Name, NewRes));
+	return NewRes;
 }
 
 GameEngineVertexBuffer* GameEngineVertexBufferManager::Load(const std::string& _Path)
@@ -64,6 +68,7 @@ GameEngineVertexBuffer* GameEngineVertexBufferManager::Load(const std::string& _
 
 
 	ResourcesMap.insert(std::map<std::string, GameEngineVertexBuffer*>::value_type(_Name, NewRes));
+	return NewRes;
 }
 
 GameEngineVertexBuffer* GameEngineVertexBufferManager::Find(const std::string& _Name)

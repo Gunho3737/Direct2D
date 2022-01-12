@@ -21,8 +21,16 @@
   <ItemGroup>
     <ClInclude Include="GameEngineCore.h" />
     <ClInclude Include="GameEngineIndexBuffer.h" />
+    <ClInclude Include="GameEngineIndexBufferManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineRenderingPipeLine.h" />
     <ClInclude Include="GameEngineTexture.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineTextureManager.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -48,8 +56,16 @@
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
     <ClCompile Include="GameEngineIndexBuffer.cpp" />
+    <ClCompile Include="GameEngineIndexBufferManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineRenderingPipeLine.cpp" />
     <ClCompile Include="GameEngineTexture.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineTextureManager.cpp">
       <SubType>
       </SubType>
     </ClCompile>

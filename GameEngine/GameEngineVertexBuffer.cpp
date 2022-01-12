@@ -22,3 +22,12 @@ const std::vector<float4>& GameEngineVertexBuffer::GetVertexs()
 {
 	return Vertexs_;
 }
+
+
+void GameEngineVertexBuffer::Create(const std::vector<float4>& _Vertexs)
+{
+	for (const float4& Data : _Vertexs)
+	{
+		Vertexs_.push_back(Data);
+	}
+}

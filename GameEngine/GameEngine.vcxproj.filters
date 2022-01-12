@@ -6,23 +6,31 @@
       <Filter>PreCompile</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineWindow.h" />
-    <ClInclude Include="GameEngineIndexBuffer.h">
-      <Filter>RenderingPileLine</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngineRenderingPipeLine.h">
       <Filter>RenderingPileLine</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineVertexBuffer.h">
-      <Filter>RenderingPileLine</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineVertexShader.h">
-      <Filter>RenderingPileLine\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineTexture.h" />
     <ClInclude Include="GameEngineVertexBufferManager.h">
       <Filter>Resources\99_Manager</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineVertexShaderManager.h">
+      <Filter>Resources\99_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexShader.h">
+      <Filter>Resources\01_Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineIndexBuffer.h">
+      <Filter>Resources\00_Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexBuffer.h">
+      <Filter>Resources\00_Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineTexture.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineIndexBufferManager.h">
+      <Filter>Resources\99_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineTextureManager.h">
       <Filter>Resources\99_Manager</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,23 +40,31 @@
       <Filter>PreCompile</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineWindow.cpp" />
-    <ClCompile Include="GameEngineIndexBuffer.cpp">
-      <Filter>RenderingPileLine</Filter>
-    </ClCompile>
     <ClCompile Include="GameEngineRenderingPipeLine.cpp">
       <Filter>RenderingPileLine</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineVertexBuffer.cpp">
-      <Filter>RenderingPileLine</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineVertexShader.cpp">
-      <Filter>RenderingPileLine\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineTexture.cpp" />
     <ClCompile Include="GameEngineVertexBufferManager.cpp">
       <Filter>Resources\99_Manager</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineVertexShaderManager.cpp">
+      <Filter>Resources\99_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexShader.cpp">
+      <Filter>Resources\01_Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineIndexBuffer.cpp">
+      <Filter>Resources\00_Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexBuffer.cpp">
+      <Filter>Resources\00_Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineTexture.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineIndexBufferManager.cpp">
+      <Filter>Resources\99_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineTextureManager.cpp">
       <Filter>Resources\99_Manager</Filter>
     </ClCompile>
   </ItemGroup>
