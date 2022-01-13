@@ -35,16 +35,23 @@ GameEngineVertexBuffer* GameEngineVertexBufferManager::Create(const std::string&
 
 	if (nullptr != FindRes)
 	{
+		//이미 만든 도형인지 Find로 체크후 겹칠시에는 터트린다
 		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Load");
 	}
 
-
+	//VerTexBuffer 생성
 	GameEngineVertexBuffer* NewRes = new GameEngineVertexBuffer();
+
+	//내가 넣어준 이름으로 이름을 넣어줌
 	NewRes->SetName(_Name);
+
+	//들어온 점의 좌표를
+	//VertexBuffer가 자체적으로 들고 있는 vector에 넣는다
 	NewRes->Create(_Vertex);
 
 	// 그리고 뭘할거냐?
 
+	//VertexManager에 있는 만들어진 리소스를 모아 둘 Map에 이름과 같이 저장
 	ResourcesMap.insert(std::map<std::string, GameEngineVertexBuffer*>::value_type(_Name, NewRes));
 	return NewRes;
 }

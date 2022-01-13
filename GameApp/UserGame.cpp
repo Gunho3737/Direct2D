@@ -58,46 +58,79 @@ void UserGame::ResourcesLoad()
 	}
 
 	{
-		std::vector<float4> RectVertex = std::vector<float4>(4);
+		//정육면체를 생성
+		std::vector<float4> RectVertex = std::vector<float4>(4 * 6);
 
-		RectVertex[0] = float4({ -0.5f, 0.5f, 0.5f });
-		RectVertex[1] = float4({ 0.5f, 0.5f, 0.5f });
-		RectVertex[2] = float4({ 0.5f, -0.5f, 0.5f });
-		RectVertex[3] = float4({ -0.5f, -0.5f, 0.5f });
+		{
+			RectVertex[0] = float4({ -0.5f, 0.5f, 0.5f });
+			RectVertex[1] = float4({ 0.5f, 0.5f, 0.5f });
+			RectVertex[2] = float4({ 0.5f, -0.5f, 0.5f });
+			RectVertex[3] = float4({ -0.5f, -0.5f, 0.5f });
 
-		//RectVertex[4] = RectVertex[0].Rotatefloat2Degree();
-		//RectVertex[5] = RectVertex[1]
-		//RectVertex[6] = RectVertex[2]
-		//RectVertex[7] = RectVertex[3]
+			RectVertex[4] = float4::RotateXDegree(RectVertex[0], 180.0f);
+			RectVertex[5] = float4::RotateXDegree(RectVertex[1], 180.0f);
+			RectVertex[6] = float4::RotateXDegree(RectVertex[2], 180.0f);
+			RectVertex[7] = float4::RotateXDegree(RectVertex[3], 180.0f);
+		}
 
+		{
+			RectVertex[8] = float4::RotateYDegree(RectVertex[0], 90.0f);
+			RectVertex[9] = float4::RotateYDegree(RectVertex[1], 90.0f);
+			RectVertex[10] = float4::RotateYDegree(RectVertex[2], 90.0f);
+			RectVertex[11] = float4::RotateYDegree(RectVertex[3], 90.0f);
+
+			RectVertex[12] = float4::RotateYDegree(RectVertex[0], -90.0f);
+			RectVertex[13] = float4::RotateYDegree(RectVertex[1], -90.0f);
+			RectVertex[14] = float4::RotateYDegree(RectVertex[2], -90.0f);
+			RectVertex[15] = float4::RotateYDegree(RectVertex[3], -90.0f);
+		}
+
+		{
+			RectVertex[16] = float4::RotateXDegree(RectVertex[0], 90.0f);
+			RectVertex[17] = float4::RotateXDegree(RectVertex[1], 90.0f);
+			RectVertex[18] = float4::RotateXDegree(RectVertex[2], 90.0f);
+			RectVertex[19] = float4::RotateXDegree(RectVertex[3], 90.0f);
+
+			RectVertex[20] = float4::RotateXDegree(RectVertex[0], -90.0f);
+			RectVertex[21] = float4::RotateXDegree(RectVertex[1], -90.0f);
+			RectVertex[22] = float4::RotateXDegree(RectVertex[2], -90.0f);
+			RectVertex[23] = float4::RotateXDegree(RectVertex[3], -90.0f);
+		}
 		GameEngineVertexBufferManager::GetInst().Create("Rect", RectVertex);
 	}
 
-	{
-		std::vector<int> RectIndex = { 0,1,2, 0,2,3 };
 
-		GameEngineIndexBufferManager::GetInst().Create("Rect", RectIndex);
-	}
+		{
+			//현재 공부중
+			std::vector<int> RectIndex;
 
-	{
-		// 이 스택에서 곧바로 넣어주고 싶은건
-		// []
-
-
-		GameEngineVertexShaderManager::GetInst().Create("TestShader", [](const float4& _Value)
+			for (size_t i = 0; i < 6; i++)
 			{
-				float4 MovePos = { 200.0f, 200.0f };
-				float4 Pos = _Value;
-				Pos *= 100.0f;
-				Pos.RotateZfloat2Degree(RotAngle);
-				Pos += MovePos;
+				RectIndex.push_back(i * 4 + 0);
+				RectIndex.push_back(i * 4 + 1);
+				RectIndex.push_back(i * 4 + 2);
 
-				return Pos;
+				RectIndex.push_back(i * 4 + 0);
+				RectIndex.push_back(i * 4 + 2);
+				RectIndex.push_back(i * 4 + 3);
 			}
-		);
-	}
 
+			GameEngineIndexBufferManager::GetInst().Create("Rect", RectIndex);
+		}
 
+		{
+			GameEngineVertexShaderManager::GetInst().Create("TestShader", [](const float4& _Value)
+				{
+					float4 MovePos = { 200.0f, 200.0f };
+					float4 Pos = _Value;
+					Pos *= 100.0f;
+					Pos.RotateXDegree(RotAngle);
+					Pos += MovePos;
+
+					return Pos;
+				}
+			);
+		}
 }
 
 
@@ -126,7 +159,7 @@ void UserGame::GameLoop()
 	Pipe.SetVertexShader("TestShader");
 	Pipe.SetInputAssembler2("Rect");
 
-	RotAngle += 360.0f * GameEngineTime::GetInst().GetDeltaTime();
+	RotAngle += 30.0f * GameEngineTime::GetInst().GetDeltaTime();
 
 	Pipe.Rendering();
 	
