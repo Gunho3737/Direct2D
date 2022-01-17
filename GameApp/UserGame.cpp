@@ -30,6 +30,7 @@ void UserGame::Initialize()
 }
 
 float RotAngle = 0.0f;
+float4 BoxPos = { 0.0f, 0.0f, 0.0f };
 
 void UserGame::ResourcesLoad() 
 {
@@ -121,14 +122,36 @@ void UserGame::ResourcesLoad()
 		{
 			GameEngineVertexShaderManager::GetInst().Create("TestShader", [](const float4& _Value)
 				{
-					float4 MovePos = { 200.0f, 200.0f };
+				
 					float4 Pos = _Value;
-					Pos *= 100.0f;
-					Pos.RotateXDegree(RotAngle);
-					Pos += MovePos;
+					float4 WorldScale = { 100.0f, 100.0f, 100.0f };
+					float4 WorldMove = { 100.0f, 0.0f };
+					float4 WorldRot = { 0.0f, 0.0f, RotAngle };
+					Pos *= WorldScale;
+					Pos.RotateXDegree(WorldRot.x);
+					Pos.RotateYDegree(WorldRot.y);
+					Pos.RotateZDegree(WorldRot.z);
+					Pos += BoxPos;
+
+				
+
+
+					// 한번더 뭘로 변환시키고
+
+					// 월드 세상에 위치시키기 위한 변형
+					//float4 SpaceScale = { 1.0f, -1.0f, 1.0f };
+					//float4 SpaceRot = { 0.0f, 0.0f, 0.0f };
+					//float4 SpaceMove = { 1280.0f * 0.5f, 720*0.5f, 0.0f};
+
+					//Pos *= SpaceScale;
+					//Pos.RotateXDegree(SpaceRot.x);
+					//Pos.RotateYDegree(SpaceRot.y);
+					//Pos.RotateZDegree(SpaceRot.z);
+					//Pos += SpaceMove;
 
 					return Pos;
-				}
+
+			}
 			);
 		}
 }
@@ -159,7 +182,8 @@ void UserGame::GameLoop()
 	Pipe.SetVertexShader("TestShader");
 	Pipe.SetInputAssembler2("Rect");
 
-	RotAngle += 30.0f * GameEngineTime::GetInst().GetDeltaTime();
+	RotAngle += 360.0f * GameEngineTime::GetInst().GetDeltaTime();
+	BoxPos.y += 10.0f * GameEngineTime::GetInst().GetDeltaTime();
 
 	Pipe.Rendering();
 	

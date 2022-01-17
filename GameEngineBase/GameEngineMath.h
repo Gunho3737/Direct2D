@@ -196,7 +196,7 @@ public:
 		this->x -= _other.x;
 		this->y -= _other.y;
 		this->z -= _other.z;
-		this->w -= _other.w;
+		// this->w -= _other.w;
 		return *this;
 	}
 
@@ -205,7 +205,7 @@ public:
 		this->x *= _other.x;
 		this->y *= _other.y;
 		this->z *= _other.z;
-		this->w *= _other.w;
+		// this->w *= _other.w;
 		return *this;
 	}
 
@@ -214,7 +214,7 @@ public:
 		this->x *= _Value;
 		this->y *= _Value;
 		this->z *= _Value;
-		this->w *= _Value;
+		//this->w *= _Value;
 		return *this;
 	}
 
@@ -224,7 +224,7 @@ public:
 		this->x /= _other.x;
 		this->y /= _other.y;
 		this->z /= _other.z;
-		this->w /= _other.w;
+		// this->w /= _other.w;
 		return *this;
 	}
 
@@ -441,6 +441,31 @@ public:
 	{
 
 	}
+};
+
+// 0.0f 0.0f 0.0f 0.0f
+// 0.0f 0.0f 0.0f 0.0f
+// 0.0f 0.0f 0.0f 0.0f
+// 0.0f 0.0f 0.0f 0.0f
+
+//행렬을 나타내기 위한 이차원 배열
+
+class float4x4
+{
+	union
+	{
+		struct
+		{
+			float4 vx;
+			float4 vy;
+			float4 vz;
+			float4 vw;
+		};
+
+		float Arr1D[4 * 4];
+		float Arr2D[4][4];
+		// 실수는 기본적으로 00000000 00000000 00000000 00000000
+	};
 };
 
 // using FVector = float4;
