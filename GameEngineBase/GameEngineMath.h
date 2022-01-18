@@ -1,8 +1,4 @@
 #pragma once
-#include <math.h>
-#include <random>
-#include <string>
-#include <Windows.h>
 
 class GameEngineMath
 {
@@ -13,6 +9,7 @@ public:
 	static const float RadianToDegree;
 };
 
+class float4x4;
 class float4
 {
 public:
@@ -23,71 +20,36 @@ public:
 	static const float4 DOWN;
 
 public:
+	// 1 0 0 0 
+	// 0 1 0 0 
+	// 0 0 1 0
+	// 0 0 0 1 
+
+	static float4 Cross3D(float4 _Left, float4 _Right)
+	{
+		return DirectX::XMVector3Cross(_Left.DirectVector, _Right.DirectVector);
+	}
+
+
 	static float4 RotateYDegree(float4 _OriginVector, float _Degree)
 	{
 		return RotateYRadian(_OriginVector, _Degree * GameEngineMath::DegreeToRadian);
 	}
-
-	static float4 RotateYRadian(float4 _OriginVector, float _Radian)
-	{
-		float4 NextVector;
-
-		NextVector.z = _OriginVector.z * cosf(_Radian) - _OriginVector.x * sinf(_Radian);
-		NextVector.x = _OriginVector.z * sinf(_Radian) + _OriginVector.x * cosf(_Radian);
-		NextVector.y = _OriginVector.y;
-
-		//return float4( 1 * cosf(_Radian),  1 * sinf(_Radian));
-
-		//NextVector.x = _OriginVector.x * cosf(_Radian) - _OriginVector.y * sinf(_Radian);
-		//NextVector.y = _OriginVector.x * sinf(_Radian) + _OriginVector.y * cosf(_Radian);
-
-
-		return NextVector;
-	}
+	static float4 RotateYRadian(float4 _OriginVector, float _Radian);
 
 	static float4 RotateXDegree(float4 _OriginVector, float _Degree)
 	{
 		return RotateXRadian(_OriginVector, _Degree * GameEngineMath::DegreeToRadian);
 	}
 
-	static float4 RotateXRadian(float4 _OriginVector, float _Radian)
-	{
-		float4 NextVector;
-
-		NextVector.y = _OriginVector.y * cosf(_Radian) - _OriginVector.z * sinf(_Radian);
-		NextVector.z = _OriginVector.y * sinf(_Radian) + _OriginVector.z * cosf(_Radian);
-		NextVector.x = _OriginVector.x;
-		//return float4( 1 * cosf(_Radian),  1 * sinf(_Radian));
-
-		//NextVector.x = _OriginVector.x * cosf(_Radian) - _OriginVector.y * sinf(_Radian);
-		//NextVector.y = _OriginVector.x * sinf(_Radian) + _OriginVector.y * cosf(_Radian);
-
-
-		return NextVector;
-	}
-
+	static float4 RotateXRadian(float4 _OriginVector, float _Radian);
 
 	static float4 RotateZDegree(float4 _OriginVector, float _Degree)
 	{
 		return RotateZRadian(_OriginVector, _Degree * GameEngineMath::DegreeToRadian);
 	}
 
-	static float4 RotateZRadian(float4 _OriginVector, float _Radian)
-	{
-		float4 NextVector;
-
-		NextVector.x = _OriginVector.x * cosf(_Radian) - _OriginVector.y * sinf(_Radian);
-		NextVector.y = _OriginVector.x * sinf(_Radian) + _OriginVector.y * cosf(_Radian);
-		NextVector.z = _OriginVector.z;
-
-		//return float4( 1 * cosf(_Radian),  1 * sinf(_Radian));
-
-		//NextVector.x = _OriginVector.x * cosf(_Radian) - _OriginVector.y * sinf(_Radian);
-		//NextVector.y = _OriginVector.x * sinf(_Radian) + _OriginVector.y * cosf(_Radian);
-
-
-		return NextVector;
-	}
+	static float4 RotateZRadian(float4 _OriginVector, float _Radian);
 
 	static float4 DirZDegree(float _Degree)
 	{
@@ -95,10 +57,7 @@ public:
 	}
 
 	// 0도 {1, 0} 일때의 벡터를 회전시키는 공식인겁니다.
-	static float4 DirZRadian(float _Radian)
-	{
-		return float4(cosf(_Radian), sinf(_Radian));
-	}
+	static float4 DirZRadian(float _Radian);
 
 public:
 	// unnamed union을 선언하면 
@@ -121,121 +80,80 @@ public:
 			float a;
 		};
 
+		DirectX::XMFLOAT3 DxXmfloat3;
+		DirectX::XMFLOAT4 DxXmfloat4;
+
+		DirectX::XMVECTOR DirectVector;
+
 		// 실수는 기본적으로 00000000 00000000 00000000 00000000
 	};
 
-	float4 operator+(const float4 _other) const
+	float4 operator+(const float4 _value) const
 	{
-		float4 ReturnValue;
-
-		ReturnValue.x = this->x + _other.x;
-		ReturnValue.y = this->y + _other.y;
-		ReturnValue.z = this->z + _other.z;
-		ReturnValue.w = this->w + _other.w;
-		return ReturnValue;
+		return DirectX::XMVectorAdd(DirectVector, _value.DirectVector);
 	}
 
-	float4 operator-(const float4 _other) const
+	float4 operator-(const float4 _value) const
 	{
-		float4 ReturnValue;
-
-		ReturnValue.x = this->x - _other.x;
-		ReturnValue.y = this->y - _other.y;
-		ReturnValue.z = this->z - _other.z;
-		ReturnValue.w = this->w - _other.w;
-		return ReturnValue;
+		return DirectX::XMVectorSubtract(DirectVector, _value.DirectVector);
 	}
 
-	float4 operator*(const float _other) const
+	float4 operator*(const float _value) const
 	{
-		float4 ReturnValue;
+		float4 CalVector = { _value , _value , _value , 1.0f };
+		return DirectX::XMVectorMultiply(DirectVector, CalVector.DirectVector);
+	}
 
-		ReturnValue.x = this->x * _other;
-		ReturnValue.y = this->y * _other;
-		ReturnValue.z = this->z * _other;
-		ReturnValue.w = this->w * _other;
-		return ReturnValue;
+	float4 operator*(const float4x4& _Value) const;
+	float4& operator*=(const float4x4& _Value);
+
+	float4 operator*(const float4 _value) const
+	{
+		return DirectX::XMVectorMultiply(DirectVector, _value.DirectVector);
+	}
+
+	float4 operator/(const float4 _value) const
+	{
+		return DirectX::XMVectorDivide(DirectVector, _value.DirectVector);
 	}
 
 
-
-	float4 operator*(const float4 _other) const
+	float4& operator+=(const float4 _value)
 	{
-		float4 ReturnValue;
-
-		ReturnValue.x = this->x * _other.x;
-		ReturnValue.y = this->y * _other.y;
-		ReturnValue.z = this->z * _other.z;
-		ReturnValue.w = this->w * _other.w;
-		return ReturnValue;
-	}
-
-	float4 operator/(const float4 _other) const
-	{
-		float4 ReturnValue;
-
-		ReturnValue.x = this->x / _other.x;
-		ReturnValue.y = this->y / _other.y;
-		ReturnValue.z = this->z / _other.z;
-		ReturnValue.w = this->w / _other.w;
-		return ReturnValue;
-	}
-
-
-	float4& operator+=(const float4 _other)
-	{
-		this->x += _other.x;
-		this->y += _other.y;
-		this->z += _other.z;
-		this->w += _other.w;
+		DirectVector = DirectX::XMVectorAdd(DirectVector, _value.DirectVector);
 		return *this;
 	}
 
-	float4& operator-=(const float4 _other)
+	float4& operator-=(const float4 _value)
 	{
-		this->x -= _other.x;
-		this->y -= _other.y;
-		this->z -= _other.z;
-		// this->w -= _other.w;
+		DirectVector = DirectX::XMVectorSubtract(DirectVector, _value.DirectVector);
 		return *this;
 	}
 
-	float4& operator*=(const float4 _other)
+	float4& operator*=(const float4 _value)
 	{
-		this->x *= _other.x;
-		this->y *= _other.y;
-		this->z *= _other.z;
-		// this->w *= _other.w;
+		DirectVector = DirectX::XMVectorMultiply(DirectVector, _value.DirectVector);
 		return *this;
 	}
 
 	float4& operator*=(const float _Value)
 	{
-		this->x *= _Value;
-		this->y *= _Value;
-		this->z *= _Value;
-		//this->w *= _Value;
+		float4 Value = float4(_Value, _Value, _Value, 1.0f);
+		DirectVector = DirectX::XMVectorMultiply(DirectVector, Value.DirectVector);
 		return *this;
 	}
 
 
-	float4& operator/=(const float4 _other)
+	float4& operator/=(const float4& _Value)
 	{
-		this->x /= _other.x;
-		this->y /= _other.y;
-		this->z /= _other.z;
-		// this->w /= _other.w;
+		DirectVector = DirectX::XMVectorDivide(DirectVector, _Value.DirectVector);
 		return *this;
 	}
 
 	// 대입연산자
-	float4& operator=(const float4& _other)
+	float4& operator=(const float4& _value)
 	{
-		x = _other.x;
-		y = _other.y;
-		z = _other.z;
-		w = _other.w;
-
+		DirectVector = DirectX::XMVectorSet(_value.x, _value.y, _value.z, _value.w);
 		return *this;
 	}
 
@@ -291,6 +209,22 @@ public:
 		return static_cast<int>(hz());
 	}
 
+	float Len3D()
+	{
+		float4 Len = DirectX::XMVector3Length(DirectVector);
+		return Len.x;
+	}
+
+	float4 NormalizeReturn3D() const
+	{
+		return DirectX::XMVector3Normalize(DirectVector);
+	}
+
+	void Normalize3D()
+	{
+		DirectVector = DirectX::XMVector3Normalize(DirectVector);
+	}
+
 	POINT GetWindowPoint()
 	{
 		return { ix(), iy() };
@@ -334,13 +268,18 @@ public:
 	{
 	}
 
+	float4(DirectX::XMVECTOR _value)
+		: DirectVector(_value)
+	{
+	}
+
 	~float4() {
 
 	}
 
 public:		// delete constructer
-	float4(const float4& _other)
-		: x(_other.x), y(_other.y), z(_other.z), w(_other.w)
+	float4(const float4& _value)
+		: x(_value.x), y(_value.y), z(_value.z), w(_value.w)
 	{
 
 	}
@@ -443,17 +382,12 @@ public:
 	}
 };
 
-// 0.0f 0.0f 0.0f 0.0f
-// 0.0f 0.0f 0.0f 0.0f
-// 0.0f 0.0f 0.0f 0.0f
-// 0.0f 0.0f 0.0f 0.0f
-
-//행렬을 나타내기 위한 이차원 배열
-
 class float4x4
 {
+public:
 	union
 	{
+		float Arr2D[4][4];
 		struct
 		{
 			float4 vx;
@@ -463,9 +397,142 @@ class float4x4
 		};
 
 		float Arr1D[4 * 4];
-		float Arr2D[4][4];
 		// 실수는 기본적으로 00000000 00000000 00000000 00000000
+
+		DirectX::XMFLOAT4X4 DxXmfloat4x4;
+		DirectX::XMMATRIX DirectMatrix;
 	};
+
+public:
+	float4x4()
+		: DirectMatrix(DirectX::XMMatrixIdentity())
+	{
+
+	}
+
+	float4x4(const float4x4& _value)
+		: DirectMatrix(_value.DirectMatrix)
+	{
+
+	}
+
+	float4x4(const DirectX::XMMATRIX& _value)
+		: DirectMatrix(_value)
+	{
+
+	}
+
+	~float4x4()
+	{
+
+	}
+
+	void Scaling(const float4& _Value)
+	{
+		DirectMatrix = DirectX::XMMatrixScalingFromVector(_Value.DirectVector);
+	}
+
+	void Translation(const float4& _Value)
+	{
+		DirectMatrix = DirectX::XMMatrixTranslationFromVector(_Value.DirectVector);
+	}
+
+	void RotationDeg(const float4& _Value)
+	{
+		RotationRad(_Value * GameEngineMath::DegreeToRadian);
+	}
+
+	void RotationXDeg(const float& _Value)
+	{
+		RotationXRad(_Value * GameEngineMath::DegreeToRadian);
+	}
+
+	void RotationYDeg(const float& _Value)
+	{
+		RotationYRad(_Value * GameEngineMath::DegreeToRadian);
+	}
+
+	void RotationZDeg(const float& _Value)
+	{
+		RotationZRad(_Value * GameEngineMath::DegreeToRadian);
+	}
+
+	void RotationRad(const float4& _Value)
+	{
+		DirectMatrix = DirectX::XMMatrixRotationRollPitchYawFromVector(_Value.DirectVector);
+	}
+
+	void RotationXRad(const float& _Value)
+	{
+		DirectMatrix = DirectX::XMMatrixRotationX(_Value);
+	}
+
+	void RotationYRad(const float& _Value)
+	{
+		DirectMatrix = DirectX::XMMatrixRotationY(_Value);
+	}
+
+	void RotationZRad(const float& _Value)
+	{
+		DirectMatrix = DirectX::XMMatrixRotationZ(_Value);
+	}
+
+	void Identity()
+	{
+		DirectMatrix = DirectX::XMMatrixIdentity();
+	}
+
+	void View(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
+	{
+		float4 EyeDir = _EyeFocus - _EyePos;
+		EyeDir.Normalize3D();
+
+		float4 EyeUp = _EyeUp.NormalizeReturn3D();
+
+		EyeDir;
+		EyeUp;
+
+		float4 EyeRight = float4::Cross3D(EyeUp, EyeDir);
+		EyeRight.Normalize3D();
+
+		/*
+		XMVECTOR EyeDirection = XMVectorSubtract(FocusPosition, EyePosition);
+
+		assert(!XMVector3Equal(EyeDirection, XMVectorZero()));
+		assert(!XMVector3IsInfinite(EyeDirection));
+		assert(!XMVector3Equal(UpDirection, XMVectorZero()));
+		assert(!XMVector3IsInfinite(UpDirection));
+
+		XMVECTOR R2 = XMVector3Normalize(EyeDirection);
+		XMVECTOR R0 = XMVector3Cross(UpDirection, R2);
+		R0 = XMVector3Normalize(R0);
+
+		XMVECTOR R1 = XMVector3Cross(R2, R0);
+
+		XMVECTOR NegEyePosition = XMVectorNegate(EyePosition);
+
+		XMVECTOR D0 = XMVector3Dot(R0, NegEyePosition);
+		XMVECTOR D1 = XMVector3Dot(R1, NegEyePosition);
+		XMVECTOR D2 = XMVector3Dot(R2, NegEyePosition);
+
+		XMMATRIX M;
+		M.r[0] = XMVectorSelect(D0, R0, g_XMSelect1110.v);
+		M.r[1] = XMVectorSelect(D1, R1, g_XMSelect1110.v);
+		M.r[2] = XMVectorSelect(D2, R2, g_XMSelect1110.v);
+		M.r[3] = g_XMIdentityR3.v;
+
+		M = XMMatrixTranspose(M);*/
+
+		DirectMatrix = DirectX::XMMatrixLookAtLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
+	}
+
+	float4x4 operator*(const float4x4& _value)
+	{
+		return DirectX::XMMatrixMultiply(DirectMatrix, _value.DirectMatrix);
+	}
+
+
+
 };
 
 // using FVector = float4;

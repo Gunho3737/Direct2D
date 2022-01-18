@@ -23,5 +23,8 @@
 #include <math.h>
 #include <random>
 
+//다이렉트 연산
+#include <DirectXPackedVector.h>
+
 // io
 #include <filesystem>

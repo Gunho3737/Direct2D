@@ -102,10 +102,9 @@ void UserGame::ResourcesLoad()
 
 
 		{
-			//현재 공부중
 			std::vector<int> RectIndex;
 
-			for (size_t i = 0; i < 6; i++)
+			for (int i = 0; i < 6; i++)
 			{
 				RectIndex.push_back(i * 4 + 0);
 				RectIndex.push_back(i * 4 + 1);
@@ -122,32 +121,29 @@ void UserGame::ResourcesLoad()
 		{
 			GameEngineVertexShaderManager::GetInst().Create("TestShader", [](const float4& _Value)
 				{
-				
+					//크기행렬
+					float4x4 ScaleMat;
+					ScaleMat.Scaling({ 100.0f, 100.0f, 100.0f });
+
+					//자전행렬
+					float4x4 RotMat;
+					RotMat.RotationDeg({ 0.0f, 0.0f, RotAngle });
+
+
+					//이동행렬
+					float4x4 PosMat;
+					PosMat.Translation({ 0.0f, 0.0f, 0.0f });
+
+					//뷰 행렬
+					float4x4 ViewMat;
+
+					float4x4 WorldMat = ScaleMat * RotMat * PosMat;
+
+
 					float4 Pos = _Value;
-					float4 WorldScale = { 100.0f, 100.0f, 100.0f };
-					float4 WorldMove = { 100.0f, 0.0f };
-					float4 WorldRot = { 0.0f, 0.0f, RotAngle };
-					Pos *= WorldScale;
-					Pos.RotateXDegree(WorldRot.x);
-					Pos.RotateYDegree(WorldRot.y);
-					Pos.RotateZDegree(WorldRot.z);
-					Pos += BoxPos;
-
-				
+					Pos *= WorldMat;
 
 
-					// 한번더 뭘로 변환시키고
-
-					// 월드 세상에 위치시키기 위한 변형
-					//float4 SpaceScale = { 1.0f, -1.0f, 1.0f };
-					//float4 SpaceRot = { 0.0f, 0.0f, 0.0f };
-					//float4 SpaceMove = { 1280.0f * 0.5f, 720*0.5f, 0.0f};
-
-					//Pos *= SpaceScale;
-					//Pos.RotateXDegree(SpaceRot.x);
-					//Pos.RotateYDegree(SpaceRot.y);
-					//Pos.RotateZDegree(SpaceRot.z);
-					//Pos += SpaceMove;
 
 					return Pos;
 
