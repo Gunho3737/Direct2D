@@ -30,6 +30,43 @@ public:
 		return DirectX::XMVector3Cross(_Left.DirectVector, _Right.DirectVector);
 	}
 
+	static float Dot3D(float4 _Left, float4 _Right)
+	{
+		return DirectX::XMVector3Dot(_Left.DirectVector, _Right.DirectVector).m128_f32[0];
+	}
+
+	// 정사형
+	static float Dot3DToLen(float4 _Left, float4 _Right)
+	{
+		_Right.Normalize3D();
+		return DirectX::XMVector3Dot(_Left.DirectVector, _Right.DirectVector).m128_f32[0];
+	}
+
+	// 코사인
+	static float Dot3DToCos(float4 _Left, float4 _Right)
+	{
+		_Left.Normalize3D();
+		_Right.Normalize3D();
+		return DirectX::XMVector3Dot(_Left.DirectVector, _Right.DirectVector).m128_f32[0];
+	}
+
+	static float Dot3DToCosAngle(float4 _Left, float4 _Right)
+	{
+		// 1 / 3;
+		// 0.9999999999 / 3
+		// 0.9999999999 / 3
+
+		// (1 * 2) = 2
+		//  / 2
+		// 역함수
+		// cost(1) = ???
+		// ??? => 1
+		return acos(Dot3DToCos(_Left, _Right));
+	}
+
+
+
+
 
 	static float4 RotateYDegree(float4 _OriginVector, float _Degree)
 	{
@@ -92,6 +129,12 @@ public:
 	{
 		return DirectX::XMVectorAdd(DirectVector, _value.DirectVector);
 	}
+
+	float4 operator-() const
+	{
+		return DirectX::XMVectorNegate(DirectVector);
+	}
+
 
 	float4 operator-(const float4 _value) const
 	{
@@ -482,18 +525,63 @@ public:
 		DirectMatrix = DirectX::XMMatrixIdentity();
 	}
 
-	void View(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
+	void Transpose()
 	{
-		float4 EyeDir = _EyeFocus - _EyePos;
-		EyeDir.Normalize3D();
+		// 1 0 0 0
+		// 0 1 0 0
+		// 0 0 1 0
+		// 1 0 0 1
 
-		float4 EyeUp = _EyeUp.NormalizeReturn3D();
 
-		EyeDir;
-		EyeUp;
+		DirectMatrix = DirectX::XMMatrixTranspose(DirectMatrix);
+	}
 
-		float4 EyeRight = float4::Cross3D(EyeUp, EyeDir);
-		EyeRight.Normalize3D();
+	void ViewAt(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
+	{
+		// 1 0 0 0
+		// 0 1 0 0
+		// 0 0 1 0
+		// 0 0 0 1
+
+		// 세개의 축이 필요하다. 
+
+		//float4 ZPivot = _EyeFocus - _EyePos;
+		//ZPivot.Normalize3D();
+		//float4 EyeUp = _EyeUp.NormalizeReturn3D();
+		//float4 XPivot = float4::Cross3D(EyeUp, ZPivot);
+		//XPivot.Normalize3D();
+		//float4 YPivot = float4::Cross3D(ZPivot, XPivot);
+		//YPivot.Normalize3D();
+
+		//float4 NegEyePosition = -_EyePos;
+
+		//float D0 = float4::Dot3D(XPivot, NegEyePosition);
+		//float D1 = float4::Dot3D(YPivot, NegEyePosition);
+		//float D2 = float4::Dot3D(ZPivot, NegEyePosition);
+
+		//XPivot;
+		//YPivot;
+		//ZPivot;
+
+		//float4x4 VieMat;
+
+		//VieMat.vx = float4(XPivot.x, XPivot.y, XPivot.z, D0);
+		//VieMat.vy = float4(YPivot.x, YPivot.y, YPivot.z, D1);
+		//VieMat.vz = float4(ZPivot.x, ZPivot.y, ZPivot.z, D2);
+		//VieMat.vw = { 0.0f, 0.0f ,0.0f , 1.0f};
+		//VieMat.Transpose();
+
+		// VieMat.tRA
+
+		// cos -sin
+		// sin cos
+
+
+		// 뷰행렬의 복적 바라보는 사람이 원점이 되게 모든 물체에 영향을 주는 행렬.
+
+		// float4x4 Mat;
+
+
 
 		/*
 		XMVECTOR EyeDirection = XMVectorSubtract(FocusPosition, EyePosition);
@@ -521,9 +609,16 @@ public:
 		M.r[2] = XMVectorSelect(D2, R2, g_XMSelect1110.v);
 		M.r[3] = g_XMIdentityR3.v;
 
-		M = XMMatrixTranspose(M);*/
+		M = XMMatrixTranspose(M);
+		return M;
+		*/
 
 		DirectMatrix = DirectX::XMMatrixLookAtLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
+	}
+
+	void ViewTo(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
+	{
+		DirectMatrix = DirectX::XMMatrixLookToLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
 	}
 
 	float4x4 operator*(const float4x4& _value)

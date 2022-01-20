@@ -134,8 +134,31 @@ void UserGame::ResourcesLoad()
 					float4x4 PosMat;
 					PosMat.Translation({ 0.0f, 0.0f, 0.0f });
 
+
+					float4 ZeroPos = float4::ZERO;
+
+					float4 FDir = { 1.0f, 0.0f, 1.0f };
+					FDir.Normalize3D();
+
+
 					//뷰 행렬
 					float4x4 ViewMat;
+
+					// 내가 어떠한 물체를 바라보고 있다.
+					// ViewMat.ViewAt({ 0.0f, 0.0f, -2000.0f }, {0, 0, 0}, { 0.0f, 1.0f, 0.0f });
+
+					// 내가 이 방향으로 바라보고 있다.
+					// 관측자 위치는 z축 -2000, FDir방향으로 바라보고 있고, y축이랑 수직인 상태로 만들 생각이다
+					ViewMat.ViewTo({ 0.0f, 0.0f, -2000.0f }, FDir, { 0.0f, 1.0f, 0.0f });
+
+					//뷰행렬 적용(곱)시 관측자 위치가 원점이 된다
+					//그래서 모든물체가
+					//이동 -> z축으로 2000 이동
+					//회전 -> 관측자가 바라보는 방향만큼 회전
+					//이게 모든물체에 적용 되는것
+					ZeroPos = ZeroPos * ViewMat;
+
+
 
 					float4x4 WorldMat = ScaleMat * RotMat * PosMat;
 
