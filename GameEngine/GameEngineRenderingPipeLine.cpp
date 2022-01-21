@@ -65,6 +65,12 @@ void GameEngineRenderingPipeLine::SetInputAssembler2(const std::string& _Name)
 	}
 }
 
+void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
+{
+	// 
+	// Reasterizer_ = 
+}
+
 
 void GameEngineRenderingPipeLine::Rendering()
 {
@@ -81,6 +87,8 @@ void GameEngineRenderingPipeLine::Rendering()
 		}
 	}
 
+	// Reasterizer_)
+
 	// 그린다.
 	{
 		const std::vector<int>& Index = IndexBuffer_->Indexs;
@@ -96,6 +104,7 @@ void GameEngineRenderingPipeLine::Rendering()
 				ArrTri[i] = CopyVertex[CurIndex].GetWindowPoint();
 			}
 
+			// 이게 픽셀 쉐이더 단계라고 볼수 있다.
 			Polygon(GameEngineWindow::GetInst().GetWindowDC(), &ArrTri[0], 3);
 		}
 	}

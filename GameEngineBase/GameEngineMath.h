@@ -27,24 +27,28 @@ public:
 
 	static float4 Cross3D(float4 _Left, float4 _Right)
 	{
+		//두 벡터의 외적
 		return DirectX::XMVector3Cross(_Left.DirectVector, _Right.DirectVector);
 	}
 
 	static float Dot3D(float4 _Left, float4 _Right)
 	{
+		//두 벡터의 내적
 		return DirectX::XMVector3Dot(_Left.DirectVector, _Right.DirectVector).m128_f32[0];
 	}
 
-	// 정사형
+	// 정사형을 시키는 함수
 	static float Dot3DToLen(float4 _Left, float4 _Right)
 	{
+		//한쪽벡터만 정규화
 		_Right.Normalize3D();
 		return DirectX::XMVector3Dot(_Left.DirectVector, _Right.DirectVector).m128_f32[0];
 	}
 
-	// 코사인
+	// 코사인값을 뽑아내는 함수
 	static float Dot3DToCos(float4 _Left, float4 _Right)
 	{
+		//양벡터를 정규화
 		_Left.Normalize3D();
 		_Right.Normalize3D();
 		return DirectX::XMVector3Dot(_Left.DirectVector, _Right.DirectVector).m128_f32[0];
@@ -122,7 +126,6 @@ public:
 
 		DirectX::XMVECTOR DirectVector;
 
-		// 실수는 기본적으로 00000000 00000000 00000000 00000000
 	};
 
 	float4 operator+(const float4 _value) const
@@ -522,6 +525,7 @@ public:
 
 	void Identity()
 	{
+		//항등행렬
 		DirectMatrix = DirectX::XMMatrixIdentity();
 	}
 
@@ -536,7 +540,7 @@ public:
 		DirectMatrix = DirectX::XMMatrixTranspose(DirectMatrix);
 	}
 
-	void ViewAt(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
+	void ViewAtLH(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
 	{
 		// 1 0 0 0
 		// 0 1 0 0
@@ -545,10 +549,19 @@ public:
 
 		// 세개의 축이 필요하다. 
 
+		//z위치 = 관측자가 바라보는 방향 - 관측자위치
 		//float4 ZPivot = _EyeFocus - _EyePos;
+		
+		//z위치 정규화 
 		//ZPivot.Normalize3D();
+		
+		//머리방향의 축을 정규화
 		//float4 EyeUp = _EyeUp.NormalizeReturn3D();
+		
+		//x위치 = z위치와 y축의 외적
 		//float4 XPivot = float4::Cross3D(EyeUp, ZPivot);
+		
+		//
 		//XPivot.Normalize3D();
 		//float4 YPivot = float4::Cross3D(ZPivot, XPivot);
 		//YPivot.Normalize3D();
@@ -577,7 +590,7 @@ public:
 		// sin cos
 
 
-		// 뷰행렬의 복적 바라보는 사람이 원점이 되게 모든 물체에 영향을 주는 행렬.
+		// 뷰행렬의 목적 바라보는 사람이 원점이 되게 모든 물체에 영향을 주는 행렬.
 
 		// float4x4 Mat;
 
@@ -616,9 +629,69 @@ public:
 		DirectMatrix = DirectX::XMMatrixLookAtLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
 	}
 
-	void ViewTo(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
+	void ViewToLH(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
 	{
+		//										  관측자의 위치			관측자가 바라보는방향	관측자와 수직인 축(머리방향 축)
 		DirectMatrix = DirectX::XMMatrixLookToLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
+	}
+
+	void PerspectiveFovLH(
+		float _FovAngleY,
+		float _Width,
+		float _Height,
+		float _NearZ,
+		float _FarZ
+	)
+	{
+		PerspectiveFovLH(_FovAngleY * GameEngineMath::DegreeToRadian, _Width / _Height, _NearZ, _FarZ);
+	}
+
+	void PerspectiveFovLH(
+		float _FovAngleY,
+		float _AspectRatio,
+		float _NearZ,
+		float _FarZ
+	)
+	{
+		// _AspectRatio 1280 / 720
+
+		//float    SinFov;
+		//float    CosFov;
+		//XMScalarSinCos(&SinFov, &CosFov, 0.5f * FovAngleY);
+
+
+		float Height = 1.0f / tan((_FovAngleY * 0.5f));
+		float Width = Height / _AspectRatio;
+		float fRange = _FarZ / (_FarZ - _NearZ);
+
+		//XMMATRIX M;
+		//M.m[0][0] = Width;
+		//M.m[0][1] = 0.0f;
+		//M.m[0][2] = 0.0f;
+		//M.m[0][3] = 0.0f;
+
+		//M.m[1][0] = 0.0f;
+		//M.m[1][1] = Height;
+		//M.m[1][2] = 0.0f;
+		//M.m[1][3] = 0.0f;
+
+		//M.m[2][0] = 0.0f;
+		//M.m[2][1] = 0.0f;
+		//M.m[2][2] = fRange;
+		//M.m[2][3] = 1.0f;
+
+		//M.m[3][0] = 0.0f;
+		//M.m[3][1] = 0.0f;
+		//M.m[3][2] = -fRange * NearZ;
+		//M.m[3][3] = 0.0f;
+		//return M;
+
+		DirectMatrix = DirectX::XMMatrixPerspectiveFovLH(_FovAngleY, _AspectRatio, _NearZ, _FarZ);
+	}
+
+	void OrthographicLH(float _Width, float _Height, float _Near, float _Far)
+	{
+		DirectMatrix = DirectX::XMMatrixOrthographicLH(_Width, _Height, _Near, _Far);
 	}
 
 	float4x4 operator*(const float4x4& _value)
