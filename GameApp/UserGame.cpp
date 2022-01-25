@@ -123,17 +123,18 @@ void UserGame::ResourcesLoad()
 				{
 					//크기행렬
 					float4x4 ScaleMat;
-					ScaleMat.Scaling({ 100.0f, 100.0f, 100.0f });
+					ScaleMat.Scaling({ 20.0f, 20.0f, 20.0f });
 
 					//자전행렬
 					float4x4 RotMat;
-					RotMat.RotationDeg({ 0.0f, 0.0f, RotAngle });
+					RotMat.RotationDeg({ 0.0f, 0.0f, 0.0F });
+					//RotMat.RotationDeg({ 0.0f, 0.0f, RotAngle });
 
 
 					//이동행렬
 					float4x4 PosMat;
-					PosMat.Translation({ 0.0f, 0.0f, 0.0f });
-
+					//PosMat.Translation({ 0.0f, 0.0f, 0.0f });
+					PosMat.Translation(BoxPos);
 
 					float4 ZeroPos = float4::ZERO;
 
@@ -156,22 +157,63 @@ void UserGame::ResourcesLoad()
 					//이동 -> z축으로 2000 이동
 					//회전 -> 관측자가 바라보는 방향만큼 회전
 					//이게 모든물체에 적용 되는것
-					ZeroPos = ZeroPos * ViewMat;
+				
+					//원근 투영행렬
+					float4x4 PerspectiveMat;
+					PerspectiveMat.PerspectiveFovLH(60.0f, 1280.0f, 720.0f, 0.1f, 1000.0f);
 
+					//직교 투영행렬
+					float4x4 OrthographicMat;
+					OrthographicMat.OrthographicLH(1280.0f, 720.0f, 0.1f, 1000.0f);
 
+					{
 
+						// float4 VectorTest = { 0.0f, 0.0f, 100.0f, 2.0f };
+						float4 VectorTest = { 0.0f, 0.0f, 100.0f, 1.0f };
+
+						float4x4 TestMat;
+
+						TestMat.vx = { 0.1f, 0.0f , 0.0f , 0.0f };
+						TestMat.vy = { 0.0f, 0.1f , 0.0f , 0.0f };
+						TestMat.vz = { 0.0f, 0.0f , 0.1f , 1.0f };
+						TestMat.vw = { 0.0f, 0.0f , 0.0f , 0.0f };
+
+						// 이 방식으로 월드 뷰까지 곱해졌을때의 z를 이미 w에 보관한겁니다.
+						VectorTest *= TestMat;
+
+						int a = 0;
+
+					}
 					float4x4 WorldMat = ScaleMat * RotMat * PosMat;
+					float4x4 WorldView = WorldMat * ViewMat;
+
+					float4x4 WorldViewProjectionMat = WorldMat * ViewMat * PerspectiveMat;
+
+					float4x4 WorldViewOrthographicMat = WorldMat * ViewMat * OrthographicMat;
+
+					float4 PersPos = _Value;
+					PersPos *= WorldViewProjectionMat;
+
+					float4 OrthPos = _Value;
+					OrthPos *= WorldViewOrthographicMat;
 
 
-					float4 Pos = _Value;
-					Pos *= WorldMat;
+					//PersPos.x = PersPos.x / PersPos.w;
+					//PersPos.y = PersPos.y / PersPos.w;
+					//PersPos.z = PersPos.z / PersPos.w;
+					//PersPos.w = 1.0f;
 
-
-
-					return Pos;
-
-			}
+					return PersPos;
+				}
 			);
+		}
+
+		{
+
+			GameEngineReasterizer* Ptr = GameEngineReasterizerManager::GetInst().Create("TestReasterizer");
+
+			Ptr->SetViewPort(1280.0f, 720.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+
 		}
 }
 
@@ -180,11 +222,8 @@ void UserGame::ResourcesLoad()
 void UserGame::Release() 
 {
 	// Resources
-	GameEngineIndexBufferManager::Destroy();
-	GameEngineVertexShaderManager::Destroy();
-	GameEngineVertexBufferManager::Destroy();
-	GameEngineTextureManager::Destroy();
-	GameEngineSoundManager::Destroy();
+	GameEngineManagerHeler::ManagerRelease();
+
 
 	// Base
 	GameEngineTime::Destroy();
@@ -200,9 +239,10 @@ void UserGame::GameLoop()
 	Pipe.SetInputAssembler1("Rect");
 	Pipe.SetVertexShader("TestShader");
 	Pipe.SetInputAssembler2("Rect");
+	Pipe.SetRasterizer("TestReasterizer");
 
 	RotAngle += 360.0f * GameEngineTime::GetInst().GetDeltaTime();
-	BoxPos.y += 10.0f * GameEngineTime::GetInst().GetDeltaTime();
+	BoxPos.x += 10.0f * GameEngineTime::GetInst().GetDeltaTime();
 
 	Pipe.Rendering();
 	

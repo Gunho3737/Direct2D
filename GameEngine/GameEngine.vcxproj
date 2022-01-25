@@ -25,7 +25,16 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineReasterizer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineReasterizerManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineRenderingPipeLine.h" />
+    <ClInclude Include="GameEngineResourcesManager.h" />
     <ClInclude Include="GameEngineTexture.h">
       <SubType>
       </SubType>
@@ -57,6 +66,14 @@
     <ClCompile Include="GameEngineCore.cpp" />
     <ClCompile Include="GameEngineIndexBuffer.cpp" />
     <ClCompile Include="GameEngineIndexBufferManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineReasterizer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineReasterizerManager.cpp">
       <SubType>
       </SubType>
     </ClCompile>

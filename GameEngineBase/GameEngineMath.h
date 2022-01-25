@@ -629,6 +629,20 @@ public:
 		DirectMatrix = DirectX::XMMatrixLookAtLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
 	}
 
+
+	void ViewPortCenter(float _ScreenX, float _ScreenY, float _StartX, float _StartY, float _MinZ, float _MaxZ)
+	{
+		Identity();
+
+		Arr2D[0][0] = _ScreenX * 0.5f;
+		Arr2D[1][1] = -_ScreenY * 0.5f;
+		Arr2D[2][2] = _MaxZ - _MinZ;
+		Arr2D[3][0] = _StartX + Arr2D[0][0];
+		Arr2D[3][1] = _ScreenY * 0.5f + _StartY;
+		Arr2D[3][2] = _MinZ;
+
+	}
+
 	void ViewToLH(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
 	{
 		//										  관측자의 위치			관측자가 바라보는방향	관측자와 수직인 축(머리방향 축)

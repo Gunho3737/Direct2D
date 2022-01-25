@@ -3,11 +3,15 @@
 #include "GameEngineVertexBufferManager.h"
 #include "GameEngineVertexShaderManager.h"
 #include "GameEngineIndexBufferManager.h"
+#include "GameEngineReasterizerManager.h"
 
 
 #include "GameEngineVertexBuffer.h"
 #include "GameEngineVertexShader.h"
 #include "GameEngineIndexBuffer.h"
+#include "GameEngineReasterizer.h"
+
+
 #include "GameEngineWindow.h"
 
 GameEngineRenderingPipeLine::GameEngineRenderingPipeLine() // default constructer 디폴트 생성자
@@ -67,8 +71,13 @@ void GameEngineRenderingPipeLine::SetInputAssembler2(const std::string& _Name)
 
 void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
 {
-	// 
-	// Reasterizer_ = 
+	Reasterizer_ = GameEngineReasterizerManager::GetInst().Find(_Name);
+
+	if (nullptr == Reasterizer_)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 레이터라이저 세팅을 세팅하려고 했습니다.");
+		return;
+	}
 }
 
 
@@ -89,23 +98,49 @@ void GameEngineRenderingPipeLine::Rendering()
 
 	// Reasterizer_)
 
+	std::vector<std::vector<float4>> TriVector;
 	// 그린다.
 	{
 		const std::vector<int>& Index = IndexBuffer_->Indexs;
 
-		POINT ArrTri[3];
+
+		TriVector.resize(Index.size() / 3);
+
 
 		for (size_t TriCount = 0; TriCount < Index.size() / 3; TriCount++)
 		{
-			for (size_t i = 0; i < 3; i++)
-			{
-				int CurIndex = Index[(TriCount * 3) + i];
+			TriVector[TriCount].resize(3);
 
-				ArrTri[i] = CopyVertex[CurIndex].GetWindowPoint();
-			}
+			int CurIndex0 = Index[(TriCount * 3) + 0];
+			int CurIndex1 = Index[(TriCount * 3) + 1];
+			int CurIndex2 = Index[(TriCount * 3) + 2];
 
-			// 이게 픽셀 쉐이더 단계라고 볼수 있다.
-			Polygon(GameEngineWindow::GetInst().GetWindowDC(), &ArrTri[0], 3);
+			TriVector[TriCount][0] = CopyVertex[CurIndex0];
+			TriVector[TriCount][1] = CopyVertex[CurIndex1];
+			TriVector[TriCount][2] = CopyVertex[CurIndex2];
 		}
 	}
+
+	for (size_t Tri = 0; Tri < TriVector.size(); Tri++)
+	{
+		for (size_t i = 0; i < TriVector[Tri].size(); i++)
+		{
+			Reasterizer_->ReasterizerUpdate(TriVector[Tri][i]);
+		}
+	}
+
+	for (size_t Tri = 0; Tri < TriVector.size(); Tri++)
+	{
+
+		POINT ArrTri[3];
+
+		ArrTri[0] = TriVector[Tri][0].GetWindowPoint();
+		ArrTri[1] = TriVector[Tri][1].GetWindowPoint();
+		ArrTri[2] = TriVector[Tri][2].GetWindowPoint();
+
+		Polygon(GameEngineWindow::GetInst().GetWindowDC(), &ArrTri[0], 3);
+	}
+
+
+	// Polygon(GameEngineWindow::GetInst().GetWindowDC(), &ArrTri[0], 3);
 }
