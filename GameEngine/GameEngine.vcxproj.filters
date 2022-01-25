@@ -40,6 +40,9 @@
     <ClInclude Include="GameEngineReasterizer.h">
       <Filter>Resources\03_Setting</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineDirectXDevice.h">
+      <Filter>RenderingPileLine\Device</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -80,6 +83,9 @@
     <ClCompile Include="GameEngineReasterizer.cpp">
       <Filter>Resources\03_Setting</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineDirectXDevice.cpp">
+      <Filter>RenderingPileLine\Device</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -108,6 +114,9 @@
     </Filter>
     <Filter Include="Resources\03_Setting">
       <UniqueIdentifier>{04b07ccd-304f-49ed-a55f-5e32d9a27614}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderingPileLine\Device">
+      <UniqueIdentifier>{b3ca927d-f037-473b-9ca7-feb3aa3ee880}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

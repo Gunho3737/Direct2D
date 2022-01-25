@@ -17,7 +17,7 @@
 #include "GameEngineTexture.h"
 
 
-class GameEngineManagerHeler
+class GameEngineManagerHelper
 {
 public:
 	static void ManagerRelease()

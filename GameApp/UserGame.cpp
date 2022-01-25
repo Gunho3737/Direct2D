@@ -24,8 +24,6 @@ UserGame::UserGame(UserGame&& _other) noexcept  // default RValue Copy construct
 
 void UserGame::Initialize() 
 {
-
-	GameEngineSoundManager::GetInst().Initialize();
 	return;
 }
 
@@ -121,88 +119,82 @@ void UserGame::ResourcesLoad()
 		{
 			GameEngineVertexShaderManager::GetInst().Create("TestShader", [](const float4& _Value)
 				{
-					//크기행렬
-					float4x4 ScaleMat;
-					ScaleMat.Scaling({ 20.0f, 20.0f, 20.0f });
+					//	//크기행렬
+					//	float4x4 ScaleMat;
+					//	ScaleMat.Scaling({ 20.0f, 20.0f, 20.0f });
+					//
+					//	//자전행렬
+					//	float4x4 RotMat;
+					//	RotMat.RotationDeg({ 0.0f, 0.0f, 0.0F });
+					//	//RotMat.RotationDeg({ 0.0f, 0.0f, RotAngle });
+					//
+					//
+					//	//이동행렬
+					//	float4x4 PosMat;
+					//	//PosMat.Translation({ 0.0f, 0.0f, 0.0f });
+					//	PosMat.Translation(BoxPos);
+					//
+					//	float4 ZeroPos = float4::ZERO;
+					//
+					//	float4 FDir = { 1.0f, 0.0f, 1.0f };
+					//	FDir.Normalize3D();
+					//
+					//
+					//	//뷰 행렬
+					//	float4x4 ViewMat;
+					//
+					//	// 내가 어떠한 물체를 바라보고 있다.
+					//	// ViewMat.ViewAtLH({ 0.0f, 0.0f, -2000.0f }, {0, 0, 0}, { 0.0f, 1.0f, 0.0f });
+					//
+					//	// 내가 이 방향으로 바라보고 있다.
+					//	// 관측자 위치는 z축 -2000, FDir방향으로 바라보고 있고, 세계에서 위방향이 y축이 된다
+					//	ViewMat.ViewToLH({ 0.0f, 0.0f, -2000.0f }, FDir, { 0.0f, 1.0f, 0.0f });
+					//
+					//	//뷰행렬 적용(곱)시 관측자 위치가 원점이 된다
+					//	//그래서 모든물체가
+					//	//이동 -> z축으로 2000 이동
+					//	//회전 -> 관측자가 바라보는 방향만큼 회전
+					//	//이게 모든물체에 적용 되는것
+					//
+					//	//원근 투영행렬
+					//	float4x4 PerspectiveMat;
+					//	PerspectiveMat.PerspectiveFovLH(60.0f, 1280.0f, 720.0f, 0.1f, 1000.0f);
+					//
+					//	//직교 투영행렬
+					//	float4x4 OrthographicMat;
+					//	OrthographicMat.OrthographicLH(1280.0f, 720.0f, 0.1f, 1000.0f);
+					//
+					//	{
+					//
+					//		// float4 VectorTest = { 0.0f, 0.0f, 100.0f, 2.0f };
+					//		float4 VectorTest = { 0.0f, 0.0f, 100.0f, 1.0f };
+					//
+					//		float4x4 TestMat;
+					//
+					//		TestMat.vx = { 0.1f, 0.0f , 0.0f , 0.0f };
+					//		TestMat.vy = { 0.0f, 0.1f , 0.0f , 0.0f };
+					//		TestMat.vz = { 0.0f, 0.0f , 0.1f , 1.0f };
+					//		TestMat.vw = { 0.0f, 0.0f , 0.0f , 0.0f };
+					//
+					//		// 이 방식으로 월드 뷰까지 곱해졌을때의 z를 이미 w에 보관한겁니다.
+					//		VectorTest *= TestMat;
+					//
+					//		int a = 0;
+					//
+					//	}
+					//	float4x4 WorldMat = ScaleMat * RotMat * PosMat;
+					//	float4x4 WorldView = WorldMat * ViewMat;
+					//
+					//	float4x4 WorldViewProjectionMat = WorldMat * ViewMat * PerspectiveMat;
+					//
+					//	float4x4 WorldViewOrthographicMat = WorldMat * ViewMat * OrthographicMat;
 
-					//자전행렬
-					float4x4 RotMat;
-					RotMat.RotationDeg({ 0.0f, 0.0f, 0.0F });
-					//RotMat.RotationDeg({ 0.0f, 0.0f, RotAngle });
+					//float4 PersPos = _Value;
+					//  PersPos *= WorldViewProjectionMat;
 
-
-					//이동행렬
-					float4x4 PosMat;
-					//PosMat.Translation({ 0.0f, 0.0f, 0.0f });
-					PosMat.Translation(BoxPos);
-
-					float4 ZeroPos = float4::ZERO;
-
-					float4 FDir = { 1.0f, 0.0f, 1.0f };
-					FDir.Normalize3D();
-
-
-					//뷰 행렬
-					float4x4 ViewMat;
-
-					// 내가 어떠한 물체를 바라보고 있다.
-					// ViewMat.ViewAtLH({ 0.0f, 0.0f, -2000.0f }, {0, 0, 0}, { 0.0f, 1.0f, 0.0f });
-
-					// 내가 이 방향으로 바라보고 있다.
-					// 관측자 위치는 z축 -2000, FDir방향으로 바라보고 있고, 세계에서 위방향이 y축이 된다
-					ViewMat.ViewToLH({ 0.0f, 0.0f, -2000.0f }, FDir, { 0.0f, 1.0f, 0.0f });
-
-					//뷰행렬 적용(곱)시 관측자 위치가 원점이 된다
-					//그래서 모든물체가
-					//이동 -> z축으로 2000 이동
-					//회전 -> 관측자가 바라보는 방향만큼 회전
-					//이게 모든물체에 적용 되는것
-				
-					//원근 투영행렬
-					float4x4 PerspectiveMat;
-					PerspectiveMat.PerspectiveFovLH(60.0f, 1280.0f, 720.0f, 0.1f, 1000.0f);
-
-					//직교 투영행렬
-					float4x4 OrthographicMat;
-					OrthographicMat.OrthographicLH(1280.0f, 720.0f, 0.1f, 1000.0f);
-
-					{
-
-						// float4 VectorTest = { 0.0f, 0.0f, 100.0f, 2.0f };
-						float4 VectorTest = { 0.0f, 0.0f, 100.0f, 1.0f };
-
-						float4x4 TestMat;
-
-						TestMat.vx = { 0.1f, 0.0f , 0.0f , 0.0f };
-						TestMat.vy = { 0.0f, 0.1f , 0.0f , 0.0f };
-						TestMat.vz = { 0.0f, 0.0f , 0.1f , 1.0f };
-						TestMat.vw = { 0.0f, 0.0f , 0.0f , 0.0f };
-
-						// 이 방식으로 월드 뷰까지 곱해졌을때의 z를 이미 w에 보관한겁니다.
-						VectorTest *= TestMat;
-
-						int a = 0;
-
-					}
-					float4x4 WorldMat = ScaleMat * RotMat * PosMat;
-					float4x4 WorldView = WorldMat * ViewMat;
-
-					float4x4 WorldViewProjectionMat = WorldMat * ViewMat * PerspectiveMat;
-
-					float4x4 WorldViewOrthographicMat = WorldMat * ViewMat * OrthographicMat;
-
+					//	float4 OrthPos = _Value;
+					//	OrthPos *= WorldViewOrthographicMat;
 					float4 PersPos = _Value;
-					PersPos *= WorldViewProjectionMat;
-
-					float4 OrthPos = _Value;
-					OrthPos *= WorldViewOrthographicMat;
-
-
-					//PersPos.x = PersPos.x / PersPos.w;
-					//PersPos.y = PersPos.y / PersPos.w;
-					//PersPos.z = PersPos.z / PersPos.w;
-					//PersPos.w = 1.0f;
-
 					return PersPos;
 				}
 			);
@@ -212,7 +204,7 @@ void UserGame::ResourcesLoad()
 
 			GameEngineReasterizer* Ptr = GameEngineReasterizerManager::GetInst().Create("TestReasterizer");
 
-			Ptr->SetViewPort(1280.0f, 720.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+			Ptr->SetViewPort(800.0f, 600.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
 		}
 }
@@ -221,13 +213,7 @@ void UserGame::ResourcesLoad()
 
 void UserGame::Release() 
 {
-	// Resources
-	GameEngineManagerHeler::ManagerRelease();
-
-
-	// Base
-	GameEngineTime::Destroy();
-	GameEngineWindow::Destroy();;
+	
 }
 
 void UserGame::GameLoop()
@@ -236,10 +222,10 @@ void UserGame::GameLoop()
 
 	GameEngineRenderingPipeLine Pipe;
 
-	Pipe.SetInputAssembler1("Rect");
-	Pipe.SetVertexShader("TestShader");
-	Pipe.SetInputAssembler2("Rect");
-	Pipe.SetRasterizer("TestReasterizer");
+	Pipe.SetInputAssembler1("Rect"); //버텍스버퍼-> 기본도형이 될 정점들 생성
+	Pipe.SetVertexShader("TestShader"); //버텍스쉐이더 -> 버텍스 버퍼로 받은 정점들을 변형시킨다
+	Pipe.SetInputAssembler2("Rect"); // 인덱스버퍼->변형이 된점들을 이용해 삼각형을 기반으로한 면을 만듬
+	Pipe.SetRasterizer("TestReasterizer"); //레스터라이저 -> 뷰포트를 곱해서 실제 화면에 나오는 것처럼 변형
 
 	RotAngle += 360.0f * GameEngineTime::GetInst().GetDeltaTime();
 	BoxPos.x += 10.0f * GameEngineTime::GetInst().GetDeltaTime();

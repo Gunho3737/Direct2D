@@ -20,6 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineCore.h" />
+    <ClInclude Include="GameEngineDirectXDevice.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineIndexBuffer.h" />
     <ClInclude Include="GameEngineIndexBufferManager.h">
       <SubType>
@@ -64,6 +68,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
+    <ClCompile Include="GameEngineDirectXDevice.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineIndexBuffer.cpp" />
     <ClCompile Include="GameEngineIndexBufferManager.cpp">
       <SubType>
