@@ -43,6 +43,12 @@
     <ClInclude Include="GameEngineDirectXDevice.h">
       <Filter>RenderingPileLine\Device</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineRenderTarget.h">
+      <Filter>Resources\02_Image</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderTargetManager.h">
+      <Filter>Resources\99_Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -85,6 +91,12 @@
     </ClCompile>
     <ClCompile Include="GameEngineDirectXDevice.cpp">
       <Filter>RenderingPileLine\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderTarget.cpp">
+      <Filter>Resources\02_Image</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderTargetManager.cpp">
+      <Filter>Resources\99_Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
