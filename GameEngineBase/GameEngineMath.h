@@ -128,6 +128,8 @@ public:
 			float a;
 		};
 
+		float Arr1D[4];
+
 		DirectX::XMFLOAT3 DxXmfloat3;
 		DirectX::XMFLOAT4 DxXmfloat4;
 

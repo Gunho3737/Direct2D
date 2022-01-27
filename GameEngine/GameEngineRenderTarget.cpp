@@ -20,7 +20,10 @@ GameEngineRenderTarget::GameEngineRenderTarget(GameEngineRenderTarget&& _other) 
 
 void GameEngineRenderTarget::Clear()
 {
-
+	for (size_t i = 0; i < RenderTargetViews_.size(); i++)
+	{
+		GameEngineDirectXDevice::GetContext()->ClearRenderTargetView(RenderTargetViews_[i], ClearColor_[i].Arr1D);
+	}
 }
 
 void GameEngineRenderTarget::Create(const std::string _TextureName, float4 _ClearColor)
