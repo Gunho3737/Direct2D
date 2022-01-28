@@ -1,6 +1,6 @@
 #include "PreCompile.h"
-#include "GameEngineIndexBufferManager.h"
 #include "GameEngineIndexBuffer.h"
+#include "GameEngineIndexBufferManager.h"
 
 GameEngineIndexBufferManager* GameEngineIndexBufferManager::Inst = new GameEngineIndexBufferManager();
 
@@ -30,21 +30,19 @@ GameEngineIndexBufferManager::GameEngineIndexBufferManager(GameEngineIndexBuffer
 
 
 
-GameEngineIndexBuffer* GameEngineIndexBufferManager::Create(const std::string& _Name, const std::vector<int>& _Index)
+GameEngineIndexBuffer* GameEngineIndexBufferManager::Create(const std::string& _Name, const std::vector<UINT>& _Index, D3D11_USAGE _Usage)
 {
 	GameEngineIndexBuffer* FindRes = Find(_Name);
 
 	if (nullptr != FindRes)
 	{
-		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Load");
+		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Create");
 	}
 
 
 	GameEngineIndexBuffer* NewRes = new GameEngineIndexBuffer();
 	NewRes->SetName(_Name);
-
-	NewRes->Indexs = _Index;
-
+	NewRes->Create(_Index, _Usage);
 	// 그리고 뭘할거냐?
 
 	ResourcesMap.insert(std::map<std::string, GameEngineIndexBuffer*>::value_type(_Name, NewRes));

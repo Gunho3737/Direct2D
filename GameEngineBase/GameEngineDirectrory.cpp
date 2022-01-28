@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "GameEngineDirectroy.h"
+#include "GameEngineDirectrory.h"
 #include "GameEngineFile.h"
 #include "GameEngineDebug.h"
 #include "GameEngineString.h"
@@ -8,43 +8,43 @@
 // Static Func
 
 // constructer destructer
-GameEngineDirectroy::GameEngineDirectroy()
+GameEngineDirectrory::GameEngineDirectrory()
 {
 	path_ = std::filesystem::current_path();
 }
 
-GameEngineDirectroy::GameEngineDirectroy(const GameEngineDirectroy& _other)
+GameEngineDirectrory::GameEngineDirectrory(const GameEngineDirectrory& _other)
 	: GameEnginePath(_other)
 {
 
 }
 
-GameEngineDirectroy::~GameEngineDirectroy()
+GameEngineDirectrory::~GameEngineDirectrory()
 {
 }
 
-GameEngineDirectroy::GameEngineDirectroy(GameEngineDirectroy&& _other) noexcept
+GameEngineDirectrory::GameEngineDirectrory(GameEngineDirectrory&& _other) noexcept
 {
 }
 
 //member Func
 
-std::string GameEngineDirectroy::DirectroyName() 
+std::string GameEngineDirectrory::DirectroyName() 
 {
 	return path_.filename().string();
 }
 
-void GameEngineDirectroy::MoveParent() 
+void GameEngineDirectrory::MoveParent() 
 {
 	path_ = path_.parent_path();
 }
 
-bool GameEngineDirectroy::IsRoot() 
+bool GameEngineDirectrory::IsRoot() 
 {
 	return path_.root_directory() == path_;
 }
 
-bool GameEngineDirectroy::MoveParent(const std::string& _DirName)
+bool GameEngineDirectrory::MoveParent(const std::string& _DirName)
 {
 	while (false == IsRoot())
 	{
@@ -59,7 +59,7 @@ bool GameEngineDirectroy::MoveParent(const std::string& _DirName)
 }
 
 
-bool GameEngineDirectroy::MoveChild(const std::string& _DirName)
+bool GameEngineDirectrory::MoveChild(const std::string& _DirName)
 {
 	path_.append(_DirName);
 	//인자로 받은 폴더명과 같은 폴더로 이동
@@ -74,7 +74,7 @@ bool GameEngineDirectroy::MoveChild(const std::string& _DirName)
 	return true;
 }
 
-std::string GameEngineDirectroy::PathToPlusFileName(const std::string& _FileName)
+std::string GameEngineDirectrory::PathToPlusFileName(const std::string& _FileName)
 {
 	std::filesystem::path NewPath = path_;
 	NewPath.append(_FileName);
@@ -85,7 +85,7 @@ std::string GameEngineDirectroy::PathToPlusFileName(const std::string& _FileName
 //opendir / readdir 함수를 사용하여 디렉토리의 파일 목록 가져 오기
 //std::filesystem::recursive_directory_iterator를 사용하여 모든 하위 디렉토리의 파일 목록을 가져옵니다
 
-std::vector<GameEngineFile> GameEngineDirectroy::GetAllFile(const std::string& _filter /*= "*"*/)
+std::vector<GameEngineFile> GameEngineDirectrory::GetAllFile(const std::string& _filter /*= "*"*/)
 {
 	//벡터를 사용하는 GetAllFile
 

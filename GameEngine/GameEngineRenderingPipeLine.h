@@ -7,8 +7,8 @@
 class GameEngineIndexBuffer;
 class GameEngineVertexBuffer;
 class GameEngineVertexShader;
-class GameEngineReasterizer;
-class GameEngineRenderingPipeLine
+class GameEngineRasterizer;
+class GameEngineRenderingPipeLine : public GameEngineObjectNameBase
 {
 private:	// member Var
 	GameEngineVertexBuffer* VertexBuffer_;
@@ -16,7 +16,7 @@ private:	// member Var
 
 	GameEngineIndexBuffer* IndexBuffer_;
 
-	GameEngineReasterizer* Reasterizer_;
+	GameEngineRasterizer* Reasterizer_;
 
 public:
 	void SetInputAssembler1(const std::string& _Name);
@@ -26,6 +26,10 @@ public:
 	void SetInputAssembler2(const std::string& _Name);
 
 	void SetRasterizer(const std::string& _Name);
+
+public:
+	void SetMesh();
+	void SetMaterial();
 
 public:
 	void Rendering();

@@ -1,4 +1,5 @@
 #pragma once
+#include "GameEngineVertexBuffer.h"
 
 // 분류 : 
 // 용도 : 
@@ -29,7 +30,23 @@ private:	// member Var
 
 public:
 	// 직접 만들수 있다.
-	GameEngineVertexBuffer* Create(const std::string& _Name, const std::vector<float4>& _Vertex);
+	template<typename VertexType>
+	GameEngineVertexBuffer* Create(const std::string& _Name, const std::vector<VertexType>& _Vertex, D3D11_USAGE _Usage)
+	{
+		GameEngineVertexBuffer* FindRes = Find(_Name);
+
+		if (nullptr != FindRes)
+		{
+			GameEngineDebug::MsgBoxError(_Name + " Is Overlap Create");
+		}
+
+
+		GameEngineVertexBuffer* NewRes = new GameEngineVertexBuffer();
+		NewRes->SetName(_Name);
+		NewRes->Create<VertexType>(_Vertex, _Usage);
+		ResourcesMap.insert(std::map<std::string, GameEngineVertexBuffer*>::value_type(_Name, NewRes));
+		return NewRes;
+	}
 	// 파일에서 로드
 	GameEngineVertexBuffer* Load(const std::string& _Path);
 	// 

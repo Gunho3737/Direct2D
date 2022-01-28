@@ -47,7 +47,7 @@ private:
 
 
 public:
-	static ID3D11Device* GetDevcie();
+	static ID3D11Device* GetDevice();
 	static ID3D11DeviceContext* GetContext();
 	// 메모리로서의 텍스처의 역할
 	// ID3D11Texture2D* BackBufferTexture_;

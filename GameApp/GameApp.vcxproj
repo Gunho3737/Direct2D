@@ -31,8 +31,10 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PreCompile.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="UserGame.cpp" />
+    <ClCompile Include="UserGame_Resources.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CustomVertex.h" />
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="UserGame.h" />
   </ItemGroup>

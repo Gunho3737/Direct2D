@@ -8,6 +8,9 @@
     <ClCompile Include="UserGame.cpp">
       <Filter>UserCore</Filter>
     </ClCompile>
+    <ClCompile Include="UserGame_Resources.cpp">
+      <Filter>UserCore</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -24,5 +27,6 @@
     <ClInclude Include="UserGame.h">
       <Filter>UserCore</Filter>
     </ClInclude>
+    <ClInclude Include="CustomVertex.h" />
   </ItemGroup>
 </Project>
