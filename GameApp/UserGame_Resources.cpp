@@ -87,7 +87,8 @@ void UserGame::ResourcesLoad()
 
 		GameEngineIndexBufferManager::GetInst().Create("Rect", RectIndex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
 	}
-
+	//버텍스 쉐이더 설명
+	/* 
 	{
 		GameEngineVertexShaderManager::GetInst().Create("TestShader", [](const float4& _Value)
 			{
@@ -170,6 +171,23 @@ void UserGame::ResourcesLoad()
 				return PersPos;
 			}
 		);
+	}*/
+
+	{
+	std::string ShaderCode =
+		"\
+			float4 StartVertexShader( float4 pos : POSITION ) : SV_POSITION\n \
+			{\n \
+				return pos;\n\
+			}\n\
+			";
+
+	GameEngineVertexShader* Ptr = GameEngineVertexShaderManager::GetInst().Create("StartVertexShader", ShaderCode);
+
+	Ptr->AddInputLayOut("TEXCOORD", 0, 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
+	Ptr->AddInputLayOut("POSTION", 0, 16, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
+	Ptr->AddInputLayOut("COLOR", 0, 16, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
+
 	}
 
 	{
@@ -179,5 +197,11 @@ void UserGame::ResourcesLoad()
 		Ptr->SetViewPort(800.0f, 600.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
 	}
+
+	{
+		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("BoxRendering");
+		//Pipe->SetInputAssembler1();
+	}
+
 }
 

@@ -27,7 +27,22 @@ private:	// member Var
 
 public:
 	// 직접 만들수 있다.
-	GameEngineVertexShader* Create(const std::string& _Name, std::function<float4(const float4)> _Function);
+	GameEngineVertexShader* Create(const std::string& _Name,
+		const std::string& _ShaderCode,
+		UINT _VersionHigh = 5,
+		UINT _VersionLow = 0
+	)
+	{
+		return Create(_Name, _ShaderCode, _Name, _VersionHigh, _VersionLow);
+	}
+
+
+	GameEngineVertexShader* Create(const std::string& _Name,
+		const std::string& _ShaderCode,
+		const std::string& _EntryPoint,
+		UINT _VersionHigh = 5,
+		UINT _VersionLow = 0
+	);
 	// 파일에서 로드
 	GameEngineVertexShader* Load(const std::string& _Path);
 	// 이름 직접 지정

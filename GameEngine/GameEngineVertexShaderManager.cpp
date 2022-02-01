@@ -29,20 +29,28 @@ GameEngineVertexShaderManager::GameEngineVertexShaderManager(GameEngineVertexSha
 
 
 
-GameEngineVertexShader* GameEngineVertexShaderManager::Create(const std::string& _Name, std::function<float4(const float4)> _Function)
+GameEngineVertexShader* GameEngineVertexShaderManager::Create(
+	const std::string& _Name,
+	const std::string& _ShaderCode,
+	const std::string& _EntryPoint,
+	UINT _VersionHigh,
+	UINT _VersionLow
+)
 {
 	GameEngineVertexShader* FindRes = Find(_Name);
 
 	if (nullptr != FindRes)
 	{
-		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Load");
+		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Create");
 	}
-
-
 
 	GameEngineVertexShader* NewRes = new GameEngineVertexShader();
 	NewRes->SetName(_Name);
-	NewRes->VertexShaderFunction = _Function;
+	if (false == NewRes->Create(_ShaderCode, _EntryPoint, _VersionHigh, _VersionLow))
+	{
+		delete NewRes;
+		return nullptr;
+	}
 
 	ResourcesMap.insert(std::map<std::string, GameEngineVertexShader*>::value_type(_Name, NewRes));
 	return NewRes;

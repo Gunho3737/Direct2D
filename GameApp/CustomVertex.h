@@ -6,10 +6,11 @@
 struct GameEngineVertex
 {
 public:
-	// 포지션
-	float4 Postion;
+;
 	// 텍스처 비율
 	float4 Texcoord;
+	// 포지션
+	float4 Postion;
 	float4 Color;
 	//float4 Normal0;
 	// float4 Normal1;
