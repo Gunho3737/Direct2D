@@ -39,7 +39,7 @@
     <ClInclude Include="GameEngineRasterizer.h">
       <Filter>Resources\03_Setting</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineDirectXDevice.h">
+    <ClInclude Include="GameEngineDevice.h">
       <Filter>RenderingPileLine\Device</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineRenderTarget.h">
@@ -95,7 +95,7 @@
     <ClCompile Include="GameEngineRasterizer.cpp">
       <Filter>Resources\03_Setting</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineDirectXDevice.cpp">
+    <ClCompile Include="GameEngineDevice.cpp">
       <Filter>RenderingPileLine\Device</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineRenderTarget.cpp">

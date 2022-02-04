@@ -16,10 +16,11 @@
 
 GameEngineRenderingPipeLine::GameEngineRenderingPipeLine() // default constructer 디폴트 생성자
 	: VertexBuffer_(nullptr)
+	, InputLayOutVertexShader_(nullptr)
 	, VertexShader_(nullptr)
 	, IndexBuffer_(nullptr)
+	, Topology_(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 {
-
 }
 
 GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine() // default destructer 디폴트 소멸자
@@ -35,7 +36,7 @@ GameEngineRenderingPipeLine::GameEngineRenderingPipeLine(GameEngineRenderingPipe
 
 }
 
-void GameEngineRenderingPipeLine::SetInputAssembler1(const std::string& _Name)
+void GameEngineRenderingPipeLine::SetInputAssembler1VertexBufferSetting(const std::string& _Name)
 {
 	VertexBuffer_ = GameEngineVertexBufferManager::GetInst().Find(_Name);
 
@@ -47,6 +48,29 @@ void GameEngineRenderingPipeLine::SetInputAssembler1(const std::string& _Name)
 
 }
 
+void GameEngineRenderingPipeLine::SetInputAssembler1InputLayOutSetting(const std::string& _Name)
+{
+	InputLayOutVertexShader_ = GameEngineVertexShaderManager::GetInst().Find(_Name);
+
+	if (nullptr == InputLayOutVertexShader_)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 버텍스 버퍼를 세팅하려고 했습니다.");
+		return;
+	}
+}
+
+void GameEngineRenderingPipeLine::SetInputAssembler2IndexBufferSetting(const std::string& _Name)
+{
+	IndexBuffer_ = GameEngineIndexBufferManager::GetInst().Find(_Name);
+
+	if (nullptr == IndexBuffer_)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 버텍스 버퍼를 세팅하려고 했습니다.");
+		return;
+	}
+}
+
+
 void GameEngineRenderingPipeLine::SetVertexShader(const std::string& _Name)
 {
 	VertexShader_ = GameEngineVertexShaderManager::GetInst().Find(_Name);
@@ -54,18 +78,6 @@ void GameEngineRenderingPipeLine::SetVertexShader(const std::string& _Name)
 	if (nullptr == VertexShader_)
 	{
 		GameEngineDebug::MsgBoxError("존재하지 않는 버텍스 쉐이더를 세팅하려고 했습니다.");
-		return;
-	}
-}
-
-
-void GameEngineRenderingPipeLine::SetInputAssembler2(const std::string& _Name)
-{
-	IndexBuffer_ = GameEngineIndexBufferManager::GetInst().Find(_Name);
-
-	if (nullptr == IndexBuffer_)
-	{
-		GameEngineDebug::MsgBoxError("존재하지 않는 인덱스 버퍼를 세팅하려고 했습니다.");
 		return;
 	}
 }
@@ -81,10 +93,24 @@ void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
 	}
 }
 
+void GameEngineRenderingPipeLine::InputAssembler1()
+{
+	VertexBuffer_->Setting();
+	InputLayOutVertexShader_->InputLayOutSetting();
+}
+
+void GameEngineRenderingPipeLine::VertexShader()
+{
+	VertexShader_->Setting();
+}
+
 
 void GameEngineRenderingPipeLine::Rendering()
 {
 	// input어셈블러 단계
+	// 버텍스 버퍼 세팅
+	InputAssembler1();
+	// 
 
 }
 

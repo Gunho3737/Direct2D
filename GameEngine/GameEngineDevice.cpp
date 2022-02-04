@@ -1,33 +1,33 @@
 #include "PreCompile.h"
-#include "GameEngineDirectXDevice.h"
+#include "GameEngineDevice.h"
 #include "GameEngineWindow.h"
 #include "GameEngineTextureManager.h"
 #include "GameEngineRenderTargetManager.h"
 #include "GameEngineRenderTarget.h"
 
-GameEngineDirectXDevice* GameEngineDirectXDevice::Inst = new GameEngineDirectXDevice();
+GameEngineDevice* GameEngineDevice::Inst = new GameEngineDevice();
 
-GameEngineRenderTarget* GameEngineDirectXDevice::BackBufferTarget_ = nullptr;
-ID3D11Device* GameEngineDirectXDevice::Device_ = nullptr;
-ID3D11DeviceContext* GameEngineDirectXDevice::Context_ = nullptr;
-IDXGISwapChain* GameEngineDirectXDevice::SwapChain_ = nullptr;
+GameEngineRenderTarget* GameEngineDevice::BackBufferTarget_ = nullptr;
+ID3D11Device* GameEngineDevice::Device_ = nullptr;
+ID3D11DeviceContext* GameEngineDevice::Context_ = nullptr;
+IDXGISwapChain* GameEngineDevice::SwapChain_ = nullptr;
 
-ID3D11Device* GameEngineDirectXDevice::GetDevice()
+ID3D11Device* GameEngineDevice::GetDevice()
 {
 	return Device_;
 }
 
-ID3D11DeviceContext* GameEngineDirectXDevice::GetContext()
+ID3D11DeviceContext* GameEngineDevice::GetContext()
 {
 	return Context_;
 }
 
-GameEngineDirectXDevice::GameEngineDirectXDevice() // default constructer 디폴트 생성자
+GameEngineDevice::GameEngineDevice() // default constructer 디폴트 생성자
 {
 
 }
 
-GameEngineDirectXDevice::~GameEngineDirectXDevice() // default destructer 디폴트 소멸자
+GameEngineDevice::~GameEngineDevice() // default destructer 디폴트 소멸자
 {
 	if (nullptr != SwapChain_)
 	{
@@ -48,7 +48,7 @@ GameEngineDirectXDevice::~GameEngineDirectXDevice() // default destructer 디폴트
 	}
 }
 
-void GameEngineDirectXDevice::Initialize()
+void GameEngineDevice::Initialize()
 {
 	if (nullptr == GameEngineWindow::GetInst().GetWindowHWND())
 	{
@@ -95,7 +95,7 @@ void GameEngineDirectXDevice::Initialize()
 	CreateSwapChain();
 }
 
-void GameEngineDirectXDevice::CreateSwapChain()
+void GameEngineDevice::CreateSwapChain()
 {
 	if (0 >= GameEngineWindow::GetInst().GetSize().x &&
 		0 >= GameEngineWindow::GetInst().GetSize().y)
@@ -186,7 +186,7 @@ void GameEngineDirectXDevice::CreateSwapChain()
 	BackBufferTarget_ = GameEngineRenderTargetManager::GetInst().Create("BackBuffer", "BackBuffer", float4::BLUE);
 }
 
-void GameEngineDirectXDevice::RenderStart()
+void GameEngineDevice::RenderStart()
 {
 	// BackBufferTarget_ <= 여기에 그린 녀석만 나와.
 	// 지우고
@@ -196,7 +196,7 @@ void GameEngineDirectXDevice::RenderStart()
 }
 
 
-void GameEngineDirectXDevice::RenderEnd()
+void GameEngineDevice::RenderEnd()
 {
 	// 화면에 그려라
 	HRESULT Result = SwapChain_->Present(0, 0);

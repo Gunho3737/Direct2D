@@ -1,6 +1,6 @@
 #pragma once
 #include <Windows.h>
-#include <GameEngine/GameEngineDirectXDevice.h>
+#include <GameEngine/GameEngineDevice.h>
 
 // Ό³Έν : 
 class GameEngineIndexBuffer;

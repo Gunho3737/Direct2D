@@ -2,7 +2,7 @@
 #include "GameEngineCore.h"
 #include "GameEngineWindow.h"
 #include "GameEngineResourcesManager.h"
-#include "GameEngineDirectXDevice.h"
+#include "GameEngineDevice.h"
 
 GameEngineCore* GameEngineCore::MainCore_ = nullptr;
 
@@ -36,7 +36,7 @@ void GameEngineCore::EngineDestroy()
 {
 	GameEngineManagerHelper::ManagerRelease();
 	GameEngineTime::Destroy();
-	GameEngineDirectXDevice::Destroy();
+	GameEngineDevice::Destroy();
 	GameEngineWindow::Destroy();
 }
 
@@ -57,7 +57,7 @@ void GameEngineCore::WindowCreate()
 
 	// 디바이스가 만들어져야 합니다.
 	// HWND 윈도우에서 제공하는 3D 라이브러리니까 WINDOW API를 기반으로 처리되어 있습니다.
-	GameEngineDirectXDevice::GetInst().Initialize();
+	GameEngineDevice::GetInst().Initialize();
 }
 
 void GameEngineCore::Loop()

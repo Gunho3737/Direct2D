@@ -22,7 +22,7 @@ void GameEngineRenderTarget::Clear()
 {
 	for (size_t i = 0; i < RenderTargetViews_.size(); i++)
 	{
-		GameEngineDirectXDevice::GetContext()->ClearRenderTargetView(RenderTargetViews_[i], ClearColor_[i].Arr1D);
+		GameEngineDevice::GetContext()->ClearRenderTargetView(RenderTargetViews_[i], ClearColor_[i].Arr1D);
 	}
 }
 
@@ -47,14 +47,14 @@ void GameEngineRenderTarget::Setting(int _Index)
 		GameEngineDebug::MsgBoxError("Render Target Setting Error Size Zero");
 	}
 
-	// GameEngineDirectXDevice::GetContext()->RSSetViewports();
+	// GameEngineDevice::GetContext()->RSSetViewports();
 
 	if (-1 == _Index)
 	{
-		GameEngineDirectXDevice::GetContext()->OMSetRenderTargets(static_cast<UINT>(RenderTargetViews_.size()), &RenderTargetViews_[0], nullptr);
+		GameEngineDevice::GetContext()->OMSetRenderTargets(static_cast<UINT>(RenderTargetViews_.size()), &RenderTargetViews_[0], nullptr);
 	}
 	else
 	{
-		GameEngineDirectXDevice::GetContext()->OMSetRenderTargets(1, &RenderTargetViews_[_Index], nullptr);
+		GameEngineDevice::GetContext()->OMSetRenderTargets(1, &RenderTargetViews_[_Index], nullptr);
 	}
 }

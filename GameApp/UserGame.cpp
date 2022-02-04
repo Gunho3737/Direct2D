@@ -40,7 +40,7 @@ void UserGame::GameLoop()
 {
 	//실제 게임이 돌아가는 루프
 
-	GameEngineDirectXDevice::RenderStart();
+	GameEngineDevice::RenderStart();
 
 	//GameEngineRenderingPipeLine Pipe;
 	//
@@ -54,6 +54,6 @@ void UserGame::GameLoop()
 	//
 	//Pipe.Rendering();
 	
-	GameEngineDirectXDevice::RenderEnd();
+	GameEngineDevice::RenderEnd();
 
 }

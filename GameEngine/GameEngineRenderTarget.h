@@ -1,5 +1,5 @@
 #pragma once
-#include "GameEngineDirectXDevice.h"
+#include "GameEngineDevice.h"
 
 class GameEngineTexture;
 class GameEngineRenderTarget : public GameEngineObjectNameBase

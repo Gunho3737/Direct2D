@@ -11,19 +11,28 @@ class GameEngineRasterizer;
 class GameEngineRenderingPipeLine : public GameEngineObjectNameBase
 {
 private:	// member Var
+	// IA1
 	GameEngineVertexBuffer* VertexBuffer_;
+	GameEngineVertexShader* InputLayOutVertexShader_;
+
+	// VS
 	GameEngineVertexShader* VertexShader_;
 
+	// IA2
 	GameEngineIndexBuffer* IndexBuffer_;
+	D3D11_PRIMITIVE_TOPOLOGY Topology_;
+
 
 	GameEngineRasterizer* Reasterizer_;
 
 public:
-	void SetInputAssembler1(const std::string& _Name);
+	void SetInputAssembler1VertexBufferSetting(const std::string& _Name);
+	void SetInputAssembler1InputLayOutSetting(const std::string& _Name);
 
 	void SetVertexShader(const std::string& _Name);
 
-	void SetInputAssembler2(const std::string& _Name);
+	void SetInputAssembler2IndexBufferSetting(const std::string& _Name);
+	void SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY Topology_);
 
 	void SetRasterizer(const std::string& _Name);
 
@@ -48,5 +57,7 @@ private:		//delete operator
 	GameEngineRenderingPipeLine& operator=(const GameEngineRenderingPipeLine&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
+	void InputAssembler1();
+	void VertexShader();
 };
 
