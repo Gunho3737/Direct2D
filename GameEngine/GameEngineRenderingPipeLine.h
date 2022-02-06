@@ -1,4 +1,5 @@
 #pragma once
+#include <GameEngine/GameEngineDevice.h>
 #include <GameEngineBase/GameEngineMath.h>
 
 // ºÐ·ù : 
@@ -23,7 +24,7 @@ private:	// member Var
 	D3D11_PRIMITIVE_TOPOLOGY Topology_;
 
 
-	GameEngineRasterizer* Reasterizer_;
+	GameEngineRasterizer* Rasterizer_;
 
 public:
 	void SetInputAssembler1VertexBufferSetting(const std::string& _Name);
@@ -58,6 +59,8 @@ private:		//delete operator
 
 public:
 	void InputAssembler1();
+	void InputAssembler2();
 	void VertexShader();
+	void Rasterizer();
 };
 

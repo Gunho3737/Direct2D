@@ -7,8 +7,6 @@
 class UserGame : public GameEngineCore
 {
 private:	// member Var
-	
-
 public:
 	UserGame(); // default constructer 디폴트 생성자
 	~UserGame(); // default destructer 디폴트 소멸자
@@ -26,5 +24,12 @@ public:
 	virtual void ResourcesLoad() override;
 	virtual void GameLoop() override;
 	virtual void Release() override;
+
+	virtual float4 StartWindowPos() {
+		return { 0, 0 };
+	}
+	virtual float4 StartWindowSize() {
+		return { 800, 600 };
+	}
 };
 

@@ -2,33 +2,52 @@
 #include "GameEngineRasterizer.h"
 
 GameEngineRasterizer::GameEngineRasterizer() // default constructer 디폴트 생성자
+    : State(nullptr), ViewPort()
 {
 
 }
 
 GameEngineRasterizer::~GameEngineRasterizer() // default destructer 디폴트 소멸자
 {
-
+    if (nullptr != State)
+    {
+        State->Release();
+        State = nullptr;
+    }
 }
 
-GameEngineRasterizer::GameEngineRasterizer(GameEngineRasterizer&& _other) noexcept  // default RValue Copy constructer 디폴트 RValue 복사생성자
-{
 
+void GameEngineRasterizer::Create(const D3D11_RASTERIZER_DESC& _Value)
+{
+    // 	D3D11_RASTERIZER_DESC;
+    //    D3D11_FILL_MODE FillMode;
+    //    D3D11_CULL_MODE CullMode;
+    //    BOOL FrontCounterClockwise;
+    //    INT DepthBias;
+    //    FLOAT DepthBiasClamp;
+    //    FLOAT SlopeScaledDepthBias;
+    //    BOOL DepthClipEnable;
+    //    BOOL ScissorEnable;
+    //    BOOL MultisampleEnable;
+    //    BOOL AntialiasedLineEnable;
+
+    if (S_OK != GameEngineDevice::GetDevice()->CreateRasterizerState(&_Value, &State))
+    {
+        GameEngineDebug::MsgBoxError("레스터라이저 생성에 실패했습니다.");
+        return;
+    }
 }
 
 
 
-void GameEngineRasterizer::ReasterizerUpdate(float4& _Pos)
+void GameEngineRasterizer::SettingViewPort()
 {
-	// 실제 복사 받은 녀석들이 들어오는데 저는 보여주기 위해서 그냥 여기서 하겠습니다.
-	_Pos.x /= _Pos.w;
-	_Pos.y /= _Pos.w;
-	_Pos.z /= _Pos.w;
-	_Pos.w = 1.0f;
+    GameEngineDevice::GetContext()->RSSetViewports(0, &ViewPort);
+}
+
+void GameEngineRasterizer::Setting()
+{
 
 
-	// 여기서 2차원이 되는 겁니다.
-	_Pos *= ViewPort;
 
-	// _Pos * ViewPort;
 }

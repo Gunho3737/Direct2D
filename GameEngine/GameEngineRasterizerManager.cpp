@@ -29,18 +29,19 @@ GameEngineRasterizerManager::GameEngineRasterizerManager(GameEngineRasterizerMan
 
 
 
-GameEngineRasterizer* GameEngineRasterizerManager::Create(const std::string& _Name)
+GameEngineRasterizer* GameEngineRasterizerManager::Create(const std::string& _Name, const D3D11_RASTERIZER_DESC& _RasterizerDesc)
 {
 	GameEngineRasterizer* FindRes = Find(_Name);
 
 	if (nullptr != FindRes)
 	{
-		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Load");
+		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Create");
 	}
 
 
 	GameEngineRasterizer* NewRes = new GameEngineRasterizer();
 	NewRes->SetName(_Name);
+	NewRes->Create(_RasterizerDesc);
 
 	// 그리고 뭘할거냐?
 

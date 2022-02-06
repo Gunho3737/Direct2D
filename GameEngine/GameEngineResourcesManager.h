@@ -30,8 +30,8 @@ public:
 		GameEngineRenderingPipeLineManager::Destroy();
 
 		GameEngineIndexBufferManager::Destroy();
-		GameEngineVertexShaderManager::Destroy();
 		GameEngineVertexBufferManager::Destroy();
+		GameEngineVertexShaderManager::Destroy();
 		GameEngineRasterizerManager::Destroy();
 		GameEngineRenderTargetManager::Destroy();
 		GameEngineTextureManager::Destroy();

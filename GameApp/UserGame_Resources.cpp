@@ -192,9 +192,29 @@ void UserGame::ResourcesLoad()
 	}
 
 	{
+		D3D11_RASTERIZER_DESC Info;
 
-		GameEngineRasterizer* Ptr = GameEngineRasterizerManager::GetInst().Create("TestReasterizer");
+		Info.FillMode = D3D11_FILL_MODE::D3D11_FILL_WIREFRAME;
 
+		// 시계방향으로 돌건
+		// Info.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
+		// 시계반대방향으로 그려진것들을 그려라
+		Info.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
+		Info.FrontCounterClockwise = TRUE;
+
+		// 화면 바깥에 나간 면들을 잘라낸다.
+		Info.ScissorEnable = TRUE;
+
+		Info.SlopeScaledDepthBias = 0;
+
+		// 깊이관련은 추후 설명할겁니다.
+		// 깊이버퍼를 설명하고 들어야 합니다.
+		Info.DepthBias = 0;
+		Info.DepthBiasClamp = 0;
+		Info.DepthClipEnable = TRUE;
+		Info.MultisampleEnable = TRUE;
+
+		GameEngineRasterizer* Ptr = GameEngineRasterizerManager::GetInst().Create("EngineBaseRasterizer", Info);
 		Ptr->SetViewPort(800.0f, 600.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
 	}
@@ -212,6 +232,8 @@ void UserGame::ResourcesLoad()
 		// 그 vertex을 3개 묶어서 면으로 그리겠다. 순서는 인덱스 버퍼의 순서대로
 		Pipe->SetInputAssembler2IndexBufferSetting("Rect");
 		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		Pipe->SetRasterizer("EngineBaseRasterizer");
 	}
 
 }

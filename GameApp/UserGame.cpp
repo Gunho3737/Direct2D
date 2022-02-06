@@ -47,7 +47,7 @@ void UserGame::GameLoop()
 	//Pipe.SetInputAssembler1("Rect"); //버텍스버퍼-> 기본도형이 될 정점들 생성
 	//Pipe.SetVertexShader("TestShader"); //버텍스쉐이더 -> 버텍스 버퍼로 받은 정점들을 변형시킨다
 	//Pipe.SetInputAssembler2("Rect"); // 인덱스버퍼->변형이 된점들을 이용해 삼각형을 기반으로한 면을 만듬
-	//Pipe.SetRasterizer("TestReasterizer"); //레스터라이저 -> 뷰포트를 곱해서 실제 화면에 나오는 것처럼 변형
+	//Pipe.SetRasterizer("TestRasterizer"); //레스터라이저 -> 뷰포트를 곱해서 실제 화면에 나오는 것처럼 변형
 	//
 	//RotAngle += 360.0f * GameEngineTime::GetInst().GetDeltaTime();
 	//BoxPos.x += 10.0f * GameEngineTime::GetInst().GetDeltaTime();
