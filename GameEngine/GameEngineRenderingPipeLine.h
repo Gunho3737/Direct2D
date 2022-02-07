@@ -8,40 +8,47 @@
 class GameEngineIndexBuffer;
 class GameEngineVertexBuffer;
 class GameEngineVertexShader;
+class GameEnginePixelShader;
 class GameEngineRasterizer;
 class GameEngineRenderingPipeLine : public GameEngineObjectNameBase
 {
 private:	// member Var
 	// IA1
 	GameEngineVertexBuffer* VertexBuffer_;
+	// IA1
 	GameEngineVertexShader* InputLayOutVertexShader_;
-
 	// VS
 	GameEngineVertexShader* VertexShader_;
-
 	// IA2
 	GameEngineIndexBuffer* IndexBuffer_;
+	// IA2
 	D3D11_PRIMITIVE_TOPOLOGY Topology_;
-
-
+	// RS
 	GameEngineRasterizer* Rasterizer_;
+	// PS
+	GameEnginePixelShader* PixelShader_;
+	// OM
+	GameEngineRenderTarget* RenderTarget_;
 
 public:
 	void SetInputAssembler1VertexBufferSetting(const std::string& _Name);
+
 	void SetInputAssembler1InputLayOutSetting(const std::string& _Name);
 
 	void SetVertexShader(const std::string& _Name);
 
 	void SetInputAssembler2IndexBufferSetting(const std::string& _Name);
+
 	void SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY Topology_);
 
 	void SetRasterizer(const std::string& _Name);
 
-public:
-	void SetMesh();
-	void SetMaterial();
+	void SetPixelShader(const std::string& _Name);
 
-public:
+	void SetOutputMerger(const std::string& _Name);
+
+	void RenderingPipeLineSetting();
+
 	void Rendering();
 
 
@@ -62,5 +69,6 @@ public:
 	void InputAssembler2();
 	void VertexShader();
 	void Rasterizer();
+	void PixelShader();
 };
 

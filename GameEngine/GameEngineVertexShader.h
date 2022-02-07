@@ -2,23 +2,16 @@
 #include <vector>
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngineBase/GameEngineObjectNameBase.h>
+#include "GameEngineShader.h"
 #include "GameEngineDevice.h"
 
 // 분류 : 
 // 용도 : 
 // 설명 : 
-class GameEngineVertexShader : public GameEngineObjectNameBase
+class GameEngineVertexShader : public GameEngineShader
 {
 private:	// member Var
-	UINT VersionHigh_;
-	UINT VersionLow_;
-	ID3DBlob* CodeBlob_;
-
-	ID3D11VertexShader* VertexShader_;
-
-	std::string Version_;
-	std::string EntryPoint_;
-	std::string Code_;
+	ID3D11VertexShader* Shader_;
 
 public:
 
@@ -42,14 +35,7 @@ public:
 		UINT _VersionLow = 0
 	);
 
-	void SetCode(const std::string& _Code);
-	void SetEntryPoint(const std::string& _EntryPoint);
 	bool Compile();
-	void SetVersion(UINT _VersionHigh, UINT _VersionLow);
-
-
-private:
-	void CreateVersion();
 
 	/// <summary>
 	/// ////////////////////////////// InputLayOutSettting

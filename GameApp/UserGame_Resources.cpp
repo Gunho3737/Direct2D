@@ -192,18 +192,32 @@ void UserGame::ResourcesLoad()
 	}
 
 	{
+	
+		std::string ShaderCode =
+			"\
+			float4 StartPixelShader( float4 pos : SV_POSITION ) : SV_Target0\n \
+			{\n \
+				return float4(1.0f, 0.0f, 0.0f, 1.0f);\n\
+			}\n\
+			";
+
+		GameEnginePixelShader* Ptr = GameEnginePixelShaderManager::GetInst().Create("StartPixelShader", ShaderCode);
+	}
+
+
+	{
 		D3D11_RASTERIZER_DESC Info;
 
-		Info.FillMode = D3D11_FILL_MODE::D3D11_FILL_WIREFRAME;
+		Info.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
 
-		// 시계방향으로 돌건
+		// 무조건그려라
 		// Info.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
 		// 시계반대방향으로 그려진것들을 그려라
-		Info.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
+		Info.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
 		Info.FrontCounterClockwise = TRUE;
 
 		// 화면 바깥에 나간 면들을 잘라낸다.
-		Info.ScissorEnable = TRUE;
+		Info.ScissorEnable = FALSE;
 
 		Info.SlopeScaledDepthBias = 0;
 
@@ -211,7 +225,7 @@ void UserGame::ResourcesLoad()
 		// 깊이버퍼를 설명하고 들어야 합니다.
 		Info.DepthBias = 0;
 		Info.DepthBiasClamp = 0;
-		Info.DepthClipEnable = TRUE;
+		Info.DepthClipEnable = FALSE;
 		Info.MultisampleEnable = TRUE;
 
 		GameEngineRasterizer* Ptr = GameEngineRasterizerManager::GetInst().Create("EngineBaseRasterizer", Info);
@@ -234,6 +248,7 @@ void UserGame::ResourcesLoad()
 		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		Pipe->SetRasterizer("EngineBaseRasterizer");
+		Pipe->SetPixelShader("StartPixelShader");
 	}
 
 }

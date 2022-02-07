@@ -15,7 +15,11 @@ GameEngineVertexBuffer::GameEngineVertexBuffer() // default constructer 디폴트 �
 
 GameEngineVertexBuffer::~GameEngineVertexBuffer() // default destructer 디폴트 소멸자
 {
-
+	if (nullptr != Buffer_)
+	{
+		Buffer_->Release();
+		Buffer_ = nullptr;
+	}
 }
 
 GameEngineVertexBuffer::GameEngineVertexBuffer(GameEngineVertexBuffer&& _other) noexcept  // default RValue Copy constructer 디폴트 RValue 복사생성자
@@ -33,6 +37,9 @@ void GameEngineVertexBuffer::Create(const void* _Data, size_t _Size, size_t _Cou
 	// 그래픽카드는 그냥 N바이트 자기 메모리에 할당하려고 하니까 정보를 줘야합니다.
 	// 그 버퍼의 
 	ResData_.pSysMem = _Data;
+
+	Size_ = static_cast<UINT>(_Size);
+	Count_ = static_cast<UINT>(_Count);
 
 	BufferData_.ByteWidth = static_cast<UINT>(_Size) * static_cast<UINT>(_Count);
 	BufferData_.Usage = _Usage;

@@ -42,12 +42,10 @@ void GameEngineRasterizer::Create(const D3D11_RASTERIZER_DESC& _Value)
 
 void GameEngineRasterizer::SettingViewPort()
 {
-    GameEngineDevice::GetContext()->RSSetViewports(0, &ViewPort);
+    GameEngineDevice::GetContext()->RSSetViewports(1, &ViewPort);
 }
 
 void GameEngineRasterizer::Setting()
 {
-
-
-
+    GameEngineDevice::GetContext()->RSSetState(State);
 }

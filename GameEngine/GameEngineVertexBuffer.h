@@ -12,6 +12,7 @@ class GameEngineVertexBuffer : public GameEngineObjectNameBase
 private:	// member Var
 	ID3D11Buffer* Buffer_;
 	UINT Size_;
+	UINT Count_;
 	UINT Offset_;
 
 	// 버퍼의 데이터

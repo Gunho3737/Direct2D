@@ -41,6 +41,8 @@ void UserGame::GameLoop()
 	//실제 게임이 돌아가는 루프
 
 	GameEngineDevice::RenderStart();
+	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("BoxRendering");
+	Pipe->Rendering();
 
 	//GameEngineRenderingPipeLine Pipe;
 	//

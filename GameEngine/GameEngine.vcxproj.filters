@@ -55,6 +55,15 @@
       <Filter>Resources\99_Manager</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineMesh.h" />
+    <ClInclude Include="GameEngineShader.h">
+      <Filter>Resources\01_Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnginePixelShader.h">
+      <Filter>Resources\01_Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnginePixelShaderManager.h">
+      <Filter>Resources\99_Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -108,6 +117,15 @@
       <Filter>Resources\99_Manager</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineMesh.cpp" />
+    <ClCompile Include="GameEngineShader.cpp">
+      <Filter>Resources\01_Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEnginePixelShader.cpp">
+      <Filter>Resources\01_Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEnginePixelShaderManager.cpp">
+      <Filter>Resources\99_Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">

@@ -131,7 +131,7 @@ void GameEngineDevice::CreateSwapChain()
 
 	ScInfo.BufferCount = 2;
 
-	ScInfo.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_DISCARD;
+	ScInfo.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_FLIP_DISCARD;
 
 	// 전체화면 모드 가능
 	ScInfo.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
@@ -198,12 +198,13 @@ void GameEngineDevice::RenderStart()
 
 void GameEngineDevice::RenderEnd()
 {
-	// 화면에 그려라
+	// 화면에 그려라 인데.
 	HRESULT Result = SwapChain_->Present(0, 0);
 	if (Result == DXGI_ERROR_DEVICE_REMOVED || Result == DXGI_ERROR_DEVICE_RESET)
 	{
 		int a = 0;
 	}
-	
+
+	// 화면에 뿌려라
 	// BackBufferTarget_;
 }

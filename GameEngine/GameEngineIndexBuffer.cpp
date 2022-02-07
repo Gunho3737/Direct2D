@@ -6,7 +6,8 @@ GameEngineIndexBuffer::GameEngineIndexBuffer() // default constructer 디폴트 생�
 	BufferData_(),
 	ResData_(),
 	Format_(DXGI_FORMAT::DXGI_FORMAT_R32_UINT),
-	Offset_(0)
+	Offset_(0),
+	IndexCount_(0)
 {
 	memset(&BufferData_, 0, sizeof(BufferData_));
 	memset(&ResData_, 0, sizeof(ResData_));
@@ -21,16 +22,6 @@ GameEngineIndexBuffer::~GameEngineIndexBuffer() // default destructer 디폴트 소�
 	}
 }
 
-GameEngineIndexBuffer::GameEngineIndexBuffer(GameEngineIndexBuffer&& _other) noexcept  // default RValue Copy constructer 디폴트 RValue 복사생성자
-	: Buffer_(nullptr),
-	BufferData_(),
-	ResData_(),
-	Format_(DXGI_FORMAT::DXGI_FORMAT_R32_UINT),
-	Offset_(0)
-{
-
-}
-
 void GameEngineIndexBuffer::Create(const std::vector<UINT>& _Datas, D3D11_USAGE _Usage)
 {
 	Create(reinterpret_cast<const void*>(&_Datas[0]), sizeof(UINT), _Datas.size(), _Usage);
@@ -40,6 +31,7 @@ void GameEngineIndexBuffer::Create(const std::vector<UINT>& _Datas, D3D11_USAGE 
 void GameEngineIndexBuffer::Create(const void* _Data, size_t _Size, size_t _Count, D3D11_USAGE _Usage)
 {
 	ResData_.pSysMem = _Data;
+	IndexCount_ = static_cast<UINT>(_Count);
 
 	BufferData_.ByteWidth = static_cast<UINT>(_Size) * static_cast<UINT>(_Count);
 	BufferData_.Usage = _Usage;
