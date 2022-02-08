@@ -8,24 +8,32 @@
 class GameEngineRasterizer : public GameEngineObjectNameBase
 {
 private:	// member Var
-	ID3D11RasterizerState* State;
-	D3D11_VIEWPORT ViewPort;
+	ID3D11RasterizerState* State_;
+	ID3D11RasterizerState* OldState_;
+	D3D11_RASTERIZER_DESC Desc_;
+	D3D11_RASTERIZER_DESC WireDesc_;
+	D3D11_VIEWPORT ViewPort_;
+	D3D11_RECT rects;
+
+	std::vector<D3D11_RECT> ScissorRects_;
+
+	void Clear();
 
 public:
 	void SetViewPort(float _Width, float _Height, float _TopLeftX, float _TopLeftY, float _MinDepth, float _MaxDepth)
 	{
-		ViewPort.Height = _Height;
-		ViewPort.Width = _Width;
-		ViewPort.TopLeftX = _TopLeftX;
-		ViewPort.TopLeftY = _TopLeftY;
-		ViewPort.MinDepth = _MinDepth;
-		ViewPort.MaxDepth = _MaxDepth;
+		ViewPort_.Height = _Height;
+		ViewPort_.Width = _Width;
+		ViewPort_.TopLeftX = _TopLeftX;
+		ViewPort_.TopLeftY = _TopLeftY;
+		ViewPort_.MinDepth = _MinDepth;
+		ViewPort_.MaxDepth = _MaxDepth;
 	}
 
-public:
 	void Create(const D3D11_RASTERIZER_DESC& _Value);
 
-public:
+	void PushScissorRect(D3D11_RECT _Rect);
+
 	GameEngineRasterizer(); // default constructer 디폴트 생성자
 	~GameEngineRasterizer(); // default destructer 디폴트 소멸자
 
@@ -35,8 +43,14 @@ protected:		// delete constructer
 	GameEngineRasterizer& operator=(const GameEngineRasterizer&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
+	void SettingScissorEnable();
+
 	void SettingViewPort();
+
+	void SwitchState();
 
 	void Setting();
 };
+
+
 

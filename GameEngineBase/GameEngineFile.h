@@ -1,10 +1,6 @@
 #pragma once
 #include "GameEnginePath.h"
 #include <iostream>
-#include <string>
-#include <map>
-#include <list>
-#include <vector>
 
 // 분류 :
 // 용도 :
@@ -15,10 +11,12 @@ private:
 	FILE* fileHandle_;
 	std::string OpenMode;
 
-public:		
+public:
 	GameEngineFile(); // default constructer 디폴트 생성자
+
+	GameEngineFile(const std::filesystem::path& _Path); // default constructer 디폴트 생성자
+
 	GameEngineFile(const std::string& _Path); // default constructer 디폴트 생성자
-	GameEngineFile(const std::filesystem::path& _Path);
 
 	GameEngineFile(const std::string& _Path, const std::string& _Mode); // default constructer 디폴트 생성자
 
@@ -35,6 +33,10 @@ public:		//delete operator
 public:		//member Func
 	void Open(const std::string& _Mode);
 	void Close();
+
+	uintmax_t GetFileSize();
+
+	std::string FileName();
 
 public:
 	void Write(const void* _Data, size_t _Size);
@@ -149,6 +151,6 @@ public:
 		}
 	}
 
-
+	std::string GetString();
 };
 

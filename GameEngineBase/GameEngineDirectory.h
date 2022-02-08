@@ -5,19 +5,19 @@
 // 설명 :
 
 class GameEngineFile;
-class GameEngineDirectrory : public GameEnginePath
+class GameEngineDirectory : public GameEnginePath
 {
 public:
-	GameEngineDirectrory(); // default constructer 디폴트 생성자
-	~GameEngineDirectrory(); // default destructer 디폴트 소멸자
+	GameEngineDirectory(); // default constructer 디폴트 생성자
+	~GameEngineDirectory(); // default destructer 디폴트 소멸자
 
 public:		// delete constructer
-	GameEngineDirectrory(const GameEngineDirectrory& _other); // default Copy constructer 디폴트 복사생성자
-	GameEngineDirectrory(GameEngineDirectrory&& _other) noexcept; // default RValue Copy constructer 디폴트 RValue 복사생성자
+	GameEngineDirectory(const GameEngineDirectory& _other); // default Copy constructer 디폴트 복사생성자
+	GameEngineDirectory(GameEngineDirectory&& _other) noexcept; // default RValue Copy constructer 디폴트 RValue 복사생성자
 
 public:		//delete operator
-	GameEngineDirectrory& operator=(const GameEngineDirectrory& _other) = delete; // default Copy operator 디폴트 대입 연산자
-	GameEngineDirectrory& operator=(const GameEngineDirectrory&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
+	GameEngineDirectory& operator=(const GameEngineDirectory& _other) = delete; // default Copy operator 디폴트 대입 연산자
+	GameEngineDirectory& operator=(const GameEngineDirectory&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
 	std::string DirectroyName();

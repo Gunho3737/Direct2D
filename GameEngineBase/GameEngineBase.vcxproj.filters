@@ -4,7 +4,7 @@
     <ClInclude Include="GameEngineDebug.h">
       <Filter>Debug</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineDirectrory.h">
+    <ClInclude Include="GameEngineDirectory.h">
       <Filter>InputOutput</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineFile.h">
@@ -48,7 +48,7 @@
     <ClCompile Include="GameEngineDebug.cpp">
       <Filter>Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineDirectrory.cpp">
+    <ClCompile Include="GameEngineDirectory.cpp">
       <Filter>InputOutput</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineFile.cpp">

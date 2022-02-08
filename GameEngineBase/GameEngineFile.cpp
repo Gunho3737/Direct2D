@@ -18,7 +18,6 @@ GameEngineFile::GameEngineFile(const std::filesystem::path& _Path)
 
 }
 
-
 GameEngineFile::GameEngineFile(const std::string& _Path)
 	: fileHandle_(nullptr)
 {
@@ -52,10 +51,9 @@ GameEngineFile::GameEngineFile(GameEngineFile&& _other) noexcept
 {
 }
 
-
 //member Func
 
-void GameEngineFile::Open(const std::string& _Mode) 
+void GameEngineFile::Open(const std::string& _Mode)
 {
 	OpenMode = _Mode;
 	fopen_s(&fileHandle_, path_.string().c_str(), _Mode.c_str());
@@ -65,7 +63,7 @@ void GameEngineFile::Open(const std::string& _Mode)
 	}
 }
 
-void GameEngineFile::Close() 
+void GameEngineFile::Close()
 {
 	if (nullptr != fileHandle_)
 	{
@@ -74,7 +72,7 @@ void GameEngineFile::Close()
 	}
 }
 
-void GameEngineFile::Write(const void* _Data, size_t _Size) 
+void GameEngineFile::Write(const void* _Data, size_t _Size)
 {
 	// 쓰기용으로 파일을 열지 않고
 	// 왜 쓰려고 하는냐에 대한 예외처리입니다.
@@ -140,4 +138,22 @@ void GameEngineFile::Read(std::string& _Data)
 void GameEngineFile::Read(int& _Data)
 {
 	Read(&_Data, sizeof(int), sizeof(int));
+}
+
+uintmax_t GameEngineFile::GetFileSize()
+{
+	return std::filesystem::file_size(path_);
+}
+
+std::string GameEngineFile::GetString()
+{
+	std::string AllString = std::string();
+	AllString.resize(GetFileSize());
+	Read(&AllString[0], AllString.size(), AllString.size());
+	return AllString;
+}
+
+std::string GameEngineFile::FileName()
+{
+	return path_.filename().string();
 }

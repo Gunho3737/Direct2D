@@ -5,7 +5,7 @@
 void UserGame::ResourcesLoad()
 {
 	{
-		GameEngineDirectrory SoundDir;
+		GameEngineDirectory SoundDir;
 		//현재 프로젝트 위치 받아옴
 		//FileSystm을 이용해서 주소를 받아왔다
 
