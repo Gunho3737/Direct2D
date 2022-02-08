@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "UserGame.h"
 #include "CustomVertex.h"
+#include "UserGame_Resources_Shader.h"
+
 
 void UserGame::ResourcesLoad()
 {
@@ -27,6 +29,8 @@ void UserGame::ResourcesLoad()
 			GameEngineSoundManager::GetInst().LoadSound(AllFile[i].GetFullPath());
 		}
 	}
+
+	AppShaderLoad();
 
 	{
 		//정육면체를 생성
@@ -67,28 +71,100 @@ void UserGame::ResourcesLoad()
 			RectVertex[22] = float4::RotateXDegree(RectVertex[2], -90.0f);
 			RectVertex[23] = float4::RotateXDegree(RectVertex[3], -90.0f);
 		}
-		GameEngineVertexBufferManager::GetInst().Create("Rect", RectVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
+		GameEngineVertexBufferManager::GetInst().Create("Box", RectVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
+	}
+
+	//정육면체 Box
+	{
+		{
+			std::vector<UINT> RectIndex;
+
+			for (int i = 0; i < 6; i++)
+			{
+				RectIndex.push_back(i * 4 + 0);
+				RectIndex.push_back(i * 4 + 1);
+				RectIndex.push_back(i * 4 + 2);
+
+				RectIndex.push_back(i * 4 + 0);
+				RectIndex.push_back(i * 4 + 2);
+				RectIndex.push_back(i * 4 + 3);
+			}
+
+			GameEngineIndexBufferManager::GetInst().Create("Box", RectIndex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
+		}
 	}
 
 
+	//사각형 Rect
 	{
-		std::vector<UINT> RectIndex;
-
-		for (int i = 0; i < 6; i++)
+		//기본 사각형 Rect
 		{
-			RectIndex.push_back(i * 4 + 0);
-			RectIndex.push_back(i * 4 + 1);
-			RectIndex.push_back(i * 4 + 2);
 
-			RectIndex.push_back(i * 4 + 0);
-			RectIndex.push_back(i * 4 + 2);
-			RectIndex.push_back(i * 4 + 3);
+			std::vector<GameEngineVertex> RectVertex = std::vector<GameEngineVertex>(4);
+
+			{
+				// 앞면
+				RectVertex[0] = { float4({ -0.5f, 0.5f, 0.0f }) };
+				RectVertex[1] = { float4({ 0.5f, 0.5f, 0.0f }) };
+				RectVertex[2] = { float4({ 0.5f, -0.5f, 0.0f }) };
+				RectVertex[3] = { float4({ -0.5f, -0.5f, 0.0f }) };
+			}
+
+			GameEngineVertexBufferManager::GetInst().Create("Rect", RectVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
 		}
 
-		GameEngineIndexBufferManager::GetInst().Create("Rect", RectIndex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
+		{
+			std::vector<UINT> RectIndex;
+
+			RectIndex.push_back(0);
+			RectIndex.push_back(1);
+			RectIndex.push_back(2);
+
+			RectIndex.push_back(0);
+			RectIndex.push_back(2);
+			RectIndex.push_back(3);
+
+			GameEngineIndexBufferManager::GetInst().Create("Rect", RectIndex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
+		}
+
+
+		//화면 전체를 덮는 사각형 FullRect
+		{
+		
+			std::vector<GameEngineVertex> RectVertex = std::vector<GameEngineVertex>(4);
+
+			{
+				// 앞면
+				RectVertex[0] = { float4({ -1.0f, 1.0f, 0.0f }) };
+				RectVertex[1] = { float4({ 1.0f, 1.0f, 0.0f }) };
+				RectVertex[2] = { float4({ 1.0f, -1.0f, 0.0f }) };
+				RectVertex[3] = { float4({ -1.0f, -1.0f, 0.0f }) };
+			}
+
+			GameEngineVertexBufferManager::GetInst().Create("FullRect", RectVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
+		}
+
+		{
+			std::vector<UINT> RectIndex;
+
+			RectIndex.push_back(0);
+			RectIndex.push_back(1);
+			RectIndex.push_back(2);
+
+			RectIndex.push_back(0);
+			RectIndex.push_back(2);
+			RectIndex.push_back(3);
+
+			GameEngineIndexBufferManager::GetInst().Create("FullRect", RectIndex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
+		}
+
+
+
 	}
+
+
 	//버텍스 쉐이더 설명
-	/* 
+	/*
 	{
 		GameEngineVertexShaderManager::GetInst().Create("TestShader", [](const float4& _Value)
 			{
@@ -173,63 +249,33 @@ void UserGame::ResourcesLoad()
 		);
 	}*/
 
-	{
-	// POSITION을 시맨틱이라고 합니다.
-	std::string ShaderCode =
-		"\
-			float4 StartVertexShader( float4 pos : POSITION ) : SV_POSITION\n \
-			{\n \
-				return pos;\n\
-			}\n\
-			";
-
-	GameEngineVertexShader* Ptr = GameEngineVertexShaderManager::GetInst().Create("StartVertexShader", ShaderCode);
-
-//	Ptr->AddInputLayOut("TEXCOORD", 0, 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
-//	Ptr->AddInputLayOut("POSTION", 0, 16, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
-//	Ptr->AddInputLayOut("COLOR", 0, 16, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
-
-	}
 
 	{
-	
-		std::string ShaderCode =
-			"\
-			float4 StartPixelShader( float4 pos : SV_POSITION ) : SV_Target0\n \
-			{\n \
-				return float4(1.0f, 0.0f, 0.0f, 1.0f);\n\
-			}\n\
-			";
+	D3D11_RASTERIZER_DESC Info = { D3D11_FILL_MODE::D3D11_FILL_SOLID, };
 
-		GameEnginePixelShader* Ptr = GameEnginePixelShaderManager::GetInst().Create("StartPixelShader", ShaderCode);
-	}
+	Info.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
 
+	// 무조건그려라
+	// Info.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
+	// 시계반대방향으로 그려진것들을 그려라
+	Info.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
+	Info.AntialiasedLineEnable = true;
+	Info.MultisampleEnable = true;
 
-	{
-		D3D11_RASTERIZER_DESC Info;
+	//// 화면 바깥에 나간 면들을 잘라낸다.
+	// Info.FrontCounterClockwise = true;
+	//Info.ScissorEnable = true;
+	//Info.SlopeScaledDepthBias = 0;
 
-		Info.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+	//// 깊이관련은 추후 설명할겁니다.
+	//// 깊이버퍼를 설명하고 들어야 합니다.
+	//Info.DepthBias = 0;
+	//Info.DepthBiasClamp = 0;
+	//Info.DepthClipEnable = FALSE;
+	//Info.MultisampleEnable = TRUE;
 
-		// 무조건그려라
-		// Info.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
-		// 시계반대방향으로 그려진것들을 그려라
-		Info.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
-		Info.FrontCounterClockwise = TRUE;
-
-		// 화면 바깥에 나간 면들을 잘라낸다.
-		Info.ScissorEnable = FALSE;
-
-		Info.SlopeScaledDepthBias = 0;
-
-		// 깊이관련은 추후 설명할겁니다.
-		// 깊이버퍼를 설명하고 들어야 합니다.
-		Info.DepthBias = 0;
-		Info.DepthBiasClamp = 0;
-		Info.DepthClipEnable = FALSE;
-		Info.MultisampleEnable = TRUE;
-
-		GameEngineRasterizer* Ptr = GameEngineRasterizerManager::GetInst().Create("EngineBaseRasterizer", Info);
-		Ptr->SetViewPort(800.0f, 600.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+	GameEngineRasterizer* Ptr = GameEngineRasterizerManager::GetInst().Create("EngineBaseRasterizer", Info);
+	Ptr->SetViewPort(800.0f, 600.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
 	}
 
@@ -237,14 +283,14 @@ void UserGame::ResourcesLoad()
 		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("BoxRendering");
 		
 		// 이런 기본적인 vertex들이 있다.
-		Pipe->SetInputAssembler1VertexBufferSetting("Rect");
+		Pipe->SetInputAssembler1VertexBufferSetting("FullRect");
 		Pipe->SetInputAssembler1InputLayOutSetting("StartVertexShader");
 
 		// 그 vertex을 이렇게 위치시키겠다.
 		Pipe->SetVertexShader("StartVertexShader");
 
 		// 그 vertex을 3개 묶어서 면으로 그리겠다. 순서는 인덱스 버퍼의 순서대로
-		Pipe->SetInputAssembler2IndexBufferSetting("Rect");
+		Pipe->SetInputAssembler2IndexBufferSetting("FullRect");
 		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		Pipe->SetRasterizer("EngineBaseRasterizer");
