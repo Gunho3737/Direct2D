@@ -283,18 +283,18 @@ void UserGame::ResourcesLoad()
 		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("BoxRendering");
 		
 		// 이런 기본적인 vertex들이 있다.
-		Pipe->SetInputAssembler1VertexBufferSetting("FullRect");
-		Pipe->SetInputAssembler1InputLayOutSetting("StartVertexShader");
+		Pipe->SetInputAssembler1VertexBufferSetting("Rect");
+		Pipe->SetInputAssembler1InputLayOutSetting("Color_VS");
 
 		// 그 vertex을 이렇게 위치시키겠다.
-		Pipe->SetVertexShader("StartVertexShader");
+		Pipe->SetVertexShader("Color_VS");
 
 		// 그 vertex을 3개 묶어서 면으로 그리겠다. 순서는 인덱스 버퍼의 순서대로
-		Pipe->SetInputAssembler2IndexBufferSetting("FullRect");
+		Pipe->SetInputAssembler2IndexBufferSetting("Rect");
 		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		Pipe->SetRasterizer("EngineBaseRasterizer");
-		Pipe->SetPixelShader("StartPixelShader");
+		Pipe->SetPixelShader("Color_PS");
 	}
 
 }

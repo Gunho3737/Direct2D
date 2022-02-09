@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "GameEnginePixelShaderManager.h"
 #include "GameEnginePixelShader.h"
+#include "GameEngineBase/GameEngineFile.h"
 
 GameEnginePixelShaderManager* GameEnginePixelShaderManager::Inst = new GameEnginePixelShaderManager();
 
@@ -28,12 +29,48 @@ GameEnginePixelShaderManager::GameEnginePixelShaderManager(GameEnginePixelShader
 }
 
 
+GameEnginePixelShader* GameEnginePixelShaderManager::Load(const std::string& _Path, const std::string& _EntryPoint,
+	UINT _VersionHigh, /*= 5*/
+	UINT _VersionLow /*= 0*/
+)
+{
 
-GameEnginePixelShader* GameEnginePixelShaderManager::Create(const std::string& _Name,
+	std::string FileName = GameEnginePath::GetFileName(_Path);
+
+	return Load(FileName, _Path, _EntryPoint);
+}
+
+GameEnginePixelShader* GameEnginePixelShaderManager::Load(const std::string& _Name, const std::string& _Path, const std::string& _EntryPoint,
+	UINT _VersionHigh, /*= 5*/
+	UINT _VersionLow /*= 0*/
+)
+{
+	GameEnginePixelShader* FindRes = Find(_Name);
+
+	if (nullptr != FindRes)
+	{
+		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Create");
+	}
+
+	GameEnginePixelShader* NewRes = new GameEnginePixelShader();
+	NewRes->SetName(_Name);
+	if (false == NewRes->Load(_Path, _EntryPoint, _VersionHigh, _VersionLow))
+	{
+		delete NewRes;
+		return nullptr;
+	}
+
+	ResourcesMap.insert(std::map<std::string, GameEnginePixelShader*>::value_type(_Name, NewRes));
+
+	return NewRes;
+}
+
+GameEnginePixelShader* GameEnginePixelShaderManager::Create(
+	const std::string& _Name,
 	const std::string& _ShaderCode,
 	const std::string& _EntryPoint,
-	UINT _VersionHigh/* = 5*/,
-	UINT _VersionLow/* = 0*/
+	UINT _VersionHigh,
+	UINT _VersionLow
 )
 {
 	GameEnginePixelShader* FindRes = Find(_Name);
@@ -55,27 +92,6 @@ GameEnginePixelShader* GameEnginePixelShaderManager::Create(const std::string& _
 	return NewRes;
 }
 
-GameEnginePixelShader* GameEnginePixelShaderManager::Load(const std::string& _Path)
-{
-	return Load(GameEnginePath::GetFileName(_Path), _Path);
-}
-
-GameEnginePixelShader* GameEnginePixelShaderManager::Load(const std::string& _Name, const std::string& _Path)
-{
-	GameEnginePixelShader* FindRes = Find(_Name);
-
-	if (nullptr != FindRes)
-	{
-		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Load");
-	}
-
-	GameEnginePixelShader* NewRes = new GameEnginePixelShader();
-	NewRes->SetName(_Name);
-
-
-	ResourcesMap.insert(std::map<std::string, GameEnginePixelShader*>::value_type(_Name, NewRes));
-	return NewRes;
-}
 
 GameEnginePixelShader* GameEnginePixelShaderManager::Find(const std::string& _Name)
 {

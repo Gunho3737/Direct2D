@@ -44,9 +44,16 @@ public:
 		UINT _VersionLow = 0
 	);
 	// 파일에서 로드
-	GameEngineVertexShader* Load(const std::string& _Path);
+	GameEngineVertexShader* Load(const std::string& _Path
+		, const std::string& _EntryPoint
+		, UINT _VersionHigh = 5
+		, UINT _VersionLow = 0
+	);
 	// 이름 직접 지정
-	GameEngineVertexShader* Load(const std::string& _Name, const std::string& _Path);
+	GameEngineVertexShader* Load(const std::string& _Name, const std::string& _Path, const std::string& _EntryPoint
+		, UINT _VersionHigh = 5
+		, UINT _VersionLow = 0
+	);
 	// 목록에서 찾는다.
 	GameEngineVertexShader* Find(const std::string& _Name);
 

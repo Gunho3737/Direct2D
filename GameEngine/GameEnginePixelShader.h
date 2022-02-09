@@ -26,7 +26,16 @@ public:
 		UINT _VersionLow = 0
 	);
 
-	bool Compile();
+	bool Load(
+		const std::string& _Path,
+		const std::string& _EntryPoint,
+		UINT _VersionHigh = 5,
+		UINT _VersionLow = 0
+	);
+
+	bool StringCompile();
+
+	bool FileCompile(const std::string& _Path);
 
 	void Setting();
 

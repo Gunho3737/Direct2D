@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "GameEngineVertexShader.h"
+#include <GameEngineBase/GameEngineString.h>
 
 GameEngineVertexShader::GameEngineVertexShader() // default constructer 디폴트 생성자
 
@@ -41,11 +42,82 @@ bool GameEngineVertexShader::Create(
 	SetCode(_ShaderCode);
 	CreateVersion("vs");
 
-	return Compile();
+	return StringCompile();
+}
+
+bool GameEngineVertexShader::Load(
+	const std::string& _Path,
+	const std::string& _EntryPoint,
+	UINT _VersionHigh,
+	UINT _VersionLow
+)
+{
+	SetVersion(_VersionHigh, _VersionLow);
+	SetEntryPoint(_EntryPoint);
+	//SetCode(_ShaderCode);
+	CreateVersion("vs");
+
+	return FileCompile(_Path);
+}
+
+bool GameEngineVertexShader::FileCompile(const std::string& _Path) {
+
+	unsigned int Flag = 0;
+
+#ifdef _DEBUG
+	Flag = D3D10_SHADER_DEBUG;
+#endif
+
+	// 00000000 00000000 00000000 00000101
+
+	// 행렬이 전치가 되서 들어가는것을 막아준다.
+	// 전치가 기본이고 전치된걸 다시 
+	Flag |= D3DCOMPILE_PACK_MATRIX_ROW_MAJOR;
+
+	// 결과물의 바이트코드
+
+	ID3DBlob* ResultBlob = nullptr;
+	ID3DBlob* ErrorBlob = nullptr;
+
+	// MultiByteToWideChar()
+
+	std::wstring Path;
+	GameEngineString::StringToWString(_Path, Path);
+
+	if (S_OK != D3DCompileFromFile(
+		Path.c_str(),
+		nullptr,
+		D3D_COMPILE_STANDARD_FILE_INCLUDE,
+		EntryPoint_.c_str(),
+		Version_.c_str(),
+		Flag,
+		0,
+		&ResultBlob,
+		&ErrorBlob))
+	{
+		std::string ErrorText = (char*)ErrorBlob->GetBufferPointer();
+
+		GameEngineDebug::MsgBox(GetName() + " 컴파일 도중 에러가 발생했습니다.");
+		GameEngineDebug::MsgBox(ErrorText);
+		return false;
+	}
+
+	CodeBlob_ = ResultBlob;
+
+	if (S_OK != GameEngineDevice::GetDevice()->CreateVertexShader(CodeBlob_->GetBufferPointer(), CodeBlob_->GetBufferSize(), nullptr, &Shader_))
+	{
+		GameEngineDebug::MsgBoxError("버텍스 버퍼 생성에 실패했습니다.");
+		return false;
+	}
+
+	LayOutCheck();
+	ResCheck();
+
+	return true;
 }
 
 
-bool GameEngineVertexShader::Compile()
+bool GameEngineVertexShader::StringCompile()
 {
 
 	unsigned int Flag = 0;
@@ -73,12 +145,14 @@ bool GameEngineVertexShader::Compile()
 		nullptr,
 		EntryPoint_.c_str(),
 		Version_.c_str(),
-		0,
+		Flag,
 		0,
 		&ResultBlob,
 		&ErrorBlob))
 	{
 		std::string ErrorText = (char*)ErrorBlob->GetBufferPointer();
+
+		GameEngineDebug::MsgBox(GetName() + " 컴파일 도중 에러가 발생했습니다.");
 		GameEngineDebug::MsgBox(ErrorText);
 		return false;
 	}
@@ -92,6 +166,7 @@ bool GameEngineVertexShader::Compile()
 	}
 
 	LayOutCheck();
+	ResCheck();
 
 	return true;
 }

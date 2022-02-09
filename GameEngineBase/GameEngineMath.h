@@ -736,7 +736,11 @@ public:
 		return DirectX::XMMatrixMultiply(DirectMatrix, _value.DirectMatrix);
 	}
 
-
+	float4x4& operator=(const float4x4& _value)
+	{
+		DirectMatrix = _value.DirectMatrix;
+		return *this;
+	}
 
 };
 

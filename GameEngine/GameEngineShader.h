@@ -4,6 +4,11 @@
 #include <GameEngineBase/GameEngineObjectNameBase.h>
 #include "GameEngineDevice.h"
 
+class ConstanceBuffer
+{
+
+};
+
 // Ό³Έν :
 class GameEngineShader : public GameEngineObjectNameBase
 {
@@ -32,6 +37,11 @@ protected:
 	void SetCode(const std::string& _Code);
 	void SetEntryPoint(const std::string& _EntryPoint);
 
+public:
+	void ResCheck();
+
 private:
+	std::map<std::string, ConstanceBuffer> ConstanceBuffer;
+
 };
 

@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "GameEngineVertexShaderManager.h"
 #include "GameEngineVertexShader.h"
+#include "GameEngineBase/GameEngineFile.h"
 
 GameEngineVertexShaderManager* GameEngineVertexShaderManager::Inst = new GameEngineVertexShaderManager();
 
@@ -28,6 +29,41 @@ GameEngineVertexShaderManager::GameEngineVertexShaderManager(GameEngineVertexSha
 }
 
 
+GameEngineVertexShader* GameEngineVertexShaderManager::Load(const std::string& _Path, const std::string& _EntryPoint,
+	UINT _VersionHigh, /*= 5*/
+	UINT _VersionLow /*= 0*/
+)
+{
+
+	std::string FileName = GameEnginePath::GetFileName(_Path);
+
+	return Load(FileName, _Path, _EntryPoint);
+}
+
+GameEngineVertexShader* GameEngineVertexShaderManager::Load(const std::string& _Name, const std::string& _Path, const std::string& _EntryPoint,
+	UINT _VersionHigh, /*= 5*/
+	UINT _VersionLow /*= 0*/
+)
+{
+	GameEngineVertexShader* FindRes = Find(_Name);
+
+	if (nullptr != FindRes)
+	{
+		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Create");
+	}
+
+	GameEngineVertexShader* NewRes = new GameEngineVertexShader();
+	NewRes->SetName(_Name);
+	if (false == NewRes->Load(_Path, _EntryPoint, _VersionHigh, _VersionLow))
+	{
+		delete NewRes;
+		return nullptr;
+	}
+
+	ResourcesMap.insert(std::map<std::string, GameEngineVertexShader*>::value_type(_Name, NewRes));
+
+	return NewRes;
+}
 
 GameEngineVertexShader* GameEngineVertexShaderManager::Create(
 	const std::string& _Name,
@@ -56,27 +92,6 @@ GameEngineVertexShader* GameEngineVertexShaderManager::Create(
 	return NewRes;
 }
 
-GameEngineVertexShader* GameEngineVertexShaderManager::Load(const std::string& _Path)
-{
-	return Load(GameEnginePath::GetFileName(_Path), _Path);
-}
-
-GameEngineVertexShader* GameEngineVertexShaderManager::Load(const std::string& _Name, const std::string& _Path)
-{
-	GameEngineVertexShader* FindRes = Find(_Name);
-
-	if (nullptr != FindRes)
-	{
-		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Load");
-	}
-
-	GameEngineVertexShader* NewRes = new GameEngineVertexShader();
-	NewRes->SetName(_Name);
-
-
-	ResourcesMap.insert(std::map<std::string, GameEngineVertexShader*>::value_type(_Name, NewRes));
-	return NewRes;
-}
 
 GameEngineVertexShader* GameEngineVertexShaderManager::Find(const std::string& _Name)
 {
