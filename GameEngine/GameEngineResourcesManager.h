@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GameEngineBase/GameEngineSoundManager.h>
+#include "GameEngineConstantBufferManager.h"
 #include "GameEngineVertexBufferManager.h"
 #include "GameEngineVertexShaderManager.h"
 #include "GameEngineIndexBufferManager.h"
@@ -11,12 +12,13 @@
 
 #include "GameEngineRenderingPipeLineManager.h"
 
+#include "GameEngineConstantBuffer.h"
 #include "GameEngineVertexBuffer.h"
 #include "GameEngineVertexShader.h"
-#include "GameEngineIndexBuffer.h"
-#include "GameEngineRasterizer.h"
-#include "GameEnginePixelShader.h"
 #include "GameEngineRenderTarget.h"
+#include "GameEngineIndexBuffer.h"
+#include "GameEnginePixelShader.h"
+#include "GameEngineRasterizer.h"
 #include "GameEngineTexture.h"
 
 #include "GameEngineRenderingPipeLine.h"
@@ -31,6 +33,7 @@ public:
 
 		GameEngineRenderingPipeLineManager::Destroy();
 
+		GameEngineConstantBufferManager::Destroy();
 		GameEngineIndexBufferManager::Destroy();
 		GameEngineVertexBufferManager::Destroy();
 		GameEngineVertexShaderManager::Destroy();

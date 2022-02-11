@@ -8,7 +8,11 @@
 class GameEngineFile : public GameEnginePath
 {
 private:
+
+	//파일 접근 권한
 	FILE* fileHandle_;
+
+	//실행모드
 	std::string OpenMode;
 
 public:

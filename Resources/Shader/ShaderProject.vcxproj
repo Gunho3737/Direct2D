@@ -141,6 +141,7 @@
   <ItemGroup>
     <FxCompile Include="CbufferHeader.fx" />
     <FxCompile Include="Color.fx" />
+    <FxCompile Include="Texture.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

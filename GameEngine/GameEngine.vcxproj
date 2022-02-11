@@ -19,6 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameEngineConstantBuffer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineConstantBufferManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineCore.h" />
     <ClInclude Include="GameEngineDevice.h">
       <SubType>
@@ -51,6 +59,10 @@
     </ClInclude>
     <ClInclude Include="GameEngineRenderingPipeLine.h" />
     <ClInclude Include="GameEngineRenderingPipeLineManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderingSettingData.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -95,6 +107,14 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameEngineConstantBuffer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineConstantBufferManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineCore.cpp" />
     <ClCompile Include="GameEngineDevice.cpp">
       <SubType>
@@ -127,6 +147,10 @@
     </ClCompile>
     <ClCompile Include="GameEngineRenderingPipeLine.cpp" />
     <ClCompile Include="GameEngineRenderingPipeLineManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderingSettingData.cpp">
       <SubType>
       </SubType>
     </ClCompile>

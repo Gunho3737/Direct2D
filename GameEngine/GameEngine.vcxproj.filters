@@ -64,6 +64,15 @@
     <ClInclude Include="GameEnginePixelShaderManager.h">
       <Filter>Resources\99_Manager</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineConstantBuffer.h">
+      <Filter>Resources\01_Shader\ShaderResources</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineConstantBufferManager.h">
+      <Filter>Resources\99_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderingSettingData.h">
+      <Filter>RenderingPileLine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -126,6 +135,15 @@
     <ClCompile Include="GameEnginePixelShaderManager.cpp">
       <Filter>Resources\99_Manager</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineConstantBuffer.cpp">
+      <Filter>Resources\01_Shader\ShaderResources</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineConstantBufferManager.cpp">
+      <Filter>Resources\99_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderingSettingData.cpp">
+      <Filter>RenderingPileLine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -157,6 +175,9 @@
     </Filter>
     <Filter Include="RenderingPileLine\Device">
       <UniqueIdentifier>{b3ca927d-f037-473b-9ca7-feb3aa3ee880}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\01_Shader\ShaderResources">
+      <UniqueIdentifier>{ddeefe81-50c7-4455-86b6-95ed3d1c6c38}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

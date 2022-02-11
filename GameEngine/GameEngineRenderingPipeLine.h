@@ -1,10 +1,15 @@
 #pragma once
 #include <GameEngine/GameEngineDevice.h>
 #include <GameEngineBase/GameEngineMath.h>
+#include "GameEngineRenderingSettingData.h"
+
+
 
 // 분류 : 
 // 용도 : 
 // 설명 : 
+class GameEngineShader;
+class GameEngineConstantBuffer;
 class GameEngineIndexBuffer;
 class GameEngineVertexBuffer;
 class GameEngineVertexShader;
@@ -70,5 +75,18 @@ public:
 	void VertexShader();
 	void Rasterizer();
 	void PixelShader();
+
+
+
+
+	/////////////////////////////////// 쉐이더 세팅 데이터들
+public:
+	void ResourcesCheck();
+
+	void ShaderResourcesCheck(GameEngineShader* _Shader);
+
+	std::map<std::string, GameEngineConstantBufferSetting*> ConstantBufferSetting_;
+
+	// void ConstantBufferSetting();
 };
 

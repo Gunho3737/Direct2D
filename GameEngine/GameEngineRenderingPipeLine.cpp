@@ -11,6 +11,7 @@
 #include "GameEngineIndexBuffer.h"
 #include "GameEngineRasterizer.h"
 #include "GameEnginePixelShader.h"
+#include "GameEngineConstantBuffer.h"
 
 
 #include "GameEngineWindow.h"
@@ -86,6 +87,8 @@ void GameEngineRenderingPipeLine::SetVertexShader(const std::string& _Name)
 		GameEngineDebug::MsgBoxError("존재하지 않는 버텍스 쉐이더를 세팅하려고 했습니다.");
 		return;
 	}
+
+
 }
 
 void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
@@ -143,7 +146,6 @@ void GameEngineRenderingPipeLine::VertexShader()
 void GameEngineRenderingPipeLine::Rasterizer()
 {
 	Rasterizer_->Setting();
-
 	Rasterizer_->SettingViewPort();
 }
 
@@ -156,10 +158,10 @@ void GameEngineRenderingPipeLine::PixelShader()
 void GameEngineRenderingPipeLine::RenderingPipeLineSetting()
 {
 	// input어셈블러 단계
-// 버텍스 버퍼 세팅
 	InputAssembler1();
 
 	InputAssembler2();
+
 	VertexShader();
 
 	Rasterizer();
@@ -172,4 +174,20 @@ void GameEngineRenderingPipeLine::Rendering()
 	RenderingPipeLineSetting();
 
 	GameEngineDevice::GetContext()->DrawIndexed(IndexBuffer_->GetIndexCount(), 0, 0);
+}
+
+
+void GameEngineRenderingPipeLine::ResourcesCheck()
+{
+	ShaderResourcesCheck(VertexShader_);
+	ShaderResourcesCheck(PixelShader_);
+}
+
+void GameEngineRenderingPipeLine::ShaderResourcesCheck(GameEngineShader* _Shader)
+{
+	// 엔진 수정하겠어...
+	for (auto& Constbuffer : _Shader->GetConstanceBuffer())
+	{
+		GameEngineConstantBufferSetting* NewSettingData = new GameEngineConstantBufferSetting();
+	}
 }
