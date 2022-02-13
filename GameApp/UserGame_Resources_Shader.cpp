@@ -4,7 +4,7 @@
 void AppShaderLoad()
 {
 	GameEngineDirectory Dir;
-	Dir.MoveParent("AR38");
+	Dir.MoveParent("Popol");
 	Dir.MoveChild("Resources");
 	Dir.MoveChild("Shader");
 
