@@ -46,6 +46,8 @@ public:
 
 	bool FileCompile(const std::string& _Path);
 
+	void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override;
+
 	/// <summary>
 	/// ////////////////////////////// InputLayOutSettting
 	/// </summary>

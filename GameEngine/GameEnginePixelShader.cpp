@@ -1,8 +1,10 @@
 #include "PreCompile.h"
 #include "GameEnginePixelShader.h"
 #include <GameEngineBase/GameEngineString.h>
+#include "GameEngineShaderResHelper.h"
 
 GameEnginePixelShader::GameEnginePixelShader()
+	: GameEngineShader(ShaderType::PS)
 {
 }
 
@@ -157,4 +159,10 @@ bool GameEnginePixelShader::StringCompile()
 void GameEnginePixelShader::Setting()
 {
 	GameEngineDevice::GetInst().GetContext()->PSSetShader(Shader_, nullptr, 0);
+}
+
+void GameEnginePixelShader::SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting)
+{
+	// 한번에 여러개 세팅가능합니다.
+	GameEngineDevice::GetContext()->PSSetConstantBuffers(_Setting->SettingIndex_, 1, &_Setting->Res_->GetBuffer());
 }

@@ -44,6 +44,8 @@ protected:
 private:
 	ID3D11PixelShader* Shader_;
 
+	void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override;
+
 
 };
 

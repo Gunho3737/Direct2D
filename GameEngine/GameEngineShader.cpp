@@ -2,9 +2,10 @@
 #include "GameEngineShader.h"
 #include "GameEngineConstantBufferManager.h"
 
-GameEngineShader::GameEngineShader()
+GameEngineShader::GameEngineShader(ShaderType _Type)
 	: VersionHigh_(5)
 	, VersionLow_(0)
+	, Type_(_Type)
 {
 }
 

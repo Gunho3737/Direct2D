@@ -21,6 +21,11 @@ public:
 		return BufferData_.ByteWidth;
 	}
 
+	inline ID3D11Buffer*& GetBuffer()
+	{
+		return Buffer_;
+	}
+
 	void Create(const D3D11_SHADER_BUFFER_DESC& _BufferDesc, ID3D11ShaderReflectionConstantBuffer* _VarInfo);
 
 protected:
@@ -28,10 +33,13 @@ protected:
 private:
 	ID3D11Buffer* Buffer_;
 	D3D11_BUFFER_DESC BufferData_;
-	D3D11_SUBRESOURCE_DATA ResData_;
+	D3D11_MAPPED_SUBRESOURCE ResData_;
 	D3D11_SHADER_BUFFER_DESC BufferDesc_;
 
 	std::vector<D3D11_SHADER_VARIABLE_DESC> VarInfos_;
+
+public:
+	void ChangeData(void* _Data, size_t _Size);
 
 };
 

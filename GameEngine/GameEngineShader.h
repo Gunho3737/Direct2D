@@ -5,18 +5,20 @@
 #include "GameEngineDevice.h"
 #include "GameEngine/GameEngineConstantBuffer.h"
 
-//enum ShaderType;
-//{
-//	VS,
-//	PS
-//};
+enum class ShaderType
+{
+	VS,
+	PS,
+	MAX
+};
 
 // Ό³Έν :
+class GameEngineConstantBufferSetting;
 class GameEngineShader : public GameEngineObjectNameBase
 {
 public:
 	// constrcuter destructer
-	GameEngineShader();
+	GameEngineShader(ShaderType _Type);
 	virtual ~GameEngineShader() = 0;
 
 	// delete Function
@@ -25,6 +27,8 @@ public:
 	GameEngineShader& operator=(const GameEngineShader& _Other) = delete;
 	GameEngineShader& operator=(GameEngineShader&& _Other) noexcept = delete;
 
+
+
 protected:
 	UINT VersionHigh_;
 	UINT VersionLow_;
@@ -32,6 +36,7 @@ protected:
 	std::string Version_;
 	std::string EntryPoint_;
 	std::string Code_;
+	ShaderType Type_;
 
 
 	void SetVersion(UINT _VersionHigh, UINT _VersionLow);
@@ -40,16 +45,22 @@ protected:
 	void SetEntryPoint(const std::string& _EntryPoint);
 
 public:
+	unsigned int GetTypeIndex()
+	{
+		return static_cast<unsigned int>(Type_);
+	}
 	void ResCheck();
 
 private:
 	std::map<unsigned int, GameEngineConstantBuffer*> ConstanceBuffer_;
 
 public:
-	std::map<unsigned int, GameEngineConstantBuffer*>& GetConstanceBuffer()
+	std::map<unsigned int, GameEngineConstantBuffer*>& GetConstantBuffers()
 	{
 		return ConstanceBuffer_;
 	}
+
+	virtual void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) = 0;
 
 };
 

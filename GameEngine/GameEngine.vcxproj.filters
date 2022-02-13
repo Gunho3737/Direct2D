@@ -73,6 +73,9 @@
     <ClInclude Include="GameEngineRenderingSettingData.h">
       <Filter>RenderingPileLine</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineShaderResHelper.h">
+      <Filter>RenderingPileLine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -142,6 +145,9 @@
       <Filter>Resources\99_Manager</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineRenderingSettingData.cpp">
+      <Filter>RenderingPileLine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineShaderResHelper.cpp">
       <Filter>RenderingPileLine</Filter>
     </ClCompile>
   </ItemGroup>

@@ -88,7 +88,7 @@ void GameEngineRenderingPipeLine::SetVertexShader(const std::string& _Name)
 		return;
 	}
 
-
+	ShaderHelper.ShaderResourcesCheck(VertexShader_);
 }
 
 void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
@@ -111,6 +111,8 @@ void GameEngineRenderingPipeLine::SetPixelShader(const std::string& _Name)
 		GameEngineDebug::MsgBoxError("존재하지 않는 픽셀 쉐이더를 세팅을 세팅하려고 했습니다.");
 		return;
 	}
+
+	ShaderHelper.ShaderResourcesCheck(PixelShader_);
 
 }
 
@@ -173,21 +175,9 @@ void GameEngineRenderingPipeLine::Rendering()
 {
 	RenderingPipeLineSetting();
 
+	ShaderHelper.Setting();
+
 	GameEngineDevice::GetContext()->DrawIndexed(IndexBuffer_->GetIndexCount(), 0, 0);
 }
 
 
-void GameEngineRenderingPipeLine::ResourcesCheck()
-{
-	ShaderResourcesCheck(VertexShader_);
-	ShaderResourcesCheck(PixelShader_);
-}
-
-void GameEngineRenderingPipeLine::ShaderResourcesCheck(GameEngineShader* _Shader)
-{
-	// 엔진 수정하겠어...
-	for (auto& Constbuffer : _Shader->GetConstanceBuffer())
-	{
-		GameEngineConstantBufferSetting* NewSettingData = new GameEngineConstantBufferSetting();
-	}
-}

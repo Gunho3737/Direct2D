@@ -1,7 +1,7 @@
 #pragma once
 #include <GameEngine/GameEngineDevice.h>
 #include <GameEngineBase/GameEngineMath.h>
-#include "GameEngineRenderingSettingData.h"
+#include "GameEngineShaderResHelper.h"
 
 
 
@@ -69,24 +69,14 @@ private:		//delete operator
 	GameEngineRenderingPipeLine& operator=(const GameEngineRenderingPipeLine& _other) = delete; // default Copy operator 디폴트 대입 연산자
 	GameEngineRenderingPipeLine& operator=(const GameEngineRenderingPipeLine&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
-public:
 	void InputAssembler1();
 	void InputAssembler2();
 	void VertexShader();
 	void Rasterizer();
 	void PixelShader();
 
-
-
-
-	/////////////////////////////////// 쉐이더 세팅 데이터들
 public:
-	void ResourcesCheck();
+	GameEngineShaderResHelper ShaderHelper;
 
-	void ShaderResourcesCheck(GameEngineShader* _Shader);
-
-	std::map<std::string, GameEngineConstantBufferSetting*> ConstantBufferSetting_;
-
-	// void ConstantBufferSetting();
 };
 
