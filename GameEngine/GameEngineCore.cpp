@@ -3,6 +3,7 @@
 #include "GameEngineWindow.h"
 #include "GameEngineResourcesManager.h"
 #include "GameEngineDevice.h"
+#include "GameEngineLevel.h"
 
 GameEngineCore* GameEngineCore::MainCore_ = nullptr;
 
@@ -48,12 +49,39 @@ void GameEngineCore::MainLoop()
 {
 	GameEngineTime::GetInst().TimeCheck();
 	GameEngineSoundManager::GetInst().SoundUpdate();
-	MainCore_->GameLoop();
+
+	if (nullptr != NextLevel_)
+	{
+		if (nullptr == CurrentLevel_)
+		{
+			CurrentLevel_ = NextLevel_;
+		}
+		else
+		{
+			CurrentLevel_->LevelChangeEndEvent();
+			NextLevel_->LevelChangeStartEvent();
+			CurrentLevel_ = NextLevel_;
+		}
+	}
+
+	if (nullptr == CurrentLevel_)
+	{
+		GameEngineDebug::MsgBoxError("현재 레벨이 존재하지 않습니다.");
+	}
+
+	CurrentLevel_->Update(GameEngineTime::GetInst().GetDeltaTime());
+
+
+
+
+	// 오브젝트 루프
+
+	//MainCore_->GameLoop();
 }
 
-void GameEngineCore::WindowCreate()
+void GameEngineCore::WindowCreate(GameEngineCore& _RuntimeCore)
 {
-	GameEngineWindow::GetInst().CreateMainWindow("MainWindow", { 800, 600 }, { 0, 0 });
+	GameEngineWindow::GetInst().CreateMainWindow("MainWindow", _RuntimeCore.StartWindowSize(), _RuntimeCore.StartWindowPos());
 
 	// 디바이스가 만들어져야 합니다.
 	// HWND 윈도우에서 제공하는 3D 라이브러리니까 WINDOW API를 기반으로 처리되어 있습니다.
@@ -62,5 +90,42 @@ void GameEngineCore::WindowCreate()
 
 void GameEngineCore::Loop()
 {
+
+
+
 	GameEngineWindow::GetInst().Loop(&GameEngineCore::MainLoop);
+}
+
+
+std::map<std::string, GameEngineLevel*> GameEngineCore::AllLevel_;
+GameEngineLevel* GameEngineCore::NextLevel_ = nullptr;
+GameEngineLevel* GameEngineCore::CurrentLevel_ = nullptr;
+
+
+GameEngineLevel* GameEngineCore::LevelFind(const std::string& _Level)
+{
+	std::map<std::string, GameEngineLevel*>::iterator FindIter = AllLevel_.find(_Level);
+	if (FindIter != AllLevel_.end())
+	{
+		return FindIter->second;
+	}
+	return nullptr;
+}
+
+void GameEngineCore::LevelCreate(const std::string& _Level)
+{
+
+}
+
+
+void GameEngineCore::LevelChange(const std::string& _Level)
+{
+	GameEngineLevel* FindLevel = LevelFind(_Level);
+
+	if (nullptr == FindLevel)
+	{
+		GameEngineDebug::MsgBoxError("Next Level Is Nullptr");
+	}
+
+	NextLevel_ = FindLevel;
 }

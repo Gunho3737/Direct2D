@@ -76,6 +76,12 @@
     <ClInclude Include="GameEngineShaderResHelper.h">
       <Filter>RenderingPileLine</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineLevel.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineActor.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -150,6 +156,12 @@
     <ClCompile Include="GameEngineShaderResHelper.cpp">
       <Filter>RenderingPileLine</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineLevel.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineActor.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -184,6 +196,9 @@
     </Filter>
     <Filter Include="Resources\01_Shader\ShaderResources">
       <UniqueIdentifier>{ddeefe81-50c7-4455-86b6-95ed3d1c6c38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{e92de99c-b45c-4e36-b6b4-7003b6713f9c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -22,14 +22,13 @@ private:		//delete operator
 public:
 	virtual void Initialize() override;
 	virtual void ResourcesLoad() override;
-	virtual void GameLoop() override;
 	virtual void Release() override;
 
 	virtual float4 StartWindowPos() {
 		return { 0, 0 };
 	}
 	virtual float4 StartWindowSize() {
-		return { 800, 600 };
+		return { 1280, 720 };
 	}
 };
 

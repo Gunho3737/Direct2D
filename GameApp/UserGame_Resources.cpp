@@ -275,7 +275,7 @@ void UserGame::ResourcesLoad()
 	//Info.MultisampleEnable = TRUE;
 
 	GameEngineRasterizer* Ptr = GameEngineRasterizerManager::GetInst().Create("EngineBaseRasterizer", Info);
-	Ptr->SetViewPort(800.0f, 600.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+	Ptr->SetViewPort(1280.0f, 720.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
 	}
 
