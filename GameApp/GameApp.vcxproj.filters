@@ -14,6 +14,12 @@
     <ClCompile Include="UserGame_Resources_Shader.cpp">
       <Filter>UserCore</Filter>
     </ClCompile>
+    <ClCompile Include="PlayLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -21,6 +27,9 @@
     </Filter>
     <Filter Include="UserCore">
       <UniqueIdentifier>{0bc066d9-1718-4145-ad07-3245550b3910}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{2ea9249b-7151-433c-b304-2559099d4b3a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,6 +42,12 @@
     <ClInclude Include="CustomVertex.h" />
     <ClInclude Include="UserGame_Resources_Shader.h">
       <Filter>UserCore</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLevel.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

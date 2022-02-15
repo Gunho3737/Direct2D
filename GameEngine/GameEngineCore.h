@@ -34,7 +34,7 @@ private:
 
 public:
 	template<typename UserGameType>
-	static void Start()
+	static void Start() 
 	{
 		GameEngineDebug::LeakCheckOn();
 
@@ -69,10 +69,21 @@ public:
 
 
 
-	////////////////////////////////////// Level
+////////////////////////////////////// Level
 
 public:
-	static void LevelCreate(const std::string& _Level);
+	template<typename LevelType>
+	static void LevelCreate(const std::string& _Level) 
+	{
+		if (nullptr != LevelFind(_Level))
+		{
+			GameEngineDebug::MsgBoxError("같은 이름의 레벨을 2번 만들려고 했습니다");
+			return;
+		}
+
+		AllLevel_.insert(std::make_pair(_Level, new LevelType()));
+		AllLevel_[_Level]->LevelStart();
+	}
 	static void LevelChange(const std::string& _Level);
 	static GameEngineLevel* LevelFind(const std::string& _Level);
 

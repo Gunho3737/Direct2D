@@ -23,6 +23,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineComponent.h" />
     <ClInclude Include="GameEngineConstantBuffer.h">
       <SubType>
       </SubType>
@@ -99,6 +100,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineTransform.h" />
+    <ClInclude Include="GameEngineTransformComponent.h" />
     <ClInclude Include="GameEngineVertexBufferManager.h">
       <SubType>
       </SubType>
@@ -123,6 +126,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineComponent.cpp" />
     <ClCompile Include="GameEngineConstantBuffer.cpp">
       <SubType>
       </SubType>
@@ -198,6 +202,8 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineTransform.cpp" />
+    <ClCompile Include="GameEngineTransformComponent.cpp" />
     <ClCompile Include="GameEngineVertexBufferManager.cpp">
       <SubType>
       </SubType>

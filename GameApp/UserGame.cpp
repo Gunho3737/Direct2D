@@ -6,6 +6,9 @@
 #include <GameEngine/GameEngineWindow.h>
 #include <GameEngine/GameEngineRenderingPipeLine.h>
 
+#include "TitleLevel.h"
+#include "PlayLevel.h"
+
 UserGame::UserGame() // default constructer 디폴트 생성자
 {
 
@@ -33,34 +36,33 @@ struct TransformData
 	float4x4 Proj;
 
 public:
-	void CalWorld()
+	void CalWorld() 
 	{
 		World = Scale * Rotation * Position;
 	}
 };
 
-float4 Pos;
-TransformData TransData;
+//float4 Pos;
+//TransformData TransData;
 
 void UserGame::Initialize()
 {
-	TransData.View.ViewToLH({ 0.0f, 0.0f, -10.0f }, { 0.0f, 0.0f , 1.0f }, { 0.0f, 1.0f , 0.0f });
+	//TransData.View.ViewToLH( { 0.0f, 0.0f, -10.0f }, {0.0f, 0.0f , 1.0f}, {0.0f, 1.0f , 0.0f});
 
-	TransData.Proj.OrthographicLH(1280.f, 720.f, 0.1f, 1000.0f);
+	//TransData.Proj.OrthographicLH( 1280.f, 720.f, 0.1f, 1000.0f );
 
 
-	TransData.Scale.Scaling2D(200.0f);
-	TransData.Rotation.RotationDeg({ 0.0f, 0.0f, 45.0f });
-	TransData.Position.Translation({ 0.0f, 0.0f, 0.0f });
-	TransData.CalWorld();
+	//TransData.Scale.Scaling2D(200.0f);
+	//TransData.Rotation.RotationDeg({ 0.0f, 0.0f, 45.0f });
+	//TransData.Position.Translation({ 0.0f, 0.0f, 0.0f });
+	//TransData.CalWorld();
 
-	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("ColorRendering");
-	// cpu의 데이터와 상수버퍼를 연결한다.
-	Pipe->ShaderHelper.SettingConstantBufferLink("TransformData", TransData);
+	//GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("ColorRendering");
+	//Pipe->ShaderHelper.SettingConstantBufferLink("TransformData", TransData);
 
-	// Pipe->ShaderHelper.SettingConstantBufferLink("TransformData222", TransData);
-	// cpu의 데이터와 상수버퍼를 한번 복사한다.
-	// Pipe->ShaderHelper.SettingConstantBufferSet("TransformData", TransData);
+	LevelCreate<TitleLevel>("Title");
+	LevelCreate<PlayLevel>("Play");
+	LevelChange("Play");
 
 	return;
 }
