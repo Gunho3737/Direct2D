@@ -3,21 +3,25 @@
 #include "GameEngineLevel.h"
 #include "GameEngineTransform.h"
 
-GameEngineActor::GameEngineActor() 
+GameEngineActor::GameEngineActor()
 	: Level_(nullptr)
 	, Transform_(nullptr)
 {
 	Transform_ = new GameEngineTransform();
 }
 
-GameEngineActor::~GameEngineActor() 
+GameEngineActor::~GameEngineActor()
 {
-
+	if (nullptr != Transform_)
+	{
+		delete Transform_;
+		Transform_ = nullptr;
+	}
 }
 
-void GameEngineActor::SetLevel(GameEngineLevel* _Level) 
+void GameEngineActor::SetLevel(GameEngineLevel* _Level)
 {
-	Level = _Level;
+	Level_ = _Level;
 }
 
 void GameEngineActor::Update(float _DeltaTime)

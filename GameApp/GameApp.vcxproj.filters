@@ -20,6 +20,9 @@
     <ClCompile Include="TitleLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -30,6 +33,9 @@
     </Filter>
     <Filter Include="Level">
       <UniqueIdentifier>{2ea9249b-7151-433c-b304-2559099d4b3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor">
+      <UniqueIdentifier>{f238a7de-9bb6-4739-8663-e537dead90c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -48,6 +54,9 @@
     </ClInclude>
     <ClInclude Include="TitleLevel.h">
       <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Actor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
