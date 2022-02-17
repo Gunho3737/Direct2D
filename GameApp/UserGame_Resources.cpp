@@ -280,7 +280,7 @@ void UserGame::ResourcesLoad()
 	}
 
 	{
-		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("ColorRendering");
+		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("Color");
 		
 		// 이런 기본적인 vertex들이 있다.
 		Pipe->SetInputAssembler1VertexBufferSetting("Rect");

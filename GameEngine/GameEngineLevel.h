@@ -1,13 +1,15 @@
 #pragma once
 #include <list>
 #include <map>
-#include "GameEngineActor.h"
-#include "GameEngineActor.h"
 
 // Ό³Έν : 
+
+class GameEngineActor;
+class GameEngineRenderer;
 class GameEngineLevel : public GameEngineObjectNameBase
 {
 	friend class GameEngineCore;
+	friend class GameEngineRenderer;
 
 public:
 	// constrcuter destructer
@@ -32,6 +34,7 @@ public:
 		GameEngineActor* NewActor = new ActorType();
 		NewActor->SetLevel(this);
 		NewActor->Start();
+		NewActor->SetOrder(_UpdateOrder);
 
 		// Insert + Find
 		std::list<GameEngineActor*>& List = ActorList_[_UpdateOrder];
@@ -41,9 +44,16 @@ public:
 	}
 
 	void ActorUpdate(float _DeltaTime);
+	void Render();
 
 	virtual void LevelStart() = 0;
 	virtual void LevelUpdate(float _DeltaTime) = 0;
 	virtual void LevelChangeEndEvent() = 0;
 	virtual void LevelChangeStartEvent() = 0;
+
+////////////////////////////////////////////////////// Renderer
+
+private:
+	std::map<int, std::list<GameEngineRenderer*>> RendererList_;
+	void PushRenderer(int _Order, GameEngineRenderer* _Renderer);
 };

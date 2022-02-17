@@ -81,6 +81,7 @@ void GameEngineCore::MainLoop()
 
 	CurrentLevel_->LevelUpdate(GameEngineTime::GetInst().GetDeltaTime());
 	CurrentLevel_->ActorUpdate(GameEngineTime::GetInst().GetDeltaTime());
+	CurrentLevel_->Render();
 
 
 

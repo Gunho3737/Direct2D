@@ -3,6 +3,7 @@
 
 // 설명 :
 class GameEngineComponent;
+class GameEngineTransformComponent;
 class GameEngineLevel;
 class GameEngineTransform;
 class GameEngineActor : public GameEngineObjectNameBase
@@ -26,13 +27,32 @@ public:
 	}
 
 	template<typename ComponentType>
-	ComponentType* CreateComponent()
+	ComponentType* CreateComponent(int _Order = 0)
 	{
-		ComponentType* NewComponent = new ComponentType(); 
+		GameEngineComponent* NewComponent = new ComponentType(); 
+		NewComponent->SetOrder(_Order);
 		NewComponent->InitComponent(this);
-
-
 		ComponentList_.push_back(NewComponent);
+		NewComponent->Start();
+		return dynamic_cast<ComponentType*>(NewComponent);;
+	}
+
+	template<typename ComponentType>
+	ComponentType* CreateTransformComponent(GameEngineTransform* _ParentTrans, int _Order = 0)
+	{
+		// 업캐스팅을 이용해서 컴파일 에러를 낼것이다.
+		GameEngineTransformComponent* NewComponent = new ComponentType();
+		NewComponent->SetOrder(_Order);
+		NewComponent->InitComponent(this);
+		if (nullptr == _ParentTrans)
+		{
+			GameEngineDebug::MsgBoxError("트랜스폼을 세팅안 해줬습니다.");
+		}
+		NewComponent->AttachTransform(_ParentTrans);
+		ComponentList_.push_back(NewComponent);
+
+		NewComponent->Start();
+		return dynamic_cast<ComponentType*>(NewComponent);;
 	}
 
 protected:
@@ -41,13 +61,23 @@ protected:
 
 	// 트랜스폼을 변화시킨다는걸 기본적으로 생각할겁니다.
 
-private:
-	GameEngineLevel* Level_;
-	GameEngineTransform* Transform_;
+////////////////////////
 
+public:
+	GameEngineTransform* GetTransform() 
+	{
+		return 	Transform_;
+	}
+
+private:
+	GameEngineTransform* Transform_;
+	GameEngineLevel* Level_;
+
+	// Status
 	std::list<GameEngineComponent*> ComponentList_;
 
-	void SetLevel(GameEngineLevel* Level);
+	std::list<GameEngineTransformComponent*> TransformComponentList_;
 
+	void SetLevel(GameEngineLevel* Level);
 };
 
