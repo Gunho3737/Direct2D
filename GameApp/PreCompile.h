@@ -6,3 +6,7 @@
 #include <GameEngineBase/GameEngineFile.h>
 
 #include <GameEngine/GameEngineResourcesManager.h>
+
+#include <GameEngine/CameraActor.h>
+#include <GameEngine/CameraComponent.h>
+#include <GameEngine/GameEngineTransform.h>

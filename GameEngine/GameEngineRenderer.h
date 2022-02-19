@@ -26,7 +26,8 @@ protected:
 	GameEngineRenderingPipeLine* PipeLine_;
 
 private:
-	void Start();
+	void Start() override;
+	void Update() override;
 
 	virtual void Render();
 

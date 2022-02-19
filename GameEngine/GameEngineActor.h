@@ -21,7 +21,7 @@ public:
 	GameEngineActor& operator=(const GameEngineActor& _Other) = delete;
 	GameEngineActor& operator=(GameEngineActor&& _Other) noexcept = delete;
 
-	GameEngineLevel* GetLevel() 
+	GameEngineLevel* GetLevel()
 	{
 		return Level_;
 	}
@@ -29,7 +29,7 @@ public:
 	template<typename ComponentType>
 	ComponentType* CreateComponent(int _Order = 0)
 	{
-		GameEngineComponent* NewComponent = new ComponentType(); 
+		GameEngineComponent* NewComponent = new ComponentType();
 		NewComponent->SetOrder(_Order);
 		NewComponent->InitComponent(this);
 		ComponentList_.push_back(NewComponent);
@@ -56,15 +56,16 @@ public:
 	}
 
 protected:
-	virtual void Start() = 0;
-	virtual void Update(float _DeltaTime) = 0;
+	virtual void Start() {}
+	virtual void TransformUpdate();
+	virtual void Update(float _DeltaTime) {}
 
 	// 트랜스폼을 변화시킨다는걸 기본적으로 생각할겁니다.
 
 ////////////////////////
 
 public:
-	GameEngineTransform* GetTransform() 
+	GameEngineTransform* GetTransform()
 	{
 		return 	Transform_;
 	}
@@ -79,5 +80,7 @@ private:
 	std::list<GameEngineTransformComponent*> TransformComponentList_;
 
 	void SetLevel(GameEngineLevel* Level);
+
+	void UpdateComponent();
 };
 

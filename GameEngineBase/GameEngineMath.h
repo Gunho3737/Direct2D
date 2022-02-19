@@ -14,6 +14,7 @@ class float4
 {
 public:
 	static const float4 ZERO;
+	static const float4 ONE;
 	static const float4 LEFT;
 	static const float4 RIGHT;
 	static const float4 UP;
@@ -686,10 +687,10 @@ public:
 
 	}
 
-	void ViewToLH(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
+	void ViewToLH(const float4& _EyePos, const float4& _EyeDir, const float4& _EyeUp)
 	{
 		//										  관측자의 위치			관측자가 바라보는방향	관측자와 수직인 축(머리방향 축)
-		DirectMatrix = DirectX::XMMatrixLookToLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
+		DirectMatrix = DirectX::XMMatrixLookToLH(_EyePos.DirectVector, _EyeDir.DirectVector, _EyeUp.DirectVector);
 	}
 
 	void PerspectiveFovLH(

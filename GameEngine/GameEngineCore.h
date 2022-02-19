@@ -34,7 +34,7 @@ private:
 
 public:
 	template<typename UserGameType>
-	static void Start() 
+	static void Start()
 	{
 		GameEngineDebug::LeakCheckOn();
 
@@ -69,11 +69,11 @@ public:
 
 
 
-////////////////////////////////////// Level
+	////////////////////////////////////// Level
 
 public:
 	template<typename LevelType>
-	static void LevelCreate(const std::string& _Level) 
+	static void LevelCreate(const std::string& _Level)
 	{
 		if (nullptr != LevelFind(_Level))
 		{
@@ -82,6 +82,7 @@ public:
 		}
 
 		AllLevel_.insert(std::make_pair(_Level, new LevelType()));
+		AllLevel_[_Level]->Init();
 		AllLevel_[_Level]->LevelStart();
 	}
 	static void LevelChange(const std::string& _Level);

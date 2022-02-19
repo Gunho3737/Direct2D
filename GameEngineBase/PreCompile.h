@@ -1,8 +1,6 @@
 #pragma once
 
-//기본 계속해서 사용하게 될 헤더들을 여기에 모아둔다.
-//속성->미리 컴파일 된 헤더파일에서 적용 가능
-
+// 이안에 들어있고 중복이 되는 헤더는 다시 빌드하지 않는다.
 
 #include <Windows.h>
 
@@ -11,7 +9,7 @@
 #include <list>
 #include <map>
 
-// std::
+// std::6
 #include <string>
 #include <functional>
 
@@ -23,7 +21,7 @@
 #include <math.h>
 #include <random>
 
-//다이렉트 연산
+// 마소에서 제공하는 simd 연산용 함수들을 사용할수 있다.
 #include <DirectXPackedVector.h>
 
 // io

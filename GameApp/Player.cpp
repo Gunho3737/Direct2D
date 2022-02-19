@@ -19,6 +19,14 @@ void Player::Start()
 	{
 		GameEngineRenderer* Renderer = CreateTransformComponent<GameEngineRenderer>(GetTransform());
 		Renderer->SetRenderingPipeLine("ColorRendering");
+		Renderer->GetTransform()->SetLocalScaling({ 100.0f, 100.0f, 1.0f });
+	}
+
+	{
+		GameEngineRenderer* Renderer = CreateTransformComponent<GameEngineRenderer>(GetTransform());
+		Renderer->SetRenderingPipeLine("ColorRendering");
+		Renderer->GetTransform()->SetLocalScaling({ 100.0f, 100.0f, 1.0f });
+		Renderer->GetTransform()->SetLocalPosition({ 0.0f, 150.0f, 0.0f });
 	}
 
 

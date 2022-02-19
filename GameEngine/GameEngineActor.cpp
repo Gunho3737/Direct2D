@@ -4,14 +4,14 @@
 #include "GameEngineTransform.h"
 #include "GameEngineTransformComponent.h"
 
-GameEngineActor::GameEngineActor() 
+GameEngineActor::GameEngineActor()
 	: Level_(nullptr)
 	, Transform_(nullptr)
 {
 	Transform_ = new GameEngineTransform();
 }
 
-GameEngineActor::~GameEngineActor() 
+GameEngineActor::~GameEngineActor()
 {
 	if (nullptr != Transform_)
 	{
@@ -38,12 +38,25 @@ GameEngineActor::~GameEngineActor()
 	}
 }
 
-void GameEngineActor::SetLevel(GameEngineLevel* _Level) 
+void GameEngineActor::SetLevel(GameEngineLevel* _Level)
 {
 	Level_ = _Level;
 }
 
-void GameEngineActor::Update(float _DeltaTime)
+void GameEngineActor::TransformUpdate()
 {
+	Transform_->TransformUpdate();
+}
 
+void GameEngineActor::UpdateComponent()
+{
+	for (GameEngineComponent* Component : ComponentList_)
+	{
+		Component->Update();
+	}
+
+	for (GameEngineTransformComponent* Component : TransformComponentList_)
+	{
+		Component->Update();
+	}
 }

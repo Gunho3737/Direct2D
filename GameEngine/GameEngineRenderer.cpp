@@ -19,10 +19,6 @@ void GameEngineRenderer::Render()
 	PipeLine_->Rendering();
 }
 
-void GameEngineRenderer::Start()
-{
-	GetLevel()->PushRenderer(GetOrder(), this);
-}
 
 void GameEngineRenderer::SetRenderingPipeLine(const std::string& _Value)
 {
@@ -37,4 +33,13 @@ void GameEngineRenderer::SetRenderingPipeLine(const std::string& _Value)
 	{
 		GameEngineDebug::MsgBoxError("존재하지 않는 파이프라인 입니다!");
 	}
+}
+
+void GameEngineRenderer::Start()
+{
+	GetLevel()->PushRenderer(GetOrder(), this);
+}
+void GameEngineRenderer::Update()
+{
+
 }

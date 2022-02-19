@@ -2,12 +2,12 @@
 #include "GameEngineTransformComponent.h"
 #include "GameEngineTransform.h"
 
-GameEngineTransformComponent::GameEngineTransformComponent() 
+GameEngineTransformComponent::GameEngineTransformComponent()
 {
 	Transform_ = new GameEngineTransform();
 }
 
-GameEngineTransformComponent::~GameEngineTransformComponent() 
+GameEngineTransformComponent::~GameEngineTransformComponent()
 {
 	if (nullptr != Transform_)
 	{

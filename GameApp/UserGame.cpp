@@ -25,26 +25,6 @@ UserGame::UserGame(UserGame&& _other) noexcept  // default RValue Copy construct
 }
 
 
-
-struct TransformData
-{
-	float4x4 Scale;
-	float4x4 Rotation;
-	float4x4 Position;
-	float4x4 World;
-	float4x4 View;
-	float4x4 Proj;
-
-public:
-	void CalWorld() 
-	{
-		World = Scale * Rotation * Position;
-	}
-};
-
-//float4 Pos;
-//TransformData TransData;
-
 void UserGame::Initialize()
 {
 	//TransData.View.ViewToLH( { 0.0f, 0.0f, -10.0f }, {0.0f, 0.0f , 1.0f}, {0.0f, 1.0f , 0.0f});

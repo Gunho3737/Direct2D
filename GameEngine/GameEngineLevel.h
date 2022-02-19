@@ -4,6 +4,8 @@
 
 // Ό³Έν : 
 
+class CameraActor;
+class CameraComponent;
 class GameEngineActor;
 class GameEngineRenderer;
 class GameEngineLevel : public GameEngineObjectNameBase
@@ -22,10 +24,16 @@ public:
 	GameEngineLevel& operator=(const GameEngineLevel& _Other) = delete;
 	GameEngineLevel& operator=(GameEngineLevel&& _Other) noexcept = delete;
 
+	CameraActor* GetMainCameraActor();
+
+	CameraComponent* GetMainCamera();
+
 protected:
 
 private:
 	std::map<int, std::list<GameEngineActor*>> ActorList_;
+	CameraActor* MainCameraActor_;
+
 
 public:
 	template<typename ActorType>
@@ -46,14 +54,18 @@ public:
 	void ActorUpdate(float _DeltaTime);
 	void Render();
 
+
+
 	virtual void LevelStart() = 0;
 	virtual void LevelUpdate(float _DeltaTime) = 0;
 	virtual void LevelChangeEndEvent() = 0;
 	virtual void LevelChangeStartEvent() = 0;
 
-////////////////////////////////////////////////////// Renderer
+	////////////////////////////////////////////////////// Renderer
 
 private:
+	void Init();
+
 	std::map<int, std::list<GameEngineRenderer*>> RendererList_;
 	void PushRenderer(int _Order, GameEngineRenderer* _Renderer);
 };

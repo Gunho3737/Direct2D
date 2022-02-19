@@ -19,7 +19,7 @@ public:
 	GameEngineComponent& operator=(const GameEngineComponent& _Other) = delete;
 	GameEngineComponent& operator=(GameEngineComponent&& _Other) noexcept = delete;
 
-	GameEngineActor* GetActor() 
+	GameEngineActor* GetActor()
 	{
 		return Actor_;
 	}
@@ -33,6 +33,7 @@ protected:
 	virtual void InitComponent(GameEngineActor* Actor_);
 
 	virtual void Start() = 0;
+	virtual void Update() = 0;
 
 private:
 	GameEngineLevel* Level_;
