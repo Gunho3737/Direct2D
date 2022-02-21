@@ -31,7 +31,6 @@ public:
 			if (nullptr != SettingData_)
 			{
 				delete SettingData_;
-				delete SettingData_;
 				SettingData_ = nullptr;
 			}
 		}

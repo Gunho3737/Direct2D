@@ -20,6 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Appmain.cpp" />
+    <ClCompile Include="Bullet.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayLevel.cpp" />
     <ClCompile Include="PreCompile.cpp">
@@ -41,6 +45,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CustomVertex.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayLevel.h" />

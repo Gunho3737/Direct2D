@@ -1,16 +1,16 @@
 #include "PreCompile.h"
 #include "GameEngineTransform.h"
 
-GameEngineTransform::GameEngineTransform()
+GameEngineTransform::GameEngineTransform() 
 	: Parent_(nullptr)
 {
 }
 
-GameEngineTransform::~GameEngineTransform()
+GameEngineTransform::~GameEngineTransform() 
 {
 }
 
-void GameEngineTransform::TransformUpdate()
+void GameEngineTransform::TransformUpdate() 
 {
 	TransformData_.LocalCalculation();
 
@@ -52,7 +52,7 @@ void GameEngineTransform::AllChildCalculationScaling()
 	}
 }
 
-void GameEngineTransform::AllChildCalculationRotation()
+void GameEngineTransform::AllChildCalculationRotation() 
 {
 	for (auto& Child : Childs_)
 	{
@@ -71,7 +71,7 @@ void GameEngineTransform::AllChildCalculationPosition()
 	}
 }
 
-void GameEngineTransform::CalculationWorldScaling()
+void GameEngineTransform::CalculationWorldScaling() 
 {
 	TransformData_.vWorldScaling_ = Parent_->TransformData_.vWorldScaling_ * TransformData_.vLocalScaling_;
 }
@@ -81,12 +81,12 @@ void GameEngineTransform::CalculationLocalScaling()
 	TransformData_.vLocalScaling_ = TransformData_.vWorldScaling_ / Parent_->TransformData_.vWorldScaling_;
 }
 
-void GameEngineTransform::CalculationWorldRotation()
+void GameEngineTransform::CalculationWorldRotation() 
 {
 	TransformData_.vWorldRotation_ = Parent_->TransformData_.vWorldRotation_ + TransformData_.vLocalRotation_;
 }
 
-void GameEngineTransform::CalculationLocalRotation()
+void GameEngineTransform::CalculationLocalRotation() 
 {
 	TransformData_.vLocalRotation_ = TransformData_.vWorldRotation_ - Parent_->TransformData_.vWorldRotation_;
 }
@@ -195,7 +195,7 @@ void GameEngineTransform::SetLocalPosition(const float4& _Value)
 	AllChildCalculationPosition();
 }
 
-void GameEngineTransform::SetWorldPosition(const float4& _Value)
+void GameEngineTransform::SetWorldPosition(const float4& _Value) 
 {
 	if (nullptr == Parent_)
 	{
@@ -227,3 +227,4 @@ void GameEngineTransform::AttachTransform(GameEngineTransform* _Transform)
 	Parent_ = _Transform;
 	Parent_->Childs_.push_back(this);
 }
+

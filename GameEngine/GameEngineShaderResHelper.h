@@ -8,11 +8,11 @@
 
 
 
-class GameEngineShader;
 class GameEngineConstantBuffer;
 // 설명 :
 class GameEngineShaderResHelper
 {
+	friend class  GameEngineRenderer;
 	/////////////////////////////////// 쉐이더 세팅 데이터들
 
 public:
@@ -28,7 +28,6 @@ public:
 
 	void ShaderResourcesCheck(GameEngineShader* _Shader);
 
-	void Setting();
 
 	// 그 주소값을 지속적으로 계속 세팅해주는 모드를 말한다.
 	// 한번 세팅해주면 넣어준 주소값의 위치가 파괴되기전까지는 여러분들은 신경쓸 필요가 없다.
@@ -90,6 +89,7 @@ protected:
 private:
 	std::map<std::string, GameEngineConstantBufferSetting*> AllConstantBufferData_;
 
+	void Setting();
 
 };
 

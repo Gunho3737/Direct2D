@@ -4,6 +4,7 @@
 #include "GameEngineResourcesManager.h"
 #include "GameEngineDevice.h"
 #include "GameEngineLevel.h"
+#include "GameEngineInput.h"
 
 GameEngineCore* GameEngineCore::MainCore_ = nullptr;
 
@@ -45,6 +46,7 @@ void GameEngineCore::EngineDestroy()
 	}
 
 	GameEngineManagerHelper::ManagerRelease();
+	GameEngineInput::Destroy();
 	GameEngineTime::Destroy();
 	GameEngineDevice::Destroy();
 	GameEngineWindow::Destroy();
@@ -58,6 +60,7 @@ void GameEngineCore::MainLoop()
 {
 	GameEngineTime::GetInst().TimeCheck();
 	GameEngineSoundManager::GetInst().SoundUpdate();
+	GameEngineInput::GetInst().Update();
 
 	if (nullptr != NextLevel_)
 	{
@@ -71,6 +74,9 @@ void GameEngineCore::MainLoop()
 			NextLevel_->LevelChangeStartEvent();
 			CurrentLevel_ = NextLevel_;
 		}
+
+		NextLevel_ = nullptr;
+
 		GameEngineTime::GetInst().TimeCheckReset();
 	}
 
@@ -82,6 +88,7 @@ void GameEngineCore::MainLoop()
 	CurrentLevel_->LevelUpdate(GameEngineTime::GetInst().GetDeltaTime());
 	CurrentLevel_->ActorUpdate(GameEngineTime::GetInst().GetDeltaTime());
 	CurrentLevel_->Render();
+	CurrentLevel_->Release(GameEngineTime::GetInst().GetDeltaTime());
 
 
 

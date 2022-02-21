@@ -100,6 +100,9 @@
     <ClInclude Include="CameraActor.h">
       <Filter>Object\SubActor</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineInput.h">
+      <Filter>Control</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -198,6 +201,9 @@
     <ClCompile Include="CameraActor.cpp">
       <Filter>Object\SubActor</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineInput.cpp">
+      <Filter>Control</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -250,6 +256,9 @@
     </Filter>
     <Filter Include="Object\SubActor">
       <UniqueIdentifier>{a7457e36-675c-4550-a52a-d1195790dd90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Control">
+      <UniqueIdentifier>{8cd10483-165e-44c7-a216-103a27e1a797}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

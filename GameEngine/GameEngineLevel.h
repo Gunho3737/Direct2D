@@ -53,15 +53,16 @@ public:
 
 	void ActorUpdate(float _DeltaTime);
 	void Render();
+	void Release(float _DeltaTime);
 
-
+	
 
 	virtual void LevelStart() = 0;
 	virtual void LevelUpdate(float _DeltaTime) = 0;
 	virtual void LevelChangeEndEvent() = 0;
 	virtual void LevelChangeStartEvent() = 0;
 
-	////////////////////////////////////////////////////// Renderer
+////////////////////////////////////////////////////// Renderer
 
 private:
 	void Init();

@@ -1,8 +1,9 @@
 #pragma once
 #include <GameEngineBase/GameEngineMath.h>
 #include "GameEngineComponent.h"
+#include <GameEngineBase/GameEngineTime.h>
 
-class TransformData
+class TransformData 
 {
 public:
 	float4 vWorldPosition_;
@@ -25,7 +26,7 @@ public:
 	float4x4 Projection_;
 
 public:
-	TransformData()
+	TransformData() 
 		: vWorldScaling_(float4::ONE)
 		, vLocalScaling_(float4::ONE)
 	{
@@ -41,14 +42,14 @@ public:
 		LocalWorld_ = LocalScaling_ * LocalRotation_ * LocalPosition_;
 	}
 
-	void ParentSetting(const float4x4& _Parent)
+	void ParentSetting(const float4x4& _Parent) 
 	{
 		Parent_ = _Parent;
 		WorldWorld_ = LocalWorld_;
 		WorldWorld_ *= Parent_;
 	}
 
-	void RootCalculation()
+	void RootCalculation() 
 	{
 		WorldWorld_ = LocalWorld_;
 	}
@@ -64,7 +65,7 @@ public:
 
 // 충돌도 이녀석이 담당할것이기 때문에 어마어마하게 중요하고 잘만들어야 한다.
 // 설명 :
-class GameEngineTransform
+class GameEngineTransform 
 {
 public:
 	// constrcuter destructer
@@ -107,8 +108,41 @@ public:
 	void SetLocalRotation(const float4& _Value);
 	void SetWorldRotation(const float4& _Value);
 
+	void SetLocalDeltaTimeRotation(const float4& _Value)
+	{
+		SetLocalRotation(TransformData_.vLocalRotation_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
+	}
+
+	void SetWorldDeltaTimeRotation(const float4& _Value)
+	{
+		SetWorldRotation(TransformData_.vWorldRotation_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
+	}
+
+
+
 	void SetLocalPosition(const float4& _Value);
 	void SetWorldPosition(const float4& _Value);
+
+	void SetLocalMove(const float4& _Value)
+	{
+		SetLocalPosition(TransformData_.vLocalPosition_ + _Value);
+	}
+
+	void SetWorldMove(const float4& _Value)
+	{
+		SetWorldPosition(TransformData_.vWorldPosition_ + _Value);
+	}
+
+	void SetLocalDeltaTimeMove(const float4& _Value)
+	{
+		SetLocalPosition(TransformData_.vLocalPosition_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
+	}
+
+	void SetWorldDeltaTimeMove(const float4& _Value)
+	{
+		SetWorldPosition(TransformData_.vWorldPosition_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
+	}
+
 
 	void DetachChildTransform(GameEngineTransform* _Child);
 	void AttachTransform(GameEngineTransform* _Transform);

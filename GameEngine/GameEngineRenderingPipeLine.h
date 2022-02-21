@@ -36,9 +36,19 @@ private:	// member Var
 	GameEngineRenderTarget* RenderTarget_;
 
 public:
-	void SetInputAssembler1VertexBufferSetting(const std::string& _Name);
+	inline GameEnginePixelShader* GetPixelShader() const
+	{
+		return PixelShader_;
+	}
+
+	inline GameEngineVertexShader* GetVertexShader() const
+	{
+		return VertexShader_;
+	}
 
 	void SetInputAssembler1InputLayOutSetting(const std::string& _Name);
+
+	void SetInputAssembler1VertexBufferSetting(const std::string& _Name);
 
 	void SetVertexShader(const std::string& _Name);
 
@@ -75,8 +85,6 @@ private:		//delete operator
 	void Rasterizer();
 	void PixelShader();
 
-public:
-	GameEngineShaderResHelper ShaderHelper;
 
 };
 

@@ -4,18 +4,21 @@
 #include "GameEngineRenderingPipeLineManager.h"
 #include "GameEngineRenderingPipeLine.h"
 #include "GameEngineTransform.h"
+#include "GameEngineVertexShader.h"
+#include "GameEnginePixelShader.h"
 
-GameEngineRenderer::GameEngineRenderer()
+GameEngineRenderer::GameEngineRenderer() 
 {
 }
 
-GameEngineRenderer::~GameEngineRenderer()
+GameEngineRenderer::~GameEngineRenderer() 
 {
 }
 
 
-void GameEngineRenderer::Render()
+void GameEngineRenderer::Render() 
 {
+	ShaderHelper.Setting();
 	PipeLine_->Rendering();
 }
 
@@ -24,9 +27,12 @@ void GameEngineRenderer::SetRenderingPipeLine(const std::string& _Value)
 {
 	PipeLine_ = GameEngineRenderingPipeLineManager::GetInst().Find("Color");
 
-	if (true == PipeLine_->ShaderHelper.IsConstantBuffer("TransformData"))
+	ShaderHelper.ShaderResourcesCheck(PipeLine_->GetVertexShader());
+	ShaderHelper.ShaderResourcesCheck(PipeLine_->GetPixelShader());
+
+	if (true == ShaderHelper.IsConstantBuffer("TransformData"))
 	{
-		PipeLine_->ShaderHelper.SettingConstantBufferLink("TransformData", GetTransform()->GetTransformData());
+		ShaderHelper.SettingConstantBufferLink("TransformData", GetTransform()->GetTransformData());
 	}
 
 	if (nullptr == PipeLine_)
@@ -35,11 +41,11 @@ void GameEngineRenderer::SetRenderingPipeLine(const std::string& _Value)
 	}
 }
 
-void GameEngineRenderer::Start()
+void GameEngineRenderer::Start() 
 {
 	GetLevel()->PushRenderer(GetOrder(), this);
 }
-void GameEngineRenderer::Update()
+void GameEngineRenderer::Update() 
 {
 
 }

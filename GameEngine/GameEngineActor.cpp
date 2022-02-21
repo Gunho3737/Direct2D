@@ -4,14 +4,15 @@
 #include "GameEngineTransform.h"
 #include "GameEngineTransformComponent.h"
 
-GameEngineActor::GameEngineActor()
+GameEngineActor::GameEngineActor() 
 	: Level_(nullptr)
 	, Transform_(nullptr)
+	, DeathTime_(-1.0f)
 {
 	Transform_ = new GameEngineTransform();
 }
 
-GameEngineActor::~GameEngineActor()
+GameEngineActor::~GameEngineActor() 
 {
 	if (nullptr != Transform_)
 	{
@@ -38,17 +39,61 @@ GameEngineActor::~GameEngineActor()
 	}
 }
 
-void GameEngineActor::SetLevel(GameEngineLevel* _Level)
+void GameEngineActor::ComponentRelease()
+{
+	if (false == ComponentList_.empty())
+	{
+		std::list<GameEngineComponent*>::iterator BeginIter = ComponentList_.begin();
+		std::list<GameEngineComponent*>::iterator EndIter = ComponentList_.end();
+
+		for (; BeginIter != EndIter; )
+		{
+			if (true == (* BeginIter)->IsDeath())
+			{
+				delete* BeginIter;
+				*BeginIter = nullptr;
+
+				BeginIter = ComponentList_.erase(BeginIter);
+				continue;
+			}
+
+			++BeginIter;
+		}
+	}
+
+	if (false == TransformComponentList_.empty())
+	{
+		std::list<GameEngineTransformComponent*>::iterator BeginIter = TransformComponentList_.begin();
+		std::list<GameEngineTransformComponent*>::iterator EndIter = TransformComponentList_.end();
+
+		for (; BeginIter != EndIter; )
+		{
+			if (true == (*BeginIter)->IsDeath())
+			{
+				delete* BeginIter;
+				*BeginIter = nullptr;
+
+				BeginIter = TransformComponentList_.erase(BeginIter);
+				continue;
+			}
+
+			++BeginIter;
+		}
+	}
+
+}
+
+void GameEngineActor::SetLevel(GameEngineLevel* _Level) 
 {
 	Level_ = _Level;
 }
 
-void GameEngineActor::TransformUpdate()
+void GameEngineActor::TransformUpdate() 
 {
 	Transform_->TransformUpdate();
 }
 
-void GameEngineActor::UpdateComponent()
+void GameEngineActor::UpdateComponent() 
 {
 	for (GameEngineComponent* Component : ComponentList_)
 	{
@@ -58,5 +103,21 @@ void GameEngineActor::UpdateComponent()
 	for (GameEngineTransformComponent* Component : TransformComponentList_)
 	{
 		Component->Update();
+	}
+}
+
+void GameEngineActor::ReleaseUpdate(float _DeltaTime)
+{
+	if (false == IsDestroyed_)
+	{
+		return;
+	}
+
+	DeathTime_ -= _DeltaTime;
+
+	if (0.0f >= DeathTime_)
+	{
+		ReleaseEvent();
+		Death();
 	}
 }

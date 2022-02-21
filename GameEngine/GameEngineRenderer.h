@@ -1,7 +1,8 @@
 #pragma once
 #include "GameEngineTransformComponent.h"
+#include "GameEngineShaderResHelper.h"
 
-// 설명 :
+// 설명 : 하나의 랜더 단위를 표현합니다.
 class GameEngineLevel;
 class GameEngineRenderingPipeLine;
 class GameEngineRenderer : public GameEngineTransformComponent
@@ -22,8 +23,11 @@ public:
 
 	void SetRenderingPipeLine(const std::string& _Value);
 
+	GameEngineShaderResHelper ShaderHelper;
+
 protected:
 	GameEngineRenderingPipeLine* PipeLine_;
+
 
 private:
 	void Start() override;

@@ -18,7 +18,7 @@ CameraComponent* GameEngineLevel::GetMainCamera()
 	return MainCameraActor_->GetCamera();
 }
 
-GameEngineLevel::GameEngineLevel()
+GameEngineLevel::GameEngineLevel() 
 {
 }
 
@@ -35,12 +35,12 @@ GameEngineLevel::~GameEngineLevel()
 				delete Actor;
 				Actor = nullptr;
 			}
-
+			
 		}
 	}
 }
 
-void GameEngineLevel::Init()
+void GameEngineLevel::Init() 
 {
 	MainCameraActor_ = CreateActor<CameraActor>();
 }
@@ -78,25 +78,9 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 	}
 }
 
-void GameEngineLevel::Render()
+void GameEngineLevel::Render() 
 {
 	GameEngineDevice::RenderStart();
-
-	for (std::pair<int, std::list<GameEngineRenderer*>> Pair : RendererList_)
-	{
-		std::list<GameEngineRenderer*>& Renderers = Pair.second;
-
-		for (GameEngineRenderer* Renderer : Renderers)
-		{
-			if (false == Renderer->IsUpdate())
-			{
-				continue;
-			}
-
-
-		}
-	}
-
 
 	for (std::pair<int, std::list<GameEngineRenderer*>> Pair : RendererList_)
 	{
@@ -121,18 +105,105 @@ void GameEngineLevel::Render()
 	GameEngineDevice::RenderEnd();
 }
 
-void GameEngineLevel::PushRenderer(int _Order, GameEngineRenderer* _Renderer)
+void GameEngineLevel::Release(float _DeltaTime) 
+{
+	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
+	{
+		std::list<GameEngineActor*>& Actors = Pair.second;
+
+		for (GameEngineActor* Actor : Actors)
+		{
+			Actor->ReleaseUpdate(_DeltaTime);
+		}
+	}
+
+	{
+		std::map<int, std::list<GameEngineRenderer*>>::iterator RenderMapBeginIter = RendererList_.begin();
+		std::map<int, std::list<GameEngineRenderer*>>::iterator RenderMapEndIter = RendererList_.end();
+
+
+		for (; RenderMapBeginIter != RenderMapEndIter; ++RenderMapBeginIter)
+		{
+			std::list<GameEngineRenderer*>& Renderers = RenderMapBeginIter->second;
+
+			std::list<GameEngineRenderer*>::iterator BeginIter = Renderers.begin();
+			std::list<GameEngineRenderer*>::iterator EndIter = Renderers.end();
+
+			for (; BeginIter != EndIter; )
+			{
+				GameEngineRenderer* ReleaseRenderer = *BeginIter;
+
+				if (nullptr == ReleaseRenderer)
+				{
+					GameEngineDebug::MsgBoxError("Release Actor Is Nullptr!!!!");
+				}
+
+				if (true == ReleaseRenderer->IsDeath())
+				{
+					BeginIter = Renderers.erase(BeginIter);
+
+					continue;
+				}
+
+				++BeginIter;
+
+			}
+		}
+	}
+
+	{
+		std::map<int, std::list<GameEngineActor*>>::iterator ActorMapBeginIter = ActorList_.begin();
+		std::map<int, std::list<GameEngineActor*>>::iterator ActorMapEndIter = ActorList_.end();
+
+		for (; ActorMapBeginIter != ActorMapEndIter; ++ActorMapBeginIter)
+		{
+			std::list<GameEngineActor*>& Actors = ActorMapBeginIter->second;
+
+			std::list<GameEngineActor*>::iterator BeginIter = Actors.begin();
+			std::list<GameEngineActor*>::iterator EndIter = Actors.end();
+
+			for (; BeginIter != EndIter; )
+			{
+				GameEngineActor* ReleaseActor = *BeginIter;
+
+				if (nullptr == ReleaseActor)
+				{
+					GameEngineDebug::MsgBoxError("Release Actor Is Nullptr!!!!");
+				}
+
+				ReleaseActor->ComponentRelease();
+
+
+				if (true == ReleaseActor->IsDeath())
+				{
+					delete* BeginIter;
+					*BeginIter = nullptr;
+
+					BeginIter = Actors.erase(BeginIter);
+
+					continue;
+				}
+
+				++BeginIter;
+			}
+
+		}
+	}
+
+}
+
+void GameEngineLevel::PushRenderer(int _Order, GameEngineRenderer* _Renderer) 
 {
 	RendererList_[_Order].push_back(_Renderer);
 }
 
 
-void GameEngineLevel::LevelChangeStartEvent()
+void GameEngineLevel::LevelChangeStartEvent() 
 {
 
 }
 
-void GameEngineLevel::LevelChangeEndEvent()
+void GameEngineLevel::LevelChangeEndEvent() 
 {
 
 }
