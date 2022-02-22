@@ -18,7 +18,16 @@ CameraComponent* GameEngineLevel::GetMainCamera()
 	return MainCameraActor_->GetCamera();
 }
 
-GameEngineLevel::GameEngineLevel() 
+CameraActor* GameEngineLevel::GetUICameraActor()
+{
+	return UICameraActor_;
+}
+
+CameraComponent* GameEngineLevel::GetUICamera()
+{
+	return UICameraActor_->GetCamera();
+}
+GameEngineLevel::GameEngineLevel()
 {
 }
 
@@ -35,14 +44,18 @@ GameEngineLevel::~GameEngineLevel()
 				delete Actor;
 				Actor = nullptr;
 			}
-			
+
 		}
 	}
 }
 
-void GameEngineLevel::Init() 
+void GameEngineLevel::Init()
 {
 	MainCameraActor_ = CreateActor<CameraActor>();
+	UICameraActor_ = CreateActor<CameraActor>();
+
+	UICameraActor_->GetCamera()->SetProjectionMode(ProjectionMode::Orthographic);
+	UICameraActor_->GetCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 }
 
 void GameEngineLevel::ActorUpdate(float _DeltaTime)
@@ -78,34 +91,20 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 	}
 }
 
-void GameEngineLevel::Render() 
+void GameEngineLevel::Render()
 {
 	GameEngineDevice::RenderStart();
 
-	for (std::pair<int, std::list<GameEngineRenderer*>> Pair : RendererList_)
-	{
-		std::list<GameEngineRenderer*>& Renderers = Pair.second;
-		float4x4 View = MainCameraActor_->GetViewMatrix();
-		float4x4 Porjection = MainCameraActor_->GetPorjectionMatrix();
+	// 
+	MainCameraActor_->GetCamera()->Render();
 
-		for (GameEngineRenderer* Renderer : Renderers)
-		{
-			if (false == Renderer->IsUpdate())
-			{
-				continue;
-			}
-
-			Renderer->GetTransform()->GetTransformData().Projection_ = Porjection;
-			Renderer->GetTransform()->GetTransformData().View_ = View;
-
-			Renderer->Render();
-		}
-	}
+	// 
+	UICameraActor_->GetCamera()->Render();
 
 	GameEngineDevice::RenderEnd();
 }
 
-void GameEngineLevel::Release(float _DeltaTime) 
+void GameEngineLevel::Release(float _DeltaTime)
 {
 	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
 	{
@@ -117,39 +116,8 @@ void GameEngineLevel::Release(float _DeltaTime)
 		}
 	}
 
-	{
-		std::map<int, std::list<GameEngineRenderer*>>::iterator RenderMapBeginIter = RendererList_.begin();
-		std::map<int, std::list<GameEngineRenderer*>>::iterator RenderMapEndIter = RendererList_.end();
-
-
-		for (; RenderMapBeginIter != RenderMapEndIter; ++RenderMapBeginIter)
-		{
-			std::list<GameEngineRenderer*>& Renderers = RenderMapBeginIter->second;
-
-			std::list<GameEngineRenderer*>::iterator BeginIter = Renderers.begin();
-			std::list<GameEngineRenderer*>::iterator EndIter = Renderers.end();
-
-			for (; BeginIter != EndIter; )
-			{
-				GameEngineRenderer* ReleaseRenderer = *BeginIter;
-
-				if (nullptr == ReleaseRenderer)
-				{
-					GameEngineDebug::MsgBoxError("Release Actor Is Nullptr!!!!");
-				}
-
-				if (true == ReleaseRenderer->IsDeath())
-				{
-					BeginIter = Renderers.erase(BeginIter);
-
-					continue;
-				}
-
-				++BeginIter;
-
-			}
-		}
-	}
+	MainCameraActor_->GetCamera()->ReleaseRenderer();
+	UICameraActor_->GetCamera()->ReleaseRenderer();
 
 	{
 		std::map<int, std::list<GameEngineActor*>>::iterator ActorMapBeginIter = ActorList_.begin();
@@ -192,18 +160,15 @@ void GameEngineLevel::Release(float _DeltaTime)
 
 }
 
-void GameEngineLevel::PushRenderer(int _Order, GameEngineRenderer* _Renderer) 
-{
-	RendererList_[_Order].push_back(_Renderer);
-}
+// 	RendererList_[_Order].push_back(_Renderer);
 
 
-void GameEngineLevel::LevelChangeStartEvent() 
+void GameEngineLevel::LevelChangeStartEvent()
 {
 
 }
 
-void GameEngineLevel::LevelChangeEndEvent() 
+void GameEngineLevel::LevelChangeEndEvent()
 {
 
 }

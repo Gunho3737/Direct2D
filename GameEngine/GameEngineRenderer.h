@@ -3,12 +3,14 @@
 #include "GameEngineShaderResHelper.h"
 
 // 설명 : 하나의 랜더 단위를 표현합니다.
+class CameraComponent;
 class GameEngineLevel;
 class GameEngineRenderingPipeLine;
 class GameEngineRenderer : public GameEngineTransformComponent
 {
 private:
 	friend GameEngineLevel;
+	friend CameraComponent;
 
 public:
 	// constrcuter destructer
@@ -28,9 +30,9 @@ public:
 protected:
 	GameEngineRenderingPipeLine* PipeLine_;
 
+	void Start() override;
 
 private:
-	void Start() override;
 	void Update() override;
 
 	virtual void Render();

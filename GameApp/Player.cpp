@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "GameEngine/GameEngineRenderer.h"
+#include <GameEngine/GameEngineImageRenderer.h>
 #include "Player.h"
 #include "Bullet.h"
 
@@ -18,17 +18,17 @@ void Player::Start()
 	// 정말 세팅해줘야할게 많은 녀석입니다.
 	// 랜더러로서 뭐든지 다 그릴수있는 가능성을 가지고 있는 녀석.
 	{
-		GameEngineRenderer* Renderer = CreateTransformComponent<GameEngineRenderer>(GetTransform());
-		Renderer->SetRenderingPipeLine("ColorRendering");
-		Renderer->GetTransform()->SetLocalScaling({ 100.0f, 100.0f, 1.0f });
-		Renderer->ShaderHelper.SettingConstantBufferSet("ResultColor", float4(1.0f, 0.0f, 1.0f));
+		PlayerImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+
+		PlayerImageRenderer->SetImage();
+		PlayerImageRenderer->GetTransform()->SetLocalScaling({ 100.0f, 100.0f, 1.0f });
 	}
 
 	{
 		GameEngineRenderer* Renderer = CreateTransformComponent<GameEngineRenderer>(GetTransform());
-		Renderer->SetRenderingPipeLine("ColorRendering");
-		Renderer->GetTransform()->SetLocalScaling({ 100.0f, 100.0f, 1.0f });
-		Renderer->GetTransform()->SetLocalPosition({ 0.0f, 150.0f, 0.0f });
+		Renderer->SetRenderingPipeLine("Color");
+		Renderer->GetTransform()->SetLocalScaling({ 100.0f, 20.0f, 1.0f });
+		Renderer->GetTransform()->SetLocalPosition({ 0.0f, 80.0f, 0.0f });
 		Renderer->ShaderHelper.SettingConstantBufferSet("ResultColor", float4(1.0f, 0.0f, 1.0f));
 	}
 
@@ -65,12 +65,12 @@ void Player::Update(float _DeltaTime)
 
 	if (true == GameEngineInput::GetInst().Press("RotZ+"))
 	{
-		GetTransform()->SetLocalDeltaTimeRotation(float4{ 0.0f, 0.0f, 1.0f } *100.0f);
+		PlayerImageRenderer->GetTransform()->SetLocalDeltaTimeRotation(float4{ 0.0f, 0.0f, 1.0f } *100.0f);
 	}
 
 	if (true == GameEngineInput::GetInst().Press("RotZ-"))
 	{
-		GetTransform()->SetLocalDeltaTimeRotation(float4{ 0.0f, 0.0f, -1.0f } *100.0f);
+		PlayerImageRenderer->GetTransform()->SetLocalDeltaTimeRotation(float4{ 0.0f, 0.0f, -1.0f } *100.0f);
 	}
 
 	if (true == GameEngineInput::GetInst().Down("Fire"))
@@ -79,4 +79,7 @@ void Player::Update(float _DeltaTime)
 		NewBullet->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 		NewBullet->Release(1.0f);
 	}
+
+	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
+
 }

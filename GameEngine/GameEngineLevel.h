@@ -25,15 +25,18 @@ public:
 	GameEngineLevel& operator=(GameEngineLevel&& _Other) noexcept = delete;
 
 	CameraActor* GetMainCameraActor();
-
 	CameraComponent* GetMainCamera();
+
+	CameraActor* GetUICameraActor();
+	CameraComponent* GetUICamera();
 
 protected:
 
 private:
 	std::map<int, std::list<GameEngineActor*>> ActorList_;
 	CameraActor* MainCameraActor_;
-
+	// std::list<CameraActor*> Ä¿½ºÅÒCamera;
+	CameraActor* UICameraActor_;
 
 public:
 	template<typename ActorType>
@@ -55,18 +58,16 @@ public:
 	void Render();
 	void Release(float _DeltaTime);
 
-	
+
 
 	virtual void LevelStart() = 0;
 	virtual void LevelUpdate(float _DeltaTime) = 0;
 	virtual void LevelChangeEndEvent() = 0;
 	virtual void LevelChangeStartEvent() = 0;
 
-////////////////////////////////////////////////////// Renderer
+	////////////////////////////////////////////////////// Renderer
 
 private:
 	void Init();
 
-	std::map<int, std::list<GameEngineRenderer*>> RendererList_;
-	void PushRenderer(int _Order, GameEngineRenderer* _Renderer);
 };

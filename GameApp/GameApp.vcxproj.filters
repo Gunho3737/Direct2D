@@ -26,6 +26,12 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
+    <ClCompile Include="TopUI.cpp">
+      <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Actor\Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -39,6 +45,12 @@
     </Filter>
     <Filter Include="Actor">
       <UniqueIdentifier>{f238a7de-9bb6-4739-8663-e537dead90c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\UI">
+      <UniqueIdentifier>{f4805381-1ef7-46ac-a653-47620b0adb4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Monster">
+      <UniqueIdentifier>{c0dbd724-0456-40f5-91af-2bf930080580}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +75,12 @@
     </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="TopUI.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Actor\Monster</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

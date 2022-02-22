@@ -2,6 +2,7 @@
 #include <GameEngine/GameEngineActor.h>
 
 // Ό³Έν :
+class GameEngineImageRenderer;
 class Player : public GameEngineActor
 {
 public:
@@ -16,6 +17,7 @@ public:
 	Player& operator=(Player&& _Other) noexcept = delete;
 
 protected:
+	GameEngineImageRenderer* PlayerImageRenderer;
 
 private:
 	void Start() override;

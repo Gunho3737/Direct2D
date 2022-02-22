@@ -349,4 +349,6 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
-!.ThirdParty\Win32\Debug\FMOD\
+!.ThirdParty\x64\Release\DirectXTex\DirectXTex.lib
+!.ThirdParty\x64\Release\FMOD\fmod.dll
+/ThirdParty/Project

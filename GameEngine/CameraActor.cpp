@@ -4,6 +4,7 @@
 #include "GameEngineTransform.h"
 
 CameraActor::CameraActor()
+	: Camera_(nullptr)
 {
 }
 

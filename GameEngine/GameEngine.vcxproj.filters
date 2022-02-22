@@ -103,6 +103,12 @@
     <ClInclude Include="GameEngineInput.h">
       <Filter>Control</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineImageRenderer.h">
+      <Filter>Object\Component\Renderer\Sub</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineUIRenderer.h">
+      <Filter>Object\Component\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -204,6 +210,12 @@
     <ClCompile Include="GameEngineInput.cpp">
       <Filter>Control</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineImageRenderer.cpp">
+      <Filter>Object\Component\Renderer\Sub</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineUIRenderer.cpp">
+      <Filter>Object\Component\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -259,6 +271,9 @@
     </Filter>
     <Filter Include="Control">
       <UniqueIdentifier>{8cd10483-165e-44c7-a216-103a27e1a797}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Component\Renderer\Sub">
+      <UniqueIdentifier>{93d331a3-5981-485f-9d0a-d1a281081388}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

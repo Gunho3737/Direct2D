@@ -9,9 +9,11 @@ enum class ProjectionMode
 };
 
 // Ό³Έν :
+class GameEngineRenderer;
 class CameraComponent : public GameEngineTransformComponent
 {
 	friend class CameraActor;
+	friend class GameEngineLevel;
 
 public:
 	// constrcuter destructer
@@ -27,9 +29,14 @@ public:
 		ProjectionMode_ = _ProjectionMode;
 	}
 
+
+	void PushRenderer(int _Order, GameEngineRenderer* _Renderer);
+
+
 protected:
 	void Start() override;
 	void Update() override;
+
 
 private:
 	ProjectionMode ProjectionMode_;
@@ -40,6 +47,11 @@ private:
 
 
 
+	void Render();
+	void ReleaseRenderer();
+
 	void CameraTransformUpdate();
+
+	std::map<int, std::list<GameEngineRenderer*>> RendererList_;
 };
 
