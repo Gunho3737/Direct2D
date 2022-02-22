@@ -275,5 +275,16 @@
     <Filter Include="Object\Component\Renderer\Sub">
       <UniqueIdentifier>{93d331a3-5981-485f-9d0a-d1a281081388}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lib">
+      <UniqueIdentifier>{48a6b842-9ae7-4917-8bcb-99f535d245f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib\DirectXTex">
+      <UniqueIdentifier>{896bc018-bfd4-4880-b7aa-1d67c524837b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Release\DirectXTex\DirectXTex.lib">
+      <Filter>Lib\DirectXTex</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>
