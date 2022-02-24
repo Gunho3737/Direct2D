@@ -13,8 +13,9 @@ enum class ShaderType
 };
 
 // Ό³Έν :
+class GameEngineTextureSetting;
 class GameEngineConstantBufferSetting;
-class GameEngineShader : public GameEngineObjectNameBase
+class GameEngineShader : public GameEngineObjectNameBase 
 {
 public:
 	// constrcuter destructer
@@ -27,7 +28,7 @@ public:
 	GameEngineShader& operator=(const GameEngineShader& _Other) = delete;
 	GameEngineShader& operator=(GameEngineShader&& _Other) noexcept = delete;
 
-
+	
 
 protected:
 	UINT VersionHigh_;
@@ -55,12 +56,12 @@ private:
 	std::map<unsigned int, GameEngineConstantBuffer*> ConstanceBuffer_;
 
 public:
-	std::map<unsigned int, GameEngineConstantBuffer*>& GetConstantBuffers()
+	std::map<unsigned int, GameEngineConstantBuffer*>& GetConstantBuffers() 
 	{
 		return ConstanceBuffer_;
 	}
 
 	virtual void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) = 0;
-
+	virtual void SetTexture(const GameEngineTextureSetting* _Setting) = 0;
 };
 

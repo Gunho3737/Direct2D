@@ -8,7 +8,7 @@ GameEnginePixelShader::GameEnginePixelShader()
 {
 }
 
-GameEnginePixelShader::~GameEnginePixelShader()
+GameEnginePixelShader::~GameEnginePixelShader() 
 {
 	if (nullptr != Shader_)
 	{
@@ -39,7 +39,7 @@ bool GameEnginePixelShader::Create(
 	const std::string& _EntryPoint,
 	UINT _VersionHigh/* = 5*/,
 	UINT _VersionLow/* = 0*/
-)
+) 
 {
 	SetVersion(_VersionHigh, _VersionLow);
 	SetEntryPoint(_EntryPoint);
@@ -49,7 +49,7 @@ bool GameEnginePixelShader::Create(
 	return StringCompile();
 }
 
-bool GameEnginePixelShader::FileCompile(const std::string& _Path)
+bool GameEnginePixelShader::FileCompile(const std::string& _Path) 
 {
 	unsigned int Flag = 0;
 
@@ -104,7 +104,7 @@ bool GameEnginePixelShader::FileCompile(const std::string& _Path)
 	return true;
 }
 
-bool GameEnginePixelShader::StringCompile()
+bool GameEnginePixelShader::StringCompile() 
 {
 
 	unsigned int Flag = 0;
@@ -165,4 +165,9 @@ void GameEnginePixelShader::SetConstantBuffers(const GameEngineConstantBufferSet
 {
 	// 한번에 여러개 세팅가능합니다.
 	GameEngineDevice::GetContext()->PSSetConstantBuffers(_Setting->SettingIndex_, 1, &_Setting->Res_->GetBuffer());
+}
+
+void GameEnginePixelShader::SetTexture(const GameEngineTextureSetting* _Setting) 
+{
+	GameEngineDevice::GetContext()->PSSetShaderResources(_Setting->SettingIndex_, 1, _Setting->Res_->GetShaderResourcesView());
 }

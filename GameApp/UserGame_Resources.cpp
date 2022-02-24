@@ -26,51 +26,80 @@ void UserGame::ResourcesLoad()
 		for (size_t i = 0; i < AllFile.size(); i++)
 		{
 			//폴더 안에 있는 모든 mp3파일을 로드했다
-			GameEngineSoundManager::GetInst().LoadSound(AllFile[i].GetFullPath());
+			GameEngineSoundManager::GetInst().Load(AllFile[i].GetFullPath());
 		}
 	}
+
+	
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParent("AR38");
+		Dir.MoveChild("Resources");
+		Dir.MoveChild("Image");
+
+		std::vector<GameEngineFile> AllFile = Dir.GetAllFile();
+
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+		}
+	}
+	
 
 	AppShaderLoad();
 
 	{
 		//정육면체를 생성
-		std::vector<float4> RectVertex = std::vector<float4>(4 * 6);
+		std::vector<GameEngineVertex> RectVertex = std::vector<GameEngineVertex>(4 * 6);
 
 		{
-			RectVertex[0] = float4({ -0.5f, 0.5f, 0.5f });
-			RectVertex[1] = float4({ 0.5f, 0.5f, 0.5f });
-			RectVertex[2] = float4({ 0.5f, -0.5f, 0.5f });
-			RectVertex[3] = float4({ -0.5f, -0.5f, 0.5f });
+			// 0    1
+			// 
+			// 3    2    
+			// 앞면
+			RectVertex[0] = { float4({ -0.5f, 0.5f, 0.5f }) };
+			RectVertex[1] = { float4({ 0.5f, 0.5f, 0.5f }) };
+			RectVertex[2] = { float4({ 0.5f, -0.5f, 0.5f }) };
+			RectVertex[3] = { float4({ -0.5f, -0.5f, 0.5f }) };
 
-			RectVertex[4] = float4::RotateXDegree(RectVertex[0], 180.0f);
-			RectVertex[5] = float4::RotateXDegree(RectVertex[1], 180.0f);
-			RectVertex[6] = float4::RotateXDegree(RectVertex[2], 180.0f);
-			RectVertex[7] = float4::RotateXDegree(RectVertex[3], 180.0f);
+			RectVertex[4] = { float4::RotateXDegree(RectVertex[0].Postion, 180.0f) };
+			RectVertex[5] = { float4::RotateXDegree(RectVertex[1].Postion, 180.0f) };
+			RectVertex[6] = { float4::RotateXDegree(RectVertex[2].Postion, 180.0f) };
+			RectVertex[7] = { float4::RotateXDegree(RectVertex[3].Postion, 180.0f) };
 		}
 
 		{
-			RectVertex[8] = float4::RotateYDegree(RectVertex[0], 90.0f);
-			RectVertex[9] = float4::RotateYDegree(RectVertex[1], 90.0f);
-			RectVertex[10] = float4::RotateYDegree(RectVertex[2], 90.0f);
-			RectVertex[11] = float4::RotateYDegree(RectVertex[3], 90.0f);
+			RectVertex[8] = { float4::RotateYDegree(RectVertex[0].Postion, 90.0f) };
+			RectVertex[9] = { float4::RotateYDegree(RectVertex[1].Postion, 90.0f) };
+			RectVertex[10] = { float4::RotateYDegree(RectVertex[2].Postion, 90.0f) };
+			RectVertex[11] = { float4::RotateYDegree(RectVertex[3].Postion, 90.0f) };
 
-			RectVertex[12] = float4::RotateYDegree(RectVertex[0], -90.0f);
-			RectVertex[13] = float4::RotateYDegree(RectVertex[1], -90.0f);
-			RectVertex[14] = float4::RotateYDegree(RectVertex[2], -90.0f);
-			RectVertex[15] = float4::RotateYDegree(RectVertex[3], -90.0f);
+			RectVertex[12] = { float4::RotateYDegree(RectVertex[0].Postion, -90.0f) };
+			RectVertex[13] = { float4::RotateYDegree(RectVertex[1].Postion, -90.0f) };
+			RectVertex[14] = { float4::RotateYDegree(RectVertex[2].Postion, -90.0f) };
+			RectVertex[15] = { float4::RotateYDegree(RectVertex[3].Postion, -90.0f) };
 		}
 
 		{
-			RectVertex[16] = float4::RotateXDegree(RectVertex[0], 90.0f);
-			RectVertex[17] = float4::RotateXDegree(RectVertex[1], 90.0f);
-			RectVertex[18] = float4::RotateXDegree(RectVertex[2], 90.0f);
-			RectVertex[19] = float4::RotateXDegree(RectVertex[3], 90.0f);
+			RectVertex[16] = { float4::RotateXDegree(RectVertex[0].Postion, 90.0f) };
+			RectVertex[17] = { float4::RotateXDegree(RectVertex[1].Postion, 90.0f) };
+			RectVertex[18] = { float4::RotateXDegree(RectVertex[2].Postion, 90.0f) };
+			RectVertex[19] = { float4::RotateXDegree(RectVertex[3].Postion, 90.0f) };
 
-			RectVertex[20] = float4::RotateXDegree(RectVertex[0], -90.0f);
-			RectVertex[21] = float4::RotateXDegree(RectVertex[1], -90.0f);
-			RectVertex[22] = float4::RotateXDegree(RectVertex[2], -90.0f);
-			RectVertex[23] = float4::RotateXDegree(RectVertex[3], -90.0f);
+			RectVertex[20] = { float4::RotateXDegree(RectVertex[0].Postion, -90.0f) };
+			RectVertex[21] = { float4::RotateXDegree(RectVertex[1].Postion, -90.0f) };
+			RectVertex[22] = { float4::RotateXDegree(RectVertex[2].Postion, -90.0f) };
+			RectVertex[23] = { float4::RotateXDegree(RectVertex[3].Postion, -90.0f) };
 		}
+
+		for (size_t i = 0; i < RectVertex.size(); i += 4)
+		{
+			RectVertex[i + 0].Texcoord = { 0.0f, 0.0f };
+			RectVertex[i + 1].Texcoord = { 1.0f, 0.0f };
+			RectVertex[i + 2].Texcoord = { 1.0f, 1.0f };
+			RectVertex[i + 3].Texcoord = { 0.0f, 1.0f };
+		}
+
 		GameEngineVertexBufferManager::GetInst().Create("Box", RectVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
 	}
 
@@ -104,10 +133,10 @@ void UserGame::ResourcesLoad()
 
 			{
 				// 앞면
-				RectVertex[0] = { float4({ -0.5f, 0.5f, 0.0f }) };
-				RectVertex[1] = { float4({ 0.5f, 0.5f, 0.0f }) };
-				RectVertex[2] = { float4({ 0.5f, -0.5f, 0.0f }) };
-				RectVertex[3] = { float4({ -0.5f, -0.5f, 0.0f }) };
+				RectVertex[0] = { float4({ -0.5f, 0.5f, 0.0f }),  { 0.0f, 0.0f } };
+				RectVertex[1] = { float4({ 0.5f, 0.5f, 0.0f }),  { 1.0f, 0.0f } };
+				RectVertex[2] = { float4({ 0.5f, -0.5f, 0.0f }),  { 1.0f, 1.0f } };
+				RectVertex[3] = { float4({ -0.5f, -0.5f, 0.0f }),  { 0.0f, 1.0f } };
 			}
 
 			GameEngineVertexBufferManager::GetInst().Create("Rect", RectVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);

@@ -22,7 +22,6 @@ class GameEngineSound;
 class GameEngineSoundPlayer;
 class GameEngineSoundManager
 {
-
 private:
 	static GameEngineSoundManager* Inst;
 
@@ -59,8 +58,10 @@ private:
 
 public:
 	void Initialize();
-	void LoadSound(const std::string& _path);
-	void LoadSound(const std::string& _name, const std::string& _path);
+
+	void Load(const std::string& _path);
+
+	void Load(const std::string& _name, const std::string& _path);
 	void PlaySoundOneShot(const std::string& _name);
 	GameEngineSoundPlayer* CreateSoundPlayer();
 

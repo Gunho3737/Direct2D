@@ -6,6 +6,7 @@
 #include "GameEngineShader.h"
 
 // Ό³Έν :
+class GameEngineTextureSetting;
 class GameEnginePixelShader : public GameEngineShader
 {
 public:
@@ -46,6 +47,8 @@ private:
 
 	void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override;
 
+	void SetTexture(const GameEngineTextureSetting* _Setting) override;
 
+	
 };
 

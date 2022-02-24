@@ -1,6 +1,7 @@
 #pragma once
 #include "GameEngineShader.h"
 #include "GameEngineConstantBuffer.h"
+#include "GameEngineTexture.h"
 
 enum class SettingMode
 {
@@ -57,5 +58,32 @@ public:
 	~GameEngineConstantBufferSetting() 
 	{
 		Clear();
+	}
+};
+
+class GameEngineShader;
+class GameEngineTexture;
+class GameEngineTextureSetting
+{
+public:
+	GameEngineShader* Shader;
+	GameEngineTexture* Res_;
+	int SettingIndex_;
+
+public:
+	void ShaderSetting()
+	{
+		Shader->SetTexture(this);
+	}
+
+public:
+	GameEngineTextureSetting()
+		: Res_(nullptr)
+	{
+
+	}
+
+	~GameEngineTextureSetting()
+	{
 	}
 };

@@ -7,7 +7,7 @@ class GameEnginePath
 protected:	// member Var
 	std::filesystem::path path_;
 
-public:
+public:		
 	GameEnginePath(); // default constructer 디폴트 생성자
 	GameEnginePath(std::filesystem::path _path);
 	~GameEnginePath(); // default destructer 디폴트 소멸자
@@ -25,6 +25,8 @@ public:
 	std::string GetFileName();
 
 	std::string GetFileNameWithOutExtension();
+
+	std::string GetExtension();
 
 public:		//member Func
 	// 유요한 경로인가 아닌가를 판단하는 함수.

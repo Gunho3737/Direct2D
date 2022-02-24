@@ -109,6 +109,12 @@
     <ClInclude Include="GameEngineUIRenderer.h">
       <Filter>Object\Component\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineSampler.h">
+      <Filter>Resources\02_Image</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineSamplerManager.h">
+      <Filter>Resources\99_Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -216,6 +222,12 @@
     <ClCompile Include="GameEngineUIRenderer.cpp">
       <Filter>Object\Component\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineSampler.cpp">
+      <Filter>Resources\02_Image</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineSamplerManager.cpp">
+      <Filter>Resources\99_Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -281,10 +293,19 @@
     <Filter Include="Lib\DirectXTex">
       <UniqueIdentifier>{896bc018-bfd4-4880-b7aa-1d67c524837b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lib\DirectXTex\Debug">
+      <UniqueIdentifier>{5fc38e70-6f3b-4163-8ad7-5bf882343d07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib\DirectXTex\Release">
+      <UniqueIdentifier>{49c7275f-d665-4826-9227-729656f3a617}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Debug\DirectXTex\DirectXTex.lib">
+      <Filter>Lib\DirectXTex\Debug</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="..\ThirdParty\x64\Release\DirectXTex\DirectXTex.lib">
-      <Filter>Lib\DirectXTex</Filter>
+      <Filter>Lib\DirectXTex\Release</Filter>
     </CopyFileToFolders>
   </ItemGroup>
 </Project>

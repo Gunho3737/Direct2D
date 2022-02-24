@@ -48,9 +48,11 @@ public:
 
 	void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override;
 
-	/// <summary>
-	/// ////////////////////////////// InputLayOutSettting
-	/// </summary>
+	void SetTexture(const GameEngineTextureSetting* _Setting) override;
+
+/// <summary>
+/// ////////////////////////////// InputLayOutSettting
+/// </summary>
 
 private:
 	ID3D11InputLayout* LayOut_;
