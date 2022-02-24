@@ -5,6 +5,8 @@
 #include "GameEngineDevice.h"
 #include "GameEngineLevel.h"
 #include "GameEngineInput.h"
+#include "GameEngineBase/GameEngineDirectory.h"
+#include "GameEngineBase/GameEngineFile.h"
 
 GameEngineCore* GameEngineCore::MainCore_ = nullptr;
 
@@ -30,6 +32,21 @@ GameEngineCore::GameEngineCore(GameEngineCore&& _other) noexcept  // default RVa
 
 void GameEngineCore::EngineInitialize()
 {
+	{
+		GameEngineDirectory EngineTextureDir;
+		EngineTextureDir.MoveParent("Popol");
+		EngineTextureDir.MoveChild("EngineResources");
+		EngineTextureDir.MoveChild("Texture");
+
+		std::vector<GameEngineFile> AllFile = EngineTextureDir.GetAllFile();
+
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+		}
+	}
+
+
 	GameEngineSoundManager::GetInst().Initialize();
 }
 

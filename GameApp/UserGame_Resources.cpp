@@ -33,7 +33,7 @@ void UserGame::ResourcesLoad()
 	
 	{
 		GameEngineDirectory Dir;
-		Dir.MoveParent("AR38");
+		Dir.MoveParent("Popol");
 		Dir.MoveChild("Resources");
 		Dir.MoveChild("Image");
 

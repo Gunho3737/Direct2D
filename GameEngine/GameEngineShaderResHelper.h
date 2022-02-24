@@ -8,6 +8,8 @@
 
 
 
+class GameEngineTexture;
+class GameEngineSampler;
 class GameEngineConstantBuffer;
 // Ό³Έν :
 class GameEngineShaderResHelper
@@ -84,12 +86,17 @@ public:
 		memcpy_s(SettingData->SettingData_, sizeof(_Data), &_Data, sizeof(_Data));
 	}
 
+	void SettingTexture(const std::string& _SettingName, const std::string& _ImageName);
+
 protected:
 
 private:
 	std::map<std::string, GameEngineConstantBufferSetting*> AllConstantBufferData_;
+	std::map<std::string, GameEngineTextureSetting*> AllTextureData_;
+	std::map<std::string, GameEngineSamplerSetting*> AllSamplerData_;
 
 	void Setting();
+	void ReSet();
 
 };
 

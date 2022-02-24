@@ -7,7 +7,7 @@ class GameEnginePath
 protected:	// member Var
 	std::filesystem::path path_;
 
-public:		
+public:
 	GameEnginePath(); // default constructer 디폴트 생성자
 	GameEnginePath(std::filesystem::path _path);
 	~GameEnginePath(); // default destructer 디폴트 소멸자

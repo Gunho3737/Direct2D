@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "GameEngineShaderResHelper.h"
 #include "GameEngineConstantBuffer.h"
+#include "GameEngineSampler.h"
+#include "GameEngineTextureManager.h"
+#include "GameEngineTexture.h"
 
 GameEngineShaderResHelper::GameEngineShaderResHelper() 
 {
@@ -8,6 +11,24 @@ GameEngineShaderResHelper::GameEngineShaderResHelper()
 
 GameEngineShaderResHelper::~GameEngineShaderResHelper() 
 {
+
+	for (auto& Setting : AllTextureData_)
+	{
+		if (nullptr != Setting.second)
+		{
+			delete Setting.second;
+			Setting.second = nullptr;
+		}
+	}
+
+	for (auto& Setting : AllSamplerData_)
+	{
+		if (nullptr != Setting.second)
+		{
+			delete Setting.second;
+			Setting.second = nullptr;
+		}
+	}
 
 	for (auto& Setting : AllConstantBufferData_)
 	{
@@ -51,6 +72,37 @@ void GameEngineShaderResHelper::ShaderResourcesCheck(GameEngineShader* _Shader)
 			GameEngineDebug::MsgBoxError("같은 이름의 상수버퍼가 이미 존재합니다." + ConstantBuffer.second->GetName());
 		}
 	}
+
+	for (auto& Sampler : _Shader->GetSamplers())
+	{
+		GameEngineSamplerSetting* SettingData = new GameEngineSamplerSetting();
+		SettingData->Shader = _Shader;
+		SettingData->Res_ = Sampler.second;
+		SettingData->SettingIndex_ = Sampler.first;
+		auto Result = AllSamplerData_.insert(std::make_pair(Sampler.second->GetName(), SettingData));
+
+		if (false == Result.second)
+		{
+			GameEngineDebug::MsgBoxError("같은 이름의 샘플러가 이미 존재합니다." + Sampler.second->GetName());
+		}
+	}
+
+	GameEngineTexture* ErrorTexture = GameEngineTextureManager::GetInst().Find("NotSettingError.png");
+
+	for (auto& Texture : _Shader->GetTextures())
+	{
+		GameEngineTextureSetting* SettingData = new GameEngineTextureSetting();
+		SettingData->Shader = _Shader;
+		SettingData->Res_ = ErrorTexture;
+		SettingData->SettingIndex_ = Texture.first;
+		auto Result = AllTextureData_.insert(std::make_pair(Texture.second, SettingData));
+
+		if (false == Result.second)
+		{
+			GameEngineDebug::MsgBoxError("같은 이름의 텍스처가 이미 존재합니다." + Texture.second);
+		}
+	}
+
 }
 
 void GameEngineShaderResHelper::Setting() 
@@ -68,4 +120,62 @@ void GameEngineShaderResHelper::Setting()
 		Setting.second->ShaderSetting();
 	}
 
+	for (auto& Setting : AllTextureData_)
+	{
+		Setting.second->ShaderSetting();
+	}
+
+	for (auto& Setting : AllSamplerData_)
+	{
+		Setting.second->ShaderSetting();
+	}
+
+}
+
+void GameEngineShaderResHelper::ReSet()
+{
+	for (auto& Setting : AllConstantBufferData_)
+	{
+		if (Setting.second->Mode_ == SettingMode::MAX)
+		{
+			GameEngineDebug::MsgBoxError("다음의 상수버퍼가 세팅되지 않았습니다. >>> " + Setting.first);
+		}
+
+
+		Setting.second->ChangeData();
+		Setting.second->ShaderReSet();
+	}
+
+	for (auto& Setting : AllTextureData_)
+	{
+		Setting.second->ShaderReSet();
+	}
+
+	for (auto& Setting : AllSamplerData_)
+	{
+		Setting.second->ShaderReSet();
+	}
+
+}
+
+void GameEngineShaderResHelper::SettingTexture(const std::string& _SettingName, const std::string& _ImageName)
+{
+	std::map<std::string, GameEngineTextureSetting*>::iterator FindIter = AllTextureData_.find(_SettingName);
+
+	if (FindIter == AllTextureData_.end())
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 텍스처 슬롯에 세팅하려고 했습니다." + _SettingName);
+		return;
+	}
+
+
+	GameEngineTexture* FindTexture = GameEngineTextureManager::GetInst().Find(_ImageName);
+
+	if (nullptr == FindTexture)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 텍스처를 세팅하려고 했습니다. >>> " + _ImageName);
+		return;
+	}
+
+	FindIter->second->Res_ = FindTexture;
 }

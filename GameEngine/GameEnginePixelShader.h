@@ -49,6 +49,12 @@ private:
 
 	void SetTexture(const GameEngineTextureSetting* _Setting) override;
 
-	
+	void SetSampler(const GameEngineSamplerSetting* _Setting) override;
+
+
+	void ReSetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override;
+	void ReSetTexture(const GameEngineTextureSetting* _Setting) override;
+	void ReSetSampler(const GameEngineSamplerSetting* _Setting) override;
+
 };
 

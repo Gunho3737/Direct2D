@@ -1,4 +1,5 @@
 #pragma once
+#include <set>
 #include <string>
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngineBase/GameEngineObjectNameBase.h>
@@ -13,6 +14,10 @@ enum class ShaderType
 };
 
 // 설명 :
+class GameEngineSampler;
+class GameEngineTexture;
+class GameEngineConstantBuffer;
+class GameEngineSamplerSetting;
 class GameEngineTextureSetting;
 class GameEngineConstantBufferSetting;
 class GameEngineShader : public GameEngineObjectNameBase 
@@ -53,15 +58,34 @@ public:
 	void ResCheck();
 
 private:
-	std::map<unsigned int, GameEngineConstantBuffer*> ConstanceBuffer_;
+	std::map<unsigned int, GameEngineConstantBuffer*> ConstanceBuffers_;
+	std::map<unsigned int, GameEngineSampler*> Samplers_;
+
+	// 키 없는 맵
+	std::map<unsigned int, std::string> Textures_;
 
 public:
 	std::map<unsigned int, GameEngineConstantBuffer*>& GetConstantBuffers() 
 	{
-		return ConstanceBuffer_;
+		return ConstanceBuffers_;
+	}
+
+	std::map<unsigned int, GameEngineSampler*>& GetSamplers()
+	{
+		return Samplers_;
+	}
+
+	std::map<unsigned int, std::string>& GetTextures()
+	{
+		return Textures_;
 	}
 
 	virtual void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) = 0;
 	virtual void SetTexture(const GameEngineTextureSetting* _Setting) = 0;
+	virtual void SetSampler(const GameEngineSamplerSetting* _Setting) = 0;
+
+	virtual void ReSetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) = 0;
+	virtual void ReSetTexture(const GameEngineTextureSetting* _Setting) = 0;
+	virtual void ReSetSampler(const GameEngineSamplerSetting* _Setting) = 0;
 };
 

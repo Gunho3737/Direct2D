@@ -28,8 +28,6 @@ void GameEngineSampler::ReSetting(const D3D11_SAMPLER_DESC& _Info) {
 
 void GameEngineSampler::Create(const D3D11_SAMPLER_DESC& _Info)
 {
-	// _Info
-
 	ID3D11SamplerState* State = nullptr;
 
 	if (S_OK != GameEngineDevice::GetDevice()->CreateSamplerState(&_Info, &State))

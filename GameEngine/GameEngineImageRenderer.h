@@ -15,9 +15,7 @@ public:
 	GameEngineImageRenderer& operator=(const GameEngineImageRenderer& _Other) = delete;
 	GameEngineImageRenderer& operator=(GameEngineImageRenderer&& _Other) noexcept = delete;
 
-	void SetImage() {
-
-	}
+	void SetImage(const std::string& _ImageName);
 
 protected:
 

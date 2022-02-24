@@ -16,6 +16,11 @@ public:
 	GameEngineSampler(); // default constructer 디폴트 생성자
 	~GameEngineSampler(); // default destructer 디폴트 소멸자
 
+	inline ID3D11SamplerState** GetSamplerState()
+	{
+		return &State_;
+	}
+
 protected:		// delete constructer
 	GameEngineSampler(const GameEngineSampler& _other) = delete; // default Copy constructer 디폴트 복사생성자
 	GameEngineSampler(GameEngineSampler&& _other) noexcept = delete; // default RValue Copy constructer 디폴트 RValue 복사생성자

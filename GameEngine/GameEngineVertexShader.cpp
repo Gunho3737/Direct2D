@@ -463,6 +463,33 @@ void GameEngineVertexShader::SetConstantBuffers(const GameEngineConstantBufferSe
 
 void GameEngineVertexShader::SetTexture(const GameEngineTextureSetting* _Setting)
 {
-
 	GameEngineDevice::GetContext()->VSSetShaderResources(_Setting->SettingIndex_, 1, _Setting->Res_->GetShaderResourcesView());
+}
+
+void GameEngineVertexShader::SetSampler(const GameEngineSamplerSetting* _Setting)
+{
+	GameEngineDevice::GetContext()->VSSetSamplers(_Setting->SettingIndex_, 1, _Setting->Res_->GetSamplerState());
+}
+
+
+void GameEngineVertexShader::ReSetConstantBuffers(const GameEngineConstantBufferSetting* _Setting)
+{
+	static ID3D11Buffer* const ReSetting[16] = { nullptr };
+
+	// 한번에 여러개 세팅가능합니다.
+	GameEngineDevice::GetContext()->VSSetConstantBuffers(_Setting->SettingIndex_, 1, ReSetting);
+}
+
+void GameEngineVertexShader::ReSetTexture(const GameEngineTextureSetting* _Setting)
+{
+	static ID3D11ShaderResourceView* ReSetting[16] = { nullptr };
+
+	GameEngineDevice::GetContext()->VSSetShaderResources(_Setting->SettingIndex_, 1, ReSetting);
+}
+
+void GameEngineVertexShader::ReSetSampler(const GameEngineSamplerSetting* _Setting)
+{
+	static ID3D11SamplerState* const ReSetting[16] = { nullptr };
+
+	GameEngineDevice::GetContext()->VSSetSamplers(_Setting->SettingIndex_, 1, ReSetting);
 }

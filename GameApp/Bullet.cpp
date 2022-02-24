@@ -18,7 +18,7 @@ void Bullet::Start()
 	// 랜더러로서 뭐든지 다 그릴수있는 가능성을 가지고 있는 녀석.
 	{
 		GameEngineRenderer* Renderer = CreateTransformComponent<GameEngineRenderer>(GetTransform());
-		Renderer->SetRenderingPipeLine("ColorRendering");
+		Renderer->SetRenderingPipeLine("Color");
 		Renderer->GetTransform()->SetLocalScaling({ 100.0f, 100.0f, 1.0f });
 		Renderer->ShaderHelper.SettingConstantBufferSet("ResultColor", float4(1.0f, 1.0f, 1.0f));
 	}

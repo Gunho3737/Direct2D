@@ -171,3 +171,31 @@ void GameEnginePixelShader::SetTexture(const GameEngineTextureSetting* _Setting)
 {
 	GameEngineDevice::GetContext()->PSSetShaderResources(_Setting->SettingIndex_, 1, _Setting->Res_->GetShaderResourcesView());
 }
+
+void GameEnginePixelShader::SetSampler(const GameEngineSamplerSetting* _Setting) 
+{
+	// ID3D11SamplerState* const ReSetting[16] = { *_Setting->Res_->GetSamplerState() };
+
+	GameEngineDevice::GetContext()->PSSetSamplers(_Setting->SettingIndex_, 1, _Setting->Res_->GetSamplerState());
+}
+
+void GameEnginePixelShader::ReSetConstantBuffers(const GameEngineConstantBufferSetting* _Setting)
+{
+	static ID3D11Buffer* const ReSetting[1] = { nullptr };
+	// 한번에 여러개 세팅가능합니다.
+	GameEngineDevice::GetContext()->PSSetConstantBuffers(_Setting->SettingIndex_, 1, ReSetting);
+}
+
+void GameEnginePixelShader::ReSetTexture(const GameEngineTextureSetting* _Setting)
+{
+	static ID3D11ShaderResourceView* ReSetting[1] = { nullptr };
+
+	GameEngineDevice::GetContext()->PSSetShaderResources(_Setting->SettingIndex_, 1, ReSetting);
+}
+
+void GameEnginePixelShader::ReSetSampler(const GameEngineSamplerSetting* _Setting)
+{
+	static ID3D11SamplerState* const ReSetting[1] = { nullptr };
+
+	GameEngineDevice::GetContext()->PSSetSamplers(_Setting->SettingIndex_, 1, ReSetting);
+}
