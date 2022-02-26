@@ -11,7 +11,7 @@ class GameEngineSampler : public GameEngineObjectNameBase
 public:
 	friend class GameEngineSamplerManager;
 
-	void ReSetting(const D3D11_SAMPLER_DESC& _Info);
+	void ReCreate(const D3D11_SAMPLER_DESC& _Info);
 
 	GameEngineSampler(); // default constructer 디폴트 생성자
 	~GameEngineSampler(); // default destructer 디폴트 소멸자

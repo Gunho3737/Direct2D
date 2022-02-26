@@ -8,6 +8,7 @@
 // 분류 : 
 // 용도 : 
 // 설명 : 
+class GameEngineBlend;
 class GameEngineShader;
 class GameEngineConstantBuffer;
 class GameEngineIndexBuffer;
@@ -32,6 +33,8 @@ private:	// member Var
 	GameEngineRasterizer* Rasterizer_;
 	// PS
 	GameEnginePixelShader* PixelShader_;
+	// Blend
+	GameEngineBlend* Blend_;
 	// OM
 	GameEngineRenderTarget* RenderTarget_;
 
@@ -60,7 +63,7 @@ public:
 
 	void SetPixelShader(const std::string& _Name);
 
-	void SetOutputMerger(const std::string& _Name);
+	void SetOutputMergerBlend(const std::string& _Name);
 
 	void RenderingPipeLineSetting();
 
@@ -84,6 +87,7 @@ private:		//delete operator
 	void VertexShader();
 	void Rasterizer();
 	void PixelShader();
+	void OutPutMerger();
 
 
 };

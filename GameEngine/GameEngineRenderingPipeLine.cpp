@@ -1,17 +1,5 @@
 #include "PreCompile.h"
-#include "GameEngineRenderingPipeLine.h"
-#include "GameEngineVertexBufferManager.h"
-#include "GameEngineVertexShaderManager.h"
-#include "GameEngineIndexBufferManager.h"
-#include "GameEngineRasterizerManager.h"
-#include "GameEnginePixelShaderManager.h"
-
-#include "GameEngineVertexBuffer.h"
-#include "GameEngineVertexShader.h"
-#include "GameEngineIndexBuffer.h"
-#include "GameEngineRasterizer.h"
-#include "GameEnginePixelShader.h"
-#include "GameEngineConstantBuffer.h"
+#include "GameEngineResourcesManager.h"
 
 
 #include "GameEngineWindow.h"
@@ -50,7 +38,7 @@ void GameEngineRenderingPipeLine::SetInputAssembler1VertexBufferSetting(const st
 
 }
 
-void GameEngineRenderingPipeLine::SetInputAssembler1InputLayOutSetting(const std::string& _Name) 
+void GameEngineRenderingPipeLine::SetInputAssembler1InputLayOutSetting(const std::string& _Name)
 {
 	InputLayOutVertexShader_ = GameEngineVertexShaderManager::GetInst().Find(_Name);
 
@@ -61,7 +49,7 @@ void GameEngineRenderingPipeLine::SetInputAssembler1InputLayOutSetting(const std
 	}
 }
 
-void GameEngineRenderingPipeLine::SetInputAssembler2IndexBufferSetting(const std::string& _Name) 
+void GameEngineRenderingPipeLine::SetInputAssembler2IndexBufferSetting(const std::string& _Name)
 {
 	IndexBuffer_ = GameEngineIndexBufferManager::GetInst().Find(_Name);
 
@@ -72,7 +60,7 @@ void GameEngineRenderingPipeLine::SetInputAssembler2IndexBufferSetting(const std
 	}
 }
 
-void GameEngineRenderingPipeLine::SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY _Topology) 
+void GameEngineRenderingPipeLine::SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY _Topology)
 {
 	Topology_ = _Topology;
 }
@@ -89,7 +77,7 @@ void GameEngineRenderingPipeLine::SetVertexShader(const std::string& _Name)
 	}
 }
 
-void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name) 
+void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
 {
 	Rasterizer_ = GameEngineRasterizerManager::GetInst().Find(_Name);
 
@@ -100,7 +88,7 @@ void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
 	}
 }
 
-void GameEngineRenderingPipeLine::SetPixelShader(const std::string& _Name) 
+void GameEngineRenderingPipeLine::SetPixelShader(const std::string& _Name)
 {
 	PixelShader_ = GameEnginePixelShaderManager::GetInst().Find(_Name);
 
@@ -113,31 +101,31 @@ void GameEngineRenderingPipeLine::SetPixelShader(const std::string& _Name)
 
 }
 
-void GameEngineRenderingPipeLine::SetOutputMerger(const std::string& _Name) 
+void GameEngineRenderingPipeLine::SetOutputMergerBlend(const std::string& _Name)
 {
-	Rasterizer_ = GameEngineRasterizerManager::GetInst().Find(_Name);
+	Blend_ = GameEngineBlendManager::GetInst().Find(_Name);
 
-	if (nullptr == Rasterizer_)
+	if (nullptr == Blend_)
 	{
-		GameEngineDebug::MsgBoxError("존재하지 않는 레이터라이저 세팅을 세팅하려고 했습니다.");
+		GameEngineDebug::MsgBoxError("존재하지 않는 블랜드를 세팅을 세팅하려고 했습니다.");
 		return;
 	}
 
 }
 
-void GameEngineRenderingPipeLine::InputAssembler1() 
+void GameEngineRenderingPipeLine::InputAssembler1()
 {
 	VertexBuffer_->Setting();
 	InputLayOutVertexShader_->InputLayOutSetting();
 }
 
-void GameEngineRenderingPipeLine::InputAssembler2() 
+void GameEngineRenderingPipeLine::InputAssembler2()
 {
 	IndexBuffer_->Setting();
 	GameEngineDevice::GetContext()->IASetPrimitiveTopology(Topology_);
 }
 
-void GameEngineRenderingPipeLine::VertexShader() 
+void GameEngineRenderingPipeLine::VertexShader()
 {
 	VertexShader_->Setting();
 }
@@ -154,7 +142,12 @@ void GameEngineRenderingPipeLine::PixelShader()
 	PixelShader_->Setting();
 }
 
-void GameEngineRenderingPipeLine::RenderingPipeLineSetting() 
+void GameEngineRenderingPipeLine::OutPutMerger()
+{
+	Blend_->Setting();
+}
+
+void GameEngineRenderingPipeLine::RenderingPipeLineSetting()
 {
 	// input어셈블러 단계
 	InputAssembler1();
@@ -166,9 +159,11 @@ void GameEngineRenderingPipeLine::RenderingPipeLineSetting()
 	Rasterizer();
 
 	PixelShader();
+
+	OutPutMerger();
 }
 
-void GameEngineRenderingPipeLine::Rendering() 
+void GameEngineRenderingPipeLine::Rendering()
 {
 	RenderingPipeLineSetting();
 

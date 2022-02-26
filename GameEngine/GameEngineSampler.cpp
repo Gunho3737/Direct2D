@@ -22,7 +22,7 @@ GameEngineSampler::~GameEngineSampler() // default destructer 디폴트 소멸자
 }
 
 
-void GameEngineSampler::ReSetting(const D3D11_SAMPLER_DESC& _Info) {
+void GameEngineSampler::ReCreate(const D3D11_SAMPLER_DESC& _Info) {
 	Create(_Info);
 }
 
