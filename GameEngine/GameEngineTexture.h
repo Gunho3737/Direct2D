@@ -12,6 +12,8 @@ public:
 	void Create(ID3D11Texture2D* _Texture2D);
 	void Load(const std::string& _Path);
 
+	float4 GetImageSize();
+
 	ID3D11RenderTargetView* CreateRenderTargetView();
 
 

@@ -27,8 +27,7 @@ void Monster::Start()
 
 	{
 		GameEngineImageRenderer* PlayerImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-		PlayerImageRenderer->SetImage("Animation.png");
-		PlayerImageRenderer->GetTransform()->SetLocalScaling({ 100.0f, 100.0f, 1.0f });
+		PlayerImageRenderer->SetImage("Animation.png", PlayerImageRenderer->GetTransform());
 	}
 
 }

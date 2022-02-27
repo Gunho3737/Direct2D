@@ -179,3 +179,18 @@ void GameEngineShaderResHelper::SettingTexture(const std::string& _SettingName, 
 
 	FindIter->second->Res_ = FindTexture;
 }
+
+float4 GameEngineShaderResHelper::GetTextureSize(const std::string& _ImageName)
+{
+	GameEngineTexture* FindTexture = GameEngineTextureManager::GetInst().Find(_ImageName);
+
+	if (nullptr == FindTexture)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 텍스처의 사이즈를 가져오려고 했습니다. >>> " + _ImageName);
+		return {0,0};
+	}
+
+	
+
+	return FindTexture->GetImageSize();
+}
