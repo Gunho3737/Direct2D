@@ -20,17 +20,17 @@
     <ClCompile Include="TitleLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
-    <ClCompile Include="TopUI.cpp">
+    <ClCompile Include="UI_HpBar.cpp">
       <Filter>Actor\UI</Filter>
     </ClCompile>
     <ClCompile Include="Monster.cpp">
-      <Filter>Actor\Monster</Filter>
+      <Filter>Actor\Basic Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Actor\Basic Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +52,9 @@
     <Filter Include="Actor\Monster">
       <UniqueIdentifier>{c0dbd724-0456-40f5-91af-2bf930080580}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Basic Actor">
+      <UniqueIdentifier>{b9831724-cbad-4838-a3cd-21bc3b10daad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -70,17 +73,17 @@
     <ClInclude Include="TitleLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>Actor</Filter>
     </ClInclude>
-    <ClInclude Include="TopUI.h">
+    <ClInclude Include="UI_HpBar.h">
       <Filter>Actor\UI</Filter>
     </ClInclude>
     <ClInclude Include="Monster.h">
-      <Filter>Actor\Monster</Filter>
+      <Filter>Actor\Basic Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Actor\Basic Actor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 #include "PlayLevel.h"
 #include "Player.h"
 #include "Monster.h"
-#include "TopUI.h"
+#include "UI_HpBar.h"
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
 #include <GameEngine/CameraActor.h>
@@ -31,7 +31,7 @@ void PlayLevel::LevelStart()
 	}
 
 	{
-		TopUI* Actor = CreateActor<TopUI>();
+		UI_HpBar* Actor = CreateActor<UI_HpBar>();
 		Actor->GetTransform()->SetWorldPosition(float4(0.0f, 0.0f, 0.0f));
 	}
 }
