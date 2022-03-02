@@ -13,6 +13,15 @@ struct VertexOut
 };
 
 
+cbuffer TextureCutData : register(b1)
+{
+    // 0.0f 0.0f 
+    float2 TextureCutDataPos;
+    // 1 / 8 1 / 8
+    float2 TextureCutDataSize;
+};
+
+
 VertexOut Texture_VS(VertexIn _in)
 {
     VertexOut Out;
@@ -22,7 +31,13 @@ VertexOut Texture_VS(VertexIn _in)
     Out.Position.w = 1.0f;
     Out.Position = mul(Out.Position, WVP);
 
-    Out.Texcoord = _in.Texcoord;
+    // 0 0 
+    // 1, 0
+    // 1, 1
+    //                   1                 0.125             +      0.125 * _x
+    Out.Texcoord.x = (_in.Texcoord.x * TextureCutDataSize.x) + TextureCutDataPos.x;
+    //                   1                 0.125             +      0.125 * _x
+    Out.Texcoord.y = (_in.Texcoord.y * TextureCutDataSize.y) + TextureCutDataPos.y;
 
     return Out;
 }

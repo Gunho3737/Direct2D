@@ -13,7 +13,6 @@ public:
 	void Load(const std::string& _Path);
 
 	float4 GetImageSize();
-
 	ID3D11RenderTargetView* CreateRenderTargetView();
 
 
@@ -31,11 +30,19 @@ private:		//delete operator
 	GameEngineTexture& operator=(const GameEngineTexture& _other) = delete; // default Copy operator 디폴트 대입 연산자
 	GameEngineTexture& operator=(const GameEngineTexture&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
-
 	D3D11_TEXTURE2D_DESC TextureDesc_;
 	ID3D11Texture2D* Texture2D_;
 	ID3D11RenderTargetView* RenderTargetView_;
 	ID3D11ShaderResourceView* ShaderResourceViewPtr_;
 	DirectX::ScratchImage Image_;
+
+public:
+	bool IsCut();
+	void Cut(int _x, int _y);
+	void PushCutIndex(const float4& _Size, const float4& _Pos);
+	float4 GetCutData(int _Index);
+
+private:
+	std::vector<float4> CutList_;
 };
 

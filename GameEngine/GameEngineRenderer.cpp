@@ -8,17 +8,17 @@
 #include "GameEnginePixelShader.h"
 #include "CameraComponent.h"
 
-GameEngineRenderer::GameEngineRenderer() 
+GameEngineRenderer::GameEngineRenderer()
 	: PipeLine_(nullptr)
 {
 }
 
-GameEngineRenderer::~GameEngineRenderer() 
+GameEngineRenderer::~GameEngineRenderer()
 {
 }
 
 
-void GameEngineRenderer::Render() 
+void GameEngineRenderer::Render()
 {
 	ShaderHelper.Setting();
 	PipeLine_->Rendering();
@@ -51,12 +51,12 @@ void GameEngineRenderer::SetRenderingPipeLine(const std::string& _Value)
 	}
 }
 
-void GameEngineRenderer::Start() 
+void GameEngineRenderer::Start()
 {
 	GetLevel()->GetMainCamera()->PushRenderer(GetOrder(), this);
 }
 
-void GameEngineRenderer::Update() 
+void GameEngineRenderer::Update(float _DeltaTime)
 {
 
 }

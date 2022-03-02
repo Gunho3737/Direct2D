@@ -4,7 +4,12 @@
 #include <map>
 #include <string>
 
+#ifdef _DEBUG
+#pragma comment(lib, "fmodL_vc.lib") // Release용 빌드된 코드파일
+#else
 #pragma comment(lib, "fmod_vc.lib") // Release용 빌드된 코드파일
+#endif
+
 
 // 이런 사운드 이미지 리소스 폰트 우리가 로드하거나 
 // 구현할줄 몰르거나 너무 귀찮아서 사용하는 라이브러리들

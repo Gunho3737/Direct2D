@@ -25,7 +25,7 @@ public:
 	bool IsDestroyed_;
 	float DeathTime_;
 
-	GameEngineLevel* GetLevel() 
+	GameEngineLevel* GetLevel()
 	{
 		return Level_;
 	}
@@ -36,7 +36,7 @@ public:
 		{
 			Death();
 		}
-		else 
+		else
 		{
 			IsDestroyed_ = true;
 			DeathTime_ = _Time;
@@ -46,7 +46,7 @@ public:
 	template<typename ComponentType>
 	ComponentType* CreateComponent(int _Order = 0)
 	{
-		GameEngineComponent* NewComponent = new ComponentType(); 
+		GameEngineComponent* NewComponent = new ComponentType();
 		NewComponent->SetParent(this);
 		NewComponent->SetOrder(_Order);
 		NewComponent->InitComponent(this);
@@ -68,7 +68,7 @@ public:
 			GameEngineDebug::MsgBoxError("트랜스폼을 세팅안 해줬습니다.");
 		}
 		NewComponent->AttachTransform(_ParentTrans);
-		ComponentList_.push_back(NewComponent);
+		TransformComponentList_.push_back(NewComponent);
 
 		NewComponent->Start();
 		return dynamic_cast<ComponentType*>(NewComponent);;
@@ -85,7 +85,7 @@ protected:
 ////////////////////////
 
 public:
-	GameEngineTransform* GetTransform() 
+	GameEngineTransform* GetTransform()
 	{
 		return 	Transform_;
 	}
@@ -101,7 +101,7 @@ private:
 
 	void SetLevel(GameEngineLevel* Level);
 
-	void UpdateComponent();
+	void UpdateComponent(float _DeltaTime);
 
 	void ComponentRelease();
 

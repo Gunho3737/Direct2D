@@ -103,6 +103,12 @@ std::vector<GameEngineFile> GameEngineDirectory::GetAllFile(const std::string& _
 
 	for (const std::filesystem::directory_entry& File : DirIter)
 	{
+		if (true == File.is_directory())
+		{
+			continue;
+		}
+
+
 		std::string Ext = File.path().extension().string();
 		GameEngineString::toupper(Ext);
 

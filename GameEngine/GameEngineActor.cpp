@@ -4,7 +4,7 @@
 #include "GameEngineTransform.h"
 #include "GameEngineTransformComponent.h"
 
-GameEngineActor::GameEngineActor() 
+GameEngineActor::GameEngineActor()
 	: Level_(nullptr)
 	, Transform_(nullptr)
 	, DeathTime_(-1.0f)
@@ -12,7 +12,7 @@ GameEngineActor::GameEngineActor()
 	Transform_ = new GameEngineTransform();
 }
 
-GameEngineActor::~GameEngineActor() 
+GameEngineActor::~GameEngineActor()
 {
 	if (nullptr != Transform_)
 	{
@@ -48,7 +48,7 @@ void GameEngineActor::ComponentRelease()
 
 		for (; BeginIter != EndIter; )
 		{
-			if (true == (* BeginIter)->IsDeath())
+			if (true == (*BeginIter)->IsDeath())
 			{
 				delete* BeginIter;
 				*BeginIter = nullptr;
@@ -83,26 +83,26 @@ void GameEngineActor::ComponentRelease()
 
 }
 
-void GameEngineActor::SetLevel(GameEngineLevel* _Level) 
+void GameEngineActor::SetLevel(GameEngineLevel* _Level)
 {
 	Level_ = _Level;
 }
 
-void GameEngineActor::TransformUpdate() 
+void GameEngineActor::TransformUpdate()
 {
 	Transform_->TransformUpdate();
 }
 
-void GameEngineActor::UpdateComponent() 
+void GameEngineActor::UpdateComponent(float _DeltaTime)
 {
 	for (GameEngineComponent* Component : ComponentList_)
 	{
-		Component->Update();
+		Component->Update(_DeltaTime);
 	}
 
 	for (GameEngineTransformComponent* Component : TransformComponentList_)
 	{
-		Component->Update();
+		Component->Update(_DeltaTime);
 	}
 }
 
