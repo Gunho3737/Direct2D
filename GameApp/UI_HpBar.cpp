@@ -14,5 +14,4 @@ void UI_HpBar::Start()
 {
 	GameEngineImageRenderer* Renderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	Renderer->SetImage("hpbar.png", Renderer->GetTransform());
-	Renderer->GetTransform()->SetLocalPosition({ 0.0f, 360.0f -50.0f, 0.0f });
 }

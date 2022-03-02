@@ -23,6 +23,8 @@ public:
 
 	void Setting();
 
+	void Reset();
+
 protected:		// delete constructer
 	GameEngineBlend(const GameEngineBlend& _other) = delete; // default Copy constructer 디폴트 복사생성자
 	GameEngineBlend(GameEngineBlend&& _other) noexcept = delete; // default RValue Copy constructer 디폴트 RValue 복사생성자

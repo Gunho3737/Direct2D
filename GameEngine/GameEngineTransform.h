@@ -25,6 +25,7 @@ public:
 	float4x4 View_;
 	float4x4 Projection_;
 
+	float4x4 WVP;
 public:
 	TransformData() 
 		: vWorldScaling_(float4::ONE)
@@ -47,6 +48,11 @@ public:
 		Parent_ = _Parent;
 		WorldWorld_ = LocalWorld_;
 		WorldWorld_ *= Parent_;
+	}
+
+	void CalWVP()
+	{
+		WVP = WorldWorld_ * View_ * Projection_;
 	}
 
 	void RootCalculation() 

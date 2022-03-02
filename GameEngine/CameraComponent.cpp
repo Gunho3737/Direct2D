@@ -48,7 +48,7 @@ void CameraComponent::CameraTransformUpdate()
 void CameraComponent::Render()
 {
 	float4x4 View = GetTransform()->GetTransformData().View_;
-	float4x4 Porjection = GetTransform()->GetTransformData().Projection_;
+	float4x4 Projection = GetTransform()->GetTransformData().Projection_;
 
 	for (std::pair<int, std::list<GameEngineRenderer*>> Pair : RendererList_)
 	{
@@ -61,9 +61,9 @@ void CameraComponent::Render()
 				continue;
 			}
 
-			Renderer->GetTransform()->GetTransformData().Projection_ = Porjection;
+			Renderer->GetTransform()->GetTransformData().Projection_ = Projection;
 			Renderer->GetTransform()->GetTransformData().View_ = View;
-
+			Renderer->GetTransform()->GetTransformData().CalWVP();
 			Renderer->Render();
 		}
 	}

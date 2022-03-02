@@ -170,4 +170,7 @@ void GameEngineRenderingPipeLine::Rendering()
 	GameEngineDevice::GetContext()->DrawIndexed(IndexBuffer_->GetIndexCount(), 0, 0);
 }
 
-
+void GameEngineRenderingPipeLine::Reset()
+{
+	Blend_->Reset();
+}

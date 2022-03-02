@@ -69,6 +69,7 @@ public:
 
 	void Rendering();
 
+	void Reset();
 
 public:
 	GameEngineRenderingPipeLine(); // default constructer 디폴트 생성자
