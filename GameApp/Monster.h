@@ -16,6 +16,9 @@ public:
 	Monster& operator=(Monster&& _Other) noexcept = delete;
 
 protected:
+	//콜백함수용 함수, 기능에 맞춰서 이름붙힐것
+	void TestStartCallBack();
+	void TestEndCallBack();
 
 private:
 	void Start() override;

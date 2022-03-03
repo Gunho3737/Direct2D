@@ -2,6 +2,7 @@
 #include <GameEngine/GameEngineActor.h>
 
 // Ό³Έν :
+class GameEngineUIRenderer;
 class UI_HpBar : public GameEngineActor
 {
 public:
@@ -16,9 +17,11 @@ public:
 	UI_HpBar& operator=(UI_HpBar&& _Other) noexcept = delete;
 
 protected:
+	GameEngineUIRenderer* UIRenderer;
 
 private:
 	void Start() override;
+	void Update(float _DeltaTime) override;
 
 };
 

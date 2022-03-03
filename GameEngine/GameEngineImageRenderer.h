@@ -4,8 +4,11 @@
 
 // Ό³Έν :
 class GameEngineTexture;
+class GameEngineUIRenderer;
 class GameEngineImageRenderer : public GameEngineRenderer
 {
+	friend GameEngineUIRenderer;
+
 private:
 	struct Animation2D
 	{

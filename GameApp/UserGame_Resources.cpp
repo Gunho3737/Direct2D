@@ -43,6 +43,12 @@ void UserGame::ResourcesLoad()
 		{
 			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
 		}
+
+	}
+
+	{
+		GameEngineTexture* Texture = GameEngineTextureManager::GetInst().Find("Animation.png");
+		Texture->Cut(8, 8);
 	}
 	
 
