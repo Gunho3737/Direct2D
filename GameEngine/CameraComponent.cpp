@@ -47,6 +47,8 @@ void CameraComponent::CameraTransformUpdate()
 
 void CameraComponent::Render()
 {
+	CameraTransformUpdate();
+
 	float4x4 View = GetTransform()->GetTransformData().View_;
 	float4x4 Projection = GetTransform()->GetTransformData().Projection_;
 

@@ -110,7 +110,7 @@ public:
 	void SetLocalScaling(const float4& _Value);
 	void SetWorldScaling(const float4& _Value);
 
-	// 무모건 디그리
+
 	void SetLocalRotation(const float4& _Value);
 	void SetWorldRotation(const float4& _Value);
 
@@ -163,7 +163,7 @@ protected:
 	TransformData TransformData_;
 
 	GameEngineTransform* Parent_;
-	std::list<GameEngineTransform*> Childs_;
+	std::vector<GameEngineTransform*> Childs_;
 
 private:
 	void AllChildCalculationScaling();

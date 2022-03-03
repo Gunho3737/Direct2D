@@ -5,11 +5,11 @@
 #include "GameEngineTextureManager.h"
 #include "GameEngineTexture.h"
 
-GameEngineShaderResHelper::GameEngineShaderResHelper() 
+GameEngineShaderResHelper::GameEngineShaderResHelper()
 {
 }
 
-GameEngineShaderResHelper::~GameEngineShaderResHelper() 
+GameEngineShaderResHelper::~GameEngineShaderResHelper()
 {
 
 	for (auto& Setting : AllTextureData_)
@@ -53,7 +53,7 @@ bool GameEngineShaderResHelper::IsConstantBuffer(const std::string& _SettingName
 }
 
 
-void GameEngineShaderResHelper::ShaderResourcesCheck(GameEngineShader* _Shader) 
+void GameEngineShaderResHelper::ShaderResourcesCheck(GameEngineShader* _Shader)
 {
 	// _Shader는 상수버퍼를 들고 있지
 	// 이 상수버퍼를 각 플레이어나 몬스터가 세팅해줬는지 안했는지는 
@@ -105,7 +105,7 @@ void GameEngineShaderResHelper::ShaderResourcesCheck(GameEngineShader* _Shader)
 
 }
 
-void GameEngineShaderResHelper::Setting() 
+void GameEngineShaderResHelper::Setting()
 {
 	// 정보가 다 있으니까.
 	for (auto& Setting : AllConstantBufferData_)
@@ -114,7 +114,7 @@ void GameEngineShaderResHelper::Setting()
 		{
 			GameEngineDebug::MsgBoxError("다음의 상수버퍼가 세팅되지 않았습니다. >>> " + Setting.first);
 		}
-		
+
 
 		Setting.second->ChangeData();
 		Setting.second->ShaderSetting();
@@ -158,6 +158,28 @@ void GameEngineShaderResHelper::ReSet()
 
 }
 
+
+void GameEngineShaderResHelper::SettingTexture(const std::string& _SettingName, GameEngineTexture* _Texture)
+{
+	std::map<std::string, GameEngineTextureSetting*>::iterator FindIter = AllTextureData_.find(_SettingName);
+
+	if (FindIter == AllTextureData_.end())
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 텍스처 슬롯에 세팅하려고 했습니다." + _SettingName);
+		return;
+	}
+
+	if (nullptr == _Texture)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 텍스처를 세팅하려고 했습니다. >>> " + _Texture->GetName());
+		return;
+	}
+
+
+	FindIter->second->Res_ = _Texture;
+
+}
+
 void GameEngineShaderResHelper::SettingTexture(const std::string& _SettingName, const std::string& _ImageName)
 {
 	std::map<std::string, GameEngineTextureSetting*>::iterator FindIter = AllTextureData_.find(_SettingName);
@@ -187,10 +209,10 @@ float4 GameEngineShaderResHelper::GetTextureSize(const std::string& _ImageName)
 	if (nullptr == FindTexture)
 	{
 		GameEngineDebug::MsgBoxError("존재하지 않는 텍스처의 사이즈를 가져오려고 했습니다. >>> " + _ImageName);
-		return {0,0};
+		return { 0,0 };
 	}
 
-	
+
 
 	return FindTexture->GetImageSize();
 }

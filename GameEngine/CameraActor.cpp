@@ -28,12 +28,12 @@ float4x4 CameraActor::GetProjectionMatrix()
 {
 	return Camera_->GetTransform()->GetTransformData().Projection_;
 }
-
-void CameraActor::TransformUpdate()
-{
-	GameEngineActor::TransformUpdate();
-	Camera_->CameraTransformUpdate();
-}
+//
+//void CameraActor::TransformUpdate() 
+//{
+//	GameEngineActor::TransformUpdate();
+//	Camera_->CameraTransformUpdate();
+//}
 void CameraActor::Update(float _DeltaTime)
 {
 

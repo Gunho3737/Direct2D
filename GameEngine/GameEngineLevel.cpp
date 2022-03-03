@@ -60,20 +60,7 @@ void GameEngineLevel::Init()
 
 void GameEngineLevel::ActorUpdate(float _DeltaTime)
 {
-	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
-	{
-		std::list<GameEngineActor*>& Actors = Pair.second;
 
-		for (GameEngineActor* Actor : Actors)
-		{
-			if (false == Actor->IsUpdate())
-			{
-				continue;
-			}
-
-			Actor->TransformUpdate();
-		}
-	}
 
 	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
 	{
@@ -86,6 +73,7 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 				continue;
 			}
 
+			// 위치바꾸고
 			Actor->Update(_DeltaTime);
 			Actor->UpdateComponent(_DeltaTime);
 		}

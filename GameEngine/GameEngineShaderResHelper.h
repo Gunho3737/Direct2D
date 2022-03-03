@@ -37,7 +37,7 @@ public:
 	bool IsConstantBuffer(const std::string& _SettingName);
 
 	template<typename T>
-	void SettingConstantBufferLink(const std::string& _SettingName, T& _Data) 
+	void SettingConstantBufferLink(const std::string& _SettingName, T& _Data)
 	{
 		std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllConstantBufferData_.find(_SettingName);
 
@@ -87,6 +87,8 @@ public:
 	}
 
 	void SettingTexture(const std::string& _SettingName, const std::string& _ImageName);
+
+	void SettingTexture(const std::string& _SettingName, GameEngineTexture* _Texture);
 
 	float4 GetTextureSize(const std::string& _ImageName);
 
