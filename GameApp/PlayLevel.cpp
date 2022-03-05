@@ -20,10 +20,10 @@ void PlayLevel::LevelStart()
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
-	{
-		Player* Actor = CreateActor<Player>();
-		GetMainCameraActor()->GetTransform()->SetWorldPosition(Actor->GetTransform()->GetLocalPosition());
-	}
+	
+	Player* PlayerActor = CreateActor<Player>();
+	GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
+	
 
 	{
 		Monster* Actor = CreateActor<Monster>();
@@ -33,6 +33,7 @@ void PlayLevel::LevelStart()
 	{
 		UI_HpBar* Actor = CreateActor<UI_HpBar>();
 		Actor->GetTransform()->SetWorldPosition(float4(-300.0f, 200.0f, 0.0f));
+		Actor->GetTransform()->AttachTransform(PlayerActor->GetTransform());
 	}
 }
 

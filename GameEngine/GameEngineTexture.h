@@ -42,6 +42,11 @@ public:
 	void PushCutIndex(const float4& _Size, const float4& _Pos);
 	float4 GetCutData(int _Index);
 
+	inline float4 GetTextureSize()
+	{
+		return float4(TextureDesc_.Width, TextureDesc_.Height);
+	}
+
 private:
 	std::vector<float4> CutList_;
 };

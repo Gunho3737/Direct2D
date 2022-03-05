@@ -22,13 +22,13 @@ void Player::Start()
 		PlayerImageRenderer->SetImage("Char.png", PlayerImageRenderer->GetTransform());
 	}
 
-	{
-		GameEngineRenderer* Renderer = CreateTransformComponent<GameEngineRenderer>(GetTransform());
-		Renderer->SetRenderingPipeLine("Color");
-		Renderer->GetTransform()->SetLocalScaling({ 100.0f, 20.0f, 1.0f });
-		Renderer->GetTransform()->SetLocalPosition({ 0.0f, 80.0f, 0.0f });
-		Renderer->ShaderHelper.SettingConstantBufferSet("ResultColor", float4(1.0f, 0.0f, 1.0f));
-	}
+//	{
+//		GameEngineRenderer* Renderer = CreateTransformComponent<GameEngineRenderer>(GetTransform());
+//		Renderer->SetRenderingPipeLine("Color");
+//		Renderer->GetTransform()->SetLocalScaling({ 100.0f, 20.0f, 1.0f });
+//		Renderer->GetTransform()->SetLocalPosition({ 0.0f, 80.0f, 0.0f });
+//		Renderer->ShaderHelper.SettingConstantBufferSet("ResultColor", float4(1.0f, 0.0f, 1.0f));
+//	}
 
 	if (false == GameEngineInput::GetInst().IsKey("PlayerMove"))
 	{
