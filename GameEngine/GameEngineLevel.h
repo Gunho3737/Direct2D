@@ -8,10 +8,12 @@ class CameraActor;
 class CameraComponent;
 class GameEngineActor;
 class GameEngineRenderer;
+class GameEngineCollision;
 class GameEngineLevel : public GameEngineObjectNameBase
 {
 	friend class GameEngineCore;
 	friend class GameEngineRenderer;
+	friend class GameEngineCollision;
 
 public:
 	// constrcuter destructer
@@ -35,8 +37,9 @@ protected:
 private:
 	std::map<int, std::list<GameEngineActor*>> ActorList_;
 	CameraActor* MainCameraActor_;
-	// std::list<CameraActor*> Ä¿½ºÅÒCamera;
 	CameraActor* UICameraActor_;
+
+	void Init();
 
 public:
 	template<typename ActorType>
@@ -58,16 +61,30 @@ public:
 	void Render();
 	void Release(float _DeltaTime);
 
-
-
 	virtual void LevelStart() = 0;
 	virtual void LevelUpdate(float _DeltaTime) = 0;
 	virtual void LevelChangeEndEvent() = 0;
 	virtual void LevelChangeStartEvent() = 0;
 
-	////////////////////////////////////////////////////// Renderer
 
+	//////////////////////////////////////////////////////// collision:
 private:
-	void Init();
+	std::map<int, std::list<GameEngineCollision*>> CollisionList_;
 
+	inline std::list<GameEngineCollision*>& GetCollisionGroup(int _Group)
+	{
+		return CollisionList_[_Group];
+	}
+
+	void ChangeCollisionGroup(int _Group, GameEngineCollision* _Collision);
+
+
+public:
+	template<typename UserEnumType>
+	void PushCollision(GameEngineCollision* _Collision, UserEnumType _Group)
+	{
+		PushCollision(_Collision, static_cast<int>(_Group));
+	}
+
+	void PushCollision(GameEngineCollision* _Collision, int _Group);
 };

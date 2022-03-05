@@ -11,7 +11,6 @@ class GameEngineTexture : public GameEngineObjectNameBase
 public:
 	void Create(ID3D11Texture2D* _Texture2D);
 	void Load(const std::string& _Path);
-
 	float4 GetImageSize();
 	ID3D11RenderTargetView* CreateRenderTargetView();
 
@@ -44,7 +43,7 @@ public:
 
 	inline float4 GetTextureSize()
 	{
-		return float4(TextureDesc_.Width, TextureDesc_.Height);
+		return float4(static_cast<float>(TextureDesc_.Width), static_cast<float>(TextureDesc_.Height));
 	}
 
 private:

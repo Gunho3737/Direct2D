@@ -56,18 +56,33 @@ public:
 	}
 
 	template<typename ComponentType>
-	ComponentType* CreateTransformComponent(GameEngineTransform* _ParentTrans, int _Order = 0)
+	ComponentType* CreateTransformComponent(int _Order = 0)
 	{
 		// 업캐스팅을 이용해서 컴파일 에러를 낼것이다.
 		GameEngineTransformComponent* NewComponent = new ComponentType();
 		NewComponent->SetParent(this);
 		NewComponent->SetOrder(_Order);
 		NewComponent->InitComponent(this);
-		if (nullptr == _ParentTrans)
+		NewComponent->AttachTransform(GetTransform());
+		TransformComponentList_.push_back(NewComponent);
+
+		NewComponent->Start();
+		return dynamic_cast<ComponentType*>(NewComponent);;
+	}
+
+	template<typename ComponentType>
+	ComponentType* CreateTransformComponent(GameEngineTransform* _Transform, int _Order = 0)
+	{
+		// 업캐스팅을 이용해서 컴파일 에러를 낼것이다.
+		GameEngineTransformComponent* NewComponent = new ComponentType();
+		NewComponent->SetParent(this);
+		NewComponent->SetOrder(_Order);
+		NewComponent->InitComponent(this);
+		if (nullptr == _Transform)
 		{
 			GameEngineDebug::MsgBoxError("트랜스폼을 세팅안 해줬습니다.");
 		}
-		NewComponent->AttachTransform(_ParentTrans);
+		NewComponent->AttachTransform(_Transform);
 		TransformComponentList_.push_back(NewComponent);
 
 		NewComponent->Start();

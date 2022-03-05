@@ -6,6 +6,7 @@
 #include "GameEngineTransform.h"
 #include "CameraActor.h"
 #include "CameraComponent.h"
+#include "GameEngineCollision.h"
 
 
 CameraActor* GameEngineLevel::GetMainCameraActor()
@@ -108,6 +109,42 @@ void GameEngineLevel::Release(float _DeltaTime)
 	MainCameraActor_->GetCamera()->ReleaseRenderer();
 	UICameraActor_->GetCamera()->ReleaseRenderer();
 
+
+	// 콜리전 삭제
+	{
+		std::map<int, std::list<GameEngineCollision*>>::iterator RenderMapBeginIter = CollisionList_.begin();
+		std::map<int, std::list<GameEngineCollision*>>::iterator RenderMapEndIter = CollisionList_.end();
+
+
+		for (; RenderMapBeginIter != RenderMapEndIter; ++RenderMapBeginIter)
+		{
+			std::list<GameEngineCollision*>& Collisions = RenderMapBeginIter->second;
+
+			std::list<GameEngineCollision*>::iterator BeginIter = Collisions.begin();
+			std::list<GameEngineCollision*>::iterator EndIter = Collisions.end();
+
+			for (; BeginIter != EndIter; )
+			{
+				GameEngineCollision* ReleaseCollision = *BeginIter;
+
+				if (nullptr == ReleaseCollision)
+				{
+					GameEngineDebug::MsgBoxError("Release Actor Is Nullptr!!!!");
+				}
+
+				if (true == ReleaseCollision->IsDeath())
+				{
+					BeginIter = Collisions.erase(BeginIter);
+
+					continue;
+				}
+
+				++BeginIter;
+
+			}
+		}
+	}
+
 	{
 		std::map<int, std::list<GameEngineActor*>>::iterator ActorMapBeginIter = ActorList_.begin();
 		std::map<int, std::list<GameEngineActor*>>::iterator ActorMapEndIter = ActorList_.end();
@@ -160,4 +197,18 @@ void GameEngineLevel::LevelChangeStartEvent()
 void GameEngineLevel::LevelChangeEndEvent()
 {
 
+}
+
+void GameEngineLevel::PushCollision(GameEngineCollision* _Collision, int _Group)
+{
+	CollisionList_[_Group].push_back(_Collision);
+}
+
+void GameEngineLevel::ChangeCollisionGroup(int _Group, GameEngineCollision* _Collision)
+{
+	CollisionList_[_Collision->GetOrder()].remove(_Collision);
+
+	_Collision->SetOrder(_Group);
+
+	CollisionList_[_Collision->GetOrder()].push_back(_Collision);
 }

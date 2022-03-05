@@ -127,6 +127,9 @@
     <ClInclude Include="GameEngineFolderTextureManager.h">
       <Filter>Resources\99_Manager</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineCollision.h">
+      <Filter>Object\Component\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -252,6 +255,9 @@
     <ClCompile Include="GameEngineFolderTextureManager.cpp">
       <Filter>Resources\99_Manager</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineCollision.cpp">
+      <Filter>Object\Component\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -322,6 +328,9 @@
     </Filter>
     <Filter Include="Lib\DirectXTex\Release">
       <UniqueIdentifier>{49c7275f-d665-4826-9227-729656f3a617}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Component\Collision">
+      <UniqueIdentifier>{b7dae082-03ff-405b-90e6-c79dea9dd093}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
