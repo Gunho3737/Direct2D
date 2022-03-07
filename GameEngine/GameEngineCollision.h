@@ -2,24 +2,44 @@
 #include "GameEngineTransformComponent.h"
 #include "GameEngineShaderResHelper.h"
 
-#include <DirectXCollision.h>
-#include <DirectXCollision.inl>
-
 // 이녀석들만의 그룹을 만들겠습니다.
 
 enum class CollisionType
 {
-	Sphere,
-	AABBBox,
-	OBBBox,
+	// 2D와 3D간의 충돌은 안되게 만들겁니다.
+	Point2D,
+	CirCle,
+	Rect,
+	OrientedRect,
+
+	Point3D,
+	Sphere3D,
+	AABBBox3D,
+	OBBBox3D,
 	MAX,
 };
 
 // 설명 :
+class GameEngineCore;
 class GameEngineLevel;
 class GameEngineCollision : public GameEngineTransformComponent
 {
+	friend GameEngineCore;
 	friend GameEngineLevel;
+
+	static std::function<bool(GameEngineTransform*, GameEngineTransform*)>
+		CollisionCheckFunction[static_cast<int>(CollisionType::MAX)][static_cast<int>(CollisionType::MAX)];
+
+	static void Init();
+
+public:
+	static bool CirCleToCirCle(GameEngineTransform* _Left, GameEngineTransform* _Right);
+	static bool Sphere3DToSphere3D(GameEngineTransform* _Left, GameEngineTransform* _Right);
+
+	static bool RectToRect(GameEngineTransform* _Left, GameEngineTransform* _Right);
+	static bool AABBToAABB(GameEngineTransform* _Left, GameEngineTransform* _Right);
+
+	static bool OBBToOBB(GameEngineTransform* _Left, GameEngineTransform* _Right);
 
 public:
 	// constrcuter destructer
@@ -41,10 +61,15 @@ public:
 
 	void SetCollisionGroup(int _Type);
 
-	void Collision(CollisionType _ThisType, CollisionType _OtherType, int _OtherGroup, std::vector<GameEngineCollision*>& _Other);
 
+	void Collision(
+		CollisionType _ThisType,
+		CollisionType _OtherType,
+		int _OtherGroup,
+		std::function<void(GameEngineCollision*)> _CallBack
+	);
 
-	void Collision(CollisionType _ThisType, CollisionType _OtherType, int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack);
+	void SphereToSphereCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack);
 
 
 protected:

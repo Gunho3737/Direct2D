@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "GameEngine/GameEngineRenderer.h"
 #include "GameEngine/GameEngineImageRenderer.h"
+#include <GameEngine\GameEngineCollision.h>
 #include "Monster.h"
 #include "Bullet.h"
 
@@ -35,23 +36,29 @@ void Monster::Start()
 
 	{
 		GameEngineImageRenderer* PlayerImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-		PlayerImageRenderer->SetImage("Animation.png");
-
-		//잘린 이미지중 몇번째 스프라이트를 사용할지 선택(애니메이션이 아닌 )
-		PlayerImageRenderer->SetIndex(10);
-
-		//애니메이션 제작
-		PlayerImageRenderer->CreateAnimation("Test", 0, 20, 0.5f);
-
-		//애니메이션의 첫프레임/마지막 프레임/애니메이션의x번째프레임을 지정해 특정 함수가 실행되도록한다
-		PlayerImageRenderer->SetStartCallBack("Test", std::bind(&Monster::TestStartCallBack, this));
-		PlayerImageRenderer->SetEndCallBack("Test", std::bind(&Monster::TestEndCallBack, this));
-		PlayerImageRenderer->SetFrameCallBack("Test", 5, std::bind(&Monster::TestEndCallBack, this));
-
+//		PlayerImageRenderer->SetImage("Animation.png");
+//	
+//		//잘린 이미지중 몇번째 스프라이트를 사용할지 선택(애니메이션이 아닌 )
+//		PlayerImageRenderer->SetIndex(10);
+//	
+//		//애니메이션 제작
+//		PlayerImageRenderer->CreateAnimation("Test", 0, 20, 0.5f);
+//	
+//		//애니메이션의 첫프레임/마지막 프레임/애니메이션의x번째프레임을 지정해 특정 함수가 실행되도록한다
+//		PlayerImageRenderer->SetStartCallBack("Test", std::bind(&Monster::TestStartCallBack, this));
+//		PlayerImageRenderer->SetEndCallBack("Test", std::bind(&Monster::TestEndCallBack, this));
+//		PlayerImageRenderer->SetFrameCallBack("Test", 5, std::bind(&Monster::TestEndCallBack, this));
+//	
+//		PlayerImageRenderer->GetTransform()->SetLocalScaling({ 100.0f, 100.0f, 1.0f });
+//		PlayerImageRenderer->SetChangeAnimation("Test");
 		PlayerImageRenderer->GetTransform()->SetLocalScaling({ 100.0f, 100.0f, 1.0f });
-		PlayerImageRenderer->SetChangeAnimation("Test");
 
 
+	}
+
+	{
+		GameEngineCollision* Collision = CreateTransformComponent<GameEngineCollision>(20);
+		Collision->GetTransform()->SetLocalScaling(float4{ 100.0f, 100.0f, 1.0f });
 	}
 
 }

@@ -27,6 +27,7 @@ void GameEngineTransform::TransformUpdate()
 	// [][][][]
 	// [][][][]
 
+
 	if (nullptr != Parent_)
 	{
 		TransformData_.ParentSetting(Parent_->TransformData_.WorldWorld_);
@@ -34,6 +35,10 @@ void GameEngineTransform::TransformUpdate()
 	else {
 		TransformData_.RootCalculation();
 	}
+
+	ColData_.OBB.Extents = TransformData_.vWorldScaling_.halffloat4().DxXmfloat3;
+	ColData_.OBB.Orientation = TransformData_.vWorldRotation_.ToDegreeQuaternion().DxXmfloat4;
+	ColData_.OBB.Center = TransformData_.vWorldPosition_.DxXmfloat3;
 
 	for (GameEngineTransform* ChildTransform_ : Childs_)
 	{

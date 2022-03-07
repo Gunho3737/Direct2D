@@ -5,6 +5,7 @@
 #include "GameEngineDevice.h"
 #include "GameEngineLevel.h"
 #include "GameEngineInput.h"
+#include "GameEngineCollision.h"
 #include "GameEngineBase/GameEngineDirectory.h"
 #include "GameEngineBase/GameEngineFile.h"
 
@@ -46,6 +47,10 @@ void GameEngineCore::EngineInitialize()
 		}
 	}
 
+
+	// 기본 엔진 수준 리소스를 로드할 겁니다.
+
+	GameEngineCollision::Init();
 
 	GameEngineSoundManager::GetInst().Initialize();
 }

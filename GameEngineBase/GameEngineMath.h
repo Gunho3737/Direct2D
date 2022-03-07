@@ -296,6 +296,16 @@ public:
 		return DirectX::XMVector3Normalize(DirectVector);
 	}
 
+	float4 ToRadianAngle() const
+	{
+		return this->operator*(GameEngineMath::DegreeToRadian);
+	}
+
+	float4 ToDegreeQuaternion() const
+	{
+		return DirectX::XMQuaternionRotationRollPitchYawFromVector(ToRadianAngle().DirectVector);
+	}
+
 	void Normalize3D()
 	{
 		DirectVector = DirectX::XMVector3Normalize(DirectVector);

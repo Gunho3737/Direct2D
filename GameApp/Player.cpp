@@ -1,7 +1,10 @@
 #include "PreCompile.h"
 #include <GameEngine/GameEngineImageRenderer.h>
+#include <GameEngine/GameEngineCollision.h>
 #include "Player.h"
+#include "Monster.h"
 #include "Bullet.h"
+
 
 Player::Player()
 {
@@ -19,7 +22,16 @@ void Player::Start()
 	// 랜더러로서 뭐든지 다 그릴수있는 가능성을 가지고 있는 녀석.
 	{
 		PlayerImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-		PlayerImageRenderer->SetImage("Char.png", PlayerImageRenderer->GetTransform());
+	//	PlayerImageRenderer->SetImage("Char.png", PlayerImageRenderer->GetTransform());
+		PlayerImageRenderer->GetTransform()->SetLocalScaling(float4{ 100.0f, 100.0f, 1.0f });
+	}
+
+	{
+		PlayerCollision = CreateTransformComponent<GameEngineCollision>(10);
+
+		PlayerCollision->GetTransform()->SetLocalScaling(float4{ 100.0f, 100.0f, 1.0f });
+
+		PlayerCollision->SetCollisionGroup(30);
 	}
 
 //	{
@@ -28,7 +40,7 @@ void Player::Start()
 //		Renderer->GetTransform()->SetLocalScaling({ 100.0f, 20.0f, 1.0f });
 //		Renderer->GetTransform()->SetLocalPosition({ 0.0f, 80.0f, 0.0f });
 //		Renderer->ShaderHelper.SettingConstantBufferSet("ResultColor", float4(1.0f, 0.0f, 1.0f));
-//	}
+//}
 
 	if (false == GameEngineInput::GetInst().IsKey("PlayerMove"))
 	{
@@ -77,6 +89,14 @@ void Player::Update(float _DeltaTime)
 		NewBullet->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 		NewBullet->Release(1.0f);
 	}
+
+	// 그냥 원하는 순간 20
+	PlayerCollision->Collision(CollisionType::CirCle, CollisionType::CirCle, 20,
+		[](GameEngineCollision* _OtherCollision)
+		{
+			_OtherCollision->GetActor()->Death();
+		}
+	);
 
 	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 

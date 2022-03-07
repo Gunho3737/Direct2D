@@ -19,6 +19,8 @@ public:
 protected:
 	GameEngineImageRenderer* PlayerImageRenderer;
 
+	GameEngineCollision* PlayerCollision;
+
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;

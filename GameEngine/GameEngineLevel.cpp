@@ -85,11 +85,13 @@ void GameEngineLevel::Render()
 {
 	GameEngineDevice::RenderStart();
 
-	// 
 	MainCameraActor_->GetCamera()->Render();
 
-	// 
+	// 충돌체 랜더링이 가려지는 애들은
+
 	UICameraActor_->GetCamera()->Render();
+
+	// 충돌체 랜더링이 무조건 화면에 뚫고 나와야하는 애들은
 
 	GameEngineDevice::RenderEnd();
 }
@@ -211,4 +213,11 @@ void GameEngineLevel::ChangeCollisionGroup(int _Group, GameEngineCollision* _Col
 	_Collision->SetOrder(_Group);
 
 	CollisionList_[_Collision->GetOrder()].push_back(_Collision);
+}
+
+
+
+void GameEngineLevel::ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer)
+{
+	MainCameraActor_->GetCamera()->ChangeRendererGroup(_Group, _Renderer);
 }

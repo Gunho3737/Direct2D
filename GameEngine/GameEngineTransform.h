@@ -3,7 +3,25 @@
 #include "GameEngineComponent.h"
 #include <GameEngineBase/GameEngineTime.h>
 
-class TransformData 
+#include <DirectXCollision.h>
+#include <DirectXCollision.inl>
+
+
+union CollisionData
+{
+public:
+	DirectX::BoundingSphere Sphere;
+	DirectX::BoundingBox AABB; // 회전이 고려하면 안되는 박스
+	DirectX::BoundingOrientedBox OBB; // 회전한 박스
+
+	CollisionData()
+		: OBB()
+	{
+
+	}
+};
+
+class TransformData
 {
 public:
 	float4 vWorldPosition_;
@@ -26,8 +44,9 @@ public:
 	float4x4 Projection_;
 
 	float4x4 WVP;
+
 public:
-	TransformData() 
+	TransformData()
 		: vWorldScaling_(float4::ONE)
 		, vLocalScaling_(float4::ONE)
 	{
@@ -43,7 +62,7 @@ public:
 		LocalWorld_ = LocalScaling_ * LocalRotation_ * LocalPosition_;
 	}
 
-	void ParentSetting(const float4x4& _Parent) 
+	void ParentSetting(const float4x4& _Parent)
 	{
 		Parent_ = _Parent;
 		WorldWorld_ = LocalWorld_;
@@ -55,7 +74,7 @@ public:
 		WVP = WorldWorld_ * View_ * Projection_;
 	}
 
-	void RootCalculation() 
+	void RootCalculation()
 	{
 		WorldWorld_ = LocalWorld_;
 	}
@@ -71,7 +90,7 @@ public:
 
 // 충돌도 이녀석이 담당할것이기 때문에 어마어마하게 중요하고 잘만들어야 한다.
 // 설명 :
-class GameEngineTransform 
+class GameEngineTransform
 {
 public:
 	// constrcuter destructer
@@ -105,11 +124,8 @@ public:
 	float4 GetWorldUpVector() { return TransformData_.WorldWorld_.vy.NormalizeReturn3D(); }
 	float4 GetLocalUpVector() { return TransformData_.LocalWorld_.vy.NormalizeReturn3D(); }
 
-
-
 	void SetLocalScaling(const float4& _Value);
 	void SetWorldScaling(const float4& _Value);
-
 
 	void SetLocalRotation(const float4& _Value);
 	void SetWorldRotation(const float4& _Value);
@@ -123,8 +139,6 @@ public:
 	{
 		SetWorldRotation(TransformData_.vWorldRotation_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
 	}
-
-
 
 	void SetLocalPosition(const float4& _Value);
 	void SetWorldPosition(const float4& _Value);
@@ -149,7 +163,6 @@ public:
 		SetWorldPosition(TransformData_.vWorldPosition_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
 	}
 
-
 	void DetachChildTransform(GameEngineTransform* _Child);
 	void AttachTransform(GameEngineTransform* _Transform);
 
@@ -158,12 +171,33 @@ public:
 		return TransformData_;
 	}
 
+	const CollisionData& GetCollisionData()
+	{
+		return ColData_;
+	}
+
+	const DirectX::BoundingSphere& GetSphere()
+	{
+		return ColData_.Sphere;
+	}
+
+	const DirectX::BoundingOrientedBox& GetOBB()
+	{
+		return ColData_.OBB;
+	}
+
+	const DirectX::BoundingBox& GetAABB()
+	{
+		return ColData_.AABB;
+	}
 
 protected:
 	TransformData TransformData_;
+	CollisionData ColData_;
 
 	GameEngineTransform* Parent_;
 	std::vector<GameEngineTransform*> Childs_;
+
 
 private:
 	void AllChildCalculationScaling();
@@ -178,8 +212,5 @@ private:
 
 	void CalculationLocalPosition();
 	void CalculationWorldPosition();
-
-
-
 };
 
