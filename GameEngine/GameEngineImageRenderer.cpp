@@ -1,7 +1,6 @@
 #include "PreCompile.h"
 #include "GameEngineImageRenderer.h"
 #include "GameEngineTextureManager.h"
-#include "GameEngineTransform.h"
 #include "GameEngineFolderTextureManager.h"
 #include "GameEngineFolderTexture.h"
 
@@ -78,6 +77,8 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 	CallFrame();
 	if (nullptr == FolderTextures_)
 	{
+		Renderer->ShaderHelper.SettingTexture("Tex", AnimationTexture_);
+		Renderer->CurTexture = AnimationTexture_;
 		Renderer->SetIndex(CurFrame_);
 	}
 	else
@@ -85,6 +86,7 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 		Renderer->CutData = float4(0, 0, 1, 1);
 		Renderer->ShaderHelper.SettingTexture("Tex", FolderTextures_->GetTextureIndex(CurFrame_));
 	}
+
 }
 
 /// ///////////////////////////////////////////////////////////////////
@@ -145,20 +147,9 @@ void GameEngineImageRenderer::SetImage(const std::string& _ImageName)
 	}
 
 	ShaderHelper.SettingTexture("Tex", _ImageName);
-
 }
 
-void GameEngineImageRenderer::SetImage(const std::string& _ImageName, GameEngineTransform* _transform)
-{
-	SetImage(_ImageName);
-
-	//1. 이미지의 사이즈를 float4로 받아옴
-	//2. 렌더러의 transform을 받아서 내부에서 SetLocalScaling을 해줌
-	float4 size = ShaderHelper.GetTextureSize(_ImageName);
-	_transform->SetLocalScaling(size);
-}
-
-void GameEngineImageRenderer::CreateAnimation(const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop /*= true*/)
+void GameEngineImageRenderer::CreateAnimation(const std::string& _TextureName, const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop /*= true*/)
 {
 	std::map<std::string, Animation2D*>::iterator FindIter = AllAnimations_.find(_Name);
 
@@ -168,6 +159,13 @@ void GameEngineImageRenderer::CreateAnimation(const std::string& _Name, int _Sta
 	}
 
 	Animation2D* NewAnimation = new Animation2D();
+
+	NewAnimation->AnimationTexture_ = GameEngineTextureManager::GetInst().Find(_TextureName);
+
+	if (nullptr == NewAnimation->AnimationTexture_)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 텍스처로 애니메이션을 만들려고 했습니다.");
+	}
 
 	NewAnimation->IsEnd = false;
 	NewAnimation->Loop_ = _Loop;

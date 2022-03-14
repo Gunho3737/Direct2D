@@ -6,20 +6,12 @@
 
 GameEngineActor::GameEngineActor()
 	: Level_(nullptr)
-	, Transform_(nullptr)
 	, DeathTime_(-1.0f)
 {
-	Transform_ = new GameEngineTransform();
 }
 
 GameEngineActor::~GameEngineActor()
 {
-	if (nullptr != Transform_)
-	{
-		delete Transform_;
-		Transform_ = nullptr;
-	}
-
 	for (auto& Component : ComponentList_)
 	{
 		if (nullptr != Component)

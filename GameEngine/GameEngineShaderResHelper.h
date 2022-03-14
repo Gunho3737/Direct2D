@@ -23,10 +23,10 @@ public:
 	~GameEngineShaderResHelper();
 
 	// delete Function
-	GameEngineShaderResHelper(const GameEngineShaderResHelper& _Other) = delete;
-	GameEngineShaderResHelper(GameEngineShaderResHelper&& _Other) noexcept = delete;
-	GameEngineShaderResHelper& operator=(const GameEngineShaderResHelper& _Other) = delete;
-	GameEngineShaderResHelper& operator=(GameEngineShaderResHelper&& _Other) noexcept = delete;
+	//GameEngineShaderResHelper(const GameEngineShaderResHelper& _Other) = delete;
+	// GameEngineShaderResHelper(GameEngineShaderResHelper&& _Other) noexcept = delete;
+	//GameEngineShaderResHelper& operator=(const GameEngineShaderResHelper& _Other) = delete;
+	//GameEngineShaderResHelper& operator=(GameEngineShaderResHelper&& _Other) noexcept = delete;
 
 	void ShaderResourcesCheck(GameEngineShader* _Shader);
 
@@ -89,8 +89,6 @@ public:
 	void SettingTexture(const std::string& _SettingName, const std::string& _ImageName);
 
 	void SettingTexture(const std::string& _SettingName, GameEngineTexture* _Texture);
-
-	float4 GetTextureSize(const std::string& _ImageName);
 
 protected:
 

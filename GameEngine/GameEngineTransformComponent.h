@@ -1,8 +1,7 @@
 #pragma once
 #include "GameEngineComponent.h"
-
+#include "GameEngineTransform.h"
 // Ό³Έν :
-class GameEngineTransform;
 class GameEngineTransformComponent : public GameEngineComponent
 {
 	friend GameEngineActor;
@@ -20,16 +19,17 @@ public:
 
 	GameEngineTransform* GetTransform()
 	{
-		return 	Transform_;
+		return &Transform_;
 	}
 
 public:
 	void AttachTransform(GameEngineTransform* _Transform);
 
+
 protected:
 	// virtual void InitComponent(GameEngineActor* Actor_);
 
 private:
-	GameEngineTransform* Transform_;
+	GameEngineTransform Transform_;
 };
 

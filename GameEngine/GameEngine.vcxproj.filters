@@ -130,6 +130,15 @@
     <ClInclude Include="GameEngineCollision.h">
       <Filter>Object\Component\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineDebugRenderData.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineVertex.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -258,6 +267,10 @@
     <ClCompile Include="GameEngineCollision.cpp">
       <Filter>Object\Component\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineCore_Resources.cpp" />
+    <ClCompile Include="GameEngineDebugRenderData.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -331,6 +344,12 @@
     </Filter>
     <Filter Include="Object\Component\Collision">
       <UniqueIdentifier>{b7dae082-03ff-405b-90e6-c79dea9dd093}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{b21d7a9d-83cc-4ee3-a7aa-10689aeaf841}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{63c29454-62e2-4492-87ba-3cc14c254ba8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

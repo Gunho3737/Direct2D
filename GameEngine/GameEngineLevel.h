@@ -1,14 +1,26 @@
 #pragma once
 #include <list>
 #include <map>
-
-// 설명 : 
+#include <GameEngine\Enums.h>
+//#include <GameEngine\GameEngineRenderingPipeLine.h>
+//
+//// 설명 : 
+//
+//class DebugRenderData
+//{
+//	TransformData Data;
+//	GameEngineRenderingPipeLine Data;
+//	// 파이프라인
+//	// 쉐이더 헬퍼가 한쌍이어야 한다.
+//};
 
 class CameraActor;
 class CameraComponent;
 class GameEngineActor;
 class GameEngineRenderer;
+class GameEngineTransform;
 class GameEngineCollision;
+class GameEngineDebugRenderData;
 class GameEngineLevel : public GameEngineObjectNameBase
 {
 	friend class GameEngineCore;
@@ -71,6 +83,7 @@ public:
 private:
 	std::map<int, std::list<GameEngineCollision*>> CollisionList_;
 
+
 	inline std::list<GameEngineCollision*>& GetCollisionGroup(int _Group)
 	{
 		return CollisionList_[_Group];
@@ -80,6 +93,9 @@ private:
 
 	void ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer);
 
+
+	// 다른애가 이걸 가릴수 있나요?
+	void DebugRender(GameEngineTransform* _Transform, CollisionType _Type);
 
 public:
 	template<typename UserEnumType>

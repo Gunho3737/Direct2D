@@ -27,6 +27,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EngineVertex.h" />
+    <ClInclude Include="Enums.h" />
     <ClInclude Include="GameEngineActor.h">
       <SubType>
       </SubType>
@@ -53,6 +55,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineCore.h" />
+    <ClInclude Include="GameEngineDebugRenderData.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineDevice.h">
       <SubType>
       </SubType>
@@ -208,6 +214,11 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineCore.cpp" />
+    <ClCompile Include="GameEngineCore_Resources.cpp" />
+    <ClCompile Include="GameEngineDebugRenderData.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineDevice.cpp">
       <SubType>
       </SubType>

@@ -1,11 +1,12 @@
 #pragma once
 #include <GameEngineBase/GameEngineObjectNameBase.h>
+#include "GameEngineTransform.h"
 
 // Ό³Έν :
 class GameEngineComponent;
-class GameEngineTransformComponent;
 class GameEngineLevel;
 class GameEngineTransform;
+class GameEngineTransformComponent;
 class GameEngineActor : public GameEngineObjectNameBase
 {
 	friend GameEngineLevel;
@@ -101,11 +102,11 @@ protected:
 public:
 	GameEngineTransform* GetTransform()
 	{
-		return 	Transform_;
+		return &Transform_;
 	}
 
 private:
-	GameEngineTransform* Transform_;
+	GameEngineTransform Transform_;
 	GameEngineLevel* Level_;
 
 	// Status

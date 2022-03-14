@@ -4,8 +4,8 @@
 
 // Ό³Έν :
 class GameEngineTexture;
-class GameEngineUIRenderer;
 class GameEngineFolderTexture;
+class GameEngineUIRenderer;
 class GameEngineImageRenderer : public GameEngineRenderer
 {
 	friend GameEngineUIRenderer;
@@ -14,6 +14,7 @@ private:
 	struct Animation2D
 	{
 		GameEngineFolderTexture* FolderTextures_;
+		GameEngineTexture* AnimationTexture_;
 		float InterTime_;
 		float CurTime_;
 
@@ -49,12 +50,10 @@ public:
 	GameEngineImageRenderer& operator=(GameEngineImageRenderer&& _Other) noexcept = delete;
 
 	void SetImage(const std::string& _ImageName);
-	void SetImage(const std::string& _ImageName, GameEngineTransform* _transform);
-
 
 	void SetIndex(const int Index);
 
-	void CreateAnimation(const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop = true);
+	void CreateAnimation(const std::string& _TextureName, const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop = true);
 
 	void CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime, bool _Loop = true);
 
@@ -69,7 +68,6 @@ public:
 protected:
 	void Update(float _DeltaTime) override;
 
-
 private:
 	std::map<std::string, Animation2D*> AllAnimations_;
 	Animation2D* CurAnimation_;
@@ -79,6 +77,4 @@ private:
 	void Start() override;
 
 };
-
-
 

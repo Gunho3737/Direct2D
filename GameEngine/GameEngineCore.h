@@ -10,6 +10,9 @@ class GameEngineCore : public GameEngineObjectBase
 {
 private:
 	void EngineInitialize();
+	void EngineResourcesLoad();
+	void EngineResourcesCreate();
+
 	void EngineDestroy();
 
 protected:
@@ -34,7 +37,7 @@ private:
 
 public:
 	template<typename UserGameType>
-	static void Start() 
+	static void Start()
 	{
 		GameEngineDebug::LeakCheckOn();
 
@@ -69,11 +72,11 @@ public:
 
 
 
-////////////////////////////////////// Level
+	////////////////////////////////////// Level
 
 public:
 	template<typename LevelType>
-	static void LevelCreate(const std::string& _Level) 
+	static void LevelCreate(const std::string& _Level)
 	{
 		if (nullptr != LevelFind(_Level))
 		{

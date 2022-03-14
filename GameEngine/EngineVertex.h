@@ -2,7 +2,6 @@
 #include <GameEngineBase/GameEngineMath.h>
 
 
-
 struct GameEngineVertex
 {
 public:
