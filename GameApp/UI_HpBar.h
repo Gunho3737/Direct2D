@@ -2,7 +2,7 @@
 #include <GameEngine/GameEngineActor.h>
 
 // Ό³Έν :
-class GameEngineImageRenderer;
+class GameEngineUIRenderer;
 class UI_HpBar : public GameEngineActor
 {
 public:
@@ -17,7 +17,6 @@ public:
 	UI_HpBar& operator=(UI_HpBar&& _Other) noexcept = delete;
 
 protected:
-	GameEngineImageRenderer* UIRenderer;
 
 private:
 	void Start() override;

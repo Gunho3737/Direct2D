@@ -32,8 +32,7 @@ void PlayLevel::LevelStart()
 
 	{
 		UI_HpBar* Actor = CreateActor<UI_HpBar>();
-		Actor->GetTransform()->SetWorldPosition(float4(-300.0f, 200.0f, 0.0f));
-		Actor->GetTransform()->AttachTransform(PlayerActor->GetTransform());
+		Actor->GetTransform()->SetWorldPosition(float4(-100.0f, 200.0f, 0.0f));
 	}
 }
 

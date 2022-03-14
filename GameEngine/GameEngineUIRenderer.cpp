@@ -13,6 +13,6 @@ GameEngineUIRenderer::~GameEngineUIRenderer()
 
 void GameEngineUIRenderer::Start()
 {
-	GameEngineImageRenderer::Start();
+	GameEngineUIRenderer::GameEngineImageRenderer::Start();
 	GetLevel()->GetUICamera()->PushRenderer(GetOrder(), this);
 }
