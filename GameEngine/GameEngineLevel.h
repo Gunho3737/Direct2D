@@ -95,9 +95,11 @@ private:
 
 
 	// 다른애가 이걸 가릴수 있나요?
-	void DebugRender(GameEngineTransform* _Transform, CollisionType _Type);
+	
 
 public:
+	void PushDebugRender(GameEngineTransform* _Transform, CollisionType _Type);
+
 	template<typename UserEnumType>
 	void PushCollision(GameEngineCollision* _Collision, UserEnumType _Group)
 	{

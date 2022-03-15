@@ -14,7 +14,10 @@ Player::~Player()
 {
 }
 
-
+void Player::TestFunction()
+{
+	//PlayerCollision->GetActor()->Death();
+}
 
 void Player::Start()
 {
@@ -22,14 +25,16 @@ void Player::Start()
 	// 랜더러로서 뭐든지 다 그릴수있는 가능성을 가지고 있는 녀석.
 	{
 		PlayerImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-	//	PlayerImageRenderer->SetImage("Char.png", PlayerImageRenderer->GetTransform());
-		PlayerImageRenderer->GetTransform()->SetLocalScaling(float4{ 100.0f, 100.0f, 1.0f });
+		//PlayerImageRenderer->SetImage("Char.png", PlayerImageRenderer->GetTransform());
+		PlayerImageRenderer->CreateAnimationFolder("Idle", "Idle", 1.0f);
+		PlayerImageRenderer->GetTransform()->SetLocalScaling(float4{ 60.0f, 130.0f, 1.0f });
+		PlayerImageRenderer->SetChangeAnimation("Idle");
 	}
 
 	{
 		PlayerCollision = CreateTransformComponent<GameEngineCollision>(10);
 
-		PlayerCollision->GetTransform()->SetLocalScaling(float4{ 100.0f, 100.0f, 1.0f });
+		PlayerCollision->GetTransform()->SetLocalScaling(float4{ 200.0f, 200.0f, 1.0f });
 
 		PlayerCollision->SetCollisionGroup(30);
 	}
@@ -98,6 +103,10 @@ void Player::Update(float _DeltaTime)
 		}
 	);
 
+	GetLevel()->PushDebugRender(PlayerCollision->GetTransform(), CollisionType::Rect);
+
 	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
+
+	PlayerImageRenderer->SetFrameCallBack("Idle", 3, std::bind(&Player::TestFunction, this));
 
 }

@@ -74,12 +74,14 @@ public:
 		isDebug_ = false;
 	}
 
-	void IsDebugCheck()
+	bool IsDebugCheck()
 	{
 		if (true == isDebug_)
 		{
 			int a = 0;
 		}
+
+		return isDebug_;
 	}
 
 	void SetOrder(int _Order)

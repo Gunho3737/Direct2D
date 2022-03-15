@@ -14,6 +14,7 @@ class GameEngineConstantBuffer;
 // 설명 :
 class GameEngineShaderResHelper
 {
+	friend class CameraComponent;
 	friend class  GameEngineRenderer;
 	/////////////////////////////////// 쉐이더 세팅 데이터들
 

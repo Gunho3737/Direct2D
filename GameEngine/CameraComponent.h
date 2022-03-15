@@ -34,9 +34,9 @@ public:
 
 	void PushRenderer(int _Order, GameEngineRenderer* _Renderer);
 
-	void PushDebug(GameEngineTransform* _Trans, CollisionType _Type);
+	void PushDebugRender(GameEngineTransform* _Trans, CollisionType _Type);
 
-
+	//GameEngineRenderTarget* CameraBufferTarget_;
 
 protected:
 	void Start() override;
@@ -53,6 +53,8 @@ private:
 	float FarZ_;
 
 
+
+	//void ClearCameraTarget();
 
 	void Render();
 	void DebugRender();

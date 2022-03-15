@@ -5,7 +5,7 @@ void AppShaderLoad()
 {
 	GameEngineDirectory Dir;
 	Dir.MoveParent("Popol");
-	Dir.MoveChild("EngineResources");
+	Dir.MoveChild("Resources");
 	Dir.MoveChild("Shader");
 
 	std::vector<GameEngineFile> AllShader = Dir.GetAllFile("fx");
