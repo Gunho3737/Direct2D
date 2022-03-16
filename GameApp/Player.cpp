@@ -16,7 +16,7 @@ Player::~Player()
 
 void Player::TestFunction()
 {
-	//PlayerCollision->GetActor()->Death();
+	//PlayerImageRenderer->SetIndex(4);
 }
 
 void Player::Start()
@@ -25,8 +25,8 @@ void Player::Start()
 	// 랜더러로서 뭐든지 다 그릴수있는 가능성을 가지고 있는 녀석.
 	{
 		PlayerImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-		//PlayerImageRenderer->SetImage("Char.png", PlayerImageRenderer->GetTransform());
-		PlayerImageRenderer->CreateAnimationFolder("Idle", "Idle", 1.0f);
+		PlayerImageRenderer->CreateAnimationFolder("Idle", "Idle", 0.2f);
+		PlayerImageRenderer->CreateAnimationFolder("Run", "Run", 0.05f);
 		PlayerImageRenderer->GetTransform()->SetLocalScaling(float4{ 60.0f, 130.0f, 1.0f });
 		PlayerImageRenderer->SetChangeAnimation("Idle");
 	}
@@ -39,7 +39,7 @@ void Player::Start()
 		PlayerCollision->SetCollisionGroup(30);
 	}
 
-//	{
+//	{	플레이어 위에 렌더링파이프라인을 이용한 도형을 만든다
 //		GameEngineRenderer* Renderer = CreateTransformComponent<GameEngineRenderer>(GetTransform());
 //		Renderer->SetRenderingPipeLine("Color");
 //		Renderer->GetTransform()->SetLocalScaling({ 100.0f, 20.0f, 1.0f });
@@ -49,10 +49,10 @@ void Player::Start()
 
 	if (false == GameEngineInput::GetInst().IsKey("PlayerMove"))
 	{
-		GameEngineInput::GetInst().CreateKey("MoveLeft", 'A');
-		GameEngineInput::GetInst().CreateKey("MoveRight", 'D');
-		GameEngineInput::GetInst().CreateKey("MoveUp", 'W');
-		GameEngineInput::GetInst().CreateKey("MoveDown", 'S');
+		GameEngineInput::GetInst().CreateKey("MoveLeft", VK_LEFT);
+		GameEngineInput::GetInst().CreateKey("MoveRight", VK_RIGHT);
+		GameEngineInput::GetInst().CreateKey("MoveUp", VK_UP);
+		GameEngineInput::GetInst().CreateKey("MoveDown", VK_DOWN);
 		GameEngineInput::GetInst().CreateKey("RotZ+", 'Q');
 		GameEngineInput::GetInst().CreateKey("RotZ-", 'E');
 		GameEngineInput::GetInst().CreateKey("Fire", VK_SPACE);
@@ -61,13 +61,27 @@ void Player::Start()
 
 void Player::Update(float _DeltaTime)
 {
+
+	if (true == GameEngineInput::GetInst().Up("MoveLeft"))
+	{
+		PlayerImageRenderer->SetChangeAnimation("Idle");
+	}
+	if (true == GameEngineInput::GetInst().Up("MoveRight"))
+	{
+		PlayerImageRenderer->SetChangeAnimation("Idle");
+	}
+
 	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 	{
 		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * 100.0f);
+		PlayerImageRenderer->SetChangeAnimation("Run");
+
+	
 	}
 	if (true == GameEngineInput::GetInst().Press("MoveRight"))
 	{
 		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * 100.0f);
+		PlayerImageRenderer->SetChangeAnimation("Run");
 	}
 	if (true == GameEngineInput::GetInst().Press("MoveUp"))
 	{
@@ -107,6 +121,7 @@ void Player::Update(float _DeltaTime)
 
 	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 
-	PlayerImageRenderer->SetFrameCallBack("Idle", 3, std::bind(&Player::TestFunction, this));
+	//PlayerImageRenderer->SetFrameCallBack("Run", 4, std::bind(&Player::TestFunction, this));
+	PlayerImageRenderer->SetEndCallBack("Run", std::bind(&Player::TestFunction, this));
 
 }

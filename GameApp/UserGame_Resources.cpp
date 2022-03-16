@@ -45,6 +45,7 @@ void UserGame::ResourcesLoad()
 		TextureDir.MoveChild("Knight");
 
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("Idle"));
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("Run"));
 	}
 
 
