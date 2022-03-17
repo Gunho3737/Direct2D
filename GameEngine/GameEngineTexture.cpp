@@ -35,6 +35,62 @@ GameEngineTexture::~GameEngineTexture() // default destructer 디폴트 소멸자
 	}
 }
 
+void GameEngineTexture::Create(
+	float4 _TextureSize,
+	DXGI_FORMAT _Format,
+	D3D11_USAGE _Usage /*= D3D11_USAGE::D3D11_USAGE_DEFAULT*/,
+	unsigned int _BindFlag /*= D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET | D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE*/
+)
+{
+
+	D3D11_TEXTURE2D_DESC TextureInfo = { 0, };
+	TextureInfo.ArraySize = 1;
+	TextureInfo.Width = _TextureSize.uix();
+	TextureInfo.Height = _TextureSize.uiy();
+	TextureInfo.Format = _Format;
+	TextureInfo.SampleDesc.Count = 1;
+	TextureInfo.SampleDesc.Quality = 0;
+	TextureInfo.MipLevels = 1;
+	TextureInfo.Usage = _Usage;
+
+	if (_Usage == D3D11_USAGE::D3D11_USAGE_DYNAMIC)
+	{
+		TextureInfo.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	}
+	else
+	{
+		TextureInfo.CPUAccessFlags = 0;
+	}
+
+	TextureInfo.BindFlags = _BindFlag;
+
+	Create(TextureInfo);
+}
+
+void GameEngineTexture::Create(D3D11_TEXTURE2D_DESC _Desc)
+{
+	TextureDesc_ = _Desc;
+
+	GameEngineDevice::GetDevice()->CreateTexture2D(&TextureDesc_, nullptr, &Texture2D_);
+
+	if (nullptr == Texture2D_)
+	{
+		GameEngineDebug::MsgBoxError("Texture Create Error");
+		return;
+	}
+
+	if (_Desc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
+	{
+		CreateRenderTargetView();
+	}
+
+	if (_Desc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)
+	{
+		CreateShaderResourceView();
+	}
+
+}
+
 void GameEngineTexture::Create(ID3D11Texture2D* _Texture2D)
 {
 	if (nullptr == _Texture2D)
@@ -51,7 +107,8 @@ ID3D11RenderTargetView* GameEngineTexture::CreateRenderTargetView()
 {
 	if (nullptr != RenderTargetView_)
 	{
-		GameEngineDebug::MsgBoxError("RenderTargetView OverLap Create Error");
+		// GameEngineDebug::MsgBoxError("RenderTargetView OverLap Create Error");
+		return RenderTargetView_;
 	}
 
 	if (S_OK != GameEngineDevice::GetDevice()->CreateRenderTargetView(Texture2D_, nullptr, &RenderTargetView_))
@@ -60,6 +117,22 @@ ID3D11RenderTargetView* GameEngineTexture::CreateRenderTargetView()
 	}
 
 	return RenderTargetView_;
+}
+
+ID3D11ShaderResourceView* GameEngineTexture::CreateShaderResourceView()
+{
+	if (nullptr != ShaderResourceViewPtr_)
+	{
+		// GameEngineDebug::MsgBoxError("RenderTargetView OverLap Create Error");
+		return ShaderResourceViewPtr_;
+	}
+
+	if (S_OK != GameEngineDevice::GetDevice()->CreateShaderResourceView(Texture2D_, nullptr, &ShaderResourceViewPtr_))
+	{
+		GameEngineDebug::MsgBoxError("RenderTargetView Create Error");
+	}
+
+	return ShaderResourceViewPtr_;
 }
 
 
@@ -102,15 +175,6 @@ void GameEngineTexture::Load(const std::string& _Path)
 
 	TextureDesc_.Width = static_cast<unsigned int>(Image_.GetMetadata().width);
 	TextureDesc_.Height = static_cast<unsigned int>(Image_.GetMetadata().height);
-}
-
-ID3D11RenderTargetView* GameEngineTexture::GetRenderTargetView()
-{
-	return RenderTargetView_;
-}
-ID3D11ShaderResourceView** GameEngineTexture::GetShaderResourcesView()
-{
-	return &ShaderResourceViewPtr_;
 }
 
 void GameEngineTexture::PushCutIndex(const float4& _Size, const float4& _Pos)
@@ -170,9 +234,4 @@ float4 GameEngineTexture::GetCutData(int _Index)
 bool GameEngineTexture::IsCut()
 {
 	return CutList_.size() != 0;
-}
-
-float4 GameEngineTexture::GetImageSize()
-{
-	return { static_cast<float>(TextureDesc_.Width) , static_cast<float>(TextureDesc_.Height), 1.0f };
 }

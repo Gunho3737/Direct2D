@@ -21,7 +21,8 @@
   <ItemGroup>
     <FxCompile Include="..\Example\AR38\EngineResources\Shader\CbufferHeader.fx" />
     <FxCompile Include="..\Example\AR38\EngineResources\Shader\Color.fx" />
-    <FxCompile Include="..\Example\AR38\EngineResources\Shader\Texture.fx" />
+    <FxCompile Include="EngineResources\Shader\TargetMerge.fx" />
+    <FxCompile Include="EngineResources\Shader\Texture.fx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

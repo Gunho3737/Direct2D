@@ -117,6 +117,8 @@ void Player::Update(float _DeltaTime)
 		}
 	);
 
+	GetLevel()->DebugOff();
+
 	GetLevel()->PushDebugRender(PlayerCollision->GetTransform(), CollisionType::Rect);
 
 	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());

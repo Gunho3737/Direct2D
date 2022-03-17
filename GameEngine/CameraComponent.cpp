@@ -21,11 +21,11 @@ CameraComponent::CameraComponent()
 
 CameraComponent::~CameraComponent()
 {
-//	if (nullptr != CameraBufferTarget_)
-//	{
-//		delete CameraBufferTarget_;
-//		CameraBufferTarget_ = nullptr;
-//	}
+	if (nullptr != CameraBufferTarget_)
+	{
+		delete CameraBufferTarget_;
+		CameraBufferTarget_ = nullptr;
+	}
 }
 
 void CameraComponent::Start()
@@ -43,6 +43,9 @@ void CameraComponent::Start()
 		DebugVector_[i].ShaderHelper.SettingConstantBufferLink("ResultColor", DebugVector_[i].Color);
 		DebugVector_[i].ShaderHelper.SettingConstantBufferLink("TransformData", DebugVector_[i].Data);
 	}
+
+	CameraBufferTarget_ = new GameEngineRenderTarget();
+	CameraBufferTarget_->Create(GameEngineWindow::GetInst().GetSize(), float4::NONE);
 }
 
 void CameraComponent::Update(float _DeltaTime)
@@ -66,14 +69,14 @@ void CameraComponent::CameraTransformUpdate()
 	}
 }
 
-//void CameraComponent::ClearCameraTarget()
-//{
-//	CameraBufferTarget_->Clear();
-//}
+void CameraComponent::ClearCameraTarget()
+{
+	CameraBufferTarget_->Clear();
+}
 
 void CameraComponent::Render()
 {
-	//CameraBufferTarget_->Setting();
+	CameraBufferTarget_->Setting();
 
 	CameraTransformUpdate();
 
@@ -159,7 +162,7 @@ void CameraComponent::DebugRender()
 		return;
 	}
 
-	//CameraBufferTarget_->Setting();
+	CameraBufferTarget_->Setting();
 
 	float4x4 View = GetTransform()->GetTransformData().View_;
 	float4x4 Projection = GetTransform()->GetTransformData().Projection_;

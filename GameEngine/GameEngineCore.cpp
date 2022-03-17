@@ -34,8 +34,10 @@ GameEngineCore::GameEngineCore(GameEngineCore&& _other) noexcept  // default RVa
 void GameEngineCore::EngineInitialize()
 {
 
+	GameEngineDevice::GetInst().Initialize();
 	EngineResourcesLoad();
 	EngineResourcesCreate();
+	GameEngineDevice::GetInst().CreateSwapChain();
 	// 엔진용 파이프라인
 
 

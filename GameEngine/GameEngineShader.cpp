@@ -10,7 +10,7 @@ GameEngineShader::GameEngineShader(ShaderType _Type)
 {
 }
 
-GameEngineShader::~GameEngineShader() 
+GameEngineShader::~GameEngineShader()
 {
 }
 
@@ -40,7 +40,7 @@ void GameEngineShader::SetEntryPoint(const std::string& _EntryPoint)
 	EntryPoint_ = _EntryPoint;
 }
 
-void GameEngineShader::ResCheck() 
+void GameEngineShader::ResCheck()
 {
 
 	if (nullptr == CodeBlob_)
@@ -116,9 +116,9 @@ void GameEngineShader::ResCheck()
 			memset(&Smp_Decs, 0, sizeof(D3D11_SAMPLER_DESC));
 
 			// ¹¶°³¶ó.
-			// Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+			Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 			// µüµü µµÆ®Ã³·³ ¸¸µé¾î¶ó
-			Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+			// Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
 
 			Smp_Decs.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
 			Smp_Decs.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
@@ -132,7 +132,7 @@ void GameEngineShader::ResCheck()
 			// Smp_Decs.BorderColor;
 			// Smp_Decs.MaxAnisotropy;
 
-			GameEngineSampler* NewRes = GameEngineSamplerManager::GetInst().Create(Name, Smp_Decs);
+			GameEngineSampler* NewRes = GameEngineSamplerManager::GetInst().CreateAndFind(Name, Smp_Decs);
 			Samplers_.insert(std::make_pair(ResInfo.BindPoint, NewRes));
 			break;
 		}

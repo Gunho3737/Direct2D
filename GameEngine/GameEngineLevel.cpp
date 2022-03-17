@@ -8,6 +8,7 @@
 #include "CameraComponent.h"
 #include "GameEngineCollision.h"
 #include "GameEngineDebugRenderData.h"
+#include "GameEngineRenderTarget.h"
 
 
 CameraActor* GameEngineLevel::GetMainCameraActor()
@@ -86,16 +87,17 @@ void GameEngineLevel::Render()
 {
 	GameEngineDevice::RenderStart();
 
+	MainCameraActor_->GetCamera()->ClearCameraTarget();
 	// 월드를 그리는 것이죠
 	MainCameraActor_->GetCamera()->Render();
-
+	MainCameraActor_->GetCamera()->DebugRender();
 	// ui를 여기에 그리죠?
 	UICameraActor_->GetCamera()->Render();
 
-	MainCameraActor_->GetCamera()->DebugRender();
+	GameEngineDevice::GetBackBufferTarget()->Merge(MainCameraActor_->GetCamera()->GetCameraRenderTarget());
+	GameEngineDevice::GetBackBufferTarget()->Merge(UICameraActor_->GetCamera()->GetCameraRenderTarget());
 
 	// 충돌체 랜더링이 무조건 화면에 뚫고 나와야하는 애들은
-
 	GameEngineDevice::RenderEnd();
 }
 
@@ -217,8 +219,6 @@ void GameEngineLevel::ChangeCollisionGroup(int _Group, GameEngineCollision* _Col
 
 	CollisionList_[_Collision->GetOrder()].push_back(_Collision);
 }
-
-
 
 void GameEngineLevel::ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer)
 {
