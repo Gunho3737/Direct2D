@@ -20,6 +20,8 @@ protected:
 	void TestStartCallBack();
 	void TestEndCallBack();
 
+	GameEngineImageRenderer* PlayerImageRenderer;
+
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;

@@ -54,6 +54,8 @@ public:
 		std::function<void(GameEngineCollision*)> _CallBack
 	);
 
+	void Collision(CollisionType _ThisType, CollisionType _OtherType, ActorCollisionType _ActorCollisionType, std::function<void(GameEngineCollision*)> _CallBack);
+
 	void SphereToSphereCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack);
 
 

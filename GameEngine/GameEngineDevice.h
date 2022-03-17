@@ -10,6 +10,7 @@
 // 다이렉트 x는 프로세스마다 GUIID를 부여서해 X프로세스가 디바이스를 이용하려고 하는지 알아서 처리해줘요.
 #pragma comment(lib, "dxguid")
 
+class GameEngineDepthBuffer;
 class GameEngineRenderTarget;
 // 분류 : 
 // 용도 : 
@@ -45,6 +46,7 @@ private:
 
 	static GameEngineRenderTarget* BackBufferTarget_;
 
+	// static GameEngineDepthBuffer* DepthBuffer_;
 
 public:
 	static GameEngineRenderTarget* GetBackBufferTarget();

@@ -14,7 +14,7 @@ private:		//delete operator
 	GameEngineString& operator=(const GameEngineString&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
-	static void toupper(std::string& Text);
+	static std::string toupper(const std::string& _Text);
 
 	static void StringToWString(const std::string& Text, std::wstring& _Out);
 };

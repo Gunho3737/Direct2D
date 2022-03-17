@@ -9,6 +9,26 @@
 class GameEngineTexture : public GameEngineObjectNameBase
 {
 public:
+
+	inline ID3D11DepthStencilView* GetDepthStencilView()
+	{
+		return DepthStencilView_;
+	}
+
+	inline ID3D11RenderTargetView* GetRenderTargetView()
+	{
+		return RenderTargetView_;
+	}
+
+	inline ID3D11ShaderResourceView** GetShaderResourcesView()
+	{
+		return &ShaderResourceView_;
+	}
+
+	ID3D11RenderTargetView* CreateRenderTargetView();
+	ID3D11ShaderResourceView* CreateShaderResourceView();
+	ID3D11DepthStencilView* CreateDepthStencilView();
+
 	void Create(ID3D11Texture2D* _Texture2D);
 
 	void Create(
@@ -22,18 +42,6 @@ public:
 
 	void Load(const std::string& _Path);
 
-	inline ID3D11RenderTargetView* GetRenderTargetView()
-	{
-		return RenderTargetView_;
-	}
-
-	inline ID3D11ShaderResourceView** GetShaderResourcesView()
-	{
-		return &ShaderResourceViewPtr_;
-	}
-
-	ID3D11RenderTargetView* CreateRenderTargetView();
-	ID3D11ShaderResourceView* CreateShaderResourceView();
 
 	GameEngineTexture(); // default constructer 디폴트 생성자
 	~GameEngineTexture(); // default destructer 디폴트 소멸자
@@ -49,7 +57,8 @@ private:		//delete operator
 	D3D11_TEXTURE2D_DESC TextureDesc_;
 	ID3D11Texture2D* Texture2D_;
 	ID3D11RenderTargetView* RenderTargetView_;
-	ID3D11ShaderResourceView* ShaderResourceViewPtr_;
+	ID3D11ShaderResourceView* ShaderResourceView_;
+	ID3D11DepthStencilView* DepthStencilView_;
 	DirectX::ScratchImage Image_;
 
 public:

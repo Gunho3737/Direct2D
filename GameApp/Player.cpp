@@ -6,7 +6,9 @@
 #include "Attack.h"
 
 
+
 Player::Player()
+	: Speed(300.0f)
 {
 }
 
@@ -32,11 +34,10 @@ void Player::Start()
 	}
 
 	{
-		PlayerCollision = CreateTransformComponent<GameEngineCollision>(10);
+		PlayerCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::PLAYER);
 
-		PlayerCollision->GetTransform()->SetLocalScaling(float4{ 200.0f, 200.0f, 1.0f });
-
-		PlayerCollision->SetCollisionGroup(30);
+		PlayerCollision->GetTransform()->SetLocalScaling(float4{ 60.0f, 130.0f, 1.0f });
+		PlayerCollision->GetTransform()->SetLocalPosition(float4{0.0f, 0.0f, -10.0f});
 	}
 
 //	{	플레이어 위에 렌더링파이프라인을 이용한 도형을 만든다
@@ -73,23 +74,23 @@ void Player::Update(float _DeltaTime)
 
 	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 	{
-		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * 100.0f);
+		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
 		PlayerImageRenderer->SetChangeAnimation("Run");
 
 	
 	}
 	if (true == GameEngineInput::GetInst().Press("MoveRight"))
 	{
-		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * 100.0f);
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 		PlayerImageRenderer->SetChangeAnimation("Run");
 	}
 	if (true == GameEngineInput::GetInst().Press("MoveUp"))
 	{
-		GetTransform()->SetLocalDeltaTimeMove(float4::UP * 100.0f);
+		GetTransform()->SetLocalDeltaTimeMove(float4::UP * Speed);
 	}
 	if (true == GameEngineInput::GetInst().Press("MoveDown"))
 	{
-		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 100.0f);
+		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * Speed);
 	}
 
 	if (true == GameEngineInput::GetInst().Press("RotZ+"))
@@ -106,16 +107,16 @@ void Player::Update(float _DeltaTime)
 	{
 		Attack* NewBullet = GetLevel()->CreateActor<Attack>();
 		NewBullet->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
-		NewBullet->Release(1.0f);
+		//NewBullet->Release(1.0f);
 	}
 
-	// 그냥 원하는 순간 20
-	PlayerCollision->Collision(CollisionType::CirCle, CollisionType::CirCle, 20,
-		[](GameEngineCollision* _OtherCollision)
-		{
-			_OtherCollision->GetActor()->Death();
-		}
-	);
+
+	//PlayerCollision->Collision(CollisionType::Rect, CollisionType::Rect, (int)ActorCollisionType::PLAYER,
+	//	[](GameEngineCollision* _OtherCollision)
+	//	{
+	//		_OtherCollision->GetActor()->Death();
+	//	}
+	//);
 
 	//GetLevel()->DebugOff();
 

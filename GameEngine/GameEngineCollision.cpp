@@ -115,6 +115,11 @@ void GameEngineCollision::Collision(CollisionType _ThisType, CollisionType _Othe
 	}
 }
 
+void GameEngineCollision::Collision(CollisionType _ThisType, CollisionType _OtherType, ActorCollisionType _ActorCollisionType, std::function<void(GameEngineCollision*)> _CallBack)
+{
+	Collision(_ThisType, _OtherType, (int)_ActorCollisionType, _CallBack);
+}
+
 void GameEngineCollision::SphereToSphereCollision(int _OtherGroup, std::function<void(GameEngineCollision*)> _CallBack)
 {
 	Collision(CollisionType::Sphere3D, CollisionType::Sphere3D, _OtherGroup, _CallBack);

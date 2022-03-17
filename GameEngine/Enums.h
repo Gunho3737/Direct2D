@@ -22,3 +22,12 @@ enum class RenderingOrder
 	UI,
 	Debug,
 };
+
+enum class ActorCollisionType
+{
+	PLAYER,
+	ATTACK,
+	MONSTER,
+	MAP,
+	MAX
+};

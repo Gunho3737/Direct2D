@@ -18,8 +18,8 @@ public:
 
 protected:
 	GameEngineImageRenderer* PlayerImageRenderer;
-
 	GameEngineCollision* PlayerCollision;
+	float Speed;
 
 private:
 	void Start() override;

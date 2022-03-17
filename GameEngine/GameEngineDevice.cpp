@@ -3,7 +3,9 @@
 #include "GameEngineWindow.h"
 #include "GameEngineTextureManager.h"
 #include "GameEngineRenderTargetManager.h"
+#include "GameEngineDepthBufferManager.h"
 #include "GameEngineRenderTarget.h"
+#include "GameEngineDepthBuffer.h"
 
 GameEngineDevice* GameEngineDevice::Inst = new GameEngineDevice();
 
@@ -190,6 +192,8 @@ void GameEngineDevice::CreateSwapChain()
 
 	GameEngineTextureManager::GetInst().Create("BackBuffer", BackBufferTexture);
 	BackBufferTarget_ = GameEngineRenderTargetManager::GetInst().Create("BackBuffer", "BackBuffer", float4::BLUE);
+
+	// DepthBuffer_ = GameEngineDepthBufferManager::GetInst().Create("DeviceDepthBuffer", GameEngineWindow::GetInst().GetSize());
 }
 
 void GameEngineDevice::RenderStart()

@@ -15,12 +15,15 @@ public:
 	FlyBug& operator=(const FlyBug& _Other) = delete;
 	FlyBug& operator=(FlyBug&& _Other) noexcept = delete;
 
+	GameEngineImageRenderer* PlayerImageRenderer;
 	GameEngineCollision* Collision;
 
 protected:
 	//콜백함수용 함수, 기능에 맞춰서 이름붙힐것
 	void TestStartCallBack();
-	void TestEndCallBack();
+	void Die();
+
+	int HP = 3;
 
 
 private:

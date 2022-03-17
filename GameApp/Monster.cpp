@@ -4,6 +4,7 @@
 #include <GameEngine\GameEngineCollision.h>
 #include "Monster.h"
 
+
 Monster::Monster()
 {
 }
@@ -34,7 +35,7 @@ void Monster::Start()
 	//}
 
 	{
-		GameEngineImageRenderer* PlayerImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		PlayerImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 //		PlayerImageRenderer->SetImage("Animation.png");
 //	
 //		//잘린 이미지중 몇번째 스프라이트를 사용할지 선택(애니메이션이 아닌 )
@@ -57,7 +58,7 @@ void Monster::Start()
 
 	{
 		GameEngineCollision* Collision = CreateTransformComponent<GameEngineCollision>(20);
-		Collision->GetTransform()->SetLocalScaling(float4{ 100.0f, 100.0f, 1.0f });
+		Collision->GetTransform()->SetLocalScaling(float4{ 100.0f, 100.0f, -10.0f });
 	}
 
 }

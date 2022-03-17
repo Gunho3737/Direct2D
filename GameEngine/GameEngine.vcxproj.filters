@@ -142,6 +142,15 @@
     <ClInclude Include="GameEngineDepthStencil.h">
       <Filter>Resources\03_Setting</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineDepthBuffer.h">
+      <Filter>Resources\02_Image</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineDepthBufferManager.h">
+      <Filter>Resources\99_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineDepthStencilManager.h">
+      <Filter>Resources\99_Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -276,6 +285,15 @@
     </ClCompile>
     <ClCompile Include="GameEngineDepthStencil.cpp">
       <Filter>Resources\03_Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineDepthBuffer.cpp">
+      <Filter>Resources\02_Image</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineDepthBufferManager.cpp">
+      <Filter>Resources\99_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineDepthStencilManager.cpp">
+      <Filter>Resources\99_Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -10,6 +10,7 @@
 // 설명 : 
 class GameEngineBlend;
 class GameEngineShader;
+class GameEngineDepthStencil;
 class GameEngineConstantBuffer;
 class GameEngineIndexBuffer;
 class GameEngineVertexBuffer;
@@ -38,6 +39,8 @@ private:	// member Var
 	// OM
 	GameEngineRenderTarget* RenderTarget_;
 
+	GameEngineDepthStencil* DepthStencil_;
+
 public:
 	inline GameEnginePixelShader* GetPixelShader() const
 	{
@@ -65,11 +68,14 @@ public:
 
 	void SetOutputMergerBlend(const std::string& _Name);
 
+	void SetOutputMergerDepthStencil(const std::string& _Name);
+
 	void RenderingPipeLineSetting();
 
 	void Rendering();
 
 	void Reset();
+
 
 public:
 	GameEngineRenderingPipeLine(); // default constructer 디폴트 생성자

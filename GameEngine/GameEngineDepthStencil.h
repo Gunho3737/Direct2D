@@ -6,7 +6,7 @@
 class GameEngineDepthStencil : public GameEngineObjectNameBase
 {
 public:
-	friend class GameEngineDepthStencil;
+	friend class GameEngineDepthStencilManager;
 
 
 	// constrcuter destructer
