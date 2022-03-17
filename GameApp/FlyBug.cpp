@@ -61,7 +61,7 @@ void FlyBug::Update(float _DeltaTime)
 {
 	GetLevel()->PushDebugRender(Collision->GetTransform(), CollisionType::Rect);
 
-	Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
+	Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::ATTACK,
 		[this](GameEngineCollision* _OtherCollision)
 		{
 			if (HP <= 0)

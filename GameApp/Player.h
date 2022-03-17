@@ -2,6 +2,7 @@
 #include <GameEngine/GameEngineActor.h>
 
 // Ό³Έν :
+class Attack;
 class GameEngineImageRenderer;
 class Player : public GameEngineActor
 {
@@ -16,6 +17,7 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 
+	
 protected:
 	GameEngineImageRenderer* PlayerImageRenderer;
 	GameEngineCollision* PlayerCollision;
@@ -26,6 +28,6 @@ private:
 	void Update(float _DeltaTime) override;
 
 private:
-	void TestFunction();
+	void Slash();
 };
 

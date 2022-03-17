@@ -15,7 +15,10 @@ public:
 	Attack& operator=(const Attack& _Other) = delete;
 	Attack& operator=(Attack&& _Other) noexcept = delete;
 
+	GameEngineImageRenderer* ImageRenderer;
+	GameEngineCollision* Collision;
 protected:
+	
 
 private:
 	void Start() override;

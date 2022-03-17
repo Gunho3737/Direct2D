@@ -2,7 +2,6 @@
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 #include "Player.h"
-#include "Monster.h"
 #include "Attack.h"
 
 
@@ -16,19 +15,14 @@ Player::~Player()
 {
 }
 
-void Player::TestFunction()
-{
-	//PlayerImageRenderer->SetIndex(4);
-}
 
 void Player::Start()
 {
-	// 정말 세팅해줘야할게 많은 녀석입니다.
-	// 랜더러로서 뭐든지 다 그릴수있는 가능성을 가지고 있는 녀석.
 	{
 		PlayerImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		PlayerImageRenderer->CreateAnimationFolder("Idle", "Idle", 0.2f);
 		PlayerImageRenderer->CreateAnimationFolder("Run", "Run", 0.05f);
+		PlayerImageRenderer->CreateAnimationFolder("Slash", "Slash", 0.05f, false);
 		PlayerImageRenderer->GetTransform()->SetLocalScaling(float4{ 60.0f, 130.0f, 1.0f });
 		PlayerImageRenderer->SetChangeAnimation("Idle");
 	}
@@ -40,14 +34,6 @@ void Player::Start()
 		PlayerCollision->GetTransform()->SetLocalPosition(float4{0.0f, 0.0f, -10.0f});
 	}
 
-//	{	플레이어 위에 렌더링파이프라인을 이용한 도형을 만든다
-//		GameEngineRenderer* Renderer = CreateTransformComponent<GameEngineRenderer>(GetTransform());
-//		Renderer->SetRenderingPipeLine("Color");
-//		Renderer->GetTransform()->SetLocalScaling({ 100.0f, 20.0f, 1.0f });
-//		Renderer->GetTransform()->SetLocalPosition({ 0.0f, 80.0f, 0.0f });
-//		Renderer->ShaderHelper.SettingConstantBufferSet("ResultColor", float4(1.0f, 0.0f, 1.0f));
-//}
-
 	if (false == GameEngineInput::GetInst().IsKey("PlayerMove"))
 	{
 		GameEngineInput::GetInst().CreateKey("MoveLeft", VK_LEFT);
@@ -57,6 +43,12 @@ void Player::Start()
 		GameEngineInput::GetInst().CreateKey("RotZ+", 'Q');
 		GameEngineInput::GetInst().CreateKey("RotZ-", 'E');
 		GameEngineInput::GetInst().CreateKey("Attack", 'X');
+	}
+
+
+	{
+		PlayerImageRenderer->SetStartCallBack("Slash", std::bind(&Player::Slash, this));
+		PlayerImageRenderer->SetEndCallBack("Slash", [this]() {PlayerImageRenderer->SetChangeAnimation("Idle");});
 	}
 }
 
@@ -105,9 +97,7 @@ void Player::Update(float _DeltaTime)
 
 	if (true == GameEngineInput::GetInst().Down("Attack"))
 	{
-		Attack* NewBullet = GetLevel()->CreateActor<Attack>();
-		NewBullet->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
-		//NewBullet->Release(1.0f);
+		PlayerImageRenderer->SetChangeAnimation("Slash");
 	}
 
 
@@ -124,7 +114,12 @@ void Player::Update(float _DeltaTime)
 
 	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 
-	//PlayerImageRenderer->SetFrameCallBack("Run", 4, std::bind(&Player::TestFunction, this));
-	PlayerImageRenderer->SetEndCallBack("Run", std::bind(&Player::TestFunction, this));
+}
 
+void Player::Slash()
+{
+	Attack* NewAttack = GetLevel()->CreateActor<Attack>();
+	NewAttack->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition() += {-70.0f, 0.0f, -1.0f});
+	//공격은 새로운 오브젝트를 만들게 아니라, 플레이어에게 종속된 또다른 충돌/렌더러를 만들게 하자
+	//NewAttack->GetTransform()->AttachTransform(GetTransform());
 }
