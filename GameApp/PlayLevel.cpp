@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Monster.h"
 #include "UI_HpBar.h"
+#include "FlyBug.h"
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
 #include <GameEngine/CameraActor.h>
@@ -25,8 +26,13 @@ void PlayLevel::LevelStart()
 		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
 	}
 
+	//{
+	//	Monster* Actor = CreateActor<Monster>();
+	//	Actor->GetTransform()->SetWorldPosition(float4(200.0f, 0.0f, 0.0f));
+	//}
+
 	{
-		Monster* Actor = CreateActor<Monster>();
+		FlyBug* Actor = CreateActor<FlyBug>();
 		Actor->GetTransform()->SetWorldPosition(float4(200.0f, 0.0f, 0.0f));
 	}
 

@@ -25,6 +25,25 @@ void UserGame::ResourcesLoad()
 		TextureDir.MoveParent("Popol");
 		TextureDir.MoveChild("Resources");
 		TextureDir.MoveChild("Image");
+		TextureDir.MoveChild("Monster");
+
+		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFile();
+
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+		}
+
+		GameEngineTexture* Texture = GameEngineTextureManager::GetInst().Find("FlyBug.png");
+		Texture->Cut(5, 5);
+	}
+
+	{
+		GameEngineDirectory TextureDir;
+		TextureDir.MoveParent("Popol");
+		TextureDir.MoveChild("Resources");
+		TextureDir.MoveChild("Image");
+		TextureDir.MoveChild("UI");
 
 		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFile();
 
@@ -34,8 +53,6 @@ void UserGame::ResourcesLoad()
 		}
 	}
 
-	GameEngineTexture* Texture = GameEngineTextureManager::GetInst().Find("Animation.png");
-	Texture->Cut(8, 8);
 
 	{
 		GameEngineDirectory TextureDir;
@@ -46,6 +63,7 @@ void UserGame::ResourcesLoad()
 
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("Idle"));
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("Run"));
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("Slash"));
 	}
 
 

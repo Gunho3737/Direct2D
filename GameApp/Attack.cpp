@@ -1,18 +1,18 @@
 #include "PreCompile.h"
 #include "GameEngine/GameEngineRenderer.h"
-#include "Bullet.h"
+#include "Attack.h"
 
-Bullet::Bullet()
+Attack::Attack()
 {
 }
 
-Bullet::~Bullet()
+Attack::~Attack()
 {
 }
 
 
 
-void Bullet::Start()
+void Attack::Start()
 {
 	// 정말 세팅해줘야할게 많은 녀석입니다.
 	// 랜더러로서 뭐든지 다 그릴수있는 가능성을 가지고 있는 녀석.
@@ -24,7 +24,7 @@ void Bullet::Start()
 	}
 }
 
-void Bullet::Update(float _DeltaTime)
+void Attack::Update(float _DeltaTime)
 {
 	GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * 200.0f);
 }

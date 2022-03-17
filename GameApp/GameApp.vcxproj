@@ -20,11 +20,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Appmain.cpp" />
-    <ClCompile Include="Bullet.cpp">
+    <ClCompile Include="Attack.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="EndingLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="FlyBug.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -57,12 +61,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bullet.h">
+    <ClInclude Include="Attack.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="CustomVertex.h" />
     <ClInclude Include="EndingLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FlyBug.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -3,7 +3,6 @@
 #include "GameEngine/GameEngineImageRenderer.h"
 #include <GameEngine\GameEngineCollision.h>
 #include "Monster.h"
-#include "Bullet.h"
 
 Monster::Monster()
 {

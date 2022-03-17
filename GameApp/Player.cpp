@@ -3,7 +3,7 @@
 #include <GameEngine/GameEngineCollision.h>
 #include "Player.h"
 #include "Monster.h"
-#include "Bullet.h"
+#include "Attack.h"
 
 
 Player::Player()
@@ -55,7 +55,7 @@ void Player::Start()
 		GameEngineInput::GetInst().CreateKey("MoveDown", VK_DOWN);
 		GameEngineInput::GetInst().CreateKey("RotZ+", 'Q');
 		GameEngineInput::GetInst().CreateKey("RotZ-", 'E');
-		GameEngineInput::GetInst().CreateKey("Fire", VK_SPACE);
+		GameEngineInput::GetInst().CreateKey("Attack", 'X');
 	}
 }
 
@@ -102,9 +102,9 @@ void Player::Update(float _DeltaTime)
 		PlayerImageRenderer->GetTransform()->SetLocalDeltaTimeRotation(float4{ 0.0f, 0.0f, -1.0f } *100.0f);
 	}
 
-	if (true == GameEngineInput::GetInst().Down("Fire"))
+	if (true == GameEngineInput::GetInst().Down("Attack"))
 	{
-		Bullet* NewBullet = GetLevel()->CreateActor<Bullet>();
+		Attack* NewBullet = GetLevel()->CreateActor<Attack>();
 		NewBullet->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 		NewBullet->Release(1.0f);
 	}
@@ -117,7 +117,7 @@ void Player::Update(float _DeltaTime)
 		}
 	);
 
-	GetLevel()->DebugOff();
+	//GetLevel()->DebugOff();
 
 	GetLevel()->PushDebugRender(PlayerCollision->GetTransform(), CollisionType::Rect);
 
