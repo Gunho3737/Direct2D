@@ -72,6 +72,8 @@ public:
 		return float4(static_cast<float>(TextureDesc_.Width), static_cast<float>(TextureDesc_.Height));
 	}
 
+	float4 GetPixel(int _X, int _y);
+
 private:
 	std::vector<float4> CutList_;
 };

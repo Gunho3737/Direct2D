@@ -58,7 +58,7 @@ void GameEngineLevel::Init()
 	UICameraActor_ = CreateActor<CameraActor>();
 
 	UICameraActor_->GetCamera()->SetProjectionMode(ProjectionMode::Orthographic);
-	UICameraActor_->GetCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -90.0f));
+	UICameraActor_->GetCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 }
 
 void GameEngineLevel::ActorUpdate(float _DeltaTime)
@@ -83,18 +83,42 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 	}
 }
 
+void GameEngineLevel::LevelChangeEndActorEvent()
+{
+	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
+	{
+		std::list<GameEngineActor*>& Actors = Pair.second;
+
+		for (GameEngineActor* Actor : Actors)
+		{
+			Actor->LevelChangeEndEvent();
+		}
+	}
+}
+void GameEngineLevel::LevelChangeStartActorEvent()
+{
+	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
+	{
+		std::list<GameEngineActor*>& Actors = Pair.second;
+
+		for (GameEngineActor* Actor : Actors)
+		{
+			Actor->LevelChangeStartEvent();
+		}
+	}
+}
+
 void GameEngineLevel::Render()
 {
 	GameEngineDevice::RenderStart();
 
 	MainCameraActor_->GetCamera()->ClearCameraTarget();
 	UICameraActor_->GetCamera()->ClearCameraTarget();
-	// ui를 여기에 그리죠?
 	// 월드를 그리는 것이죠
 	MainCameraActor_->GetCamera()->Render();
 	MainCameraActor_->GetCamera()->DebugRender();
+	// ui를 여기에 그리죠?
 	UICameraActor_->GetCamera()->Render();
-	
 
 	GameEngineDevice::GetBackBufferTarget()->Merge(MainCameraActor_->GetCamera()->GetCameraRenderTarget());
 	GameEngineDevice::GetBackBufferTarget()->Merge(UICameraActor_->GetCamera()->GetCameraRenderTarget());

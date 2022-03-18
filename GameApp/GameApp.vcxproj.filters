@@ -35,6 +35,9 @@
     <ClCompile Include="Attack.cpp">
       <Filter>Actor\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Actor\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -57,6 +60,9 @@
     </Filter>
     <Filter Include="Actor\Player">
       <UniqueIdentifier>{e3b17049-998e-4452-a5e6-ec0bf979b648}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Map">
+      <UniqueIdentifier>{048a358b-588f-4a82-87aa-e27f3f594ec4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +96,9 @@
     </ClInclude>
     <ClInclude Include="Attack.h">
       <Filter>Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Actor\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

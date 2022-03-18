@@ -263,3 +263,18 @@ bool GameEngineTexture::IsCut()
 {
 	return CutList_.size() != 0;
 }
+
+float4 GameEngineTexture::GetPixel(int _X, int _y)
+{
+	// 1111
+	// RGBA
+	// 
+
+	DXGI_FORMAT Fmt = Image_.GetMetadata().format;
+
+	uint8_t* Color = Image_.GetImages()->pixels;
+	int* ColorPtr = reinterpret_cast<int*>(Color);
+
+
+	return { 0.0f, 0.0f, 0.0f };
+}

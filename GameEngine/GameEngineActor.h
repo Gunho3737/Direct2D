@@ -94,6 +94,9 @@ protected:
 	virtual void Start() {}
 	virtual void Update(float _DeltaTime) {}
 	virtual void ReleaseEvent() {}
+	virtual void LevelChangeEndEvent() {}
+	virtual void LevelChangeStartEvent() {}
+
 
 	// 트랜스폼을 변화시킨다는걸 기본적으로 생각할겁니다.
 

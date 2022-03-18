@@ -79,6 +79,7 @@ public:
 	virtual void LevelChangeStartEvent() = 0;
 
 
+
 	//////////////////////////////////////////////////////// collision:
 private:
 	std::map<int, std::list<GameEngineCollision*>> CollisionList_;
@@ -93,9 +94,10 @@ private:
 
 	void ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer);
 
+	void LevelChangeEndActorEvent();
+	void LevelChangeStartActorEvent();
 
 	// 다른애가 이걸 가릴수 있나요?
-	
 
 public:
 	void PushDebugRender(GameEngineTransform* _Transform, CollisionType _Type);
