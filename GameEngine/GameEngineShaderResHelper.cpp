@@ -28,6 +28,8 @@ void GameEngineShaderResHelper::Clear()
 		}
 	}
 
+	AllTextureData_.clear();
+
 	for (auto& Setting : AllSamplerData_)
 	{
 		if (nullptr != Setting.second)
@@ -37,6 +39,8 @@ void GameEngineShaderResHelper::Clear()
 		}
 	}
 
+	AllSamplerData_.clear();
+
 	for (auto& Setting : AllConstantBufferData_)
 	{
 		if (nullptr != Setting.second)
@@ -45,6 +49,8 @@ void GameEngineShaderResHelper::Clear()
 			Setting.second = nullptr;
 		}
 	}
+
+	AllConstantBufferData_.clear();
 }
 
 bool GameEngineShaderResHelper::IsConstantBuffer(const std::string& _SettingName)

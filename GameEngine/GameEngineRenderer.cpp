@@ -29,6 +29,8 @@ void GameEngineRenderer::Render()
 
 void GameEngineRenderer::SetRenderingPipeLine(const std::string& _Value)
 {
+	ShaderHelper.Clear();
+
 	PipeLine_ = GameEngineRenderingPipeLineManager::GetInst().Find(_Value);
 
 	if (nullptr == PipeLine_)
@@ -63,5 +65,5 @@ void GameEngineRenderer::Update(float _DeltaTime)
 
 void GameEngineRenderer::SetRenderGroup(int _Order)
 {
-	GetLevel()->ChangeRendererGroup(_Order, this);
+	GetLevel()->GetMainCamera()->ChangeRendererGroup(_Order, this);
 }

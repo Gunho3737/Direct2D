@@ -13,7 +13,17 @@ GameEngineUIRenderer::~GameEngineUIRenderer()
 
 void GameEngineUIRenderer::Start()
 {
+	// Push Render¸¦ ¸Þ
 	GetLevel()->GetUICamera()->PushRenderer(GetOrder(), this);
 	SetRenderingPipeLine("Texture");
-	ShaderHelper.SettingConstantBufferLink("TextureCutData", CutData);
+	ImageRendererStart();
+}
+
+
+
+
+
+void GameEngineUIRenderer::SetRenderGroup(int _Order)
+{
+	GetLevel()->GetUICamera()->ChangeRendererGroup(_Order, this);;
 }

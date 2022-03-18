@@ -22,7 +22,7 @@ cbuffer TextureCutData : register(b1)
 };
 
 
-VertexOut Texture_VS(VertexIn _in) 
+VertexOut Texture_VS(VertexIn _in)
 {
     VertexOut Out;
 
@@ -48,6 +48,14 @@ SamplerState Smp : register(s0);
 float4 Texture_PS(VertexOut _in) : SV_Target0
 {
     float4 Color = Tex.Sample(Smp, _in.Texcoord.xy);
+
+    if (0.0f == Color.a)
+    {
+        // 출력안하고 정지
+        clip(-1);
+    }
+        
+
     return Color;
 }
 

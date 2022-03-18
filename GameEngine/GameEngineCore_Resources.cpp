@@ -221,7 +221,7 @@ void GameEngineCore::EngineResourcesCreate()
 	{
 		D3D11_RASTERIZER_DESC Info = { D3D11_FILL_MODE::D3D11_FILL_SOLID, };
 		Info.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
-		Info.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
+		Info.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
 		Info.AntialiasedLineEnable = true;
 		Info.MultisampleEnable = true;
 		GameEngineRasterizer* Ptr = GameEngineRasterizerManager::GetInst().Create("EngineBaseRasterizer", Info);
@@ -285,5 +285,41 @@ void GameEngineCore::EngineResourcesCreate()
 		Pipe->SetPixelShader("TargetMerge_PS");
 	}
 
+	{
+		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("Color");
+		Pipe->SetInputAssembler1VertexBufferSetting("Rect");
+		Pipe->SetInputAssembler1InputLayOutSetting("Color_VS");
+		Pipe->SetVertexShader("Color_VS");
+		Pipe->SetInputAssembler2IndexBufferSetting("Rect");
+		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		Pipe->SetRasterizer("EngineBaseRasterizer");
+		Pipe->SetPixelShader("Color_PS");
+		Pipe->SetOutputMergerBlend("AlphaBlend");
+	}
 
+	{
+		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("Texture");
+		Pipe->SetInputAssembler1VertexBufferSetting("Rect");
+		Pipe->SetInputAssembler1InputLayOutSetting("Texture_VS");
+		Pipe->SetVertexShader("Texture_VS");
+		Pipe->SetInputAssembler2IndexBufferSetting("Rect");
+		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		Pipe->SetRasterizer("EngineBaseRasterizer");
+		Pipe->SetPixelShader("Texture_PS");
+		Pipe->SetOutputMergerBlend("AlphaBlend");
+	}
+
+
+	{
+		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("TextureUI");
+		Pipe->SetInputAssembler1VertexBufferSetting("Rect");
+		Pipe->SetInputAssembler1InputLayOutSetting("Texture_VS");
+		Pipe->SetVertexShader("Texture_VS");
+		Pipe->SetInputAssembler2IndexBufferSetting("Rect");
+		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		Pipe->SetRasterizer("EngineBaseRasterizer");
+		Pipe->SetPixelShader("Texture_PS");
+		Pipe->SetOutputMergerBlend("AlphaBlend");
+		Pipe->SetOutputMergerDepthStencil("BaseDepthOff");
+	}
 }

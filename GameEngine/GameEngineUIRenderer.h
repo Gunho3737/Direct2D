@@ -22,6 +22,7 @@ public:
 	GameEngineUIRenderer& operator=(const GameEngineUIRenderer& _Other) = delete;
 	GameEngineUIRenderer& operator=(GameEngineUIRenderer&& _Other) noexcept = delete;
 
+	void SetRenderGroup(int _Order) override;
 protected:
 
 

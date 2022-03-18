@@ -1,16 +1,15 @@
 #pragma once
 #include "GameEngineRenderer.h"
+#include <GameEngineBase\GameEngineObjectNameBase.h>
 
 
 // Ό³Έν :
 class GameEngineTexture;
 class GameEngineFolderTexture;
-class GameEngineUIRenderer;
 class GameEngineImageRenderer : public GameEngineRenderer
 {
-	friend GameEngineUIRenderer;
 private:
-	struct Animation2D
+	struct Animation2D : public GameEngineObjectNameBase
 	{
 		GameEngineFolderTexture* FolderTextures_;
 		GameEngineTexture* AnimationTexture_;
@@ -64,12 +63,28 @@ public:
 	void SetFrameCallBack(const std::string& _Name, int _Index, std::function<void()> _CallBack);
 
 
-	inline GameEngineTexture* GetCurTexture()
+	inline GameEngineTexture* GetCurrentTexture()
 	{
 		return CurTexture;
 	}
 
+	inline std::string GetCurrentAnimationName()
+	{
+		return CurAnimation_->GetName();
+	}
+
+	inline bool IsCurrentAnimationString(const std::string& _Name)
+	{
+		return CurAnimation_->GetName() == _Name;
+	}
+
+	inline bool IsCurrentAnimationPtr(const char* _Name)
+	{
+		return CurAnimation_->GetName() == _Name;
+	}
+
 protected:
+	void ImageRendererStart();
 	void Update(float _DeltaTime) override;
 
 private:

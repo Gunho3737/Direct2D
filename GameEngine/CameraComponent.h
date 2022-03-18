@@ -37,6 +37,8 @@ public:
 
 	GameEngineRenderTarget* CameraBufferTarget_;
 
+	void ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer);
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -47,7 +49,6 @@ private:
 		return CameraBufferTarget_;
 	}
 
-	void ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer);
 
 	ProjectionMode ProjectionMode_;
 	float FovAngleY_;
@@ -65,6 +66,7 @@ private:
 	void CameraTransformUpdate();
 
 	std::map<int, std::list<GameEngineRenderer*>> RendererList_;
+	// std::set<int> ZSort_;
 
 	int DebugRenderCount_;
 	std::vector<GameEngineDebugRenderData> DebugVector_;

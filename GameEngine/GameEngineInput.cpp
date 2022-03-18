@@ -5,7 +5,7 @@
 
 // class GameEngineInput::GameEngineKey : public PtrParent<GameEngineKey> --------------------------
 
-bool GameEngineInput::GameEngineKey::KeyCheck() 
+bool GameEngineInput::GameEngineKey::KeyCheck()
 {
 
     if (0 == CheckKey_.size())
@@ -38,7 +38,7 @@ void GameEngineInput::GameEngineKey::Update()
             Up_ = false;
             Free_ = false;
         }
-        else 
+        else
         {
             Down_ = false;
             Press_ = true;
@@ -46,7 +46,7 @@ void GameEngineInput::GameEngineKey::Update()
             Free_ = false;
         }
     }
-    else 
+    else
     {
         // 이전까지 키가 눌렸다.
         if (true == Press_)
@@ -69,7 +69,7 @@ void GameEngineInput::GameEngineKey::Update()
 
 }
 
-void GameEngineInput::GameEngineKey::Reset() 
+void GameEngineInput::GameEngineKey::Reset()
 {
     Down_ = false;
     Press_ = false;
@@ -83,7 +83,7 @@ GameEngineInput* GameEngineInput::Inst = new GameEngineInput();
 
 // static Func --------------------------------------------------------------------
 
-bool GameEngineInput::IsKey(const std::string & _Name)
+bool GameEngineInput::IsKey(const std::string& _Name)
 {
     if (nullptr != GetInst().FindKey(_Name))
     {
@@ -163,7 +163,7 @@ GameEngineInput::GameEngineKey* GameEngineInput::FindKey(const std::string& _Key
     return FindIter->second;
 }
 
-void GameEngineInput::Update() 
+void GameEngineInput::Update()
 {
     // 레인지드 for
     // 편하게 for문을 돌릴수 있게 지원해주는 문법
@@ -174,28 +174,28 @@ void GameEngineInput::Update()
         _Key.second->Update();
     }
 
-    //POINT P;
+    POINT P;
 
     //// 모니터 상에서의 위치 현재 커서의 위치를 가져오고
-    //GetCursorPos(&P);
+    GetCursorPos(&P);
 
-    //// 윈도우 상에서의 위치로 바꾸고
-    //// 이 핸들을 가진 윈도우를 기준으로한 좌표로 변경
-    //ScreenToClient(GameEngineWindow::GetInst().GetWindowHWND(), &P);
-    //// 4가지 캐스트를 적절하게 이용해야 한다.
-    //MousePos_.x = static_cast<float>(P.x);
-    //MousePos_.y = static_cast<float>(P.y);
+    // 윈도우 상에서의 위치로 바꾸고
+    // 이 핸들을 가진 윈도우를 기준으로한 좌표로 변경
+    ScreenToClient(GameEngineWindow::GetInst().GetWindowHWND(), &P);
+    // 4가지 캐스트를 적절하게 이용해야 한다.
+    MousePos_.x = static_cast<float>(P.x);
+    MousePos_.y = static_cast<float>(P.y);
 
-    //// 요거 이해됐나요?
-    //// 이전거 저장해 놓은 다음에
-    //// 너무 급격하게 변할수 있으니까.
-    //PrevMousePos3D_ = MousePos3D_;
-    //MousePos3D_.x = MousePos_.x - GameEngineWindow::GetInst().GetSize().hx();
-    //MousePos3D_.y = MousePos_.y - GameEngineWindow::GetInst().GetSize().hy();
-    //MousePos3D_.y *= -1.0f;
+    // 요거 이해됐나요?
+    // 이전거 저장해 놓은 다음에
+    // 너무 급격하게 변할수 있으니까.
+    PrevMousePos3D_ = MousePos3D_;
+    MousePos3D_.x = MousePos_.x - GameEngineWindow::GetInst().GetSize().hx();
+    MousePos3D_.y = MousePos_.y - GameEngineWindow::GetInst().GetSize().hy();
+    MousePos3D_.y *= -1.0f;
 
-    //MouseDir3D = MousePos3D - PrevMousePos3D;
-    //MouseDir3D = MouseDir3D.GetNormalize();
+    MouseDir3D_ = MousePos3D_ - PrevMousePos3D_;
+    MouseDir3D_.Normalize3D();
 
 }
 
@@ -204,12 +204,12 @@ float4 GameEngineInput::GetMousePos()
     return Inst->MousePos_;
 }
 
-float4 GameEngineInput::GetMouse3DPos() 
+float4 GameEngineInput::GetMouse3DPos()
 {
     return Inst->MousePos3D_;
 }
 
-float4 GameEngineInput::GetMouse3DDir() 
+float4 GameEngineInput::GetMouse3DDir()
 {
     return Inst->MouseDir3D_;
 }

@@ -19,6 +19,7 @@ Player::~Player()
 void Player::Start()
 {
 	{
+		// Scale에 마이너스를 곱하면 대칭이 가능해진다
 		PlayerImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		PlayerImageRenderer->CreateAnimationFolder("Idle", "Idle", 0.2f);
 		PlayerImageRenderer->CreateAnimationFolder("Run", "Run", 0.05f);

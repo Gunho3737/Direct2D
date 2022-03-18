@@ -26,13 +26,13 @@ public:
 	void SetRenderingPipeLine(const std::string& _Value);
 
 	GameEngineShaderResHelper ShaderHelper;
+	virtual void SetRenderGroup(int _Order);
 
 protected:
 	GameEngineRenderingPipeLine* PipeLine_;
 
 	void Start() override;
 
-	virtual void SetRenderGroup(int _Order);
 
 private:
 	void Update(float _DeltaTime) override;
