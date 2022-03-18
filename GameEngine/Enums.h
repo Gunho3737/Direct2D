@@ -29,5 +29,10 @@ enum class ActorCollisionType
 	ATTACK,
 	MONSTER,
 	MAP,
-	MAX
+};
+
+enum class LeftRight
+{
+	LEFT,
+	RIGHT,
 };

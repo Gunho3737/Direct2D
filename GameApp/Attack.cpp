@@ -37,7 +37,10 @@ void Attack::Start()
 
 void Attack::Update(float _DeltaTime)
 {
-	GetLevel()->PushDebugRender(Collision->GetTransform(), CollisionType::Rect);
+	if (true == GetLevel()->IsDebugCheck())
+	{
+		GetLevel()->PushDebugRender(Collision->GetTransform(), CollisionType::Rect);
+	}
 	//ImageRenderer->GetTransform()->SetLocalPosition(/*플레이어의 위치*/);
 
 

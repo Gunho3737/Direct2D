@@ -51,8 +51,21 @@ void UserGame::ResourcesLoad()
 		{
 			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
 		}
+
 	}
 
+	{
+		GameEngineDirectory TextureDir;
+		TextureDir.MoveParent("Popol");
+		TextureDir.MoveChild("Resources");
+		TextureDir.MoveChild("Image");
+		TextureDir.MoveChild("UI");
+
+		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFile();
+		
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("HealthIdle"));
+
+	}
 
 	{
 		GameEngineDirectory TextureDir;

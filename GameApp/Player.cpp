@@ -43,6 +43,7 @@ void Player::Start()
 		GameEngineInput::GetInst().CreateKey("RotZ+", 'Q');
 		GameEngineInput::GetInst().CreateKey("RotZ-", 'E');
 		GameEngineInput::GetInst().CreateKey("Attack", 'X');
+		GameEngineInput::GetInst().CreateKey("DebugOn", 'R');
 	}
 
 
@@ -108,9 +109,12 @@ void Player::Update(float _DeltaTime)
 	//	}
 	//);
 
-	//GetLevel()->DebugOff();
 
-	GetLevel()->PushDebugRender(PlayerCollision->GetTransform(), CollisionType::Rect);
+	if (true == GetLevel()->IsDebugCheck())
+	{
+		GetLevel()->PushDebugRender(PlayerCollision->GetTransform(), CollisionType::Rect);
+	}
+	
 
 	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 

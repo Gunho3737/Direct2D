@@ -23,6 +23,11 @@ private:
 	void Update(float _DeltaTime) override;
 
 private:
-	GameEngineUIRenderer* UIRenderer;
+	GameEngineUIRenderer* HPBarRenderer;
+	GameEngineUIRenderer* HPIconRenderer1;
+	GameEngineUIRenderer* HPIconRenderer2;
+	GameEngineUIRenderer* HPIconRenderer3;
+	GameEngineUIRenderer* HPIconRenderer4;
+	GameEngineUIRenderer* HPIconRenderer5;
 };
 

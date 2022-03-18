@@ -39,7 +39,18 @@ void PlayLevel::LevelStart()
 
 void PlayLevel::LevelUpdate(float _DeltaTime)
 {
-
+	if (true == GameEngineInput::GetInst().Down("DebugOn"))
+	{
+		if (false == IsDebugCheck())
+		{
+			DebugOn();
+		}
+		else
+		{
+			DebugOff();
+		}
+		
+	}
 }
 void PlayLevel::LevelChangeEndEvent()
 {
