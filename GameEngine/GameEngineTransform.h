@@ -90,6 +90,7 @@ public:
 
 // 충돌도 이녀석이 담당할것이기 때문에 어마어마하게 중요하고 잘만들어야 한다.
 // 설명 :
+class GameEngineImageRenderer;
 class GameEngineTransform
 {
 public:
@@ -125,6 +126,7 @@ public:
 	float4 GetLocalUpVector() { return TransformData_.LocalWorld_.vy.NormalizeReturn3D(); }
 
 	void SetLocalScaling(const float4& _Value);
+	void SetLocalScaling(GameEngineImageRenderer* _Image);
 	void SetWorldScaling(const float4& _Value);
 
 	void SetLocalRotation(const float4& _Value);

@@ -27,6 +27,8 @@ public:
 	static const float4 BLACK;
 	static const float4 NONE;
 
+	static const float4 XFLIP;
+
 public:
 	// 1 0 0 0 
 	// 0 1 0 0 

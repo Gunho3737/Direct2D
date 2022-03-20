@@ -34,6 +34,8 @@ private:
 		void CallEnd();
 		void CallFrame();
 		void Update(float _DeltaTime);
+
+
 	};
 
 public:
@@ -82,6 +84,8 @@ public:
 	{
 		return CurAnimation_->GetName() == _Name;
 	}
+
+	float4 GetFolderTextureImageSize();
 
 protected:
 	void ImageRendererStart();

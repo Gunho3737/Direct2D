@@ -21,7 +21,7 @@ void FlyBug::TestStartCallBack()
 
 void FlyBug::Die()
 {
-	Death();
+	Off();
 }
 
 void FlyBug::Start()

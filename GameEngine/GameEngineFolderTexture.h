@@ -22,6 +22,11 @@ public:
 		return static_cast<int>(AllTexture_.size());
 	}
 
+	//폴더안의 0번째 이미지의 사이즈를 가져오는 것
+	//즉 폴더안의 이미지들끼리는 같은 크기여야 자연스럽다
+	float4 GetTextureSize();
+
+
 protected:		// delete constructer
 
 private:		//delete operator

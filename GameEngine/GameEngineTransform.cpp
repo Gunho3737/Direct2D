@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "GameEngineTransform.h"
+#include <GameEngine/GameEngineImageRenderer.h>
 
 GameEngineTransform::GameEngineTransform()
 	: Parent_(nullptr)
@@ -137,6 +138,12 @@ void GameEngineTransform::SetLocalScaling(const float4& _Value)
 	CalculationWorldScaling();
 	AllChildCalculationScaling();
 	TransformUpdate();
+}
+
+void GameEngineTransform::SetLocalScaling(GameEngineImageRenderer* _Image)
+{
+	float4 ImageSize = _Image->GetCurrentTexture()->GetTextureSize();
+	_Image->GetTransform()->SetLocalScaling(ImageSize);
 }
 
 

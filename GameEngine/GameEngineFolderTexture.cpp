@@ -24,7 +24,6 @@ GameEngineFolderTexture::~GameEngineFolderTexture() // default destructer µðÆúÆ®
 	}
 }
 
-
 void GameEngineFolderTexture::Load(const std::string& _Path)
 {
 	GameEngineDirectory TextureDir = _Path;
@@ -39,10 +38,14 @@ void GameEngineFolderTexture::Load(const std::string& _Path)
 		AllTexture_.push_back(NewRes);
 		//GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
 	}
-
 }
 
 GameEngineTexture* GameEngineFolderTexture::GetTextureIndex(int _Index)
 {
 	return AllTexture_[_Index];
+}
+
+float4 GameEngineFolderTexture::GetTextureSize()
+{
+	return AllTexture_[0]->GetTextureSize();
 }

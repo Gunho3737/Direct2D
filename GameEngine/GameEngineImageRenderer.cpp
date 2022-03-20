@@ -302,3 +302,8 @@ void GameEngineImageRenderer::SetFrameCallBack(const std::string& _Name, int _In
 
 	FindIter->second->FrameCallBack_[_Index].push_back(_CallBack);
 }
+
+float4 GameEngineImageRenderer::GetFolderTextureImageSize()
+{
+	return this->CurAnimation_->FolderTextures_->GetTextureSize();
+}
