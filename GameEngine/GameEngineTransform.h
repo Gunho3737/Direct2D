@@ -163,6 +163,11 @@ public:
 		SetWorldPosition(TransformData_.vWorldPosition_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
 	}
 
+	void SetLocalScaleFilp(const float4& _Value)
+	{
+		SetLocalScaling(TransformData_.vLocalScaling_*={-1.0f, 1.0f, 1.0f});
+	}
+
 	void DetachChildTransform(GameEngineTransform* _Child);
 	void AttachTransform(GameEngineTransform* _Transform);
 

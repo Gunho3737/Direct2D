@@ -16,7 +16,7 @@ void UI_HpBar::Start()
 	GetTransform()->SetWorldPosition(float4(0.0f, 0.0f, 0.0f));
 	HPBarRenderer = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	HPBarRenderer->SetImage("hpbar.png");
-	HPBarRenderer->GetTransform()->SetLocalScaling({ 240.0f, 146.0f, 1.0f });
+	HPBarRenderer->GetTransform()->SetLocalScaling({ 250.0f, 150.0f, 1.0f });
 	HPBarRenderer->GetTransform()->SetLocalPosition({ -512.0f, 360.0f - 73.0f, -20.0f });
 
 	float4 HPIconPosition = { { -512.0f + 50.0f, 360.0f - 60.0f, -21.0f } };

@@ -21,6 +21,9 @@ public:
 protected:
 	GameEngineImageRenderer* PlayerImageRenderer;
 	GameEngineCollision* PlayerCollision;
+	GameEngineImageRenderer* PlayerSlashRenderer;
+	GameEngineCollision* PlayerSlashCollision;
+	LeftRight PlayerDirection;
 	float Speed;
 
 private:
@@ -28,6 +31,6 @@ private:
 	void Update(float _DeltaTime) override;
 
 private:
-	void Slash();
+	void SetCallBackFunc();
 };
 

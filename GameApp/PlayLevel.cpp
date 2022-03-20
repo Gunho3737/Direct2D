@@ -3,7 +3,6 @@
 #include "Player.h"
 #include "UI_HpBar.h"
 #include "FlyBug.h"
-#include "Attack.h"
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
 #include <GameEngine/CameraActor.h>
