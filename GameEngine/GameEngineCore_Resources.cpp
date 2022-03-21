@@ -15,7 +15,7 @@ void GameEngineCore::EngineResourcesLoad()
 {
 	{
 		GameEngineDirectory EngineTextureDir;
-		EngineTextureDir.MoveParent("Popol");
+		EngineTextureDir.MoveParent("Direct2D");
 		EngineTextureDir.MoveChild("EngineResources");
 		EngineTextureDir.MoveChild("Texture");
 
@@ -29,7 +29,7 @@ void GameEngineCore::EngineResourcesLoad()
 
 	{
 		GameEngineDirectory Dir;
-		Dir.MoveParent("Popol");
+		Dir.MoveParent("Direct2D");
 		Dir.MoveChild("EngineResources");
 		Dir.MoveChild("Shader");
 

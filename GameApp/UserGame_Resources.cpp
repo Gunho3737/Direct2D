@@ -8,7 +8,7 @@ void UserGame::ResourcesLoad()
 {
 	{
 		GameEngineDirectory SoundDir;
-		SoundDir.MoveParent("Popol");
+		SoundDir.MoveParent("Direct2D");
 		SoundDir.MoveChild("Resources");
 		SoundDir.MoveChild("Sound");
 
@@ -22,7 +22,7 @@ void UserGame::ResourcesLoad()
 
 	{
 		GameEngineDirectory TextureDir;
-		TextureDir.MoveParent("Popol");
+		TextureDir.MoveParent("Direct2D");
 		TextureDir.MoveChild("Resources");
 		TextureDir.MoveChild("Image");
 		TextureDir.MoveChild("Monster");
@@ -40,7 +40,7 @@ void UserGame::ResourcesLoad()
 
 	{
 		GameEngineDirectory TextureDir;
-		TextureDir.MoveParent("Popol");
+		TextureDir.MoveParent("Direct2D");
 		TextureDir.MoveChild("Resources");
 		TextureDir.MoveChild("Image");
 		TextureDir.MoveChild("UI");
@@ -56,7 +56,7 @@ void UserGame::ResourcesLoad()
 
 	{
 		GameEngineDirectory TextureDir;
-		TextureDir.MoveParent("Popol");
+		TextureDir.MoveParent("Direct2D");
 		TextureDir.MoveChild("Resources");
 		TextureDir.MoveChild("Image");
 		TextureDir.MoveChild("UI");
@@ -69,7 +69,7 @@ void UserGame::ResourcesLoad()
 
 	{
 		GameEngineDirectory TextureDir;
-		TextureDir.MoveParent("Popol");
+		TextureDir.MoveParent("Direct2D");
 		TextureDir.MoveChild("Resources");
 		TextureDir.MoveChild("Image");
 		TextureDir.MoveChild("Knight");
