@@ -24,9 +24,10 @@ void Player::Start()
 		// Scale에 마이너스를 곱하면 대칭이 가능해진다
 		PlayerImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		PlayerImageRenderer->CreateAnimationFolder("Idle", "Idle", 0.2f);
-		PlayerImageRenderer->CreateAnimationFolder("IdleToRun", "IdleToRun", 0.1f);
+		PlayerImageRenderer->CreateAnimationFolder("IdleToRun", "IdleToRun", 0.07f);
 		PlayerImageRenderer->CreateAnimationFolder("Run", "Run", 0.1f);
 		PlayerImageRenderer->CreateAnimationFolder("Slash", "Slash", 0.05f, false);
+		PlayerImageRenderer->CreateAnimationFolder("RunToIdle", "RunToIdle", 0.07f);
 		PlayerImageRenderer->SetChangeAnimation("Idle");
 		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize());
 	}
@@ -87,7 +88,6 @@ void Player::Update(float _DeltaTime)
 	{
 		//PlayerImageRenderer->GetTransform()->SetLocalDeltaTimeRotation(float4{ 0.0f, 0.0f, -1.0f } *100.0f);
 	}
-
 
 
 	if (true == GetLevel()->IsDebugCheck())
@@ -152,18 +152,9 @@ void Player::Idle()
 {
 	PlayerImageRenderer->SetChangeAnimation("Idle");
 
-	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
+	if (true == GameEngineInput::GetInst().Press("MoveLeft") || GameEngineInput::GetInst().Press("MoveRight"))
 	{
-		StateManager_.ChangeState("Run");
-	}
-
-	if (true == GameEngineInput::GetInst().Press("MoveRight"))
-	{
-		if (PlayerDirection == LeftRight::LEFT)
-		{
-			PlayerDirection = LeftRight::RIGHT;
-		}
-		StateManager_.ChangeState("Run");
+		StateManager_.ChangeState("IdleToRun");
 	}
 
 
@@ -185,11 +176,8 @@ void Player::Idle()
 }
 
 void Player::IdleToRun()
-{}
-
-void Player::Run()
 {
-	PlayerImageRenderer->SetChangeAnimation("Run");
+	PlayerImageRenderer->SetChangeAnimation("IdleToRun");
 
 	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 	{
@@ -222,10 +210,67 @@ void Player::Run()
 	{
 		StateManager_.ChangeState("Attack");
 	}
+
+	PlayerImageRenderer->SetEndCallBack("IdleToRun", [&]()
+		{
+			StateManager_.ChangeState("Run");
+		}
+	);
+}
+
+void Player::Run()
+{
+	PlayerImageRenderer->SetChangeAnimation("Run");
+
+	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
+	{
+		if (PlayerDirection == LeftRight::RIGHT)
+		{
+			PlayerDirection = LeftRight::LEFT;
+		}
+		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+	}
+
+	if (GameEngineInput::GetInst().Press("MoveRight"))
+	{
+		if (PlayerDirection == LeftRight::LEFT)
+		{
+			PlayerDirection = LeftRight::RIGHT;
+		}
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+	}
+
+	if (
+		true == GameEngineInput::GetInst().Free("MoveLeft") &&
+		true == GameEngineInput::GetInst().Free("MoveRight")
+		)
+	{
+		StateManager_.ChangeState("RunToIdle");
+		return;
+	}
+
+	if (true == GameEngineInput::GetInst().Down("Attack"))
+	{
+		StateManager_.ChangeState("Attack");
+	}
 }
 
 void Player::RunToIdle()
-{}
+{
+	PlayerImageRenderer->SetChangeAnimation("RunToIdle");
+
+	if (true == GameEngineInput::GetInst().Press("MoveLeft") || GameEngineInput::GetInst().Press("MoveRight"))
+	{
+		StateManager_.ChangeState("IdleToRun");
+	}
+
+	PlayerImageRenderer->SetEndCallBack("RunToIdle", [&]()
+		{
+			StateManager_.ChangeState("Idle");
+		}
+	);
+
+}
 
 void Player::Attack()
 {
@@ -249,9 +294,21 @@ void Player::Attack()
 		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 	}
 
-	PlayerImageRenderer->SetEndCallBack("Slash", [this]()
+	PlayerImageRenderer->SetEndCallBack("Slash", [&]()
 		{
-			StateManager_.ChangeState("Idle");
+			if (true == GameEngineInput::GetInst().Press("MoveLeft") || GameEngineInput::GetInst().Press("MoveRight"))
+			{
+				StateManager_.ChangeState("Run");
+			}
+
+			if (
+				true == GameEngineInput::GetInst().Free("MoveLeft") &&
+				true == GameEngineInput::GetInst().Free("MoveRight")
+				)
+			{
+				StateManager_.ChangeState("Idle");
+				return;
+			}
 		}
 	);
 }
