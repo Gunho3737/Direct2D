@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+#include <GameEngine/GameEngineFSM.h>
 
 // Ό³Έν :
 class Attack;
@@ -24,6 +25,9 @@ protected:
 	GameEngineImageRenderer* PlayerSlashRenderer;
 	GameEngineCollision* PlayerSlashCollision;
 	LeftRight PlayerDirection;
+
+	GameEngineFSM StateManager_;
+
 	float Speed;
 
 private:
@@ -34,5 +38,14 @@ private:
 private:
 	void SetCallBackFunc();
 	void PlayerImageSizeUpdate();
+
+	//void TestTimeEvent();
+
+private:
+	void Idle();
+	void IdleToRun();
+	void Run();
+	void RunToIdle();
+	void Attack();
 };
 

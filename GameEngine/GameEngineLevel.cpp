@@ -36,6 +36,22 @@ GameEngineLevel::GameEngineLevel()
 
 GameEngineLevel::~GameEngineLevel()
 {
+	for (auto& Event : AddEvent_)
+	{
+		delete Event;
+	}
+
+	AddEvent_.clear();
+
+
+	for (auto& Event : AllEvent_)
+	{
+		delete Event;
+	}
+
+	AllEvent_.clear();
+
+
 	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
 	{
 		std::list<GameEngineActor*>& Actors = Pair.second;
@@ -63,7 +79,7 @@ void GameEngineLevel::Init()
 
 void GameEngineLevel::ActorUpdate(float _DeltaTime)
 {
-
+	TimeEventUpdate();
 
 	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
 	{
@@ -249,4 +265,41 @@ void GameEngineLevel::ChangeCollisionGroup(int _Group, GameEngineCollision* _Col
 void GameEngineLevel::PushDebugRender(GameEngineTransform* _Transform, CollisionType _Type)
 {
 	MainCameraActor_->GetCamera()->PushDebugRender(_Transform, _Type);
+}
+
+void GameEngineLevel::AddTimeEvent(float _Time, std::function<void()> _Event)
+{
+	AddEvent_.push_back(new TimeEvent{ _Time, _Event });
+}
+
+void GameEngineLevel::TimeEventUpdate()
+{
+	for (auto& Event : AddEvent_)
+	{
+		AllEvent_.push_back(Event);
+	}
+	AddEvent_.clear();
+
+	for (auto& Event : AllEvent_)
+	{
+		Event->Time_ -= GameEngineTime::GetInst().GetDeltaTime();
+		if (0 >= Event->Time_)
+		{
+			Event->Event_();
+		}
+	}
+
+	std::list<TimeEvent*>::iterator StartIter = AllEvent_.begin();
+	std::list<TimeEvent*>::iterator EndIter = AllEvent_.end();
+
+	for (; StartIter != EndIter; )
+	{
+		if (0 >= (*StartIter)->Time_)
+		{
+			delete* StartIter;
+			StartIter = AllEvent_.erase(StartIter);
+			continue;
+		}
+		++StartIter;
+	}
 }

@@ -60,6 +60,13 @@ void Player::Start()
 		PlayerSlashCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::ATTACK));
 	}
 
+	StateManager_.CreateState("Idle", std::bind(&Player::Idle, this));
+	StateManager_.CreateState("IdleToRun", std::bind(&Player::IdleToRun, this));
+	StateManager_.CreateState("Run", std::bind(&Player::Run, this));
+	StateManager_.CreateState("RunToIdle", std::bind(&Player::RunToIdle, this));
+	StateManager_.CreateState("Attack", std::bind(&Player::Attack, this));
+
+	StateManager_.ChangeState("Idle");
 	SetCallBackFunc();
 
 }
@@ -67,50 +74,9 @@ void Player::Start()
 void Player::Update(float _DeltaTime)
 {
 	PlayerImageSizeUpdate();
+	StateManager_.Update();
 
-	if (true == GameEngineInput::GetInst().Up("MoveLeft"))
-	{
-		PlayerImageRenderer->SetChangeAnimation("Idle");
-	}
 
-	if (true == GameEngineInput::GetInst().Up("MoveRight"))
-	{
-		PlayerImageRenderer->SetChangeAnimation("Idle");
-	}
-
-	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
-	{
-		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
-		if ("Idle" == PlayerImageRenderer->GetCurrentAnimationName())
-		{
-			PlayerImageRenderer->SetChangeAnimation("Run");
-			if (PlayerDirection == LeftRight::RIGHT)
-			{
-				PlayerDirection = LeftRight::LEFT;
-			}
-		}
-	}
-
-	if (true == GameEngineInput::GetInst().Press("MoveRight"))
-	{
-		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
-		if ("Idle" == PlayerImageRenderer->GetCurrentAnimationName())
-		{
-			PlayerImageRenderer->SetChangeAnimation("Run");
-			if (PlayerDirection == LeftRight::LEFT)
-			{
-				PlayerDirection = LeftRight::RIGHT;
-			}
-		}
-	}
-	if (true == GameEngineInput::GetInst().Press("MoveUp"))
-	{
-		//GetTransform()->SetLocalDeltaTimeMove(float4::UP * Speed);
-	}
-	if (true == GameEngineInput::GetInst().Press("MoveDown"))
-	{
-		//GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * Speed);
-	}
 
 	if (true == GameEngineInput::GetInst().Press("RotZ+"))
 	{
@@ -120,11 +86,6 @@ void Player::Update(float _DeltaTime)
 	if (true == GameEngineInput::GetInst().Press("RotZ-"))
 	{
 		//PlayerImageRenderer->GetTransform()->SetLocalDeltaTimeRotation(float4{ 0.0f, 0.0f, -1.0f } *100.0f);
-	}
-
-	if (true == GameEngineInput::GetInst().Down("Attack"))
-	{
-		PlayerImageRenderer->SetChangeAnimation("Slash");
 	}
 
 
@@ -143,7 +104,7 @@ void Player::Update(float _DeltaTime)
 void Player::SetCallBackFunc()
 {
 	{
-		PlayerImageRenderer->SetStartCallBack("Slash", [this]()
+		PlayerImageRenderer->SetStartCallBack("Slash", [&]()
 			{
 				PlayerSlashRenderer->SetChangeAnimation("SlashEffect", true);
 				if (PlayerDirection == LeftRight::LEFT)
@@ -163,19 +124,12 @@ void Player::SetCallBackFunc()
 			}
 		);
 
-		PlayerSlashRenderer->SetEndCallBack("SlashEffect", [this]()
+		PlayerSlashRenderer->SetEndCallBack("SlashEffect", [&]()
 			{
 				PlayerSlashRenderer->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
 				PlayerSlashRenderer->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 				PlayerSlashCollision->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
 				PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerCollision->GetTransform()->GetLocalPosition());
-			}
-		);
-
-
-		PlayerImageRenderer->SetEndCallBack("Slash", [this]()
-			{
-				PlayerImageRenderer->SetChangeAnimation("Idle");
 			}
 		);
 	}
@@ -192,4 +146,112 @@ void Player::PlayerImageSizeUpdate()
 		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize()*= float4::XFLIP);
 	}
 
+}
+
+void Player::Idle()
+{
+	PlayerImageRenderer->SetChangeAnimation("Idle");
+
+	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
+	{
+		StateManager_.ChangeState("Run");
+	}
+
+	if (true == GameEngineInput::GetInst().Press("MoveRight"))
+	{
+		if (PlayerDirection == LeftRight::LEFT)
+		{
+			PlayerDirection = LeftRight::RIGHT;
+		}
+		StateManager_.ChangeState("Run");
+	}
+
+
+	if (true == GameEngineInput::GetInst().Press("MoveUp"))
+	{
+		//GetTransform()->SetLocalDeltaTimeMove(float4::UP * Speed);
+	}
+	if (true == GameEngineInput::GetInst().Press("MoveDown"))
+	{
+		//GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * Speed);
+	}
+
+	if (true == GameEngineInput::GetInst().Down("Attack"))
+	{
+		StateManager_.ChangeState("Attack");
+	}
+
+
+}
+
+void Player::IdleToRun()
+{}
+
+void Player::Run()
+{
+	PlayerImageRenderer->SetChangeAnimation("Run");
+
+	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
+	{
+		if (PlayerDirection == LeftRight::RIGHT)
+		{
+			PlayerDirection = LeftRight::LEFT;
+		}
+		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+	}
+
+	if (GameEngineInput::GetInst().Press("MoveRight"))
+	{
+		if (PlayerDirection == LeftRight::LEFT)
+		{
+			PlayerDirection = LeftRight::RIGHT;
+		}
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+	}
+
+	if (
+		true == GameEngineInput::GetInst().Free("MoveLeft") &&
+		true == GameEngineInput::GetInst().Free("MoveRight")
+		)
+	{
+		StateManager_.ChangeState("Idle");
+		return;
+	}
+
+	if (true == GameEngineInput::GetInst().Down("Attack"))
+	{
+		StateManager_.ChangeState("Attack");
+	}
+}
+
+void Player::RunToIdle()
+{}
+
+void Player::Attack()
+{
+	PlayerImageRenderer->SetChangeAnimation("Slash");
+
+	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
+	{
+		if (PlayerDirection == LeftRight::RIGHT)
+		{
+			PlayerDirection = LeftRight::LEFT;
+		}
+		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+	}
+
+	if (GameEngineInput::GetInst().Press("MoveRight"))
+	{
+		if (PlayerDirection == LeftRight::LEFT)
+		{
+			PlayerDirection = LeftRight::RIGHT;
+		}
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+	}
+
+	PlayerImageRenderer->SetEndCallBack("Slash", [this]()
+		{
+			StateManager_.ChangeState("Idle");
+		}
+	);
 }

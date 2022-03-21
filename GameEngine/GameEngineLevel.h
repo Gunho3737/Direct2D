@@ -44,6 +44,8 @@ public:
 	CameraActor* GetUICameraActor();
 	CameraComponent* GetUICamera();
 
+	void AddTimeEvent(float _Time, std::function<void()> _Event);
+
 protected:
 
 private:
@@ -51,7 +53,12 @@ private:
 	CameraActor* MainCameraActor_;
 	CameraActor* UICameraActor_;
 
+	std::list<TimeEvent*> AllEvent_;
+	std::list<TimeEvent*> AddEvent_;
+
 	void Init();
+
+	void TimeEventUpdate();
 
 public:
 	template<typename ActorType>

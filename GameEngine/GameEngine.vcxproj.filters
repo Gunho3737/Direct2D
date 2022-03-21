@@ -151,6 +151,9 @@
     <ClInclude Include="GameEngineDepthStencilManager.h">
       <Filter>Resources\99_Manager</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineFSM.h">
+      <Filter>Object\Contents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -295,6 +298,9 @@
     <ClCompile Include="GameEngineDepthStencilManager.cpp">
       <Filter>Resources\99_Manager</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineFSM.cpp">
+      <Filter>Object\Contents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -374,6 +380,9 @@
     </Filter>
     <Filter Include="Global">
       <UniqueIdentifier>{63c29454-62e2-4492-87ba-3cc14c254ba8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Contents">
+      <UniqueIdentifier>{2285b8fd-8e3d-4e12-b0ae-1d164d5246bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

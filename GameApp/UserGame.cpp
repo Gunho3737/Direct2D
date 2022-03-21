@@ -39,7 +39,7 @@ void UserGame::Initialize()
 
 	//GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("ColorRendering");
 	//Pipe->ShaderHelper.SettingConstantBufferLink("TransformData", TransData);
-	GameEngineInput::GetInst().HideCursor();
+	//GameEngineInput::GetInst().HideCursor();
 
 	LevelCreate<TitleLevel>("Title");
 	LevelCreate<PlayLevel>("Play");

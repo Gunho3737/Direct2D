@@ -2,14 +2,21 @@
 #include <Windows.h>
 // #include <chrono>
 
+struct TimeEvent
+{
+	float Time_;
+	std::function<void()> Event_;
+};
+
+
 // 분류 :
 // 용도 :
 // 설명 :
 class GameEngineTime
 {
-
 private:
 	static GameEngineTime* Inst;
+
 
 public:
 	static GameEngineTime& GetInst()
@@ -31,6 +38,9 @@ private:
 	LARGE_INTEGER startCheck_;
 	LARGE_INTEGER endCheck_;
 	double deltaTime_;
+
+	std::list<TimeEvent*> AllEvent_;
+	std::list<TimeEvent*> AddEvent_;
 
 public:
 	// 여기에 이렇게 헤더에 구현한 이유
@@ -59,5 +69,6 @@ public:		//delete operator
 public:		//member Func
 	void TimeCheckReset();
 	void TimeCheck();
+	void AddTimeEvent(float _Time, std::function<void()> _Event);
 };
 
