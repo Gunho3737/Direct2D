@@ -307,3 +307,8 @@ float4 GameEngineImageRenderer::GetFolderTextureImageSize()
 {
 	return this->CurAnimation_->FolderTextures_->GetTextureSize();
 }
+
+float4 GameEngineImageRenderer::GetFolderTextureBotPivot()
+{
+	return { 0.0f, this->CurAnimation_->FolderTextures_->GetTextureSize().hy(), 1.0f };
+}

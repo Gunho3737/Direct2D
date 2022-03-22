@@ -1,18 +1,47 @@
 #include "PreCompile.h"
+#include <GameEngine/GameEngineImageRenderer.h>
+#include <GameEngine/GameEngineCollision.h>
+#include "Player.h"
 #include "Map.h"
 
-Map::Map() // default constructer 디폴트 생성자
-{
+Map* Map::CurrentMap = nullptr;
 
+Map::Map()
+{
 }
 
-Map::~Map() // default destructer 디폴트 소멸자
+Map::~Map()
 {
-
 }
 
-Map::Map(Map&& _other) noexcept  // default RValue Copy constructer 디폴트 RValue 복사생성자
+void Map::Start()
 {
-
+	{
+		ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>();
+		ImageRenderer->SetImage("BitMap_00.Png");
+		ImageRenderer->GetTransform()->SetLocalPosition({640.0f, -360.0f, 100.0f});
+		ImageRenderer->GetTransform()->SetLocalScaling(ImageRenderer->GetCurrentTexture()->GetTextureSize());
+	}
 }
 
+void Map::LevelChangeStartEvent()
+{
+	CurrentMap = this;
+}
+
+float4 Map::GetColor(GameEngineTransform* _Ptr, bool YRevers /*= true*/)
+{
+	float4 Pos = _Ptr->GetWorldPosition();
+
+	if (true == YRevers)
+	{
+		Pos.y *= -1.0f;
+	}
+
+	return GetColor(Pos);
+}
+
+float4 Map::GetColor(float4 _Postion)
+{
+	return CurrentMap->ImageRenderer->GetCurrentTexture()->GetPixel(_Postion.ix(), _Postion.iy());
+}

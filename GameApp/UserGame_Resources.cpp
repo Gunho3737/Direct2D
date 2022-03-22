@@ -61,7 +61,6 @@ void UserGame::ResourcesLoad()
 		TextureDir.MoveChild("Image");
 		TextureDir.MoveChild("UI");
 
-		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFile();
 		
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("HealthIdle"));
 
@@ -81,6 +80,23 @@ void UserGame::ResourcesLoad()
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("IdleToRun"));
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("RunToIdle"));
 	}
+
+	{
+		GameEngineDirectory TextureDir;
+		TextureDir.MoveParent("Direct2D");
+		TextureDir.MoveChild("Resources");
+		TextureDir.MoveChild("Image");
+		TextureDir.MoveChild("Map");
+
+		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFile();
+
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+		}
+
+	}
+
 
 
 

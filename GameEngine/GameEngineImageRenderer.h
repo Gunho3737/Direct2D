@@ -86,6 +86,7 @@ public:
 	}
 
 	float4 GetFolderTextureImageSize();
+	float4 GetFolderTextureBotPivot();
 
 protected:
 	void ImageRendererStart();

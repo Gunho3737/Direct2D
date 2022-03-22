@@ -2,7 +2,7 @@
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 #include "Player.h"
-
+#include "Map.h"
 
 
 
@@ -20,6 +20,8 @@ void Player::Start()
 {
 	PlayerDirection = LeftRight::LEFT;
 
+	GetTransform()->SetLocalPosition({200.0f,-300.0f});
+
 	{
 		// Scale에 마이너스를 곱하면 대칭이 가능해진다
 		PlayerImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
@@ -30,13 +32,13 @@ void Player::Start()
 		PlayerImageRenderer->CreateAnimationFolder("RunToIdle", "RunToIdle", 0.07f);
 		PlayerImageRenderer->SetChangeAnimation("Idle");
 		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize());
+		PlayerImageRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot());
 	}
 
 	{
 		PlayerCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::PLAYER);
-
 		PlayerCollision->GetTransform()->SetLocalScaling(float4{ 60.0f, 130.0f, 1.0f });
-		PlayerCollision->GetTransform()->SetLocalPosition(float4{0.0f, 0.0f, -10.0f});
+		PlayerCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot());
 	}
 
 	if (false == GameEngineInput::GetInst().IsKey("PlayerMove"))
@@ -68,6 +70,7 @@ void Player::Start()
 	StateManager_.CreateState("Attack", std::bind(&Player::Attack, this));
 
 	StateManager_.ChangeState("Idle");
+	
 	SetCallBackFunc();
 
 }
@@ -76,6 +79,12 @@ void Player::Update(float _DeltaTime)
 {
 	PlayerImageSizeUpdate();
 	StateManager_.Update();
+
+	float4 Color = Map::GetColor(GetTransform());
+	if (Color != float4::BLACK)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 100.0f);
+	}
 
 
 
@@ -114,13 +123,16 @@ void Player::SetCallBackFunc()
 					PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f, 114.0f, 1.0f });
 					PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {-70.0f, 0.0f, -1.0f});
 				}
-				else
+				else if (PlayerDirection == LeftRight::RIGHT)
 				{
-					PlayerSlashRenderer->GetTransform()->SetLocalScaling({ -157.0f,114.0f, 1.0f });
-					PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {70.0f, 0.0f, -1.0f});
-					PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ -157.0f, 114.0f, 1.0f });
-					PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {70.0f, 0.0f, -1.0f});
+					{
+						PlayerSlashRenderer->GetTransform()->SetLocalScaling({ -157.0f,114.0f, 1.0f });
+						PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {70.0f, 0.0f, -1.0f});
+						PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f, 114.0f, 1.0f });
+						PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {70.0f, 0.0f, -1.0f});
+					}
 				}
+				
 			}
 		);
 
@@ -160,11 +172,11 @@ void Player::Idle()
 
 	if (true == GameEngineInput::GetInst().Press("MoveUp"))
 	{
-		//GetTransform()->SetLocalDeltaTimeMove(float4::UP * Speed);
+		GetTransform()->SetLocalDeltaTimeMove(float4::UP * Speed);
 	}
 	if (true == GameEngineInput::GetInst().Press("MoveDown"))
 	{
-		//GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * Speed);
+		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * Speed);
 	}
 
 	if (true == GameEngineInput::GetInst().Down("Attack"))

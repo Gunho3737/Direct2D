@@ -1,24 +1,34 @@
 #pragma once
+#include <GameEngine/GameEngineActor.h>
 
-// 분류 : 
-// 용도 : 
-// 설명 : 
-class Map
+// 설명 :
+class GameEngineImageRenderer;
+class Map : public GameEngineActor
 {
-private:	// member Var
-
 public:
-	Map(); // default constructer 디폴트 생성자
-	~Map(); // default destructer 디폴트 소멸자
+	// constrcuter destructer
+	Map();
+	~Map();
 
-protected:		// delete constructer
-	Map(const Map& _other) = delete; // default Copy constructer 디폴트 복사생성자
-	Map(Map&& _other) noexcept; // default RValue Copy constructer 디폴트 RValue 복사생성자
+	// delete Function
+	Map(const Map& _Other) = delete;
+	Map(Map&& _Other) noexcept = delete;
+	Map& operator=(const Map& _Other) = delete;
+	Map& operator=(Map&& _Other) noexcept = delete;
 
-private:		//delete operator
-	Map& operator=(const Map& _other) = delete; // default Copy operator 디폴트 대입 연산자
-	Map& operator=(const Map&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
+	GameEngineImageRenderer* ImageRenderer;
 
-public:
+	static float4 GetColor(GameEngineTransform* _Ptr, bool YRevers = true);
+
+	static float4 GetColor(float4 _Postion);
+
+protected:
+
+	void Start() override;
+	void LevelChangeStartEvent() override;
+
+
+
+private:
+	static Map* CurrentMap;
 };
-
