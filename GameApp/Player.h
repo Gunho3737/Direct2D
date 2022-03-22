@@ -29,7 +29,10 @@ protected:
 	GameEngineFSM StateManager_;
 
 	float Speed;
-	float4 MapCollsionColor;
+	float4 JumpPower;
+
+	float4 MapBotCollsionColor;
+	float4 MapTopCollsionColor;
 
 private:
 	void Start() override;

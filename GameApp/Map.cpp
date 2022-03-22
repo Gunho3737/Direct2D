@@ -29,19 +29,21 @@ void Map::LevelChangeStartEvent()
 	CurrentMap = this;
 }
 
-float4 Map::GetColor(GameEngineTransform* _Ptr, bool YRevers /*= true*/)
+float4 Map::GetColor(GameEngineTransform* _Ptr, bool YReverse /*= true*/)
 {
 	float4 Pos = _Ptr->GetWorldPosition();
 
-	if (true == YRevers)
+	return GetColor(Pos, true);
+}
+
+float4 Map::GetColor(float4 _Position, bool YReverse /*= true*/)
+{
+	float4 Pos = _Position;
+
+	if (true == YReverse)
 	{
 		Pos.y *= -1.0f;
 	}
 
-	return GetColor(Pos);
-}
-
-float4 Map::GetColor(float4 _Postion)
-{
-	return CurrentMap->ImageRenderer->GetCurrentTexture()->GetPixel(_Postion.ix(), _Postion.iy());
+	return CurrentMap->ImageRenderer->GetCurrentTexture()->GetPixel(Pos.ix(), Pos.iy());
 }

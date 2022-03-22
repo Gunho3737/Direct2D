@@ -7,7 +7,7 @@
 
 
 Player::Player()
-	: Speed(400.0f)
+	: Speed(400.0f), JumpPower(float4::UP * 700.0f)
 {
 }
 
@@ -20,7 +20,7 @@ void Player::Start()
 {
 	PlayerDirection = LeftRight::LEFT;
 
-	GetTransform()->SetLocalPosition({720.0f,-300.0f});
+	GetTransform()->SetLocalPosition({720.0f,-530.0f});
 
 	{
 		// Scale에 마이너스를 곱하면 대칭이 가능해진다
@@ -31,9 +31,10 @@ void Player::Start()
 		PlayerImageRenderer->CreateAnimationFolder("Slash", "Slash", 0.05f, false);
 		PlayerImageRenderer->CreateAnimationFolder("RunToIdle", "RunToIdle", 0.07f);
 		PlayerImageRenderer->CreateAnimationFolder("Airborne", "Airborne", 0.07f);
-		PlayerImageRenderer->CreateAnimationFolder("Jump", "Jump", 0.07f);
+		PlayerImageRenderer->CreateAnimationFolder("Jump", "Jump", 0.07f, false);
 		PlayerImageRenderer->SetChangeAnimation("Idle");
 		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize());
+		//렌더러가 그려지는곳을 봇으로 설정
 		PlayerImageRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot());
 	}
 
@@ -50,9 +51,8 @@ void Player::Start()
 		GameEngineInput::GetInst().CreateKey("MoveRight", VK_RIGHT);
 		GameEngineInput::GetInst().CreateKey("MoveUp", VK_UP);
 		GameEngineInput::GetInst().CreateKey("MoveDown", VK_DOWN);
-		GameEngineInput::GetInst().CreateKey("RotZ+", 'Q');
-		GameEngineInput::GetInst().CreateKey("RotZ-", 'E');
 		GameEngineInput::GetInst().CreateKey("Attack", 'X');
+		GameEngineInput::GetInst().CreateKey("Jump", 'Z');
 		GameEngineInput::GetInst().CreateKey("DebugOn", 'R');
 	}
 
@@ -83,20 +83,13 @@ void Player::Start()
 void Player::Update(float _DeltaTime)
 {
 	PlayerImageSizeUpdate();
-	MapCollsionColor = Map::GetColor(GetTransform());
+	
+	//플레이어의 Transform = 렌더러의 발에있다
+	MapBotCollsionColor = Map::GetColor(GetTransform());
+
+	//그러므로 머리와 접촉하는 곳은 이미지의 높이만큼
+	MapTopCollsionColor = Map::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 120.0f, 0.0f});
 	StateManager_.Update();
-
-
-
-	if (true == GameEngineInput::GetInst().Press("RotZ+"))
-	{
-		//PlayerImageRenderer->GetTransform()->SetLocalDeltaTimeRotation(float4{ 0.0f, 0.0f, 1.0f } *100.0f);
-	}
-
-	if (true == GameEngineInput::GetInst().Press("RotZ-"))
-	{
-		//PlayerImageRenderer->GetTransform()->SetLocalDeltaTimeRotation(float4{ 0.0f, 0.0f, -1.0f } *100.0f);
-	}
 
 
 	if (true == GetLevel()->IsDebugCheck())
@@ -133,6 +126,12 @@ void Player::Idle()
 	if (true == GameEngineInput::GetInst().Down("Attack"))
 	{
 		StateManager_.ChangeState("Attack");
+	}
+
+	if (true == GameEngineInput::GetInst().Down("Jump"))
+	{
+		JumpPower = float4::UP * 700.0f;
+		StateManager_.ChangeState("Jump");
 	}
 
 	MapCollisionCheck();
@@ -180,6 +179,12 @@ void Player::IdleToRun()
 		}
 	);
 
+	if (true == GameEngineInput::GetInst().Down("Jump"))
+	{
+		JumpPower = float4::UP * 700.0f;
+		StateManager_.ChangeState("Jump");
+	}
+
 	MapCollisionCheck();
 }
 
@@ -217,6 +222,12 @@ void Player::Run()
 	if (true == GameEngineInput::GetInst().Down("Attack"))
 	{
 		StateManager_.ChangeState("Attack");
+	}
+
+	if (true == GameEngineInput::GetInst().Down("Jump"))
+	{
+		JumpPower = float4::UP * 700.0f;
+		StateManager_.ChangeState("Jump");
 	}
 
 	MapCollisionCheck();
@@ -280,12 +291,18 @@ void Player::Attack()
 		}
 	);
 
+	if (true == GameEngineInput::GetInst().Down("Jump"))
+	{
+		JumpPower = float4::UP * 700.0f;
+		StateManager_.ChangeState("Jump");
+	}
+
 	MapCollisionCheck();
 }
 
 void Player::Airborne()
 {
-	GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 200.0f);
+	GetTransform()->SetLocalDeltaTimeMove(float4::DOWN *500.0f);
 
 	PlayerImageRenderer->SetChangeAnimation("Airborne");
 
@@ -307,7 +324,7 @@ void Player::Airborne()
 		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 	}
 
-	if (MapCollsionColor == float4::BLACK)
+	if (MapBotCollsionColor == float4::BLACK)
 	{
 		StateManager_.ChangeState("Idle");
 	}
@@ -316,7 +333,41 @@ void Player::Airborne()
 }
 
 void Player::Jump()
-{}
+{
+	PlayerImageRenderer->SetChangeAnimation("Jump");
+	if (0 <= JumpPower.y)//점프력이 남아있으면
+	{
+		JumpPower += float4::DOWN * GameEngineTime::GetInst().GetDeltaTime() * 1500.0f;
+		if (MapTopCollsionColor != float4::BLACK)
+		{
+		GetTransform()->SetLocalDeltaTimeMove(float4::UP * JumpPower);
+		}
+
+		if (0 > JumpPower.y)//점프의 가장 높은점에 도달하면
+		{
+			StateManager_.ChangeState("Airborne");
+		}
+	}
+
+	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
+	{
+		if (PlayerDirection == LeftRight::RIGHT)
+		{
+			PlayerDirection = LeftRight::LEFT;
+		}
+		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+	}
+
+	if (GameEngineInput::GetInst().Press("MoveRight"))
+	{
+		if (PlayerDirection == LeftRight::LEFT)
+		{
+			PlayerDirection = LeftRight::RIGHT;
+		}
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+	}
+
+}
 
 void Player::SetCallBackFunc()
 {
@@ -371,7 +422,7 @@ void Player::PlayerImageSizeUpdate()
 
 void Player::MapCollisionCheck() 
 {
-	if (MapCollsionColor != float4::BLACK)
+	if (MapBotCollsionColor != float4::BLACK)
 	{
 		StateManager_.ChangeState("Airborne");
 	}
