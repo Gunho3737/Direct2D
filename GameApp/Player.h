@@ -26,10 +26,10 @@ protected:
 	GameEngineCollision* PlayerSlashCollision;
 	LeftRight PlayerDirection;
 
-
 	GameEngineFSM StateManager_;
 
 	float Speed;
+	float4 MapCollsionColor;
 
 private:
 	void Start() override;
@@ -39,6 +39,7 @@ private:
 private:
 	void SetCallBackFunc();
 	void PlayerImageSizeUpdate();
+	void MapCollisionCheck();
 
 	//void TestTimeEvent();
 
@@ -48,5 +49,7 @@ private:
 	void Run();
 	void RunToIdle();
 	void Attack();
+	void Jump();
+	void Airborne();
 };
 

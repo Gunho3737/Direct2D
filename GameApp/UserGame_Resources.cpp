@@ -79,6 +79,8 @@ void UserGame::ResourcesLoad()
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("SlashEffect"));
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("IdleToRun"));
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("RunToIdle"));
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("Jump"));
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("Airborne"));
 	}
 
 	{

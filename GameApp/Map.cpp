@@ -18,13 +18,9 @@ void Map::Start()
 {
 	{
 		ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>();
-		ImageRenderer->SetImage("BitMap_00.Png");
-		ImageRenderer->GetTransform()->SetLocalPosition({1000.0f, -1000.0f, 100.0f});
-		ImageRenderer->GetTransform()->SetLocalScaling({2000.0f, 2000.f, 1.0f});
-
-		//ImageRenderer->SetImage("BitMap.Png");
-		//ImageRenderer->GetTransform()->SetLocalPosition({ 640.0f, -360.0f, 100.0f });
-		//ImageRenderer->GetTransform()->SetLocalScaling({ 1280.0f, 720.f, 1.0f });
+		ImageRenderer->SetImage("BitMap.Png");
+		ImageRenderer->GetTransform()->SetLocalPosition({ 640.0f, -360.0f, 100.0f });
+		ImageRenderer->GetTransform()->SetLocalScaling(ImageRenderer->GetCurrentTexture()->GetTextureSize());
 	}
 }
 
