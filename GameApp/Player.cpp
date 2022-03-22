@@ -20,7 +20,7 @@ void Player::Start()
 {
 	PlayerDirection = LeftRight::LEFT;
 
-	GetTransform()->SetLocalPosition({200.0f,-300.0f});
+	GetTransform()->SetLocalPosition({720.0f,-300.0f});
 
 	{
 		// Scale에 마이너스를 곱하면 대칭이 가능해진다
@@ -34,6 +34,7 @@ void Player::Start()
 		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize());
 		PlayerImageRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot());
 	}
+
 
 	{
 		PlayerCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::PLAYER);

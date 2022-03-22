@@ -26,6 +26,7 @@ protected:
 	GameEngineCollision* PlayerSlashCollision;
 	LeftRight PlayerDirection;
 
+
 	GameEngineFSM StateManager_;
 
 	float Speed;
