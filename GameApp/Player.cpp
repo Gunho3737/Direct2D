@@ -7,7 +7,7 @@
 
 
 Player::Player()
-	: Speed(400.0f), JumpPower(float4::UP * 700.0f)
+	: Speed(400.0f), JumpPower(float4::ZERO)
 {
 }
 
@@ -32,7 +32,6 @@ void Player::Start()
 		PlayerImageRenderer->CreateAnimationFolder("RunToIdle", "RunToIdle", 0.07f);
 		PlayerImageRenderer->CreateAnimationFolder("Airborne", "Airborne", 0.07f);
 		PlayerImageRenderer->CreateAnimationFolder("Jump", "Jump", 0.07f, false);
-		PlayerImageRenderer->CreateAnimationFolder("JumpAttack", "Slash", 0.05f, false);
 		PlayerImageRenderer->CreateAnimationFolder("UpAttack", "UpSlash", 0.05f, false);
 		PlayerImageRenderer->CreateAnimationFolder("DownAttack", "DownSlash", 0.05f, false);
 
@@ -79,7 +78,6 @@ void Player::Start()
 	StateManager_.CreateState("Attack", std::bind(&Player::Attack, this));
 	StateManager_.CreateState("Jump", std::bind(&Player::Jump, this));
 	StateManager_.CreateState("Airborne", std::bind(&Player::Airborne, this));
-	StateManager_.CreateState("JumpAttack", std::bind(&Player::JumpAttack, this));
 	StateManager_.CreateState("UpAttack", std::bind(&Player::UpAttack, this));
 	StateManager_.CreateState("DownAttack", std::bind(&Player::DownAttack, this));
 
@@ -130,15 +128,6 @@ void Player::Idle()
 		StateManager_.ChangeState("IdleToRun");
 	}
 
-
-	if (true == GameEngineInput::GetInst().Press("MoveUp"))
-	{
-		//GetTransform()->SetLocalDeltaTimeMove(float4::UP * Speed);
-	}
-	if (true == GameEngineInput::GetInst().Press("MoveDown"))
-	{
-		//GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * Speed);
-	}
 
 	if (true == GameEngineInput::GetInst().Down("Attack"))
 	{
@@ -350,6 +339,22 @@ void Player::RunToIdle()
 void Player::Attack()
 {
 	PlayerImageRenderer->SetChangeAnimation("Attack");
+	if (0 <= JumpPower.y)
+	{
+		JumpPower += float4::DOWN * GameEngineTime::GetInst().GetDeltaTime() * 1500.0f;
+		if (MapTopCollsionColor != float4::BLACK)
+		{
+			GetTransform()->SetLocalDeltaTimeMove(float4::UP * JumpPower);
+		}
+	}
+
+	if (0 > JumpPower.y)
+	{
+		if (MapBotCollsionColor != float4::BLACK)
+		{
+			GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 500.0f);
+		}		
+	}
 
 	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 	{
@@ -367,11 +372,6 @@ void Player::Attack()
 			PlayerDirection = LeftRight::RIGHT;
 		}
 		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
-	}
-
-	if (MapBotCollsionColor != float4::BLACK)
-	{
-		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 500.0f);
 	}
 
 	PlayerImageRenderer->SetEndCallBack("Attack", [&]()
@@ -422,7 +422,20 @@ void Player::Airborne()
 
 	if (true == GameEngineInput::GetInst().Down("Attack"))
 	{
-		StateManager_.ChangeState("JumpAttack");
+		if (true == GameEngineInput::GetInst().Press("AimUp"))
+		{
+			StateManager_.ChangeState("UpAttack");
+			return;
+		}
+		else if (true == GameEngineInput::GetInst().Press("AimDown"))
+		{
+			StateManager_.ChangeState("DownAttack");
+			return;
+		}
+		else
+		{
+			StateManager_.ChangeState("Attack");
+		}
 	}
 
 	if (MapBotCollsionColor == float4::BLACK)
@@ -437,7 +450,7 @@ void Player::Airborne()
 void Player::Jump()
 {
 	PlayerImageRenderer->SetChangeAnimation("Jump");
-	if (0 <= JumpPower.y)//점프력이 남아있으면
+	if (0 <= JumpPower.y)
 	{
 		JumpPower += float4::DOWN * GameEngineTime::GetInst().GetDeltaTime() * 1500.0f;
 		if (MapTopCollsionColor != float4::BLACK)
@@ -445,7 +458,7 @@ void Player::Jump()
 		GetTransform()->SetLocalDeltaTimeMove(float4::UP * JumpPower);
 		}
 
-		if (0 > JumpPower.y)//점프의 가장 높은점에 도달하면
+		if (0 > JumpPower.y)
 		{
 			StateManager_.ChangeState("Airborne");
 		}
@@ -471,16 +484,29 @@ void Player::Jump()
 
 	if (true == GameEngineInput::GetInst().Down("Attack"))
 	{
-		StateManager_.ChangeState("JumpAttack");
+		if (true == GameEngineInput::GetInst().Press("AimUp"))
+		{
+			StateManager_.ChangeState("UpAttack");
+			return;
+		}
+		else if (true == GameEngineInput::GetInst().Press("AimDown"))
+		{
+			StateManager_.ChangeState("DownAttack");
+			return;
+		}
+		else
+		{
+			StateManager_.ChangeState("Attack");
+		}
 	}
 
 }
 
-void Player::JumpAttack()
+void Player::UpAttack()
 {
-	PlayerImageRenderer->SetChangeAnimation("JumpAttack");
+	PlayerImageRenderer->SetChangeAnimation("UpAttack");
 
-	if (0 <= JumpPower.y)//점프력이 남아있으면
+	if (0 <= JumpPower.y)
 	{
 		JumpPower += float4::DOWN * GameEngineTime::GetInst().GetDeltaTime() * 1500.0f;
 		if (MapTopCollsionColor != float4::BLACK)
@@ -489,7 +515,7 @@ void Player::JumpAttack()
 		}
 	}
 
-	if (0 > JumpPower.y)//점프의 가장 높은점에 도달하면
+	if (0 > JumpPower.y)
 	{
 		if (MapBotCollsionColor != float4::BLACK)
 		{
@@ -513,52 +539,6 @@ void Player::JumpAttack()
 			PlayerDirection = LeftRight::RIGHT;
 		}
 		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
-	}
-
-	PlayerImageRenderer->SetEndCallBack("JumpAttack", [&]()
-		{
-			if (true == GameEngineInput::GetInst().Press("MoveLeft") || GameEngineInput::GetInst().Press("MoveRight"))
-			{
-				StateManager_.ChangeState("Run");
-			}
-
-			if (
-				true == GameEngineInput::GetInst().Free("MoveLeft") &&
-				true == GameEngineInput::GetInst().Free("MoveRight")
-				)
-			{
-				StateManager_.ChangeState("Idle");
-				return;
-			}
-		}
-	);
-}
-
-void Player::UpAttack()
-{
-	PlayerImageRenderer->SetChangeAnimation("UpAttack");
-
-	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
-	{
-		if (PlayerDirection == LeftRight::RIGHT)
-		{
-			PlayerDirection = LeftRight::LEFT;
-		}
-		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
-	}
-
-	if (GameEngineInput::GetInst().Press("MoveRight"))
-	{
-		if (PlayerDirection == LeftRight::LEFT)
-		{
-			PlayerDirection = LeftRight::RIGHT;
-		}
-		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
-	}
-
-	if (MapBotCollsionColor != float4::BLACK)
-	{
-		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 500.0f);
 	}
 
 	PlayerImageRenderer->SetEndCallBack("UpAttack", [&]()
@@ -585,6 +565,23 @@ void Player::DownAttack()
 {
 	PlayerImageRenderer->SetChangeAnimation("DownAttack");
 
+	if (0 <= JumpPower.y)
+	{
+		JumpPower += float4::DOWN * GameEngineTime::GetInst().GetDeltaTime() * 1500.0f;
+		if (MapTopCollsionColor != float4::BLACK)
+		{
+			GetTransform()->SetLocalDeltaTimeMove(float4::UP * JumpPower);
+		}
+	}
+
+	if (0 > JumpPower.y)
+	{
+		if (MapBotCollsionColor != float4::BLACK)
+		{
+			GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 500.0f);
+		}
+	}
+
 	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 	{
 		if (PlayerDirection == LeftRight::RIGHT)
@@ -601,11 +598,6 @@ void Player::DownAttack()
 			PlayerDirection = LeftRight::RIGHT;
 		}
 		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
-	}
-
-	if (MapBotCollsionColor != float4::BLACK)
-	{
-		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 500.0f);
 	}
 
 	PlayerImageRenderer->SetEndCallBack("DownAttack", [&]()
@@ -661,28 +653,6 @@ void Player::SetCallBackFunc()
 			}
 		);
 
-		PlayerImageRenderer->SetStartCallBack("JumpAttack", [&]()
-			{
-				PlayerSlashRenderer->SetChangeAnimation("SlashEffect", true);
-				if (PlayerDirection == LeftRight::LEFT)
-				{
-					PlayerSlashRenderer->GetTransform()->SetLocalScaling({ 157.0f,114.0f, 1.0f });
-					PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {-70.0f, 0.0f, -1.0f});
-					PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f, 114.0f, 1.0f });
-					PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {-70.0f, 0.0f, -1.0f});
-				}
-				else if (PlayerDirection == LeftRight::RIGHT)
-				{
-					{
-						PlayerSlashRenderer->GetTransform()->SetLocalScaling({ -157.0f,114.0f, 1.0f });
-						PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {70.0f, 0.0f, -1.0f});
-						PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f, 114.0f, 1.0f });
-						PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {70.0f, 0.0f, -1.0f});
-					}
-				}
-
-			}
-		);
 
 		PlayerSlashRenderer->SetEndCallBack("SlashEffect", [&]()
 			{

@@ -52,7 +52,6 @@ private:
 	void Attack();
 	void Jump();
 	void Airborne();
-	void JumpAttack();
 	void UpAttack();
 	void DownAttack();
 };

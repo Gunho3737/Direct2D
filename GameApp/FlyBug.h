@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+#include <GameEngine/GameEngineFSM.h>
 
 // 설명 :
 class FlyBug : public GameEngineActor
@@ -18,12 +19,14 @@ public:
 	GameEngineImageRenderer* PlayerImageRenderer;
 	GameEngineCollision* Collision;
 
+	GameEngineFSM StateManager_;
+
 	bool Immune;
+
 
 protected:
 	//콜백함수용 함수, 기능에 맞춰서 이름붙힐것
 	void TestStartCallBack();
-	void Die();
 
 	int HP;
 
@@ -34,7 +37,8 @@ private:
 	void Update(float _DeltaTime) override;
 
 private:
-
+	void Idle();
+	void Die();
 	void ImmuneOff();
 };
 

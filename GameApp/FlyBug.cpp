@@ -21,11 +21,6 @@ void FlyBug::TestStartCallBack()
 	int a = 0;
 }
 
-void FlyBug::Die()
-{
-	HP = 3;
-	Off();
-}
 
 void FlyBug::Start()
 {
@@ -43,7 +38,6 @@ void FlyBug::Start()
 		//	
 		//		//애니메이션의 첫프레임/마지막 프레임/애니메이션의x번째프레임을 지정해 특정 함수가 실행되도록한다
 		//		PlayerImageRenderer->SetStartCallBack("Test", std::bind(&FlyBug::TestStartCallBack, this));
-		PlayerImageRenderer->SetEndCallBack("Die", std::bind(&FlyBug::Die, this));
 		//		PlayerImageRenderer->SetFrameCallBack("Test", 5, std::bind(&FlyBug::TestEndCallBack, this));
 
 		PlayerImageRenderer->SetChangeAnimation("Idle");
@@ -56,12 +50,17 @@ void FlyBug::Start()
 	Collision->GetTransform()->SetLocalScaling(float4{ 100.0f, 90.0f, 1.0f });
 	Collision->GetTransform()->SetLocalPosition({-10.0f, 40.0f, -10.0f});
 
+	StateManager_.CreateState("Idle", std::bind(&FlyBug::Idle, this));
+	StateManager_.CreateState("Die", std::bind(&FlyBug::Die, this));
+
+	StateManager_.ChangeState("Idle");
 
 
 }
 
 void FlyBug::Update(float _DeltaTime)
 {
+	StateManager_.Update();
 
 	if (true == GetLevel()->IsDebugCheck())
 	{
@@ -70,16 +69,16 @@ void FlyBug::Update(float _DeltaTime)
 
 	if (HP <= 0)
 	{
-		PlayerImageRenderer->SetChangeAnimation("Die");
+		StateManager_.ChangeState("Die");
 	}
 
 	Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::ATTACK,
 		[this](GameEngineCollision* _OtherCollision)
 		{
-			if (true == Immune)
-			{
-				return;
-			}
+			//if (true == Immune)
+			//{
+			//	return;
+			//}
 
 			HP -= 1;
 			Immune = true;
@@ -90,7 +89,7 @@ void FlyBug::Update(float _DeltaTime)
 
 	if (true == Immune)
 	{
-		GetLevel()->AddTimeEvent(0.5f, std::bind(&FlyBug::ImmuneOff, this));
+		//GetLevel()->AddTimeEvent(0.5f, std::bind(&FlyBug::ImmuneOff, this));
 	}
 }
 
@@ -101,4 +100,22 @@ void FlyBug::ImmuneOff()
 		return;
 	}
 	Immune = false;
+}
+
+void FlyBug::Idle()
+{
+	PlayerImageRenderer->SetChangeAnimation("Idle");
+}
+
+void FlyBug::Die()
+{
+	PlayerImageRenderer->SetChangeAnimation("Die");
+
+	PlayerImageRenderer->SetEndCallBack("Die", [&]()
+		{
+			StateManager_.ChangeState("Idle");
+			Off();
+		}
+	);
+
 }
