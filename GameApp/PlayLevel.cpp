@@ -32,7 +32,7 @@ void PlayLevel::LevelStart()
 
 	{
 		FlyBug* Actor = CreateActor<FlyBug>();
-		Actor->GetTransform()->SetWorldPosition(float4(600.0f, -420.0f, 0.0f));
+		Actor->GetTransform()->SetWorldPosition(float4(500.0f, -650.0f, 0.0f));
 	}
 
 	{

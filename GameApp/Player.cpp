@@ -80,6 +80,8 @@ void Player::Start()
 	StateManager_.CreateState("Jump", std::bind(&Player::Jump, this));
 	StateManager_.CreateState("Airborne", std::bind(&Player::Airborne, this));
 	StateManager_.CreateState("JumpAttack", std::bind(&Player::JumpAttack, this));
+	StateManager_.CreateState("UpAttack", std::bind(&Player::UpAttack, this));
+	StateManager_.CreateState("DownAttack", std::bind(&Player::DownAttack, this));
 
 	StateManager_.ChangeState("Idle");
 	
@@ -121,7 +123,6 @@ void Player::Update(float _DeltaTime)
 
 void Player::Idle()
 {
-
 	PlayerImageRenderer->SetChangeAnimation("Idle");
 
 	if (true == GameEngineInput::GetInst().Press("MoveLeft") || GameEngineInput::GetInst().Press("MoveRight"))
@@ -141,7 +142,20 @@ void Player::Idle()
 
 	if (true == GameEngineInput::GetInst().Down("Attack"))
 	{
-		StateManager_.ChangeState("Attack");
+		if (true == GameEngineInput::GetInst().Press("AimUp"))
+		{
+			StateManager_.ChangeState("UpAttack");
+			return;
+		}
+		else if (true == GameEngineInput::GetInst().Press("AimDown"))
+		{
+			StateManager_.ChangeState("DownAttack");
+			return;
+		}
+		else
+		{
+			StateManager_.ChangeState("Attack");
+		}
 	}
 
 	if (true == GameEngineInput::GetInst().Down("Jump"))
@@ -478,9 +492,102 @@ void Player::JumpAttack()
 	);
 }
 
+void Player::UpAttack()
+{
+	PlayerImageRenderer->SetChangeAnimation("UpAttack");
+
+	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
+	{
+		if (PlayerDirection == LeftRight::RIGHT)
+		{
+			PlayerDirection = LeftRight::LEFT;
+		}
+		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+	}
+
+	if (GameEngineInput::GetInst().Press("MoveRight"))
+	{
+		if (PlayerDirection == LeftRight::LEFT)
+		{
+			PlayerDirection = LeftRight::RIGHT;
+		}
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+	}
+
+	if (MapBotCollsionColor != float4::BLACK)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 500.0f);
+	}
+
+	PlayerImageRenderer->SetEndCallBack("UpAttack", [&]()
+		{
+			if (true == GameEngineInput::GetInst().Press("MoveLeft") || GameEngineInput::GetInst().Press("MoveRight"))
+			{
+				StateManager_.ChangeState("Run");
+			}
+
+			if (
+				true == GameEngineInput::GetInst().Free("MoveLeft") &&
+				true == GameEngineInput::GetInst().Free("MoveRight")
+				)
+			{
+				StateManager_.ChangeState("Idle");
+				return;
+			}
+		}
+	);
+
+}
+
+void Player::DownAttack()
+{
+	PlayerImageRenderer->SetChangeAnimation("DownAttack");
+
+	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
+	{
+		if (PlayerDirection == LeftRight::RIGHT)
+		{
+			PlayerDirection = LeftRight::LEFT;
+		}
+		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+	}
+
+	if (GameEngineInput::GetInst().Press("MoveRight"))
+	{
+		if (PlayerDirection == LeftRight::LEFT)
+		{
+			PlayerDirection = LeftRight::RIGHT;
+		}
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+	}
+
+	if (MapBotCollsionColor != float4::BLACK)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 500.0f);
+	}
+
+	PlayerImageRenderer->SetEndCallBack("DownAttack", [&]()
+		{
+			if (true == GameEngineInput::GetInst().Press("MoveLeft") || GameEngineInput::GetInst().Press("MoveRight"))
+			{
+				StateManager_.ChangeState("Run");
+			}
+
+			if (
+				true == GameEngineInput::GetInst().Free("MoveLeft") &&
+				true == GameEngineInput::GetInst().Free("MoveRight")
+				)
+			{
+				StateManager_.ChangeState("Idle");
+				return;
+			}
+		}
+	);
+}
 
 void Player::SetCallBackFunc()
 {
+	//±âº»Slash
 	{
 		PlayerImageRenderer->SetStartCallBack("Attack", [&]()
 			{
@@ -501,7 +608,7 @@ void Player::SetCallBackFunc()
 						PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {70.0f, 0.0f, -1.0f});
 					}
 				}
-				
+
 			}
 		);
 
@@ -531,7 +638,51 @@ void Player::SetCallBackFunc()
 		PlayerSlashRenderer->SetEndCallBack("SlashEffect", [&]()
 			{
 				PlayerSlashRenderer->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
-				PlayerSlashRenderer->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
+				PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition());
+				PlayerSlashCollision->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
+				PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerCollision->GetTransform()->GetLocalPosition());
+			}
+		);
+	}
+
+	//UpSlash
+	{
+		PlayerImageRenderer->SetStartCallBack("UpAttack", [&]()
+			{
+				PlayerSlashRenderer->SetChangeAnimation("UpSlashEffect", true);
+				PlayerSlashRenderer->GetTransform()->SetLocalScaling({ 157.0f,114.0f, 1.0f });
+				PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, 60.0f, -1.0f});
+				PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f, 114.0f, 1.0f });
+				PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, 60.0f, -1.0f});
+			}
+		);
+
+		PlayerSlashRenderer->SetEndCallBack("UpSlashEffect", [&]()
+			{
+				PlayerSlashRenderer->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
+				PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition());
+				PlayerSlashCollision->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
+				PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerCollision->GetTransform()->GetLocalPosition());
+			}
+		);
+	}
+
+	//DownSlash
+	{
+		PlayerImageRenderer->SetStartCallBack("DownAttack", [&]()
+			{
+				PlayerSlashRenderer->SetChangeAnimation("DownSlashEffect", true);
+				PlayerSlashRenderer->GetTransform()->SetLocalScaling({ 157.0f,114.0f, 1.0f });
+				PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, -70.0f, -1.0f});
+				PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f, 114.0f, 1.0f });
+				PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, -70.0f, -1.0f});
+			}
+		);
+
+		PlayerSlashRenderer->SetEndCallBack("DownSlashEffect", [&]()
+			{
+				PlayerSlashRenderer->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
+				PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition());
 				PlayerSlashCollision->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
 				PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerCollision->GetTransform()->GetLocalPosition());
 			}

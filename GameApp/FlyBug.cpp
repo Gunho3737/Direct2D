@@ -66,14 +66,14 @@ void FlyBug::Update(float _DeltaTime)
 		GetLevel()->PushDebugRender(Collision->GetTransform(), CollisionType::Rect);
 	}
 
-	Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::ATTACK,
-		[this](GameEngineCollision* _OtherCollision)
-		{
-			if (HP <= 0)
-			{
-				PlayerImageRenderer->SetChangeAnimation("Die");
-			}
-			HP -= 1;
-		}
-	);
+	//Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::ATTACK,
+	//	[this](GameEngineCollision* _OtherCollision)
+	//	{
+	//		if (HP <= 0)
+	//		{
+	//			PlayerImageRenderer->SetChangeAnimation("Die");
+	//		}
+	//		HP -= 1;
+	//	}
+	//);
 }
