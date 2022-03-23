@@ -50,8 +50,8 @@ void Player::Start()
 	{
 		GameEngineInput::GetInst().CreateKey("MoveLeft", VK_LEFT);
 		GameEngineInput::GetInst().CreateKey("MoveRight", VK_RIGHT);
-		GameEngineInput::GetInst().CreateKey("MoveUp", VK_UP);
-		GameEngineInput::GetInst().CreateKey("MoveDown", VK_DOWN);
+		GameEngineInput::GetInst().CreateKey("AimUp", VK_UP);
+		GameEngineInput::GetInst().CreateKey("AimDown", VK_DOWN);
 		GameEngineInput::GetInst().CreateKey("Attack", 'X');
 		GameEngineInput::GetInst().CreateKey("Jump", 'Z');
 		GameEngineInput::GetInst().CreateKey("DebugOn", 'R');
