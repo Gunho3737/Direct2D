@@ -8,6 +8,7 @@
 
 
 FlyBug::FlyBug()
+	: HP(3), Immune(false), ImmuneTime(0.5f)
 {
 }
 
@@ -22,6 +23,7 @@ void FlyBug::TestStartCallBack()
 
 void FlyBug::Die()
 {
+	HP = 3;
 	Off();
 }
 
@@ -66,14 +68,37 @@ void FlyBug::Update(float _DeltaTime)
 		GetLevel()->PushDebugRender(Collision->GetTransform(), CollisionType::Rect);
 	}
 
-	//Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::ATTACK,
-	//	[this](GameEngineCollision* _OtherCollision)
-	//	{
-	//		if (HP <= 0)
-	//		{
-	//			PlayerImageRenderer->SetChangeAnimation("Die");
-	//		}
-	//		HP -= 1;
-	//	}
-	//);
+	if (HP <= 0)
+	{
+		PlayerImageRenderer->SetChangeAnimation("Die");
+	}
+
+	Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::ATTACK,
+		[this](GameEngineCollision* _OtherCollision)
+		{
+			if (true == Immune)
+			{
+				return;
+			}
+
+			HP -= 1;
+			Immune = true;
+
+		}
+	);
+
+
+	if (true == Immune)
+	{
+		GetLevel()->AddTimeEvent(0.5f, std::bind(&FlyBug::ImmuneOff, this));
+	}
+}
+
+void FlyBug::ImmuneOff()
+{ 
+	if (Immune == false)
+	{
+		return;
+	}
+	Immune = false;
 }

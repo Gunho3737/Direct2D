@@ -204,7 +204,20 @@ void Player::IdleToRun()
 
 	if (true == GameEngineInput::GetInst().Down("Attack"))
 	{
-		StateManager_.ChangeState("Attack");
+		if (true == GameEngineInput::GetInst().Press("AimUp"))
+		{
+			StateManager_.ChangeState("UpAttack");
+			return;
+		}
+		else if (true == GameEngineInput::GetInst().Press("AimDown"))
+		{
+			StateManager_.ChangeState("DownAttack");
+			return;
+		}
+		else
+		{
+			StateManager_.ChangeState("Attack");
+		}
 	}
 
 	PlayerImageRenderer->SetEndCallBack("IdleToRun", [&]()
@@ -259,7 +272,20 @@ void Player::Run()
 
 	if (true == GameEngineInput::GetInst().Down("Attack"))
 	{
-		StateManager_.ChangeState("Attack");
+		if (true == GameEngineInput::GetInst().Press("AimUp"))
+		{
+			StateManager_.ChangeState("UpAttack");
+			return;
+		}
+		else if (true == GameEngineInput::GetInst().Press("AimDown"))
+		{
+			StateManager_.ChangeState("DownAttack");
+			return;
+		}
+		else
+		{
+			StateManager_.ChangeState("Attack");
+		}
 	}
 
 	if (true == GameEngineInput::GetInst().Down("Jump"))
@@ -301,7 +327,23 @@ void Player::RunToIdle()
 		StateManager_.ChangeState("Airborne");
 	}
 
-
+	if (true == GameEngineInput::GetInst().Down("Attack"))
+	{
+		if (true == GameEngineInput::GetInst().Press("AimUp"))
+		{
+			StateManager_.ChangeState("UpAttack");
+			return;
+		}
+		else if (true == GameEngineInput::GetInst().Press("AimDown"))
+		{
+			StateManager_.ChangeState("DownAttack");
+			return;
+		}
+		else
+		{
+			StateManager_.ChangeState("Attack");
+		}
+	}
 
 }
 
@@ -583,6 +625,13 @@ void Player::DownAttack()
 			}
 		}
 	);
+
+	//PlayerSlashCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::MONSTER,
+	//	[this](GameEngineCollision* _OtherCollision)
+	//	{
+	//		
+	//	}
+	//);
 }
 
 void Player::SetCallBackFunc()

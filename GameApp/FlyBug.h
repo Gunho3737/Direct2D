@@ -18,16 +18,23 @@ public:
 	GameEngineImageRenderer* PlayerImageRenderer;
 	GameEngineCollision* Collision;
 
+	bool Immune;
+
 protected:
 	//콜백함수용 함수, 기능에 맞춰서 이름붙힐것
 	void TestStartCallBack();
 	void Die();
 
-	int HP = 3;
+	int HP;
 
-
+	float ImmuneTime;
+	
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+
+private:
+
+	void ImmuneOff();
 };
 
