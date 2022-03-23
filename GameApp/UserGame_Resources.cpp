@@ -77,6 +77,10 @@ void UserGame::ResourcesLoad()
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("Run"));
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("Slash"));
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("SlashEffect"));
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("UpSlash"));
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("UpSlashEffect"));
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("DownSlash"));
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("DownSlashEffect"));
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("IdleToRun"));
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("RunToIdle"));
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("Jump"));

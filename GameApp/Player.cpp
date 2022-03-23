@@ -33,6 +33,9 @@ void Player::Start()
 		PlayerImageRenderer->CreateAnimationFolder("Airborne", "Airborne", 0.07f);
 		PlayerImageRenderer->CreateAnimationFolder("Jump", "Jump", 0.07f, false);
 		PlayerImageRenderer->CreateAnimationFolder("JumpAttack", "Slash", 0.05f, false);
+		PlayerImageRenderer->CreateAnimationFolder("UpAttack", "UpSlash", 0.05f, false);
+		PlayerImageRenderer->CreateAnimationFolder("DownAttack", "DownSlash", 0.05f, false);
+
 		PlayerImageRenderer->SetChangeAnimation("Idle");
 		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize());
 		//렌더러가 그려지는곳을 봇으로 설정
@@ -61,6 +64,8 @@ void Player::Start()
 	{
 		PlayerSlashRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		PlayerSlashRenderer->CreateAnimationFolder("SlashEffect", "SlashEffect", 0.02f);
+		PlayerSlashRenderer->CreateAnimationFolder("UpSlashEffect", "UpSlashEffect", 0.02f);
+		PlayerSlashRenderer->CreateAnimationFolder("DownSlashEffect", "DownSlashEffect", 0.02f);
 	}
 
 	{

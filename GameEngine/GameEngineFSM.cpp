@@ -62,7 +62,7 @@ void GameEngineFSM::CreateState(
 		_Init();
 	}
 
-	AllState_.insert(std::map<std::string, State*>::value_type(_Name, new State{ _Start, _Update, _EndStart }));
+	AllState_.insert(std::map<std::string, State*>::value_type(_Name, new State{ _Name, _Start, _Update, _EndStart }));
 }
 
 void GameEngineFSM::ChangeState(const std::string& _Name)

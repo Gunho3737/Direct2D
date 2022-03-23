@@ -9,6 +9,7 @@ private:
 	class State
 	{
 	public:
+		std::string Name_;
 		// 이 상태가 시작됐다
 		std::function<void()> Start_;
 		// 이 상태가 진행중이다.
@@ -17,13 +18,15 @@ private:
 		std::function<void()> End_;
 
 		State(
+			std::string _Name,
 			std::function<void()> _Start,
 			std::function<void()> _Update,
 			std::function<void()> _End
 		)
-			: Start_(_Start),
-			Update_(_Update),
-			End_(_End)
+			: Name_(_Name)
+			, Start_(_Start)
+			, Update_(_Update)
+			, End_(_End)
 		{
 
 		}
@@ -43,6 +46,11 @@ public:
 
 	void CreateState(const std::string& _Name, std::function<void()> _Update, std::function<void()> _Start = nullptr, std::function<void()> _EndStart = nullptr, std::function<void()> _Init = nullptr);
 	void ChangeState(const std::string& _Name);
+
+	inline bool IsCurrentState(const std::string& _Name) const
+	{
+		return Current_->Name_ == _Name;
+	}
 
 	void Update();
 

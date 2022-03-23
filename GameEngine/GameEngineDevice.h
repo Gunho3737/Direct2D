@@ -78,6 +78,8 @@ private:		//delete operator
 	GameEngineDevice& operator=(const GameEngineDevice&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
+	static void ShaderReset();
+	static void ResourceReset();
 	static void RenderStart();
 	static void RenderEnd();
 };

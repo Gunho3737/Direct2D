@@ -205,6 +205,19 @@ void GameEngineDevice::RenderStart()
 	BackBufferTarget_->Setting();
 }
 
+void GameEngineDevice::ShaderReset()
+{
+	Context_->VSSetShader(nullptr, nullptr, 0);
+	Context_->HSSetShader(nullptr, nullptr, 0);
+	Context_->GSSetShader(nullptr, nullptr, 0);
+	Context_->DSSetShader(nullptr, nullptr, 0);
+	Context_->PSSetShader(nullptr, nullptr, 0);
+}
+
+void GameEngineDevice::ResourceReset()
+{
+	ShaderReset();
+}
 
 void GameEngineDevice::RenderEnd()
 {
