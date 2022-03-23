@@ -41,8 +41,6 @@ private:
 
 private:
 	void SetCallBackFunc();
-	void PlayerImageSizeUpdate();
-	void MapCollisionCheck();
 
 	//void TestTimeEvent();
 
@@ -54,5 +52,6 @@ private:
 	void Attack();
 	void Jump();
 	void Airborne();
+	void JumpAttack();
 };
 

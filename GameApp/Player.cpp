@@ -28,10 +28,11 @@ void Player::Start()
 		PlayerImageRenderer->CreateAnimationFolder("Idle", "Idle", 0.2f);
 		PlayerImageRenderer->CreateAnimationFolder("IdleToRun", "IdleToRun", 0.07f);
 		PlayerImageRenderer->CreateAnimationFolder("Run", "Run", 0.1f);
-		PlayerImageRenderer->CreateAnimationFolder("Slash", "Slash", 0.05f, false);
+		PlayerImageRenderer->CreateAnimationFolder("Attack", "Slash", 0.05f, false);
 		PlayerImageRenderer->CreateAnimationFolder("RunToIdle", "RunToIdle", 0.07f);
 		PlayerImageRenderer->CreateAnimationFolder("Airborne", "Airborne", 0.07f);
 		PlayerImageRenderer->CreateAnimationFolder("Jump", "Jump", 0.07f, false);
+		PlayerImageRenderer->CreateAnimationFolder("JumpAttack", "Slash", 0.05f, false);
 		PlayerImageRenderer->SetChangeAnimation("Idle");
 		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize());
 		//렌더러가 그려지는곳을 봇으로 설정
@@ -73,6 +74,7 @@ void Player::Start()
 	StateManager_.CreateState("Attack", std::bind(&Player::Attack, this));
 	StateManager_.CreateState("Jump", std::bind(&Player::Jump, this));
 	StateManager_.CreateState("Airborne", std::bind(&Player::Airborne, this));
+	StateManager_.CreateState("JumpAttack", std::bind(&Player::JumpAttack, this));
 
 	StateManager_.ChangeState("Idle");
 	
@@ -82,7 +84,16 @@ void Player::Start()
 
 void Player::Update(float _DeltaTime)
 {
-	PlayerImageSizeUpdate();
+	//좌우를 바꿔줘야함
+	if (PlayerDirection == LeftRight::LEFT)
+	{
+		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize());
+	}
+	else
+	{
+		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize() *= float4::XFLIP);
+	}
+
 	
 	//플레이어의 Transform = 렌더러의 발에있다
 	MapBotCollsionColor = Map::GetColor(GetTransform());
@@ -134,7 +145,11 @@ void Player::Idle()
 		StateManager_.ChangeState("Jump");
 	}
 
-	MapCollisionCheck();
+	if (MapBotCollsionColor != float4::BLACK)
+	{
+		StateManager_.ChangeState("Airborne");
+	}
+
 }
 
 void Player::IdleToRun()
@@ -185,7 +200,11 @@ void Player::IdleToRun()
 		StateManager_.ChangeState("Jump");
 	}
 
-	MapCollisionCheck();
+	if (MapBotCollsionColor != float4::BLACK)
+	{
+		StateManager_.ChangeState("Airborne");
+	}
+
 }
 
 void Player::Run()
@@ -230,7 +249,11 @@ void Player::Run()
 		StateManager_.ChangeState("Jump");
 	}
 
-	MapCollisionCheck();
+	if (MapBotCollsionColor != float4::BLACK)
+	{
+		StateManager_.ChangeState("Airborne");
+	}
+
 }
 
 void Player::RunToIdle()
@@ -248,12 +271,24 @@ void Player::RunToIdle()
 		}
 	);
 
-	MapCollisionCheck();
+	if (true == GameEngineInput::GetInst().Down("Jump"))
+	{
+		JumpPower = float4::UP * 700.0f;
+		StateManager_.ChangeState("Jump");
+	}
+
+	if (MapBotCollsionColor != float4::BLACK)
+	{
+		StateManager_.ChangeState("Airborne");
+	}
+
+
+
 }
 
 void Player::Attack()
 {
-	PlayerImageRenderer->SetChangeAnimation("Slash");
+	PlayerImageRenderer->SetChangeAnimation("Attack");
 
 	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 	{
@@ -273,7 +308,12 @@ void Player::Attack()
 		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 	}
 
-	PlayerImageRenderer->SetEndCallBack("Slash", [&]()
+	if (MapBotCollsionColor != float4::BLACK)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 500.0f);
+	}
+
+	PlayerImageRenderer->SetEndCallBack("Attack", [&]()
 		{
 			if (true == GameEngineInput::GetInst().Press("MoveLeft") || GameEngineInput::GetInst().Press("MoveRight"))
 			{
@@ -291,13 +331,8 @@ void Player::Attack()
 		}
 	);
 
-	if (true == GameEngineInput::GetInst().Down("Jump"))
-	{
-		JumpPower = float4::UP * 700.0f;
-		StateManager_.ChangeState("Jump");
-	}
+	
 
-	MapCollisionCheck();
 }
 
 void Player::Airborne()
@@ -324,10 +359,16 @@ void Player::Airborne()
 		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 	}
 
+	if (true == GameEngineInput::GetInst().Down("Attack"))
+	{
+		StateManager_.ChangeState("JumpAttack");
+	}
+
 	if (MapBotCollsionColor == float4::BLACK)
 	{
 		StateManager_.ChangeState("Idle");
 	}
+
 
 
 }
@@ -367,12 +408,76 @@ void Player::Jump()
 		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 	}
 
+	if (true == GameEngineInput::GetInst().Down("Attack"))
+	{
+		StateManager_.ChangeState("JumpAttack");
+	}
+
 }
+
+void Player::JumpAttack()
+{
+	PlayerImageRenderer->SetChangeAnimation("JumpAttack");
+
+	if (0 <= JumpPower.y)//점프력이 남아있으면
+	{
+		JumpPower += float4::DOWN * GameEngineTime::GetInst().GetDeltaTime() * 1500.0f;
+		if (MapTopCollsionColor != float4::BLACK)
+		{
+			GetTransform()->SetLocalDeltaTimeMove(float4::UP * JumpPower);
+		}
+	}
+
+	if (0 > JumpPower.y)//점프의 가장 높은점에 도달하면
+	{
+		if (MapBotCollsionColor != float4::BLACK)
+		{
+			GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 500.0f);
+		}
+	}
+
+	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
+	{
+		if (PlayerDirection == LeftRight::RIGHT)
+		{
+			PlayerDirection = LeftRight::LEFT;
+		}
+		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+	}
+
+	if (GameEngineInput::GetInst().Press("MoveRight"))
+	{
+		if (PlayerDirection == LeftRight::LEFT)
+		{
+			PlayerDirection = LeftRight::RIGHT;
+		}
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+	}
+
+	PlayerImageRenderer->SetEndCallBack("JumpAttack", [&]()
+		{
+			if (true == GameEngineInput::GetInst().Press("MoveLeft") || GameEngineInput::GetInst().Press("MoveRight"))
+			{
+				StateManager_.ChangeState("Run");
+			}
+
+			if (
+				true == GameEngineInput::GetInst().Free("MoveLeft") &&
+				true == GameEngineInput::GetInst().Free("MoveRight")
+				)
+			{
+				StateManager_.ChangeState("Idle");
+				return;
+			}
+		}
+	);
+}
+
 
 void Player::SetCallBackFunc()
 {
 	{
-		PlayerImageRenderer->SetStartCallBack("Slash", [&]()
+		PlayerImageRenderer->SetStartCallBack("Attack", [&]()
 			{
 				PlayerSlashRenderer->SetChangeAnimation("SlashEffect", true);
 				if (PlayerDirection == LeftRight::LEFT)
@@ -395,6 +500,29 @@ void Player::SetCallBackFunc()
 			}
 		);
 
+		PlayerImageRenderer->SetStartCallBack("JumpAttack", [&]()
+			{
+				PlayerSlashRenderer->SetChangeAnimation("SlashEffect", true);
+				if (PlayerDirection == LeftRight::LEFT)
+				{
+					PlayerSlashRenderer->GetTransform()->SetLocalScaling({ 157.0f,114.0f, 1.0f });
+					PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {-70.0f, 0.0f, -1.0f});
+					PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f, 114.0f, 1.0f });
+					PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {-70.0f, 0.0f, -1.0f});
+				}
+				else if (PlayerDirection == LeftRight::RIGHT)
+				{
+					{
+						PlayerSlashRenderer->GetTransform()->SetLocalScaling({ -157.0f,114.0f, 1.0f });
+						PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {70.0f, 0.0f, -1.0f});
+						PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f, 114.0f, 1.0f });
+						PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {70.0f, 0.0f, -1.0f});
+					}
+				}
+
+			}
+		);
+
 		PlayerSlashRenderer->SetEndCallBack("SlashEffect", [&]()
 			{
 				PlayerSlashRenderer->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
@@ -404,27 +532,4 @@ void Player::SetCallBackFunc()
 			}
 		);
 	}
-}
-
-void Player::PlayerImageSizeUpdate()
-{
-	//좌우를 바꿔줘야함
-	if (PlayerDirection == LeftRight::LEFT)
-	{
-		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize());
-	}
-	else
-	{
-		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize()*= float4::XFLIP);
-	}
-
-}
-
-void Player::MapCollisionCheck() 
-{
-	if (MapBotCollsionColor != float4::BLACK)
-	{
-		StateManager_.ChangeState("Airborne");
-	}
-
 }
