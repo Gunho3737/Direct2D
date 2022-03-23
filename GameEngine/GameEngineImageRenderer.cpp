@@ -89,6 +89,63 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 
 }
 
+void GameEngineImageRenderer::Animation2D::FrameUpdate()
+{
+	if (CurTime_ <= 0.0f)
+	{
+		++CurFrame_;
+		CurTime_ = InterTime_;
+		if (true == Loop_
+			&& CurFrame_ > EndFrame_)
+		{
+			CallEnd();
+			CurFrame_ = StartFrame_;
+		}
+		else if (false == Loop_
+			&& CurFrame_ > EndFrame_)
+		{
+			if (false == IsEnd)
+			{
+				CallEnd();
+			}
+
+			IsEnd = true;
+
+			CurFrame_ = EndFrame_;
+		}
+	}
+
+}
+
+void GameEngineImageRenderer::Animation2D::ReverseFrameUpdate()
+{
+	if (CurTime_ <= 0.0f)
+	{
+		--CurFrame_;
+		CurTime_ = InterTime_;
+		if (true == Loop_
+			&& CurFrame_ < EndFrame_)
+		{
+			CallEnd();
+			CurFrame_ = StartFrame_;
+		}
+		else if (false == Loop_
+			&& CurFrame_ < EndFrame_)
+		{
+			if (false == IsEnd)
+			{
+				CallEnd();
+			}
+
+			IsEnd = true;
+
+			CurFrame_ = StartFrame_;
+		}
+	}
+
+}
+
+
 /// ///////////////////////////////////////////////////////////////////
 
 GameEngineImageRenderer::GameEngineImageRenderer()

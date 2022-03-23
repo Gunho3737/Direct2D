@@ -546,6 +546,7 @@ void Player::UpAttack()
 			if (true == GameEngineInput::GetInst().Press("MoveLeft") || GameEngineInput::GetInst().Press("MoveRight"))
 			{
 				StateManager_.ChangeState("Run");
+				return;
 			}
 
 			if (
@@ -605,6 +606,7 @@ void Player::DownAttack()
 			if (true == GameEngineInput::GetInst().Press("MoveLeft") || GameEngineInput::GetInst().Press("MoveRight"))
 			{
 				StateManager_.ChangeState("Run");
+				return;
 			}
 
 			if (

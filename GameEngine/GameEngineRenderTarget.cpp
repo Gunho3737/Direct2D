@@ -6,6 +6,9 @@
 #include "GameEngineRenderingPipeLineManager.h"
 #include "GameEngineDepthBuffer.h"
 
+GameEngineRenderTarget* GameEngineRenderTarget::LastRenderTarget = nullptr;
+GameEngineDepthBuffer* GameEngineRenderTarget::LastDepthBuffer = nullptr;
+
 GameEngineRenderTarget::GameEngineRenderTarget() // default constructer 디폴트 생성자
 	: DepthBuffer_(nullptr)
 {
@@ -90,6 +93,7 @@ void GameEngineRenderTarget::Create(GameEngineTexture* _Texture, float4 _ClearCo
 
 void GameEngineRenderTarget::Setting(int _Index)
 {
+
 	if (0 >= RenderTargetViews_.size())
 	{
 		GameEngineDebug::MsgBoxError("Render Target Setting Error Size Zero");
@@ -100,7 +104,10 @@ void GameEngineRenderTarget::Setting(int _Index)
 	if (nullptr != DepthBuffer_)
 	{
 		View = DepthBuffer_->GetDepthStencilView();
+		LastDepthBuffer = DepthBuffer_;
 	}
+
+	LastRenderTarget = this;
 
 	if (-1 == _Index)
 	{
