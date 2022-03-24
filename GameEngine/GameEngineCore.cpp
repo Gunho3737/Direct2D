@@ -6,6 +6,7 @@
 #include "GameEngineLevel.h"
 #include "GameEngineInput.h"
 #include "GameEngineCollision.h"
+#include "GameEngineGUI.h"
 #include "GameEngineBase/GameEngineDirectory.h"
 #include "GameEngineBase/GameEngineFile.h"
 
@@ -40,7 +41,7 @@ void GameEngineCore::EngineInitialize()
 	GameEngineDevice::GetInst().CreateSwapChain();
 	// 엔진용 파이프라인
 
-
+	GameEngineGUI::GetInst()->Initialize();
 
 	// 기본 엔진 수준 리소스를 로드할 겁니다.
 
@@ -64,6 +65,7 @@ void GameEngineCore::EngineDestroy()
 	GameEngineManagerHelper::ManagerRelease();
 	GameEngineInput::Destroy();
 	GameEngineTime::Destroy();
+	GameEngineGUI::Destroy();
 	GameEngineDevice::Destroy();
 	GameEngineWindow::Destroy();
 }

@@ -42,12 +42,17 @@ VertexOut Texture_VS(VertexIn _in)
     return Out;
 }
 
+cbuffer ResultColor : register(b0)
+{
+    float4 vColor;
+};
+
 Texture2D Tex : register(t0);
 SamplerState Smp : register(s0);
 
 float4 Texture_PS(VertexOut _in) : SV_Target0
 {
-    float4 Color = Tex.Sample(Smp, _in.Texcoord.xy);
+    float4 Color = Tex.Sample(Smp, _in.Texcoord.xy) * vColor;
 
     if (0.0f == Color.a)
     {

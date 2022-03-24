@@ -86,6 +86,11 @@ public:
 		return CurAnimation_->GetName() == _Name;
 	}
 
+	inline void SetAlpha(float _Value)
+	{
+		ResultColor.a = _Value;
+	}
+
 	float4 GetFolderTextureImageSize();
 	float4 GetFolderTextureBotPivot();
 
@@ -97,6 +102,7 @@ private:
 	std::map<std::string, Animation2D*> AllAnimations_;
 	Animation2D* CurAnimation_;
 
+	float4 ResultColor;
 	float4 CutData;
 	GameEngineTexture* CurTexture;
 	void Start() override;

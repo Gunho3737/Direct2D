@@ -154,6 +154,33 @@
     <ClInclude Include="GameEngineFSM.h">
       <Filter>Object\Contents</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineGUI.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>Imgui\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>Imgui\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_dx11.h">
+      <Filter>Imgui\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_win32.h">
+      <Filter>Imgui\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>Imgui\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>Imgui\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>Imgui\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>Imgui\Code</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -301,6 +328,27 @@
     <ClCompile Include="GameEngineFSM.cpp">
       <Filter>Object\Contents</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineGUI.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>Imgui\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>Imgui\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_dx11.cpp">
+      <Filter>Imgui\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_win32.cpp">
+      <Filter>Imgui\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_tables.cpp">
+      <Filter>Imgui\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>Imgui\Code</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -383,6 +431,12 @@
     </Filter>
     <Filter Include="Object\Contents">
       <UniqueIdentifier>{2285b8fd-8e3d-4e12-b0ae-1d164d5246bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Imgui">
+      <UniqueIdentifier>{6ca270d1-c9db-4ea1-b809-73846b5dc6fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Imgui\Code">
+      <UniqueIdentifier>{e3bbdd2d-75c0-4286-8598-728ef7e1755a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

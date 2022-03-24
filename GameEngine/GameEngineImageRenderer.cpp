@@ -139,7 +139,7 @@ void GameEngineImageRenderer::Animation2D::ReverseFrameUpdate()
 
 			IsEnd = true;
 
-			CurFrame_ = StartFrame_;
+			CurFrame_ = EndFrame_;
 		}
 	}
 
@@ -178,6 +178,9 @@ void GameEngineImageRenderer::Start()
 void GameEngineImageRenderer::ImageRendererStart()
 {
 	ShaderHelper.SettingConstantBufferLink("TextureCutData", CutData);
+
+	ResultColor = float4::ONE;
+	ShaderHelper.SettingConstantBufferLink("ResultColor", ResultColor);
 }
 
 void GameEngineImageRenderer::SetIndex(const int Index)

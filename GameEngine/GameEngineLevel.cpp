@@ -9,6 +9,7 @@
 #include "GameEngineCollision.h"
 #include "GameEngineDebugRenderData.h"
 #include "GameEngineRenderTarget.h"
+#include "GameEngineGUI.h"
 
 
 CameraActor* GameEngineLevel::GetMainCameraActor()
@@ -138,6 +139,9 @@ void GameEngineLevel::Render()
 
 	GameEngineDevice::GetBackBufferTarget()->Merge(MainCameraActor_->GetCamera()->GetCameraRenderTarget());
 	GameEngineDevice::GetBackBufferTarget()->Merge(UICameraActor_->GetCamera()->GetCameraRenderTarget());
+
+	GameEngineGUI::GetInst()->GUIRenderStart();
+	GameEngineGUI::GetInst()->GUIRenderEnd();
 
 	// 충돌체 랜더링이 무조건 화면에 뚫고 나와야하는 애들은
 	GameEngineDevice::RenderEnd();

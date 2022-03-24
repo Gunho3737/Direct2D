@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include <string>
+#include <functional>
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngineBase/GameEngineObjectNameBase.h>
 
@@ -30,17 +31,16 @@ public:
 		}
 	}
 
-private:
-	std::string className_;
-	std::string windowTitle_;
-	HINSTANCE hInstance_;
-	HWND windowhandle_;
-	HDC devicecontext_;
-
-	float4 size_;
-	float4 pos_;
 
 public:
+	// 함수만 따로 frined 할수 있습니다.
+	friend LRESULT CALLBACK WndProc(HWND _hWnd, UINT _message, WPARAM _wParam, LPARAM _lParam);
+
+	static inline void SetMessageCallBack(std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)> _CallBack)
+	{
+		MessageCallBack_ = _CallBack;
+	}
+
 	HWND  GetWindowHWND()
 	{
 		return windowhandle_;
@@ -59,16 +59,26 @@ public:
 		return pos_;
 	}
 
-
-private:
-	int CreateMainWindowClass();
-
-public:
 	void CreateMainWindow(const std::string& _titlename, const float4& _size, const float4& _pos);
 	void SetSizeAndPos(const float4& _size, const float4& _pos);
 	void Loop(void(*_loopFunc)());
 
+
 private:
+	static std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)> MessageCallBack_;
+
+	std::string className_;
+	std::string windowTitle_;
+	HINSTANCE hInstance_;
+	HWND windowhandle_;
+	HDC devicecontext_;
+
+	float4 size_;
+	float4 pos_;
+
 	GameEngineWindow();
 	~GameEngineWindow();
+
+	int CreateMainWindowClass();
+
 };
