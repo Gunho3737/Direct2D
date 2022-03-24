@@ -75,13 +75,16 @@ void FlyBug::Update(float _DeltaTime)
 	Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::ATTACK,
 		[this](GameEngineCollision* _OtherCollision)
 		{
-			//if (true == Immune)
-			//{
-			//	return;
-			//}
+			if (true == Immune)
+			{
+				return;
+			}
+			else if (false == Immune)
+			{
+				HP -= 1;
+				Immune = true;
+			}
 
-			HP -= 1;
-			Immune = true;
 
 		}
 	);
@@ -89,7 +92,7 @@ void FlyBug::Update(float _DeltaTime)
 
 	if (true == Immune)
 	{
-		//GetLevel()->AddTimeEvent(0.5f, std::bind(&FlyBug::ImmuneOff, this));
+		GetLevel()->AddTimeEvent(0.7f, std::bind(&FlyBug::ImmuneOff, this));
 	}
 }
 
@@ -99,7 +102,10 @@ void FlyBug::ImmuneOff()
 	{
 		return;
 	}
-	Immune = false;
+	else if (Immune == true)
+	{
+		Immune = false;
+	}
 }
 
 void FlyBug::Idle()
