@@ -7,6 +7,9 @@
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
 #include <GameEngine/CameraActor.h>
+#include <GameEngine/GameEngineGUI.h>
+#include <GameEngine/GameEngineRenderWindow.h>
+
 
 PlayLevel::PlayLevel()
 {
@@ -55,6 +58,16 @@ void PlayLevel::LevelUpdate(float _DeltaTime)
 			DebugOff();
 		}
 		
+	}
+
+	static GameEngineRenderWindow* Window = nullptr;
+
+	if (nullptr == GameEngineGUI::GetInst()->FindGUIWindow("RenderWindow"))
+	{
+		Window = GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineRenderWindow>("RenderWindow");
+		float4 Size = { 128, 72 };
+		Window->PushRenderTarget("메인 카메라 타겟", GetMainCamera()->GetCameraRenderTarget(), Size * 3);
+		Window->PushRenderTarget("UI 카메라 타겟", GetUICamera()->GetCameraRenderTarget(), Size * 3);
 	}
 }
 void PlayLevel::LevelChangeEndEvent()

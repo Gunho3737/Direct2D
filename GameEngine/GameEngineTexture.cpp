@@ -174,7 +174,7 @@ void GameEngineTexture::Load(const std::string& _Path)
 	// PNG Ç³È­¼³
 
 	std::wstring wPath;
-	GameEngineString::StringToWString(_Path, wPath);
+	GameEngineString::AnsiToUnicode(_Path, wPath);
 
 	// PNG
 	if (Extension == "TGA")
@@ -295,7 +295,7 @@ float4 GameEngineTexture::GetPixel(int _x, int _y)
 	uint8_t* Color = Image_.GetImages()->pixels;
 	// int* ColorPtr = reinterpret_cast<int*>(Color);
 
-	int Index = _y * Image_.GetMetadata().width + _x;
+	int Index = _y * static_cast<int>(Image_.GetMetadata().width) + _x;
 	Color = Color + (Index * 4);
 
 	unsigned char R = Color[0];

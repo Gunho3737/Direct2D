@@ -8,7 +8,7 @@ GameEnginePixelShader::GameEnginePixelShader()
 {
 }
 
-GameEnginePixelShader::~GameEnginePixelShader() 
+GameEnginePixelShader::~GameEnginePixelShader()
 {
 	if (nullptr != Shader_)
 	{
@@ -39,7 +39,7 @@ bool GameEnginePixelShader::Create(
 	const std::string& _EntryPoint,
 	UINT _VersionHigh/* = 5*/,
 	UINT _VersionLow/* = 0*/
-) 
+)
 {
 	SetVersion(_VersionHigh, _VersionLow);
 	SetEntryPoint(_EntryPoint);
@@ -49,7 +49,7 @@ bool GameEnginePixelShader::Create(
 	return StringCompile();
 }
 
-bool GameEnginePixelShader::FileCompile(const std::string& _Path) 
+bool GameEnginePixelShader::FileCompile(const std::string& _Path)
 {
 	unsigned int Flag = 0;
 
@@ -71,7 +71,7 @@ bool GameEnginePixelShader::FileCompile(const std::string& _Path)
 	// MultiByteToWideChar()
 
 	std::wstring Path;
-	GameEngineString::StringToWString(_Path, Path);
+	GameEngineString::AnsiToUnicode(_Path, Path);
 
 	if (S_OK != D3DCompileFromFile(
 		Path.c_str(),
@@ -104,7 +104,7 @@ bool GameEnginePixelShader::FileCompile(const std::string& _Path)
 	return true;
 }
 
-bool GameEnginePixelShader::StringCompile() 
+bool GameEnginePixelShader::StringCompile()
 {
 
 	unsigned int Flag = 0;
@@ -167,12 +167,12 @@ void GameEnginePixelShader::SetConstantBuffers(const GameEngineConstantBufferSet
 	GameEngineDevice::GetContext()->PSSetConstantBuffers(_Setting->SettingIndex_, 1, &_Setting->Res_->GetBuffer());
 }
 
-void GameEnginePixelShader::SetTexture(const GameEngineTextureSetting* _Setting) 
+void GameEnginePixelShader::SetTexture(const GameEngineTextureSetting* _Setting)
 {
 	GameEngineDevice::GetContext()->PSSetShaderResources(_Setting->SettingIndex_, 1, _Setting->Res_->GetShaderResourcesView());
 }
 
-void GameEnginePixelShader::SetSampler(const GameEngineSamplerSetting* _Setting) 
+void GameEnginePixelShader::SetSampler(const GameEngineSamplerSetting* _Setting)
 {
 	// ID3D11SamplerState* const ReSetting[16] = { *_Setting->Res_->GetSamplerState() };
 

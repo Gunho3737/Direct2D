@@ -13,7 +13,6 @@ private:	// member Var
 	int Order_;
 	GameEngineObjectBase* parent_;
 
-
 public:
 	bool IsNull()
 	{
@@ -93,6 +92,12 @@ public:
 	{
 		return Order_;
 	}
+
+	bool& GetIsUpdateRef()
+	{
+		return isUpdate_; // 부모도 켜져있어야
+	}
+
 
 public:
 	GameEngineObjectBase(); // default constructer 디폴트 생성자

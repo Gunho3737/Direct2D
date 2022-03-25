@@ -20,7 +20,7 @@ void Player::Start()
 {
 	PlayerDirection = LeftRight::LEFT;
 
-	GetTransform()->SetLocalPosition({720.0f,-500.0f});
+	GetTransform()->SetLocalPosition({720.0f,-450.0f});
 
 	{
 		// Scale에 마이너스를 곱하면 대칭이 가능해진다

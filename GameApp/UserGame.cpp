@@ -8,6 +8,7 @@
 
 #include "TitleLevel.h"
 #include "PlayLevel.h"
+#include "EndingLevel.h"
 
 UserGame::UserGame() // default constructer 디폴트 생성자
 {
@@ -43,6 +44,7 @@ void UserGame::Initialize()
 
 	LevelCreate<TitleLevel>("Title");
 	LevelCreate<PlayLevel>("Play");
+	LevelCreate<EndingLevel>("Ending");
 	LevelChange("Play");
 
 	return;

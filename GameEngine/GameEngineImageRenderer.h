@@ -29,6 +29,11 @@ private:
 		std::vector<std::function<void()>> StartCallBack_;
 
 	public:
+		void SetCurrentIndex(int _Index)
+		{
+			CurFrame_ = _Index;
+		}
+
 		void Reset();
 		void CallStart();
 		void CallEnd();
@@ -56,7 +61,7 @@ public:
 
 	void CreateAnimation(const std::string& _TextureName, const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop = true);
 
-	void CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime, bool _Loop = true);
+	void CreateAnimationFolder(const std::string& _FolderTexName, const std::string& _Name, float _InterTime, bool _Loop = true);
 
 	// _IsForce 같은 애니메이션 인데도 바꿀거냐? true 바꾼다.
 	void SetChangeAnimation(const std::string& _Name, bool _IsForce = false);
@@ -75,6 +80,12 @@ public:
 	{
 		return CurAnimation_->GetName();
 	}
+
+	inline void IsCurrentAnimationIndex(const int _Index)
+	{
+		CurAnimation_->SetCurrentIndex(_Index);
+	}
+
 
 	inline bool IsCurrentAnimationString(const std::string& _Name)
 	{

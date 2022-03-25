@@ -15,6 +15,7 @@ private:	// member Var
 	std::vector<GameEngineTexture*> Textures_;
 	// std::vector<D3D11_VIEWPORT> ViewPort_;
 	std::vector<ID3D11RenderTargetView*> RenderTargetViews_;
+	std::vector<ID3D11ShaderResourceView*> ShaderResourcesViews_;
 
 	std::vector<float4> ClearColor_;
 
@@ -31,6 +32,11 @@ public:
 	static GameEngineDepthBuffer* GetLastDepthBuffer()
 	{
 		return LastDepthBuffer;
+	}
+
+	inline ID3D11ShaderResourceView* GetShaderResourcesView(size_t _Index)
+	{
+		return ShaderResourcesViews_[_Index];
 	}
 
 	void Clear();
