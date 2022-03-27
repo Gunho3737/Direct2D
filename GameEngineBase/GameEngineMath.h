@@ -29,6 +29,8 @@ public:
 
 	static const float4 XFLIP;
 
+	static const float4 TEXTUREPERCENT;
+
 public:
 	// 1 0 0 0 
 	// 0 1 0 0 

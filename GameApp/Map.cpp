@@ -18,7 +18,7 @@ void Map::Start()
 {
 	{
 		ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>();
-		ImageRenderer->SetImage("BenchRoomBitMap.Png");
+		ImageRenderer->SetImage("FinalBitMap_ver01.Png");
 		float4 Mapsize = ImageRenderer->GetCurrentTexture()->GetTextureSize();
 		ImageRenderer->GetTransform()->SetLocalPosition({Mapsize.hx(), -(Mapsize.hy()), 100.0f});
 		ImageRenderer->GetTransform()->SetLocalScaling(ImageRenderer->GetCurrentTexture()->GetTextureSize());

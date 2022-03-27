@@ -20,8 +20,8 @@ void UI_HpBar::Start()
 	HPBarRenderer->GetTransform()->SetLocalPosition({ -512.0f, 360.0f - 73.0f, -20.0f });
 
 	float4 HPIconPosition = { { -512.0f + 50.0f, 360.0f - 60.0f, -21.0f } };
-	float4 HPIconScale = { { 57.0f*0.8f, 70.0f*0.8f, 1.0f } }; 
-	float4 HPIconSpace = { 75.0f*0.8f, 0.0f, 0.0f, 0.0f };
+	float4 HPIconScale = { { 57.0f*0.75f, 70.0f*0.75f, 1.0f } }; 
+	float4 HPIconSpace = { 75.0f*0.75f, 0.0f, 0.0f, 0.0f };
 
 	HPIconRenderer1 = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	HPIconRenderer1 ->CreateAnimationFolder("HealthIdle", "HealthIdle", 0.03f);

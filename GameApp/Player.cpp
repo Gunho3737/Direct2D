@@ -36,16 +36,16 @@ void Player::Start()
 		PlayerImageRenderer->CreateAnimationFolder("DownAttack", "DownSlash", 0.05f, false);
 
 		PlayerImageRenderer->SetChangeAnimation("Idle");
-		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize());
+		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize() *= float4::TEXTUREPERCENT);
 		//렌더러가 그려지는곳을 봇으로 설정
-		PlayerImageRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot());
+		PlayerImageRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot() *= float4::TEXTUREPERCENT);
 	}
 
 
 	{
 		PlayerCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::PLAYER);
-		PlayerCollision->GetTransform()->SetLocalScaling(float4{ 60.0f, 130.0f, 1.0f });
-		PlayerCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot());
+		PlayerCollision->GetTransform()->SetLocalScaling(float4{ 60.0f, 130.0f, 1.0f } *= float4::TEXTUREPERCENT);
+		PlayerCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot() *= float4::TEXTUREPERCENT);
 	}
 
 	if (false == GameEngineInput::GetInst().IsKey("PlayerMove"))
@@ -92,11 +92,11 @@ void Player::Update(float _DeltaTime)
 	//좌우를 바꿔줘야함
 	if (PlayerDirection == LeftRight::LEFT)
 	{
-		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize());
+		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize()*= float4::TEXTUREPERCENT);
 	}
 	else
 	{
-		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize() *= float4::XFLIP);
+		PlayerImageRenderer->GetTransform()->SetLocalScaling((PlayerImageRenderer->GetFolderTextureImageSize() *= float4::XFLIP) *= float4::TEXTUREPERCENT);
 	}
 
 	
@@ -104,7 +104,7 @@ void Player::Update(float _DeltaTime)
 	MapBotCollsionColor = Map::GetColor(GetTransform());
 
 	//그러므로 머리와 접촉하는 곳은 이미지의 높이만큼
-	MapTopCollsionColor = Map::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 120.0f, 0.0f});
+	MapTopCollsionColor = Map::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 120.0f*0.75f, 0.0f});
 	StateManager_.Update();
 
 
