@@ -49,7 +49,7 @@ void GameEngineGUI::Initialize()
     }
 
     GameEngineDirectory Dir;
-    Dir.MoveParent("Direct2D");
+    Dir.MoveParent("LGH_HollowKnight");
     Dir.MoveChild("EngineResources");
     Dir.MoveChild("Font");
 

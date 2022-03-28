@@ -8,7 +8,7 @@ void UserGame::ResourcesLoad()
 {
 	{
 		GameEngineDirectory SoundDir;
-		SoundDir.MoveParent("Direct2D");
+		SoundDir.MoveParent("LGH_HollowKnight");
 		SoundDir.MoveChild("Resources");
 		SoundDir.MoveChild("Sound");
 
@@ -22,7 +22,7 @@ void UserGame::ResourcesLoad()
 
 	{
 		GameEngineDirectory TextureDir;
-		TextureDir.MoveParent("Direct2D");
+		TextureDir.MoveParent("LGH_HollowKnight");
 		TextureDir.MoveChild("Resources");
 		TextureDir.MoveChild("Image");
 		TextureDir.MoveChild("Monster");
@@ -40,7 +40,7 @@ void UserGame::ResourcesLoad()
 
 	{
 		GameEngineDirectory TextureDir;
-		TextureDir.MoveParent("Direct2D");
+		TextureDir.MoveParent("LGH_HollowKnight");
 		TextureDir.MoveChild("Resources");
 		TextureDir.MoveChild("Image");
 		TextureDir.MoveChild("UI");
@@ -56,7 +56,7 @@ void UserGame::ResourcesLoad()
 
 	{
 		GameEngineDirectory TextureDir;
-		TextureDir.MoveParent("Direct2D");
+		TextureDir.MoveParent("LGH_HollowKnight");
 		TextureDir.MoveChild("Resources");
 		TextureDir.MoveChild("Image");
 		TextureDir.MoveChild("UI");
@@ -68,7 +68,7 @@ void UserGame::ResourcesLoad()
 
 	{
 		GameEngineDirectory TextureDir;
-		TextureDir.MoveParent("Direct2D");
+		TextureDir.MoveParent("LGH_HollowKnight");
 		TextureDir.MoveChild("Resources");
 		TextureDir.MoveChild("Image");
 		TextureDir.MoveChild("Knight");
@@ -89,7 +89,7 @@ void UserGame::ResourcesLoad()
 
 	{
 		GameEngineDirectory TextureDir;
-		TextureDir.MoveParent("Direct2D");
+		TextureDir.MoveParent("LGH_HollowKnight");
 		TextureDir.MoveChild("Resources");
 		TextureDir.MoveChild("Image");
 		TextureDir.MoveChild("Map");
@@ -105,7 +105,7 @@ void UserGame::ResourcesLoad()
 
 	{
 		GameEngineDirectory TextureDir;
-		TextureDir.MoveParent("Direct2D");
+		TextureDir.MoveParent("LGH_HollowKnight");
 		TextureDir.MoveChild("Resources");
 		TextureDir.MoveChild("Image");
 		TextureDir.MoveChild("TitleScreen");

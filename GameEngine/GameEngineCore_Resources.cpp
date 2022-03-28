@@ -15,7 +15,7 @@ void GameEngineCore::EngineResourcesLoad()
 {
 	{
 		GameEngineDirectory EngineTextureDir;
-		EngineTextureDir.MoveParent("Direct2D");
+		EngineTextureDir.MoveParent("LGH_HollowKnight");
 		EngineTextureDir.MoveChild("EngineResources");
 		EngineTextureDir.MoveChild("Texture");
 
@@ -29,7 +29,7 @@ void GameEngineCore::EngineResourcesLoad()
 
 	{
 		GameEngineDirectory Dir;
-		Dir.MoveParent("Direct2D");
+		Dir.MoveParent("LGH_HollowKnight");
 		Dir.MoveChild("EngineResources");
 		Dir.MoveChild("Shader");
 

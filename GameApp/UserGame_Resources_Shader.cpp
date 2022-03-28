@@ -4,6 +4,6 @@
 void AppShaderLoad()
 {
 	GameEngineDirectory Dir;
-	Dir.MoveParent("Direct2D");
+	Dir.MoveParent("LGH_HollowKnight");
 	Dir.MoveChild("Resources");
 }
