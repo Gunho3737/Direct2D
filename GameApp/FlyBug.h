@@ -25,8 +25,6 @@ public:
 
 
 protected:
-	//콜백함수용 함수, 기능에 맞춰서 이름붙힐것
-	void TestStartCallBack();
 
 	int HP;
 

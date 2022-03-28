@@ -33,6 +33,8 @@ protected:
 
 	float4 MapBotCollsionColor;
 	float4 MapTopCollsionColor;
+	float4 MapLeftCollsionColor;
+	float4 MapRightCollsionColor;
 
 private:
 	void Start() override;

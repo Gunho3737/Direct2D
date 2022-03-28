@@ -21,19 +21,25 @@
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="UI_HpBar.cpp">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\PlayLevel\UI</Filter>
     </ClCompile>
     <ClCompile Include="EndingLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="FlyBug.cpp">
-      <Filter>Actor\Monster</Filter>
+      <Filter>Actor\PlayLevel\Monster</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Actor\Player</Filter>
+      <Filter>Actor\PlayLevel\Player</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
-      <Filter>Actor\Map</Filter>
+      <Filter>Actor\PlayLevel\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScreen.cpp">
+      <Filter>Actor\TitleLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="FinalBoss.cpp">
+      <Filter>Actor\PlayLevel\Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -49,17 +55,23 @@
     <Filter Include="Actor">
       <UniqueIdentifier>{f238a7de-9bb6-4739-8663-e537dead90c4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\UI">
-      <UniqueIdentifier>{f4805381-1ef7-46ac-a653-47620b0adb4f}</UniqueIdentifier>
+    <Filter Include="Actor\PlayLevel">
+      <UniqueIdentifier>{a4d17ccf-6143-4137-83e1-27254885dcd0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Monster">
+    <Filter Include="Actor\PlayLevel\Monster">
       <UniqueIdentifier>{c0dbd724-0456-40f5-91af-2bf930080580}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Player">
-      <UniqueIdentifier>{e3b17049-998e-4452-a5e6-ec0bf979b648}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Map">
+    <Filter Include="Actor\PlayLevel\Map">
       <UniqueIdentifier>{048a358b-588f-4a82-87aa-e27f3f594ec4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\PlayLevel\UI">
+      <UniqueIdentifier>{f4805381-1ef7-46ac-a653-47620b0adb4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\TitleLevel">
+      <UniqueIdentifier>{89e5fb06-c850-470c-9acc-3fb582bec665}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\PlayLevel\Player">
+      <UniqueIdentifier>{e3b17049-998e-4452-a5e6-ec0bf979b648}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -80,19 +92,25 @@
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="UI_HpBar.h">
-      <Filter>Actor\UI</Filter>
+      <Filter>Actor\PlayLevel\UI</Filter>
     </ClInclude>
     <ClInclude Include="EndingLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="FlyBug.h">
-      <Filter>Actor\Monster</Filter>
+      <Filter>Actor\PlayLevel\Monster</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Actor\Player</Filter>
+      <Filter>Actor\PlayLevel\Player</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
-      <Filter>Actor\Map</Filter>
+      <Filter>Actor\PlayLevel\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScreen.h">
+      <Filter>Actor\TitleLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="FinalBoss.h">
+      <Filter>Actor\PlayLevel\Monster</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

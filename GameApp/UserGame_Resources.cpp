@@ -103,6 +103,22 @@ void UserGame::ResourcesLoad()
 
 	}
 
+	{
+		GameEngineDirectory TextureDir;
+		TextureDir.MoveParent("Direct2D");
+		TextureDir.MoveChild("Resources");
+		TextureDir.MoveChild("Image");
+		TextureDir.MoveChild("TitleScreen");
+
+		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFile();
+
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+		}
+
+	}
+
 
 
 

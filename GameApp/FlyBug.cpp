@@ -16,11 +16,6 @@ FlyBug::~FlyBug()
 {
 }
 
-void FlyBug::TestStartCallBack()
-{
-	int a = 0;
-}
-
 
 void FlyBug::Start()
 {

@@ -20,7 +20,7 @@ void Player::Start()
 {
 	PlayerDirection = LeftRight::LEFT;
 
-	GetTransform()->SetLocalPosition({720.0f,-450.0f});
+	GetTransform()->SetLocalPosition({6200.0f,-2000.0f});
 
 	{
 		// Scale에 마이너스를 곱하면 대칭이 가능해진다
@@ -46,17 +46,6 @@ void Player::Start()
 		PlayerCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::PLAYER);
 		PlayerCollision->GetTransform()->SetLocalScaling(float4{ 60.0f, 130.0f, 1.0f } *= float4::TEXTUREPERCENT);
 		PlayerCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot() *= float4::TEXTUREPERCENT);
-	}
-
-	if (false == GameEngineInput::GetInst().IsKey("PlayerMove"))
-	{
-		GameEngineInput::GetInst().CreateKey("MoveLeft", VK_LEFT);
-		GameEngineInput::GetInst().CreateKey("MoveRight", VK_RIGHT);
-		GameEngineInput::GetInst().CreateKey("AimUp", VK_UP);
-		GameEngineInput::GetInst().CreateKey("AimDown", VK_DOWN);
-		GameEngineInput::GetInst().CreateKey("Attack", 'X');
-		GameEngineInput::GetInst().CreateKey("Jump", 'Z');
-		GameEngineInput::GetInst().CreateKey("DebugOn", 'R');
 	}
 
 
@@ -105,6 +94,9 @@ void Player::Update(float _DeltaTime)
 
 	//그러므로 머리와 접촉하는 곳은 이미지의 높이만큼
 	MapTopCollsionColor = Map::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 120.0f*0.75f, 0.0f});
+
+	MapLeftCollsionColor = Map::GetColor(GetTransform()->GetWorldPosition() += {-30.0f, 60.0f * 0.75, 0.0f});
+	MapRightCollsionColor = Map::GetColor(GetTransform()->GetWorldPosition() += {30.0f, 60.0f * 0.75, 0.0f});
 	StateManager_.Update();
 
 
@@ -149,7 +141,7 @@ void Player::Idle()
 
 	if (true == GameEngineInput::GetInst().Down("Jump"))
 	{
-		JumpPower = float4::UP * 700.0f;
+		JumpPower = float4::UP * 800.0f;
 		StateManager_.ChangeState("Jump");
 	}
 
@@ -164,22 +156,28 @@ void Player::IdleToRun()
 {
 	PlayerImageRenderer->SetChangeAnimation("IdleToRun");
 
-	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
+	if (MapLeftCollsionColor != float4::BLACK)
 	{
-		if (PlayerDirection == LeftRight::RIGHT)
+		if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 		{
-			PlayerDirection = LeftRight::LEFT;
+			if (PlayerDirection == LeftRight::RIGHT)
+			{
+				PlayerDirection = LeftRight::LEFT;
+			}
+			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
 		}
-		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
 	}
 
-	if (GameEngineInput::GetInst().Press("MoveRight"))
+	if (MapRightCollsionColor != float4::BLACK)
 	{
-		if (PlayerDirection == LeftRight::LEFT)
+		if (GameEngineInput::GetInst().Press("MoveRight"))
 		{
-			PlayerDirection = LeftRight::RIGHT;
+			if (PlayerDirection == LeftRight::LEFT)
+			{
+				PlayerDirection = LeftRight::RIGHT;
+			}
+			GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 		}
-		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 	}
 
 	if (
@@ -217,7 +215,7 @@ void Player::IdleToRun()
 
 	if (true == GameEngineInput::GetInst().Down("Jump"))
 	{
-		JumpPower = float4::UP * 700.0f;
+		JumpPower = float4::UP * 800.0f;
 		StateManager_.ChangeState("Jump");
 	}
 
@@ -232,22 +230,28 @@ void Player::Run()
 {
 	PlayerImageRenderer->SetChangeAnimation("Run");
 
-	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
+	if (MapLeftCollsionColor != float4::BLACK)
 	{
-		if (PlayerDirection == LeftRight::RIGHT)
+		if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 		{
-			PlayerDirection = LeftRight::LEFT;
+			if (PlayerDirection == LeftRight::RIGHT)
+			{
+				PlayerDirection = LeftRight::LEFT;
+			}
+			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
 		}
-		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
 	}
 
-	if (GameEngineInput::GetInst().Press("MoveRight"))
+	if (MapRightCollsionColor != float4::BLACK)
 	{
-		if (PlayerDirection == LeftRight::LEFT)
+		if (GameEngineInput::GetInst().Press("MoveRight"))
 		{
-			PlayerDirection = LeftRight::RIGHT;
+			if (PlayerDirection == LeftRight::LEFT)
+			{
+				PlayerDirection = LeftRight::RIGHT;
+			}
+			GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 		}
-		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 	}
 
 	if (
@@ -279,7 +283,7 @@ void Player::Run()
 
 	if (true == GameEngineInput::GetInst().Down("Jump"))
 	{
-		JumpPower = float4::UP * 700.0f;
+		JumpPower = float4::UP * 800.0f;
 		StateManager_.ChangeState("Jump");
 	}
 
@@ -307,7 +311,7 @@ void Player::RunToIdle()
 
 	if (true == GameEngineInput::GetInst().Down("Jump"))
 	{
-		JumpPower = float4::UP * 700.0f;
+		JumpPower = float4::UP * 800.0f;
 		StateManager_.ChangeState("Jump");
 	}
 
@@ -356,22 +360,28 @@ void Player::Attack()
 		}		
 	}
 
-	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
+	if (MapLeftCollsionColor != float4::BLACK)
 	{
-		if (PlayerDirection == LeftRight::RIGHT)
+		if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 		{
-			PlayerDirection = LeftRight::LEFT;
+			if (PlayerDirection == LeftRight::RIGHT)
+			{
+				PlayerDirection = LeftRight::LEFT;
+			}
+			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
 		}
-		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
 	}
 
-	if (GameEngineInput::GetInst().Press("MoveRight"))
+	if (MapRightCollsionColor != float4::BLACK)
 	{
-		if (PlayerDirection == LeftRight::LEFT)
+		if (GameEngineInput::GetInst().Press("MoveRight"))
 		{
-			PlayerDirection = LeftRight::RIGHT;
+			if (PlayerDirection == LeftRight::LEFT)
+			{
+				PlayerDirection = LeftRight::RIGHT;
+			}
+			GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 		}
-		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 	}
 
 	PlayerImageRenderer->SetEndCallBack("Attack", [&]()
@@ -402,22 +412,28 @@ void Player::Airborne()
 
 	PlayerImageRenderer->SetChangeAnimation("Airborne");
 
-	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
+	if (MapLeftCollsionColor != float4::BLACK)
 	{
-		if (PlayerDirection == LeftRight::RIGHT)
+		if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 		{
-			PlayerDirection = LeftRight::LEFT;
+			if (PlayerDirection == LeftRight::RIGHT)
+			{
+				PlayerDirection = LeftRight::LEFT;
+			}
+			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
 		}
-		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
 	}
 
-	if (GameEngineInput::GetInst().Press("MoveRight"))
+	if (MapRightCollsionColor != float4::BLACK)
 	{
-		if (PlayerDirection == LeftRight::LEFT)
+		if (GameEngineInput::GetInst().Press("MoveRight"))
 		{
-			PlayerDirection = LeftRight::RIGHT;
+			if (PlayerDirection == LeftRight::LEFT)
+			{
+				PlayerDirection = LeftRight::RIGHT;
+			}
+			GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 		}
-		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 	}
 
 	if (true == GameEngineInput::GetInst().Down("Attack"))
@@ -455,7 +471,7 @@ void Player::Jump()
 		JumpPower += float4::DOWN * GameEngineTime::GetInst().GetDeltaTime() * 1500.0f;
 		if (MapTopCollsionColor != float4::BLACK)
 		{
-		GetTransform()->SetLocalDeltaTimeMove(float4::UP * JumpPower);
+			GetTransform()->SetLocalDeltaTimeMove(float4::UP * JumpPower);
 		}
 
 		if (0 > JumpPower.y)
@@ -464,22 +480,28 @@ void Player::Jump()
 		}
 	}
 
-	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
+	if (MapLeftCollsionColor != float4::BLACK)
 	{
-		if (PlayerDirection == LeftRight::RIGHT)
+		if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 		{
-			PlayerDirection = LeftRight::LEFT;
+			if (PlayerDirection == LeftRight::RIGHT)
+			{
+				PlayerDirection = LeftRight::LEFT;
+			}
+			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
 		}
-		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
 	}
 
-	if (GameEngineInput::GetInst().Press("MoveRight"))
+	if (MapRightCollsionColor != float4::BLACK)
 	{
-		if (PlayerDirection == LeftRight::LEFT)
+		if (GameEngineInput::GetInst().Press("MoveRight"))
 		{
-			PlayerDirection = LeftRight::RIGHT;
+			if (PlayerDirection == LeftRight::LEFT)
+			{
+				PlayerDirection = LeftRight::RIGHT;
+			}
+			GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 		}
-		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 	}
 
 	if (true == GameEngineInput::GetInst().Down("Attack"))
@@ -523,22 +545,28 @@ void Player::UpAttack()
 		}
 	}
 
-	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
+	if (MapLeftCollsionColor != float4::BLACK)
 	{
-		if (PlayerDirection == LeftRight::RIGHT)
+		if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 		{
-			PlayerDirection = LeftRight::LEFT;
+			if (PlayerDirection == LeftRight::RIGHT)
+			{
+				PlayerDirection = LeftRight::LEFT;
+			}
+			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
 		}
-		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
 	}
 
-	if (GameEngineInput::GetInst().Press("MoveRight"))
+	if (MapRightCollsionColor != float4::BLACK)
 	{
-		if (PlayerDirection == LeftRight::LEFT)
+		if (GameEngineInput::GetInst().Press("MoveRight"))
 		{
-			PlayerDirection = LeftRight::RIGHT;
+			if (PlayerDirection == LeftRight::LEFT)
+			{
+				PlayerDirection = LeftRight::RIGHT;
+			}
+			GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 		}
-		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 	}
 
 	PlayerImageRenderer->SetEndCallBack("UpAttack", [&]()
@@ -583,22 +611,28 @@ void Player::DownAttack()
 		}
 	}
 
-	if (true == GameEngineInput::GetInst().Press("MoveLeft"))
+	if (MapLeftCollsionColor != float4::BLACK)
 	{
-		if (PlayerDirection == LeftRight::RIGHT)
+		if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 		{
-			PlayerDirection = LeftRight::LEFT;
+			if (PlayerDirection == LeftRight::RIGHT)
+			{
+				PlayerDirection = LeftRight::LEFT;
+			}
+			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
 		}
-		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
 	}
 
-	if (GameEngineInput::GetInst().Press("MoveRight"))
+	if (MapRightCollsionColor != float4::BLACK)
 	{
-		if (PlayerDirection == LeftRight::LEFT)
+		if (GameEngineInput::GetInst().Press("MoveRight"))
 		{
-			PlayerDirection = LeftRight::RIGHT;
+			if (PlayerDirection == LeftRight::LEFT)
+			{
+				PlayerDirection = LeftRight::RIGHT;
+			}
+			GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 		}
-		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 	}
 
 	PlayerImageRenderer->SetEndCallBack("DownAttack", [&]()
