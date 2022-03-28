@@ -36,6 +36,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MapEditor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MapEditorLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayLevel.cpp" />
     <ClCompile Include="PreCompile.cpp">
@@ -79,6 +87,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Map.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MapEditor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MapEditorLevel.h">
       <SubType>
       </SubType>
     </ClInclude>

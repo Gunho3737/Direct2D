@@ -30,6 +30,7 @@ protected:
 
 	float Speed;
 	float4 JumpPower;
+	float4 BasicJumpPower;
 
 	float4 MapBotCollsionColor;
 	float4 MapTopCollsionColor;

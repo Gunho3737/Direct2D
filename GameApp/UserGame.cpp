@@ -9,6 +9,7 @@
 #include "TitleLevel.h"
 #include "PlayLevel.h"
 #include "EndingLevel.h"
+#include "MapEditorLevel.h"
 
 UserGame::UserGame() // default constructer 디폴트 생성자
 {
@@ -43,8 +44,10 @@ void UserGame::Initialize()
 	//GameEngineInput::GetInst().HideCursor();
 
 	LevelCreate<TitleLevel>("Title");
+	LevelCreate<MapEditorLevel>("MapEditor");
 	LevelCreate<PlayLevel>("Play");
 	LevelCreate<EndingLevel>("Ending");
+
 	LevelChange("Play");
 
 	return;

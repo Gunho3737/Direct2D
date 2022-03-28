@@ -7,7 +7,7 @@
 
 
 Player::Player()
-	: Speed(400.0f), JumpPower(float4::ZERO)
+	: Speed(400.0f), JumpPower(float4::ZERO), BasicJumpPower(float4::UP * 900.0f)
 {
 }
 
@@ -136,7 +136,7 @@ void Player::Idle()
 
 	if (true == GameEngineInput::GetInst().Down("Jump"))
 	{
-		JumpPower = float4::UP * 800.0f;
+		JumpPower = BasicJumpPower;
 		StateManager_.ChangeState("Jump");
 	}
 
@@ -205,7 +205,7 @@ void Player::IdleToRun()
 
 	if (true == GameEngineInput::GetInst().Down("Jump"))
 	{
-		JumpPower = float4::UP * 800.0f;
+		JumpPower = BasicJumpPower;
 		StateManager_.ChangeState("Jump");
 	}
 
@@ -268,7 +268,7 @@ void Player::Run()
 
 	if (true == GameEngineInput::GetInst().Down("Jump"))
 	{
-		JumpPower = float4::UP * 800.0f;
+		JumpPower = BasicJumpPower;
 		StateManager_.ChangeState("Jump");
 	}
 
@@ -296,7 +296,7 @@ void Player::RunToIdle()
 
 	if (true == GameEngineInput::GetInst().Down("Jump"))
 	{
-		JumpPower = float4::UP * 800.0f;
+		JumpPower = BasicJumpPower;
 		StateManager_.ChangeState("Jump");
 	}
 
