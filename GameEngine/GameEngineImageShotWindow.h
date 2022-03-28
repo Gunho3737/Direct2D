@@ -4,7 +4,7 @@
 #include <unordered_map>
 
 // Ό³Έν :
-class GameEngineRenderWindow : public GameEngineGUIWindow
+class GameEngineImageShotWindow : public GameEngineGUIWindow
 {
 	struct RenderTargetDrawData
 	{
@@ -17,16 +17,18 @@ class GameEngineRenderWindow : public GameEngineGUIWindow
 
 public:
 	// constrcuter destructer
-	GameEngineRenderWindow();
-	~GameEngineRenderWindow();
+	GameEngineImageShotWindow();
+	~GameEngineImageShotWindow();
 
 	// delete Function
-	GameEngineRenderWindow(const GameEngineRenderWindow& _Other) = delete;
-	GameEngineRenderWindow(GameEngineRenderWindow&& _Other) noexcept = delete;
-	GameEngineRenderWindow& operator=(const GameEngineRenderWindow& _Other) = delete;
-	GameEngineRenderWindow& operator=(GameEngineRenderWindow&& _Other) noexcept = delete;
+	GameEngineImageShotWindow(const GameEngineImageShotWindow& _Other) = delete;
+	GameEngineImageShotWindow(GameEngineImageShotWindow&& _Other) noexcept = delete;
+	GameEngineImageShotWindow& operator=(const GameEngineImageShotWindow& _Other) = delete;
+	GameEngineImageShotWindow& operator=(GameEngineImageShotWindow&& _Other) noexcept = delete;
 
 protected:
+	void Start() override;
+
 	void OnGUI() override;
 
 public:
@@ -40,9 +42,16 @@ public:
 		DrawRenderTarget_.push_back({ _Name, _RenderTarget, Size_, false });
 	}
 
+	void SetView(ID3D11ShaderResourceView* _View, float4 _Size)
+	{
+		Size_ = _Size;
+		View_ = _View;
+	}
+
 private:
+	ID3D11ShaderResourceView* View_;
+	float4 Size_;
 	std::vector<RenderTargetDrawData> DrawRenderTarget_;
-	std::list<class GameEngineImageShotWindow*> ImageShot_;
 
 };
 

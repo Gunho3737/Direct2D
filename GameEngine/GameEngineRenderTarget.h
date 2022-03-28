@@ -39,6 +39,11 @@ public:
 		return ShaderResourcesViews_[_Index];
 	}
 
+	inline float4 GetTextureSize(size_t _Index)
+	{
+		return Textures_[_Index]->GetTextureSize();
+	}
+
 	void Clear();
 
 	// -1이면 전부다 세팅하라는 의미가 됩니다.

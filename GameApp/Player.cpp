@@ -106,7 +106,7 @@ void Player::Update(float _DeltaTime)
 		GetLevel()->PushDebugRender(PlayerSlashCollision->GetTransform(), CollisionType::Rect);
 	}
 	
-
+	//카메라이동
 	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 
 }
@@ -126,11 +126,6 @@ void Player::Idle()
 		if (true == GameEngineInput::GetInst().Press("AimUp"))
 		{
 			StateManager_.ChangeState("UpAttack");
-			return;
-		}
-		else if (true == GameEngineInput::GetInst().Press("AimDown"))
-		{
-			StateManager_.ChangeState("DownAttack");
 			return;
 		}
 		else
@@ -194,11 +189,6 @@ void Player::IdleToRun()
 		if (true == GameEngineInput::GetInst().Press("AimUp"))
 		{
 			StateManager_.ChangeState("UpAttack");
-			return;
-		}
-		else if (true == GameEngineInput::GetInst().Press("AimDown"))
-		{
-			StateManager_.ChangeState("DownAttack");
 			return;
 		}
 		else
@@ -270,11 +260,6 @@ void Player::Run()
 			StateManager_.ChangeState("UpAttack");
 			return;
 		}
-		else if (true == GameEngineInput::GetInst().Press("AimDown"))
-		{
-			StateManager_.ChangeState("DownAttack");
-			return;
-		}
 		else
 		{
 			StateManager_.ChangeState("Attack");
@@ -325,11 +310,6 @@ void Player::RunToIdle()
 		if (true == GameEngineInput::GetInst().Press("AimUp"))
 		{
 			StateManager_.ChangeState("UpAttack");
-			return;
-		}
-		else if (true == GameEngineInput::GetInst().Press("AimDown"))
-		{
-			StateManager_.ChangeState("DownAttack");
 			return;
 		}
 		else
