@@ -37,6 +37,8 @@ protected:
 	float4 MapLeftCollsionColor;
 	float4 MapRightCollsionColor;
 
+	float4 CameraMovementCollisionColor;
+
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -44,8 +46,6 @@ private:
 
 private:
 	void SetCallBackFunc();
-
-	//void TestTimeEvent();
 
 private:
 	void Idle();

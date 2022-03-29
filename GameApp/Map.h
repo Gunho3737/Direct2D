@@ -18,6 +18,8 @@ public:
 
 	GameEngineImageRenderer* ImageRenderer;
 
+	MapProgress Progress;
+
 	static float4 GetColor(GameEngineTransform* _Ptr, bool YRevers = true);
 
 	static float4 GetColor(float4 _Postion, bool YReverse = true);

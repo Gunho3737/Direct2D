@@ -81,22 +81,25 @@ void Player::Update(float _DeltaTime)
 	//좌우를 바꿔줘야함
 	if (PlayerDirection == LeftRight::LEFT)
 	{
-		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize()*= float4::TEXTUREPERCENT);
+		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize() *= float4::TEXTUREPERCENT);
 	}
 	else
 	{
 		PlayerImageRenderer->GetTransform()->SetLocalScaling((PlayerImageRenderer->GetFolderTextureImageSize() *= float4::XFLIP) *= float4::TEXTUREPERCENT);
 	}
 
-	
+
 	//플레이어의 Transform = 렌더러의 발에있다
 	MapBotCollsionColor = Map::GetColor(GetTransform());
 
 	//그러므로 머리와 접촉하는 곳은 이미지의 높이만큼
-	MapTopCollsionColor = Map::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 120.0f*0.75f, 0.0f});
-
+	MapTopCollsionColor = Map::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 120.0f * 0.75f, 0.0f});
 	MapLeftCollsionColor = Map::GetColor(GetTransform()->GetWorldPosition() += {-30.0f, 60.0f * 0.75, 0.0f});
 	MapRightCollsionColor = Map::GetColor(GetTransform()->GetWorldPosition() += {30.0f, 60.0f * 0.75, 0.0f});
+
+	//카메라 이동을 통제하기 위한 몸 한가운데의 색콜리전
+	CameraMovementCollisionColor = Map::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 60.0f * 0.75f, 0.0f});
+
 	StateManager_.Update();
 
 
@@ -105,10 +108,16 @@ void Player::Update(float _DeltaTime)
 		GetLevel()->PushDebugRender(PlayerCollision->GetTransform(), CollisionType::Rect);
 		GetLevel()->PushDebugRender(PlayerSlashCollision->GetTransform(), CollisionType::Rect);
 	}
-	
-	//카메라이동
-	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 
+	//카메라이동
+	//if (CameraMovementCollisionColor == float4{1.0f, 0.0f, 1.0f, 1.0f})
+	//{
+	//	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(float4{0.0f, GetTransform()->GetLocalPosition().y, GetTransform()->GetLocalPosition().z});
+	//}
+	//else
+	{
+		GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
+	}
 }
 
 void Player::Idle()

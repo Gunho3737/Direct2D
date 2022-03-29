@@ -7,6 +7,7 @@
 Map* Map::CurrentMap = nullptr;
 
 Map::Map()
+	: Progress(MapProgress::BENCH)
 {
 }
 
