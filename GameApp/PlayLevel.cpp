@@ -4,6 +4,7 @@
 #include "UI_HpBar.h"
 #include "FlyBug.h"
 #include "Map.h"
+#include "ViewMap.h"
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
 #include <GameEngine/CameraActor.h>
@@ -29,13 +30,17 @@ void PlayLevel::LevelStart()
 	}
 
 	{
+	//	ViewMap* Player = CreateActor<ViewMap>();
+	}
+
+	{
 		Player* PlayerActor = CreateActor<Player>();
 		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
 	}
 
 	{
 		FlyBug* Actor = CreateActor<FlyBug>();
-		Actor->GetTransform()->SetWorldPosition(float4(6050.0f, -2200.0f, 0.0f));
+		Actor->GetTransform()->SetWorldPosition(float4(6050.0f*1.25f, -2200.0f * 1.25f, 0.0f));
 	}
 
 	{

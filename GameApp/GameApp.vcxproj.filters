@@ -41,11 +41,8 @@
     <ClCompile Include="FinalBoss.cpp">
       <Filter>Actor\PlayLevel\Monster</Filter>
     </ClCompile>
-    <ClCompile Include="MapEditorLevel.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="MapEditor.cpp">
-      <Filter>GUI</Filter>
+    <ClCompile Include="ViewMap.cpp">
+      <Filter>Actor\PlayLevel\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,9 +75,6 @@
     </Filter>
     <Filter Include="Actor\PlayLevel\Player">
       <UniqueIdentifier>{e3b17049-998e-4452-a5e6-ec0bf979b648}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI">
-      <UniqueIdentifier>{7328519c-f7bd-42d3-a0f8-2ee066dc2d92}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -121,11 +115,8 @@
     <ClInclude Include="FinalBoss.h">
       <Filter>Actor\PlayLevel\Monster</Filter>
     </ClInclude>
-    <ClInclude Include="MapEditorLevel.h">
-      <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="MapEditor.h">
-      <Filter>GUI</Filter>
+    <ClInclude Include="ViewMap.h">
+      <Filter>Actor\PlayLevel\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -225,7 +225,7 @@ void GameEngineCore::EngineResourcesCreate()
 		Info.AntialiasedLineEnable = true;
 		Info.MultisampleEnable = true;
 		GameEngineRasterizer* Ptr = GameEngineRasterizerManager::GetInst().Create("EngineBaseRasterizer", Info);
-		Ptr->SetViewPort(1280.0f, 720.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+		Ptr->SetViewPort(1600.0f, 900.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 	}
 
 	{

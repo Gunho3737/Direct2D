@@ -20,7 +20,7 @@ void Player::Start()
 {
 	PlayerDirection = LeftRight::LEFT;
 
-	GetTransform()->SetLocalPosition({6200.0f,-2000.0f});
+	GetTransform()->SetLocalPosition({7800.0f,-2800.0f});
 
 	{
 		// Scale에 마이너스를 곱하면 대칭이 가능해진다
@@ -36,16 +36,16 @@ void Player::Start()
 		PlayerImageRenderer->CreateAnimationFolder("DownAttack", "DownSlash", 0.05f, false);
 
 		PlayerImageRenderer->SetChangeAnimation("Idle");
-		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize() *= float4::TEXTUREPERCENT);
+		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize());
 		//렌더러가 그려지는곳을 봇으로 설정
-		PlayerImageRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot() *= float4::TEXTUREPERCENT);
+		PlayerImageRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot());
 	}
 
 
 	{
 		PlayerCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::PLAYER);
-		PlayerCollision->GetTransform()->SetLocalScaling(float4{ 60.0f, 130.0f, 1.0f } *= float4::TEXTUREPERCENT);
-		PlayerCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot() *= float4::TEXTUREPERCENT);
+		PlayerCollision->GetTransform()->SetLocalScaling(float4{ 60.0f, 130.0f, 1.0f });
+		PlayerCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot());
 	}
 
 
@@ -81,11 +81,11 @@ void Player::Update(float _DeltaTime)
 	//좌우를 바꿔줘야함
 	if (PlayerDirection == LeftRight::LEFT)
 	{
-		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize() *= float4::TEXTUREPERCENT);
+		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize());
 	}
 	else
 	{
-		PlayerImageRenderer->GetTransform()->SetLocalScaling((PlayerImageRenderer->GetFolderTextureImageSize() *= float4::XFLIP) *= float4::TEXTUREPERCENT);
+		PlayerImageRenderer->GetTransform()->SetLocalScaling((PlayerImageRenderer->GetFolderTextureImageSize() *= float4::XFLIP));
 	}
 
 
@@ -660,18 +660,18 @@ void Player::SetCallBackFunc()
 				PlayerSlashRenderer->SetChangeAnimation("SlashEffect", true);
 				if (PlayerDirection == LeftRight::LEFT)
 				{
-					PlayerSlashRenderer->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f } *= float4::TEXTUREPERCENT);
-					PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {-50.0f, 0.0f, -1.0f});
-					PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f } *= float4::TEXTUREPERCENT);
-					PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {-50.0f, 0.0f, -1.0f});
+					PlayerSlashRenderer->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
+					PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {-70.0f, 0.0f, -1.0f});
+					PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
+					PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {-70.0f, 0.0f, -1.0f});
 				}
 				else if (PlayerDirection == LeftRight::RIGHT)
 				{
 					{
-						PlayerSlashRenderer->GetTransform()->SetLocalScaling(float4{ -157.0f,114.0f, 1.0f } *= float4::TEXTUREPERCENT);
-						PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {50.0f, 0.0f, -1.0f});
-						PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ -157.0f,114.0f, 1.0f } *= float4::TEXTUREPERCENT);
-						PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {50.0f, 0.0f, -1.0f});
+						PlayerSlashRenderer->GetTransform()->SetLocalScaling(float4{ -157.0f,114.0f, 1.0f });
+						PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {70.0f, 0.0f, -1.0f});
+						PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ -157.0f,114.0f, 1.0f });
+						PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {70.0f, 0.0f, -1.0f});
 					}
 				}
 
@@ -694,10 +694,10 @@ void Player::SetCallBackFunc()
 		PlayerImageRenderer->SetStartCallBack("UpAttack", [&]()
 			{
 				PlayerSlashRenderer->SetChangeAnimation("UpSlashEffect", true);
-				PlayerSlashRenderer->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f } *= float4::TEXTUREPERCENT);
-				PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, 50.0f, -1.0f});
-				PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f } *= float4::TEXTUREPERCENT);
-				PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, 50.0f, -1.0f});
+				PlayerSlashRenderer->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
+				PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, 70.0f, -1.0f});
+				PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
+				PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, 70.0f, -1.0f});
 			}
 		);
 
@@ -716,10 +716,10 @@ void Player::SetCallBackFunc()
 		PlayerImageRenderer->SetStartCallBack("DownAttack", [&]()
 			{
 				PlayerSlashRenderer->SetChangeAnimation("DownSlashEffect", true);
-				PlayerSlashRenderer->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f } *= float4::TEXTUREPERCENT);
-				PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, -50.0f, -1.0f});
-				PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f } *= float4::TEXTUREPERCENT);
-				PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, -50.0f, -1.0f});
+				PlayerSlashRenderer->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
+				PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, -70.0f, -1.0f});
+				PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
+				PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, -70.0f, -1.0f});
 			}
 		);
 
