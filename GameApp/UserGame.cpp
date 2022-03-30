@@ -5,6 +5,7 @@
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEngine/GameEngineWindow.h>
 #include <GameEngine/GameEngineRenderingPipeLine.h>
+#include <GameEngine\GameEngineLevelControlWindow.h>
 
 #include "TitleLevel.h"
 #include "PlayLevel.h"
@@ -28,19 +29,8 @@ UserGame::UserGame(UserGame&& _other) noexcept  // default RValue Copy construct
 
 void UserGame::Initialize()
 {
-	//TransData.View.ViewToLH( { 0.0f, 0.0f, -10.0f }, {0.0f, 0.0f , 1.0f}, {0.0f, 1.0f , 0.0f});
 
-	//TransData.Proj.OrthographicLH( 1280.f, 720.f, 0.1f, 1000.0f );
-
-
-	//TransData.Scale.Scaling2D(200.0f);
-	//TransData.Rotation.RotationDeg({ 0.0f, 0.0f, 45.0f });
-	//TransData.Position.Translation({ 0.0f, 0.0f, 0.0f });
-	//TransData.CalWorld();
-
-	//GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("ColorRendering");
-	//Pipe->ShaderHelper.SettingConstantBufferLink("TransformData", TransData);
-	//GameEngineInput::GetInst().HideCursor();
+	GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineLevelControlWindow>("LevelControlWindow");
 
 	LevelCreate<TitleLevel>("Title");
 	LevelCreate<PlayLevel>("Play");

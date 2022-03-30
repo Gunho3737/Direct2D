@@ -23,6 +23,7 @@ class GameEngineCollision;
 class GameEngineDebugRenderData;
 class GameEngineLevel : public GameEngineObjectNameBase
 {
+	friend class GameEngineLevelControlWindow;
 	friend class GameEngineCore;
 	friend class GameEngineRenderer;
 	friend class GameEngineCollision;

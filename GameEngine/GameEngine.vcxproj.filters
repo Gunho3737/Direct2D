@@ -187,6 +187,9 @@
     <ClInclude Include="GameEngineImageShotWindow.h">
       <Filter>Imgui</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineLevelControlWindow.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -359,6 +362,9 @@
       <Filter>Imgui</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineImageShotWindow.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineLevelControlWindow.cpp">
       <Filter>Imgui</Filter>
     </ClCompile>
   </ItemGroup>

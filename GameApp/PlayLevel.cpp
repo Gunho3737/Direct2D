@@ -30,7 +30,7 @@ void PlayLevel::LevelStart()
 	}
 
 	{
-	//	ViewMap* Player = CreateActor<ViewMap>();
+//		ViewMap* Player = CreateActor<ViewMap>();
 	}
 
 	{
@@ -73,6 +73,13 @@ void PlayLevel::LevelUpdate(float _DeltaTime)
 		float4 Size = { 128, 72 };
 		Window->PushRenderTarget("메인 카메라 타겟", GetMainCamera()->GetCameraRenderTarget(), Size * 3);
 		Window->PushRenderTarget("UI 카메라 타겟", GetUICamera()->GetCameraRenderTarget(), Size * 3);
+	}
+
+	if (true == GameEngineInput::GetInst().Down("LevelControl"))
+	{
+		GameEngineGUIWindow* Window = GameEngineGUI::GetInst()->FindGUIWindow("LevelControlWindow");
+
+		Window->OnOffChange();
 	}
 }
 void PlayLevel::LevelChangeEndEvent()

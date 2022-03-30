@@ -28,6 +28,14 @@ void TitleLevel::LevelStart()
 		GameEngineInput::GetInst().CreateKey("NextLevel", VK_SPACE);
 	}
 
+	if (false == GameEngineInput::GetInst().IsKey("PlayerMove"))
+	{
+		GameEngineInput::GetInst().CreateKey("MOn", 'p');
+		GameEngineInput::GetInst().CreateKey("MOff", 'o');
+		GameEngineInput::GetInst().CreateKey("LevelControl", 'i');
+	}
+
+
 	{
 		TitleScreen* Player = CreateActor<TitleScreen>();
 	}

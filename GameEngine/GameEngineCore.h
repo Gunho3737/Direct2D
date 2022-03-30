@@ -8,6 +8,8 @@
 class GameEngineLevel;
 class GameEngineCore : public GameEngineObjectBase
 {
+	friend class GameEngineLevelControlWindow;
+
 private:
 	void EngineInitialize();
 	void EngineResourcesLoad();
