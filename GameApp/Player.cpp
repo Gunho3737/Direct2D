@@ -7,7 +7,7 @@
 
 
 Player::Player()
-	: Speed(400.0f), JumpPower(float4::ZERO), BasicJumpPower(float4::UP * 900.0f)
+	: Speed(600.0f), JumpPower(float4::ZERO), BasicJumpPower(float4::UP * 950.0f), FallDownPower(float4::DOWN * 700.0f)
 {
 }
 
@@ -19,8 +19,6 @@ Player::~Player()
 void Player::Start()
 {
 	PlayerDirection = LeftRight::LEFT;
-
-	GetTransform()->SetLocalPosition({7800.0f,-2800.0f});
 
 	{
 		// Scale에 마이너스를 곱하면 대칭이 가능해진다
@@ -44,7 +42,7 @@ void Player::Start()
 
 	{
 		PlayerCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::PLAYER);
-		PlayerCollision->GetTransform()->SetLocalScaling(float4{ 60.0f, 130.0f, 1.0f });
+		PlayerCollision->GetTransform()->SetLocalScaling(float4{ 60.0f, 130.0f, -90.0f });
 		PlayerCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot());
 	}
 
@@ -397,7 +395,7 @@ void Player::Attack()
 
 void Player::Airborne()
 {
-	GetTransform()->SetLocalDeltaTimeMove(float4::DOWN *500.0f);
+	GetTransform()->SetLocalDeltaTimeMove(FallDownPower);
 
 	PlayerImageRenderer->SetChangeAnimation("Airborne");
 
@@ -530,7 +528,7 @@ void Player::UpAttack()
 	{
 		if (MapBotCollsionColor != float4::BLACK)
 		{
-			GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 500.0f);
+			GetTransform()->SetLocalDeltaTimeMove(FallDownPower);
 		}
 	}
 
@@ -596,7 +594,7 @@ void Player::DownAttack()
 	{
 		if (MapBotCollsionColor != float4::BLACK)
 		{
-			GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 500.0f);
+			GetTransform()->SetLocalDeltaTimeMove(FallDownPower);
 		}
 	}
 
@@ -646,7 +644,7 @@ void Player::DownAttack()
 	PlayerSlashCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::MONSTER,
 		[this](GameEngineCollision* _OtherCollision)
 		{
-			JumpPower = float4::UP*500.0f;
+			JumpPower = float4::UP*700.0f;
 		}
 	);
 }

@@ -30,11 +30,12 @@ void PlayLevel::LevelStart()
 	}
 
 	{
-//		ViewMap* Player = CreateActor<ViewMap>();
+		ViewMap* Player = CreateActor<ViewMap>();
 	}
 
 	{
 		Player* PlayerActor = CreateActor<Player>();
+		PlayerActor->GetTransform()->SetLocalPosition({ 7800.0f,-2700.0f});
 		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
 	}
 
@@ -81,6 +82,7 @@ void PlayLevel::LevelUpdate(float _DeltaTime)
 
 		Window->OnOffChange();
 	}
+
 }
 void PlayLevel::LevelChangeEndEvent()
 {
