@@ -3,7 +3,7 @@
 #include "GameEngine/GameEngineImageRenderer.h"
 #include <GameEngine\GameEngineCollision.h>
 #include "FlyBug.h"
-#include <GameApp/Map.h>
+#include <GameApp/BitMap.h>
 
 
 

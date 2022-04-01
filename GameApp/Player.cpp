@@ -2,7 +2,7 @@
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 #include "Player.h"
-#include "Map.h"
+#include "BitMap.h"
 
 
 
@@ -42,7 +42,7 @@ void Player::Start()
 
 	{
 		PlayerCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::PLAYER);
-		PlayerCollision->GetTransform()->SetLocalScaling(float4{ 60.0f, 130.0f, -90.0f });
+		PlayerCollision->GetTransform()->SetLocalScaling(float4{ 60.0f, 130.0f, -10.0f });
 		PlayerCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot());
 	}
 
@@ -88,15 +88,15 @@ void Player::Update(float _DeltaTime)
 
 
 	//플레이어의 Transform = 렌더러의 발에있다
-	MapBotCollsionColor = Map::GetColor(GetTransform());
+	MapBotCollsionColor = BitMap::GetColor(GetTransform());
 
 	//그러므로 머리와 접촉하는 곳은 이미지의 높이만큼
-	MapTopCollsionColor = Map::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 120.0f * 0.75f, 0.0f});
-	MapLeftCollsionColor = Map::GetColor(GetTransform()->GetWorldPosition() += {-30.0f, 60.0f * 0.75, 0.0f});
-	MapRightCollsionColor = Map::GetColor(GetTransform()->GetWorldPosition() += {30.0f, 60.0f * 0.75, 0.0f});
+	MapTopCollsionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 120.0f * 0.75f, 0.0f});
+	MapLeftCollsionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {-30.0f, 60.0f * 0.75, 0.0f});
+	MapRightCollsionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {30.0f, 60.0f * 0.75, 0.0f});
 
 	//카메라 이동을 통제하기 위한 몸 한가운데의 색콜리전
-	CameraMovementCollisionColor = Map::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 60.0f * 0.75f, 0.0f});
+	CameraMovementCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 60.0f * 0.75f, 0.0f});
 
 	StateManager_.Update();
 

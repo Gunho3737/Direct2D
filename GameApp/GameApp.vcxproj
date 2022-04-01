@@ -32,7 +32,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
+    <ClCompile Include="BitMap.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -82,7 +82,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Map.h">
+    <ClInclude Include="BitMap.h">
       <SubType>
       </SubType>
     </ClInclude>

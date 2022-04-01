@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "UI_HpBar.h"
 #include "FlyBug.h"
-#include "Map.h"
+#include "BitMap.h"
 #include "ViewMap.h"
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
@@ -26,7 +26,7 @@ void PlayLevel::LevelStart()
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
 	{
-		Map* Player = CreateActor<Map>();
+		BitMap* Player = CreateActor<BitMap>();
 	}
 
 	{

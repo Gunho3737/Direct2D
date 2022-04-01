@@ -2,20 +2,20 @@
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 #include "Player.h"
-#include "Map.h"
+#include "BitMap.h"
 
-Map* Map::CurrentMap = nullptr;
+BitMap* BitMap::CurrentMap = nullptr;
 
-Map::Map()
+BitMap::BitMap()
 	: Progress(MapProgress::BENCH)
 {
 }
 
-Map::~Map()
+BitMap::~BitMap()
 {
 }
 
-void Map::Start()
+void BitMap::Start()
 {
 	{
 		ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>();
@@ -26,19 +26,19 @@ void Map::Start()
 	}
 }
 
-void Map::LevelChangeStartEvent()
+void BitMap::LevelChangeStartEvent()
 {
 	CurrentMap = this;
 }
 
-float4 Map::GetColor(GameEngineTransform* _Ptr, bool YReverse /*= true*/)
+float4 BitMap::GetColor(GameEngineTransform* _Ptr, bool YReverse /*= true*/)
 {
 	float4 Pos = _Ptr->GetWorldPosition();
 
 	return GetColor(Pos, true);
 }
 
-float4 Map::GetColor(float4 _Position, bool YReverse /*= true*/)
+float4 BitMap::GetColor(float4 _Position, bool YReverse /*= true*/)
 {
 	float4 Pos = _Position;
 

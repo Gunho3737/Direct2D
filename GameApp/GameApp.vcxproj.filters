@@ -32,7 +32,7 @@
     <ClCompile Include="Player.cpp">
       <Filter>Actor\PlayLevel\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
+    <ClCompile Include="BitMap.cpp">
       <Filter>Actor\PlayLevel\Map</Filter>
     </ClCompile>
     <ClCompile Include="TitleScreen.cpp">
@@ -106,7 +106,7 @@
     <ClInclude Include="Player.h">
       <Filter>Actor\PlayLevel\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h">
+    <ClInclude Include="BitMap.h">
       <Filter>Actor\PlayLevel\Map</Filter>
     </ClInclude>
     <ClInclude Include="TitleScreen.h">

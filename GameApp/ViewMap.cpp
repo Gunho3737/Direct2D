@@ -21,6 +21,14 @@ void ViewMap::Start()
 		ImageRenderer->GetTransform()->SetLocalPosition({ Mapsize.hx(), -(Mapsize.hy()), -80.0f });
 		ImageRenderer->GetTransform()->SetLocalScaling(ImageRenderer->GetCurrentTexture()->GetTextureSize());
 	}
+
+	{
+		ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>();
+		ImageRenderer->SetImage("BackGroundMap.Png");
+		float4 Mapsize = ImageRenderer->GetCurrentTexture()->GetTextureSize();
+		ImageRenderer->GetTransform()->SetLocalPosition({ Mapsize.hx(), -(Mapsize.hy()), 80.0f });
+		ImageRenderer->GetTransform()->SetLocalScaling(ImageRenderer->GetCurrentTexture()->GetTextureSize());
+	}
 }
 
 void ViewMap::LevelChangeStartEvent()

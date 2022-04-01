@@ -18,6 +18,7 @@ public:
 	ViewMap& operator=(ViewMap&& _Other) noexcept = delete;
 
 	GameEngineImageRenderer* ImageRenderer;
+	GameEngineImageRenderer* BackGroundImageRenderer;
 
 
 protected:

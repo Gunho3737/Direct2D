@@ -3,18 +3,18 @@
 
 // Ό³Έν :
 class GameEngineImageRenderer;
-class Map : public GameEngineActor
+class BitMap : public GameEngineActor
 {
 public:
 	// constrcuter destructer
-	Map();
-	~Map();
+	BitMap();
+	~BitMap();
 
 	// delete Function
-	Map(const Map& _Other) = delete;
-	Map(Map&& _Other) noexcept = delete;
-	Map& operator=(const Map& _Other) = delete;
-	Map& operator=(Map&& _Other) noexcept = delete;
+	BitMap(const BitMap& _Other) = delete;
+	BitMap(BitMap&& _Other) noexcept = delete;
+	BitMap& operator=(const BitMap& _Other) = delete;
+	BitMap& operator=(BitMap&& _Other) noexcept = delete;
 
 	GameEngineImageRenderer* ImageRenderer;
 
@@ -32,5 +32,5 @@ protected:
 
 
 private:
-	static Map* CurrentMap;
+	static BitMap* CurrentMap;
 };
