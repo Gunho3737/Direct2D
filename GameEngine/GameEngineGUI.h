@@ -1,32 +1,56 @@
 #pragma once
-#include "GameEngineBase\GameEngineObjectNameBase.h"
-#include <vector>
 #include "imgui.h"
 
-// 설명 :
+// 분류 : 
+// 용도 : 
+// 설명 : 
 class GameEngineGUIWindow;
 class GameEngineGUI
 {
 	friend class GameEngineCore;
 	friend class GameEngineLevel;
+
 private:
-	static GameEngineGUI* Inst_;
+	static GameEngineGUI* Inst;
 
 public:
 	inline static GameEngineGUI* GetInst()
 	{
-		return Inst_;
+		return Inst;
 	}
 
 	static void Destroy()
 	{
-		if (nullptr != Inst_)
+		if (nullptr != Inst)
 		{
-			delete Inst_;
-			Inst_ = nullptr;
+			delete Inst;
+			Inst = nullptr;
 		}
 	}
 
+private:	// member Var
+	std::list<GameEngineGUIWindow*> Windows_;
+
+public:
+	GameEngineGUI();
+	~GameEngineGUI();
+
+protected:		// delete constructer
+	GameEngineGUI(const GameEngineGUI& _other) = delete;
+	GameEngineGUI(GameEngineGUI&& _other) noexcept = delete;
+
+private:		//delete operator
+	GameEngineGUI& operator=(const GameEngineGUI& _other) = delete;
+	GameEngineGUI& operator=(const GameEngineGUI&& _other) = delete;
+
+public:
+	void Initialize();
+	void GUIRenderStart();
+	void GUIRenderEnd();
+
+public:
+	std::list<GameEngineGUIWindow*> FindGUIWindowForList(const std::string& _Name);
+	GameEngineGUIWindow* FindGUIWindow(const std::string& _Name);
 
 public:
 	template<typename WindowType>
@@ -40,43 +64,37 @@ public:
 
 		return NewWindow;
 	}
-
-	GameEngineGUIWindow* FindGUIWindow(const std::string& _Name);
-
-
-	std::list<GameEngineGUIWindow*> FindGUIWindowForList(const std::string& _Name);
-
-protected:
-
-
-private:
-	std::list<GameEngineGUIWindow*> Windows_;
-
-	void Initialize();
-	void GUIRenderStart();
-	void GUIRenderEnd();
-
-	// constrcuter destructer
-	GameEngineGUI();
-	~GameEngineGUI();
-
-	// delete Function
-	GameEngineGUI(const GameEngineGUI& _Other) = delete;
-	GameEngineGUI(GameEngineGUI&& _Other) noexcept = delete;
-	GameEngineGUI& operator=(const GameEngineGUI& _Other) = delete;
-	GameEngineGUI& operator=(GameEngineGUI&& _Other) noexcept = delete;
-
 };
-
-
 
 class GameEngineGUIWindow : public GameEngineObjectNameBase
 {
-	friend GameEngineGUI;
+	friend class GameEngineGUI;
+
+private:	// member Var
+	GameEngineLevel* Level_;
 
 public:
-	virtual void Start() {};
+	inline void SetLevel(GameEngineLevel* _Level)
+	{
+		Level_ = _Level;
+	}
 
+protected:
+	int Style_;
+
+public:
+	GameEngineGUIWindow();
+	~GameEngineGUIWindow();
+
+private:
+	GameEngineGUIWindow(const GameEngineGUIWindow& _other) = delete;
+	GameEngineGUIWindow(GameEngineGUIWindow&& _other) noexcept = delete;
+
+private:
+	GameEngineGUIWindow& operator=(const GameEngineGUIWindow& _other) = delete;
+	GameEngineGUIWindow& operator=(const GameEngineGUIWindow&& _other) = delete;
+
+public:
 	void Begin()
 	{
 		ImGui::Begin(GetName().c_str(), &GetIsUpdateRef(), Style_);
@@ -89,21 +107,9 @@ public:
 		ImGui::End();
 	}
 
+public:
+	virtual void Start()
+	{
 
-	// constrcuter destructer
-	GameEngineGUIWindow();
-	~GameEngineGUIWindow();
-
-protected:
-	int Style_;
-
-
-private:
-
-	// delete Function
-	GameEngineGUIWindow(const GameEngineGUIWindow& _Other) = delete;
-	GameEngineGUIWindow(GameEngineGUIWindow&& _Other) noexcept = delete;
-	GameEngineGUIWindow& operator=(const GameEngineGUIWindow& _Other) = delete;
-	GameEngineGUIWindow& operator=(GameEngineGUIWindow&& _Other) noexcept = delete;
-
+	}
 };

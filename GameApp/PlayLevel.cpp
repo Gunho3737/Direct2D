@@ -35,7 +35,7 @@ void PlayLevel::LevelStart()
 
 	{
 		Player* PlayerActor = CreateActor<Player>();
-		PlayerActor->GetTransform()->SetLocalPosition({ 7800.0f,-2700.0f});
+		PlayerActor->GetTransform()->SetLocalPosition({ 7400.0f,-2500.0f});
 		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
 	}
 

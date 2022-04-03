@@ -17,8 +17,8 @@ public:
 
 	// delete Function
 	GameEngineDebugRenderData(const GameEngineDebugRenderData& _Other)
-		: Data(_Other.Data)
-		, ShaderHelper(_Other.ShaderHelper)
+		: Data_(_Other.Data_)
+		, ShaderHelper_(_Other.ShaderHelper_)
 		, PipeLine_(_Other.PipeLine_)
 	{
 
@@ -30,9 +30,9 @@ public:
 protected:
 
 private:
-	TransformData Data;
-	float4 Color;
-	GameEngineShaderResHelper ShaderHelper;
+	TransformData Data_;
+	float4 Color_;
+	GameEngineShaderResHelper ShaderHelper_;
 	GameEngineRenderingPipeLine* PipeLine_;
 
 };

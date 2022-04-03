@@ -43,7 +43,7 @@ public:
 	float4x4 View_;
 	float4x4 Projection_;
 
-	float4x4 WVP;
+	float4x4 WVP_;
 
 public:
 	TransformData()
@@ -69,9 +69,9 @@ public:
 		WorldWorld_ *= Parent_;
 	}
 
-	void CalWVP()
+	void WVPCalculation()
 	{
-		WVP = WorldWorld_ * View_ * Projection_;
+		WVP_ = WorldWorld_ * View_ * Projection_;
 	}
 
 	void RootCalculation()
@@ -167,9 +167,8 @@ public:
 
 	void SetLocalScaleFilp(const float4& _Value)
 	{
-		SetLocalScaling(TransformData_.vLocalScaling_*={-1.0f, 1.0f, 1.0f});
+		SetLocalScaling(TransformData_.vLocalScaling_ *= {-1.0f, 1.0f, 1.0f});
 	}
-
 	void DetachChildTransform(GameEngineTransform* _Child);
 	void AttachTransform(GameEngineTransform* _Transform);
 
