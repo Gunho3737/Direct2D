@@ -98,7 +98,7 @@
       <Filter>Object\Component\Camera</Filter>
     </ClInclude>
     <ClInclude Include="CameraActor.h">
-      <Filter>Object\SubActor</Filter>
+      <Filter>Object\EngineActor</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineInput.h">
       <Filter>Control</Filter>
@@ -189,6 +189,12 @@
     </ClInclude>
     <ClInclude Include="GameEngineLevelControlWindow.h">
       <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="PostFade.h">
+      <Filter>Object\PostProcess\EngineEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnginePostProcessRender.h">
+      <Filter>Object\PostProcess</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -286,7 +292,7 @@
       <Filter>Object\Component\Camera</Filter>
     </ClCompile>
     <ClCompile Include="CameraActor.cpp">
-      <Filter>Object\SubActor</Filter>
+      <Filter>Object\EngineActor</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineInput.cpp">
       <Filter>Control</Filter>
@@ -367,6 +373,12 @@
     <ClCompile Include="GameEngineLevelControlWindow.cpp">
       <Filter>Imgui</Filter>
     </ClCompile>
+    <ClCompile Include="PostFade.cpp">
+      <Filter>Object\PostProcess\EngineEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEnginePostProcessRender.cpp">
+      <Filter>Object\PostProcess</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -417,9 +429,6 @@
     <Filter Include="Object\Component\Camera">
       <UniqueIdentifier>{554cba9c-d115-4166-a310-e2a5123471d7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\SubActor">
-      <UniqueIdentifier>{a7457e36-675c-4550-a52a-d1195790dd90}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Control">
       <UniqueIdentifier>{8cd10483-165e-44c7-a216-103a27e1a797}</UniqueIdentifier>
     </Filter>
@@ -455,6 +464,15 @@
     </Filter>
     <Filter Include="Imgui\Code">
       <UniqueIdentifier>{e3bbdd2d-75c0-4286-8598-728ef7e1755a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\EngineActor">
+      <UniqueIdentifier>{a7457e36-675c-4550-a52a-d1195790dd90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\PostProcess">
+      <UniqueIdentifier>{2ed9f44c-f795-49d0-a786-542fc020a002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\PostProcess\EngineEffect">
+      <UniqueIdentifier>{da01385c-de35-40a8-90fd-8b3a68350a36}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -255,6 +255,7 @@ void GameEngineTransform::DetachChildTransform(GameEngineTransform* _Transform)
 		}
 
 		StartIter = Childs_.erase(StartIter);
+		EndIter = Childs_.end();
 	}
 
 }

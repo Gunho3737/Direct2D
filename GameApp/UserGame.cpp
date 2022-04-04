@@ -6,6 +6,7 @@
 #include <GameEngine/GameEngineWindow.h>
 #include <GameEngine/GameEngineRenderingPipeLine.h>
 #include <GameEngine\GameEngineLevelControlWindow.h>
+#include <GameEngine\GameEngineRenderWindow.h>
 
 #include "TitleLevel.h"
 #include "PlayLevel.h"
@@ -31,6 +32,7 @@ void UserGame::Initialize()
 {
 
 	GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineLevelControlWindow>("LevelControlWindow");
+	GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineRenderWindow>("RenderWindow");
 
 	LevelCreate<TitleLevel>("Title");
 	LevelCreate<PlayLevel>("Play");

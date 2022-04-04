@@ -21,12 +21,16 @@ class GameEngineRenderer;
 class GameEngineTransform;
 class GameEngineCollision;
 class GameEngineDebugRenderData;
+class GameEnginePostProcessRender;
 class GameEngineLevel : public GameEngineObjectNameBase
 {
 	friend class GameEngineLevelControlWindow;
 	friend class GameEngineCore;
 	friend class GameEngineRenderer;
 	friend class GameEngineCollision;
+
+private:
+
 
 public:
 	// constrcuter destructer
@@ -60,7 +64,6 @@ private:
 	void Init();
 
 	void TimeEventUpdate();
-
 public:
 	template<typename ActorType>
 	ActorType* CreateActor(int _UpdateOrder = 0)
@@ -115,4 +118,35 @@ public:
 	}
 
 	void PushCollision(GameEngineCollision* _Collision, int _Group);
+
+	/// ///////////////////////////GameEnginePostProcessRender
+private:
+	std::map<std::string, std::vector<GameEnginePostProcessRender*>> PostRender;
+
+public:
+	// FadeIn : public GameEnginePostProcessRender
+	// FadeIn(float Speed)
+
+	// ColorLerp : public GameEnginePostProcessRender
+	// ColorLerp(Color _Start, Color _End)
+
+	template<typename PostProcess, typename ... Parameter>
+	PostProcess* AddPostProcessCameraMergePrev(Parameter ... _Arg)
+	{
+		AddPostProcess<PostProcess>("CameraMergePrev", _Arg...);
+	}
+
+	template<typename PostProcess, typename ... Parameter >
+	PostProcess* AddPostProcessCameraMergeNext(Parameter ... _Arg)
+	{
+		AddPostProcess<PostProcess>("CameraMergeNext", _Arg...);
+	}
+
+	template<typename PostProcess, typename ... Parameter >
+	PostProcess* AddPostProcess(const std::string& _Key, Parameter ... _Arg)
+	{
+		PostProcess* NewPost = new PostProcess(_Arg...);
+		PostRender[_Key].push_back(NewPost);
+		return NewPost;
+	}
 };

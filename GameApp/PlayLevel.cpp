@@ -66,14 +66,20 @@ void PlayLevel::LevelUpdate(float _DeltaTime)
 		
 	}
 
-	static GameEngineRenderWindow* Window = nullptr;
+	// static GameEngineRenderWindow* Window = nullptr;
 
-	if (nullptr == GameEngineGUI::GetInst()->FindGUIWindow("RenderWindow"))
+	// GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineLevelControlWindow>("LevelControlWindow");
+
+
+	static bool Check = false;
+
+	if (false == Check && nullptr != GameEngineGUI::GetInst()->FindGUIWindow("RenderWindow"))
 	{
-		Window = GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineRenderWindow>("RenderWindow");
+		GameEngineRenderWindow* Window = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineRenderWindow>("RenderWindow");
 		float4 Size = { 128, 72 };
 		Window->PushRenderTarget("메인 카메라 타겟", GetMainCamera()->GetCameraRenderTarget(), Size * 3);
 		Window->PushRenderTarget("UI 카메라 타겟", GetUICamera()->GetCameraRenderTarget(), Size * 3);
+		Check = true;
 	}
 
 	if (true == GameEngineInput::GetInst().Down("LevelControl"))
