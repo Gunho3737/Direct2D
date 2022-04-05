@@ -58,5 +58,6 @@ private:
 	void Airborne();
 	void UpAttack();
 	void DownAttack();
+	void MapMove();
 };
 

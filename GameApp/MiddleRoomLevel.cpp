@@ -70,9 +70,6 @@ void MiddleRoomLevel::LevelUpdate(float _DeltaTime)
 
 	PlayerPos = PlayerActor->GetTransform()->GetLocalPosition();
 
-	
-	
-
 	if (PlayerPos.y < -2760.0f)
 	{
 		if (PlayerPos.x < 10100.0f)
@@ -122,9 +119,6 @@ void MiddleRoomLevel::LevelUpdate(float _DeltaTime)
 			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10250.0f, -1600.0f, PlayerPos.z });
 		}
 	}
-
-	//10200~10400
-	
 	
 
 	static bool Check = false;
@@ -132,7 +126,7 @@ void MiddleRoomLevel::LevelUpdate(float _DeltaTime)
 	if (false == Check && nullptr != GameEngineGUI::GetInst()->FindGUIWindow("RenderWindow"))
 	{
 		GameEngineRenderWindow* Window = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineRenderWindow>("RenderWindow");
-		float4 Size = { 128, 72 };
+		float4 Size = { 128, 72};
 		Window->PushRenderTarget("메인 카메라 타겟", GetMainCamera()->GetCameraRenderTarget(), Size * 3);
 		Window->PushRenderTarget("UI 카메라 타겟", GetUICamera()->GetCameraRenderTarget(), Size * 3);
 		Check = true;

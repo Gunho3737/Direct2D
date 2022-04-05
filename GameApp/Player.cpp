@@ -32,6 +32,7 @@ void Player::Start()
 		PlayerImageRenderer->CreateAnimationFolder("Jump", "Jump", 0.07f, false);
 		PlayerImageRenderer->CreateAnimationFolder("UpAttack", "UpSlash", 0.05f, false);
 		PlayerImageRenderer->CreateAnimationFolder("DownAttack", "DownSlash", 0.05f, false);
+		PlayerImageRenderer->CreateAnimationFolder("MapMove", "Run", 0.1f);
 
 		PlayerImageRenderer->SetChangeAnimation("Idle");
 		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize());
@@ -67,6 +68,8 @@ void Player::Start()
 	StateManager_.CreateState("Airborne", std::bind(&Player::Airborne, this));
 	StateManager_.CreateState("UpAttack", std::bind(&Player::UpAttack, this));
 	StateManager_.CreateState("DownAttack", std::bind(&Player::DownAttack, this));
+	StateManager_.CreateState("MapMove", std::bind(&Player::MapMove, this));
+
 
 	StateManager_.ChangeState("Idle");
 	
@@ -641,6 +644,16 @@ void Player::DownAttack()
 			JumpPower = float4::UP*700.0f;
 		}
 	);
+}
+
+void Player::MapMove()
+{
+	PlayerImageRenderer->SetChangeAnimation("MapMove");
+
+	if (true)
+	{
+
+	}
 }
 
 void Player::SetCallBackFunc()
