@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "PlayLevel.h"
+#include "BenchRoomLevel.h"
 #include "Player.h"
 #include "UI_HpBar.h"
 #include "FlyBug.h"
@@ -12,15 +12,15 @@
 #include <GameEngine/GameEngineRenderWindow.h>
 
 
-PlayLevel::PlayLevel()
+BenchRoomLevel::BenchRoomLevel()
 {
 }
 
-PlayLevel::~PlayLevel()
+BenchRoomLevel::~BenchRoomLevel()
 {
 }
 
-void PlayLevel::LevelStart()
+void BenchRoomLevel::LevelStart()
 {
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
@@ -34,8 +34,8 @@ void PlayLevel::LevelStart()
 	}
 
 	{
-		Player* PlayerActor = CreateActor<Player>();
-		PlayerActor->GetTransform()->SetLocalPosition({ 7400.0f,-2500.0f});
+		PlayerActor = CreateActor<Player>();
+		PlayerActor->GetTransform()->SetLocalPosition({ 7300.0f,-2400.0f});
 		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
 	}
 
@@ -51,7 +51,7 @@ void PlayLevel::LevelStart()
 
 }
 
-void PlayLevel::LevelUpdate(float _DeltaTime)
+void BenchRoomLevel::LevelUpdate(float _DeltaTime)
 {
 	if (true == GameEngineInput::GetInst().Down("DebugOn"))
 	{
@@ -66,9 +66,8 @@ void PlayLevel::LevelUpdate(float _DeltaTime)
 		
 	}
 
-	// static GameEngineRenderWindow* Window = nullptr;
-
-	// GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineLevelControlWindow>("LevelControlWindow");
+	//플레이어의 위치로 카메라를 이동
+	GetMainCameraActor()->GetTransform()->SetLocalPosition(PlayerActor->GetTransform()->GetLocalPosition());
 
 
 	static bool Check = false;
@@ -90,11 +89,11 @@ void PlayLevel::LevelUpdate(float _DeltaTime)
 	}
 
 }
-void PlayLevel::LevelChangeEndEvent()
+void BenchRoomLevel::LevelChangeEndEvent()
 {
 
 }
-void PlayLevel::LevelChangeStartEvent()
+void BenchRoomLevel::LevelChangeStartEvent()
 {
 
 }

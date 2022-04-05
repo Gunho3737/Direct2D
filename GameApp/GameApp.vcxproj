@@ -36,8 +36,12 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MiddleRoomLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayLevel.cpp" />
+    <ClCompile Include="BenchRoomLevel.cpp" />
     <ClCompile Include="PreCompile.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PreCompile.h</PrecompiledHeaderFile>
@@ -86,8 +90,12 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="MiddleRoomLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayLevel.h" />
+    <ClInclude Include="BenchRoomLevel.h" />
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="TitleLevel.h" />
     <ClInclude Include="TitleScreen.h">

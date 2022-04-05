@@ -91,9 +91,9 @@ void Player::Update(float _DeltaTime)
 	MapBotCollsionColor = BitMap::GetColor(GetTransform());
 
 	//그러므로 머리와 접촉하는 곳은 이미지의 높이만큼
-	MapTopCollsionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 120.0f * 0.75f, 0.0f});
-	MapLeftCollsionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {-30.0f, 60.0f * 0.75, 0.0f});
-	MapRightCollsionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {30.0f, 60.0f * 0.75, 0.0f});
+	MapTopCollsionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 120.0f, 0.0f});
+	MapLeftCollsionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {-30.0f, 60.0f, 0.0f});
+	MapRightCollsionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {30.0f, 60.0f, 0.0f});
 
 	//카메라 이동을 통제하기 위한 몸 한가운데의 색콜리전
 	CameraMovementCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 60.0f * 0.75f, 0.0f});
@@ -107,15 +107,9 @@ void Player::Update(float _DeltaTime)
 		GetLevel()->PushDebugRender(PlayerSlashCollision->GetTransform(), CollisionType::Rect);
 	}
 
-	//카메라이동
-	//if (CameraMovementCollisionColor == float4{1.0f, 0.0f, 1.0f, 1.0f})
-	//{
-	//	GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(float4{0.0f, GetTransform()->GetLocalPosition().y, GetTransform()->GetLocalPosition().z});
-	//}
-	//else
-	{
-		GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
-	}
+	//카메라를 레벨에서 직접 관리하게 만드는중
+	//GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
+	
 }
 
 void Player::Idle()

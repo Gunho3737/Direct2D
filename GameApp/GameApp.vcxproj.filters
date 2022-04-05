@@ -14,7 +14,7 @@
     <ClCompile Include="UserGame_Resources_Shader.cpp">
       <Filter>UserCore</Filter>
     </ClCompile>
-    <ClCompile Include="PlayLevel.cpp">
+    <ClCompile Include="BenchRoomLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
@@ -43,6 +43,9 @@
     </ClCompile>
     <ClCompile Include="ViewMap.cpp">
       <Filter>Actor\PlayLevel\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MiddleRoomLevel.cpp">
+      <Filter>Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,7 +91,7 @@
     <ClInclude Include="UserGame_Resources_Shader.h">
       <Filter>UserCore</Filter>
     </ClInclude>
-    <ClInclude Include="PlayLevel.h">
+    <ClInclude Include="BenchRoomLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="TitleLevel.h">
@@ -117,6 +120,9 @@
     </ClInclude>
     <ClInclude Include="ViewMap.h">
       <Filter>Actor\PlayLevel\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MiddleRoomLevel.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
