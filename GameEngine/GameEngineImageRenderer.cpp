@@ -299,7 +299,10 @@ void GameEngineImageRenderer::SetChangeAnimation(const std::string& _Name, bool 
 	}
 
 	CurAnimation_ = FindIter->second;
-	ShaderHelper.SettingTexture("Tex", CurAnimation_->AnimationTexture_);
+	if (nullptr == CurAnimation_->FolderTextures_)
+	{
+		ShaderHelper.SettingTexture("Tex", CurAnimation_->AnimationTexture_);
+	}
 	CurAnimation_->Reset();
 	CurAnimation_->CallStart();
 }
