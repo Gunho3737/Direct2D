@@ -37,7 +37,7 @@ void MiddleRoomLevel::LevelStart()
 
 	{
 		PlayerActor = CreateActor<Player>();
-		PlayerActor->GetTransform()->SetLocalPosition({ 7300.0f,-2400.0f });
+		PlayerActor->GetTransform()->SetLocalPosition({ 9500.0f,-2800.0f });
 		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
 	}
 
@@ -70,20 +70,62 @@ void MiddleRoomLevel::LevelUpdate(float _DeltaTime)
 
 	PlayerPos = PlayerActor->GetTransform()->GetLocalPosition();
 
+	
+	
+
+	if (PlayerPos.y < -2760.0f)
 	{
-		//플레이어의 위치로 카메라를 이동
-		GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x ,-2650.0f, PlayerPos.z });
-
-		if (PlayerPos.x <= 7600.0f)
+		if (PlayerPos.x < 10100.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 7600.0f ,-2650.0f, PlayerPos.z });
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10100.0f, -2760.0f, PlayerPos.z });
 		}
-
-		if (PlayerPos.x >= 8700.0f)
+		else if (PlayerPos.x >= 10100.0f && PlayerPos.x <= 10250.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 8700.0f ,-2650.0f, PlayerPos.z });
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x, -2760.0f, PlayerPos.z });
+		}
+		else if (PlayerPos.x >= 10250.0f)
+		{
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10250.0f, -2760.0f, PlayerPos.z });
 		}
 	}
+	
+
+	if (PlayerPos.y >= -2760.0f && PlayerPos.y <= -1600.0f )
+	{
+		if (PlayerPos.x < 10100.0f)
+		{
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10100.0f, PlayerPos.y, PlayerPos.z });
+		}
+		else if (PlayerPos.x >= 10100.0f && PlayerPos.x <= 10250.0f)
+		{
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x, PlayerPos.y, PlayerPos.z });
+		}
+		else if (PlayerPos.x >= 10250.0f)
+		{
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10250.0f, PlayerPos.y, PlayerPos.z });
+		}
+	}
+
+
+	if (PlayerPos.y > -1600.0f)
+	{
+		if (PlayerPos.x < 10100.0f)
+		{
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10100.0f, -1600.0f, PlayerPos.z });
+		}
+		else if (PlayerPos.x >= 10100.0f && PlayerPos.x <= 10250.0f)
+		{
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x, -1600.0f, PlayerPos.z });
+		}
+		else if (PlayerPos.x >= 10250.0f)
+		{
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10250.0f, -1600.0f, PlayerPos.z });
+		}
+	}
+
+	//10200~10400
+	
+	
 
 	static bool Check = false;
 
