@@ -66,9 +66,22 @@ void BenchRoomLevel::LevelUpdate(float _DeltaTime)
 		
 	}
 
-	//플레이어의 위치로 카메라를 이동
-	GetMainCameraActor()->GetTransform()->SetLocalPosition(PlayerActor->GetTransform()->GetLocalPosition());
+	PlayerPos = PlayerActor->GetTransform()->GetLocalPosition();
 
+	{
+		//플레이어의 위치로 카메라를 이동
+		GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x ,-2650.0f, PlayerPos.z });
+
+		if (PlayerPos.x <= 7600.0f)
+		{
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 7600.0f ,-2650.0f, PlayerPos.z });
+		}
+
+		if (PlayerPos.x >= 8700.0f)
+		{
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 8700.0f ,-2650.0f, PlayerPos.z });
+		}
+	}
 
 	static bool Check = false;
 

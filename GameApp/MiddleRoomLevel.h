@@ -1,24 +1,30 @@
 #pragma once
+#include <GameEngine/GameEngineLevel.h>
 
-// 분류 : 
-// 용도 : 
-// 설명 : 
-class MiddleRoomLevel
+// 설명 :
+class Player;
+class MiddleRoomLevel : public GameEngineLevel
 {
-private:	// member Var
-
 public:
-	MiddleRoomLevel(); // default constructer 디폴트 생성자
-	~MiddleRoomLevel(); // default destructer 디폴트 소멸자
+	// constrcuter destructer
+	MiddleRoomLevel();
+	~MiddleRoomLevel();
 
-protected:		// delete constructer
-	MiddleRoomLevel(const MiddleRoomLevel& _other) = delete; // default Copy constructer 디폴트 복사생성자
-	MiddleRoomLevel(MiddleRoomLevel&& _other) = delete; // default RValue Copy constructer 디폴트 RValue 복사생성자
+	// delete Function
+	MiddleRoomLevel(const MiddleRoomLevel& _Other) = delete;
+	MiddleRoomLevel(MiddleRoomLevel&& _Other) noexcept = delete;
+	MiddleRoomLevel& operator=(const MiddleRoomLevel& _Other) = delete;
+	MiddleRoomLevel& operator=(MiddleRoomLevel&& _Other) noexcept = delete;
 
-private:		//delete operator
-	MiddleRoomLevel& operator=(const MiddleRoomLevel& _other) = delete; // default Copy operator 디폴트 대입 연산자
-	MiddleRoomLevel& operator=(const MiddleRoomLevel&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
+protected:
+	Player* PlayerActor;
+	float4 PlayerPos;
 
-public:
+private:
+	void LevelStart() override;
+	void LevelUpdate(float _DeltaTime) override;
+	void LevelChangeEndEvent() override;
+	void LevelChangeStartEvent() override;
+
 };
 

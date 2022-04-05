@@ -18,6 +18,7 @@ public:
 
 protected:
 	Player* PlayerActor;
+	float4 PlayerPos;
 
 private:
 	void LevelStart() override;
