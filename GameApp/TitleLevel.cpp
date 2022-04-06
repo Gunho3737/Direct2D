@@ -46,7 +46,7 @@ void TitleLevel::LevelUpdate(float _DeltaTime)
 {
 	if (true == GameEngineInput::GetInst().Down("NextLevel"))
 	{
-		UserGame::LevelChange("Play");
+		UserGame::LevelChange("BenchRoom");
 	}
 
 }

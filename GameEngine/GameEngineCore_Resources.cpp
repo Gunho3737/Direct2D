@@ -256,12 +256,22 @@ void GameEngineCore::EngineResourcesCreate()
 		GameEngineDepthStencilManager::GetInst().Create("BaseDepthOn", DepthInfo);
 	}
 
+
 	{
 		D3D11_DEPTH_STENCIL_DESC DepthInfo = { 0 };
 
 		DepthInfo.DepthEnable = false;
 		DepthInfo.StencilEnable = false;
 		GameEngineDepthStencilManager::GetInst().Create("BaseDepthOff", DepthInfo);
+	}
+
+	{
+		D3D11_DEPTH_STENCIL_DESC DepthInfo = { 0 };
+		DepthInfo.DepthEnable = true;
+		DepthInfo.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_ALWAYS;
+		DepthInfo.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ZERO;
+		DepthInfo.StencilEnable = false;
+		GameEngineDepthStencilManager::GetInst().Create("MergeDepth", DepthInfo);
 	}
 
 	{
@@ -322,4 +332,16 @@ void GameEngineCore::EngineResourcesCreate()
 		Pipe->SetOutputMergerBlend("AlphaBlend");
 		Pipe->SetOutputMergerDepthStencil("BaseDepthOff");
 	}
+
+	{
+		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("Fade");
+		Pipe->SetInputAssembler1VertexBufferSetting("FullRect");
+		Pipe->SetInputAssembler2IndexBufferSetting("FullRect");
+		Pipe->SetInputAssembler1InputLayOutSetting("Fade_VS");
+		Pipe->SetVertexShader("Fade_VS");
+		Pipe->SetPixelShader("Fade_PS");
+		Pipe->SetOutputMergerDepthStencil("BaseDepthOff");
+		Pipe->SetOutputMergerBlend("AlphaBlend");
+	}
+
 }

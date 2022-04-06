@@ -16,6 +16,8 @@ public:
 	BenchRoomLevel& operator=(const BenchRoomLevel& _Other) = delete;
 	BenchRoomLevel& operator=(BenchRoomLevel&& _Other) noexcept = delete;
 
+	class PostFade* FadeEffect;
+
 protected:
 	Player* PlayerActor;
 	float4 PlayerPos;

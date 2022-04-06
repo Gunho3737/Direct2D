@@ -81,7 +81,7 @@ public:
 	}
 
 	void ActorUpdate(float _DeltaTime);
-	void Render();
+	void Render(float _DeltaTime);
 	void Release(float _DeltaTime);
 
 	virtual void LevelStart() = 0;
@@ -124,28 +124,25 @@ private:
 	std::map<std::string, std::vector<GameEnginePostProcessRender*>> PostRender;
 
 public:
-	// FadeIn : public GameEnginePostProcessRender
-	// FadeIn(float Speed)
-
-	// ColorLerp : public GameEnginePostProcessRender
-	// ColorLerp(Color _Start, Color _End)
 
 	template<typename PostProcess, typename ... Parameter>
 	PostProcess* AddPostProcessCameraMergePrev(Parameter ... _Arg)
 	{
-		AddPostProcess<PostProcess>("CameraMergePrev", _Arg...);
+		return AddPostProcess<PostProcess>("CameraMergePrev", _Arg...);
 	}
 
 	template<typename PostProcess, typename ... Parameter >
 	PostProcess* AddPostProcessCameraMergeNext(Parameter ... _Arg)
 	{
-		AddPostProcess<PostProcess>("CameraMergeNext", _Arg...);
+		return AddPostProcess<PostProcess>("CameraMergeNext", _Arg...);
 	}
 
 	template<typename PostProcess, typename ... Parameter >
 	PostProcess* AddPostProcess(const std::string& _Key, Parameter ... _Arg)
 	{
 		PostProcess* NewPost = new PostProcess(_Arg...);
+		GameEnginePostProcessRender* ParentType = dynamic_cast<GameEnginePostProcessRender*>(NewPost);
+		ParentType->Initialize();
 		PostRender[_Key].push_back(NewPost);
 		return NewPost;
 	}

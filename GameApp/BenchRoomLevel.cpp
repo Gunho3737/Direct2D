@@ -5,6 +5,7 @@
 #include "FlyBug.h"
 #include "BitMap.h"
 #include "ViewMap.h"
+#include <GameEngine\PostFade.h>
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
 #include <GameEngine/CameraActor.h>
@@ -48,6 +49,16 @@ void BenchRoomLevel::LevelStart()
 		UI_HpBar* Actor = CreateActor<UI_HpBar>();
 		Actor->GetTransform()->SetWorldPosition(float4(0.0f, 0.0f, 0.0f));
 	}
+
+
+	//FadeEffect = AddPostProcessCameraMergeNext<PostFade>();
+	//FadeEffect->SetTarget(GameEngineDevice::GetBackBufferTarget());
+	//
+	//GameEngineRenderWindow* Window = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineRenderWindow>("RenderWindow");
+	//float4 Size = { 128, 72 };
+	//Window->PushRenderTarget("PostEffectFade", FadeEffect->GetResult(), Size * 3);
+	//
+	//FadeEffect->SetData(10, FadeOption::DARK);
 
 }
 

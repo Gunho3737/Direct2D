@@ -3,10 +3,13 @@
 #include "GameEngineRenderingPipeLineManager.h"
 #include <GameEngineBase\GameEngineDebug.h>
 #include <GameEngineBase/GameEngineObjectNameBase.h>
-
+#include "GameEngineRenderingPipeLine.h"
+#include "GameEngineRenderTarget.h"
+#include "GameEngineTexture.h"
 // 설명 :
 class GameEnginePostProcessRender : public GameEngineObjectNameBase
 {
+	friend class GameEngineLevel;
 
 public:
 	inline void SetTarget(GameEngineRenderTarget* _Target)
@@ -16,10 +19,18 @@ public:
 
 	inline void SetResult(GameEngineRenderTarget* _Result)
 	{
+		if (true == IsResultCreate_
+			&& nullptr == Result_)
+		{
+			delete Result_;
+		}
+
 		Result_ = _Result;
 	}
 
-	inline void SetEffect(std::string& _Effect)
+	void CreateResultTarget();
+
+	inline void SetEffect(const std::string& _Effect)
 	{
 		Effect_ = GameEngineRenderingPipeLineManager::GetInst().Find(_Effect);
 
@@ -28,6 +39,13 @@ public:
 			GameEngineDebug::MsgBoxError("존재하지 않는 효과를 주려고 했습니다.");
 			return;
 		}
+
+		Res_.ShaderResourcesCheck(Effect_);
+	}
+
+	GameEngineRenderTarget* GetResult()
+	{
+		return Result_;
 	}
 
 
@@ -42,16 +60,15 @@ public:
 	GameEnginePostProcessRender& operator=(GameEnginePostProcessRender&& _Other) noexcept = delete;
 
 protected:
-	virtual void Effect() = 0;
+	virtual void Initialize() = 0;
 
+	virtual void Effect(float _DeltaTime) = 0;
 
-private:
-	// 어떤 랜더타겟에 효과를 주고 싶다.
 	GameEngineRenderTarget* Target_;
-	// 주려는 효과는 이것이다.
 	GameEngineRenderingPipeLine* Effect_;
 	GameEngineShaderResHelper Res_;
 
+	bool IsResultCreate_;
 	// 그 효과가 적용된 결과는 아래와 같다.
 	GameEngineRenderTarget* Result_;
 

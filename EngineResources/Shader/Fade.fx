@@ -11,7 +11,7 @@ struct VertexOut
     float4 Texcoord : TEXTURECOORD;
 };
 
-VertexOut TargetMerge_VS(VertexIn _in) 
+VertexOut Fade_VS(VertexIn _in)
 {
     VertexOut Out = (VertexOut)0;
 
@@ -21,12 +21,22 @@ VertexOut TargetMerge_VS(VertexIn _in)
     return Out;
 }
 
-Texture2D Tex : register(t0);
+cbuffer FadeData : register(b0)
+{
+    float Dir; // 1
+    float Ratio; // 
+    int Clip; // 1 투명도가 0인 애들은 안한다.
+    int Temp;
+};
+
+Texture2D Target : register(t0);
 SamplerState PointSmp : register(s0);
 
-float4 TargetMerge_PS(VertexOut _in) : SV_Target0
+float4 Fade_PS(VertexOut _in) : SV_Target0
 {
-    float4 Color = Tex.Sample(PointSmp, _in.Texcoord.xy);
+    float4 Color = Target.Sample(PointSmp, _in.Texcoord.xy);
+    
+    Color.xyz *= Ratio;
     
     if (Color.a >= 1.0f)
     {
@@ -37,7 +47,6 @@ float4 TargetMerge_PS(VertexOut _in) : SV_Target0
     {
         Color.a = 0.0f;
     }
-
     
     return Color;
 }

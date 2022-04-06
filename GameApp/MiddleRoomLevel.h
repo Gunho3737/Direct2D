@@ -16,6 +16,8 @@ public:
 	MiddleRoomLevel& operator=(const MiddleRoomLevel& _Other) = delete;
 	MiddleRoomLevel& operator=(MiddleRoomLevel&& _Other) noexcept = delete;
 
+	class PostFade* FadeEffect;
+
 protected:
 	Player* PlayerActor;
 	float4 PlayerPos;

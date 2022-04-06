@@ -1,20 +1,22 @@
 #pragma once
 #include "GameEnginePostProcessRender.h"
 
+enum FadeOption
+{
+	LIGHT,
+	DARK,
+};
+
 struct FadeData
 {
-	float Dir;// 1
-	float Speed; // 
+	float CurTime;// 1
+	float Ratio; // 
 	int Clip; // 1 투명도가 0인 애들은 안한다.
 			  // 0 투명도가 0인 애들은 한다.
 
-	int Temp;
+	float Time;
 
 	FadeData()
-		: Dir(1),
-		Speed(10.0f),
-		Clip(0)
-
 	{
 
 	}
@@ -25,9 +27,7 @@ class PostFade : public GameEnginePostProcessRender
 {
 public:
 	// constrcuter destructer
-	PostFade(float _Dir,// 1
-		float Speed, // 
-		int Clip = 0);
+	PostFade();
 	~PostFade();
 
 	// delete Function
@@ -36,13 +36,16 @@ public:
 	PostFade& operator=(const PostFade& _Other) = delete;
 	PostFade& operator=(PostFade&& _Other) noexcept = delete;
 
+	void SetData(float _Time, FadeOption _Option);
 protected:
-	void Effect() override;
+	void Effect(float _DeltaTime) override;
+	void Initialize() override;
 
 
 private:
-
 	FadeData Data;
+	FadeOption Option;
+
 
 };
 
