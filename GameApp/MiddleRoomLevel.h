@@ -3,6 +3,7 @@
 
 // Ό³Έν :
 class Player;
+
 class MiddleRoomLevel : public GameEngineLevel
 {
 public:

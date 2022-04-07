@@ -17,17 +17,20 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 
+	LeftRight PlayerDirection;
+	class PostFade* FadeEffect;
 	
 protected:
 	GameEngineImageRenderer* PlayerImageRenderer;
 	GameEngineCollision* PlayerCollision;
 	GameEngineImageRenderer* PlayerSlashRenderer;
 	GameEngineCollision* PlayerSlashCollision;
-	LeftRight PlayerDirection;
 
 	GameEngineFSM StateManager_;
 
 	float Speed;
+	float TimeCheck;
+
 	float4 JumpPower;
 	float4 BasicJumpPower;
 	float4 FallDownPower;
@@ -37,7 +40,8 @@ protected:
 	float4 MapLeftCollsionColor;
 	float4 MapRightCollsionColor;
 
-	float4 CameraMovementCollisionColor;
+	bool LevelMoveOn;
+
 
 private:
 	void Start() override;

@@ -36,6 +36,7 @@ void BenchRoomLevel::LevelStart()
 
 	{
 		PlayerActor = CreateActor<Player>();
+		PlayerActor->PlayerDirection = LeftRight::RIGHT;
 		PlayerActor->GetTransform()->SetLocalPosition({ 7300.0f,-2400.0f});
 		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
 	}
@@ -50,7 +51,6 @@ void BenchRoomLevel::LevelStart()
 		Actor->GetTransform()->SetWorldPosition(float4(0.0f, 0.0f, 0.0f));
 	}
 
-
 	//FadeEffect = AddPostProcessCameraMergeNext<PostFade>();
 	//FadeEffect->SetTarget(GameEngineDevice::GetBackBufferTarget());
 	//
@@ -58,8 +58,7 @@ void BenchRoomLevel::LevelStart()
 	//float4 Size = { 128, 72 };
 	//Window->PushRenderTarget("PostEffectFade", FadeEffect->GetResult(), Size * 3);
 	//
-	//FadeEffect->SetData(10, FadeOption::DARK);
-
+	//FadeEffect->SetData(0.5f, FadeOption::DARK);
 }
 
 void BenchRoomLevel::LevelUpdate(float _DeltaTime)
@@ -69,6 +68,7 @@ void BenchRoomLevel::LevelUpdate(float _DeltaTime)
 		if (false == IsDebugCheck())
 		{
 			DebugOn();
+
 		}
 		else
 		{

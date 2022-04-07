@@ -3,11 +3,12 @@
 #include <GameEngine/GameEngineCollision.h>
 #include "Player.h"
 #include "BitMap.h"
-
+#include <GameEngine\PostFade.h>
+#include "UserGame.h"
 
 
 Player::Player()
-	: Speed(600.0f), JumpPower(float4::ZERO), BasicJumpPower(float4::UP * 950.0f), FallDownPower(float4::DOWN * 700.0f)
+	: Speed(600.0f), JumpPower(float4::ZERO), BasicJumpPower(float4::UP * 950.0f), FallDownPower(float4::DOWN * 700.0f), TimeCheck(0.0f), LevelMoveOn(false)
 {
 }
 
@@ -18,7 +19,6 @@ Player::~Player()
 
 void Player::Start()
 {
-	PlayerDirection = LeftRight::LEFT;
 
 	{
 		// Scale에 마이너스를 곱하면 대칭이 가능해진다
@@ -98,8 +98,6 @@ void Player::Update(float _DeltaTime)
 	MapLeftCollsionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {-30.0f, 60.0f, 0.0f});
 	MapRightCollsionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {30.0f, 60.0f, 0.0f});
 
-	//카메라 이동을 통제하기 위한 몸 한가운데의 색콜리전
-	CameraMovementCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 60.0f * 0.75f, 0.0f});
 
 	StateManager_.Update();
 
@@ -115,7 +113,12 @@ void Player::Update(float _DeltaTime)
 	PlayerCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::NEXTMAP,
 		[&](GameEngineCollision* _OtherCollision)
 		{
-			int a = 0;
+			if (LevelMoveOn == false)
+			{
+			LevelMoveOn = true;
+			TimeCheck = 0.5f;
+			StateManager_.ChangeState("MapMove");
+			}
 		}
 	);
 
@@ -654,11 +657,31 @@ void Player::DownAttack()
 
 void Player::MapMove()
 {
+
 	PlayerImageRenderer->SetChangeAnimation("MapMove");
+
+	TimeCheck -= GameEngineTime::GetInst().GetDeltaTime();
+
+	if (MapBotCollsionColor != float4::BLACK)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(FallDownPower);
+	}
 
 	if (PlayerDirection == LeftRight::LEFT)
 	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+	}
+	else if (PlayerDirection == LeftRight::RIGHT)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+	}
 
+
+	if (TimeCheck <= 0)
+	{
+		LevelMoveOn = false;
+		UserGame::LevelChange("MiddleRoom");
+		StateManager_.ChangeState("Idle");
 	}
 }
 

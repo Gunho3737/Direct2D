@@ -30,7 +30,7 @@ void BitMap::Start()
 	{
 		BenchNextCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::NEXTMAP);
 		BenchNextCollision->GetTransform()->SetLocalScaling(RoomSkipCollsionSize);
-		BenchNextCollision->GetTransform()->SetLocalPosition(float4{9200.0f, -2800.0f, -10.0f});
+		BenchNextCollision->GetTransform()->SetLocalPosition(float4{9400.0f, -2800.0f, -10.0f});
 
 	}
 	
@@ -106,5 +106,11 @@ void BitMap::Update(float DeltaTime_)
 	//	GetLevel()->PushDebugRender(MiddleRoomPrevCollision->GetTransform(), CollisionType::Rect);
 	//	GetLevel()->PushDebugRender(MiddleBossPrevCollision->GetTransform(), CollisionType::Rect);
 	//	GetLevel()->PushDebugRender(FinalBossPrevCollision->GetTransform(), CollisionType::Rect);
+	}
+
+	if ("BenchRoom" != GetLevel()->GetName())
+	{
+		BenchNextCollision->GetTransform()->SetLocalScaling({0.0f, 0.0f, 1.0f});
+		BenchNextCollision->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, 1.0f });
 	}
 }

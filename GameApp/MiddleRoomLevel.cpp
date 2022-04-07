@@ -38,7 +38,8 @@ void MiddleRoomLevel::LevelStart()
 
 	{
 		PlayerActor = CreateActor<Player>();
-		PlayerActor->GetTransform()->SetLocalPosition({ 9500.0f,-2800.0f });
+		PlayerActor->PlayerDirection = LeftRight::RIGHT;
+		PlayerActor->GetTransform()->SetLocalPosition({ 9400.0f,-2850.0f });
 		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
 	}
 
@@ -59,7 +60,7 @@ void MiddleRoomLevel::LevelStart()
 	//float4 Size = { 128, 72 };
 	//Window->PushRenderTarget("PostEffectFade", FadeEffect->GetResult(), Size * 3);
 	//
-	//FadeEffect->SetData(10, FadeOption::LIGHT);
+	//FadeEffect->SetData(1.0f, FadeOption::LIGHT);
 
 }
 
@@ -129,7 +130,7 @@ void MiddleRoomLevel::LevelUpdate(float _DeltaTime)
 			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10250.0f, -1600.0f, PlayerPos.z });
 		}
 	}
-	
+
 
 	static bool Check = false;
 
@@ -139,6 +140,7 @@ void MiddleRoomLevel::LevelUpdate(float _DeltaTime)
 		float4 Size = { 128, 72};
 		Window->PushRenderTarget("메인 카메라 타겟", GetMainCamera()->GetCameraRenderTarget(), Size * 3);
 		Window->PushRenderTarget("UI 카메라 타겟", GetUICamera()->GetCameraRenderTarget(), Size * 3);
+		//Window->PushRenderTarget("PostEffectFade", PlayerActor->FadeEffect->GetResult(), Size * 3);
 		Check = true;
 	}
 
