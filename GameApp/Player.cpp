@@ -43,8 +43,8 @@ void Player::Start()
 
 	{
 		PlayerCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::PLAYER);
-		PlayerCollision->GetTransform()->SetLocalScaling(float4{ 60.0f, 130.0f, -10.0f });
-		PlayerCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot());
+		PlayerCollision->GetTransform()->SetLocalScaling(float4{ 60.0f, 130.0f, 1.0f });
+		PlayerCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot() += {0.0f, 0.0f, -1.0f});
 	}
 
 
@@ -103,7 +103,6 @@ void Player::Update(float _DeltaTime)
 
 	StateManager_.Update();
 
-
 	if (true == GetLevel()->IsDebugCheck())
 	{
 		GetLevel()->PushDebugRender(PlayerCollision->GetTransform(), CollisionType::Rect);
@@ -113,6 +112,13 @@ void Player::Update(float _DeltaTime)
 	//카메라를 레벨에서 직접 관리하게 만드는중
 	//GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
 	
+	PlayerCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::NEXTMAP,
+		[&](GameEngineCollision* _OtherCollision)
+		{
+			int a = 0;
+		}
+	);
+
 }
 
 void Player::Idle()
@@ -639,7 +645,7 @@ void Player::DownAttack()
 	);
 
 	PlayerSlashCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::MONSTER,
-		[this](GameEngineCollision* _OtherCollision)
+		[&](GameEngineCollision* _OtherCollision)
 		{
 			JumpPower = float4::UP*700.0f;
 		}
@@ -650,7 +656,7 @@ void Player::MapMove()
 {
 	PlayerImageRenderer->SetChangeAnimation("MapMove");
 
-	if (true)
+	if (PlayerDirection == LeftRight::LEFT)
 	{
 
 	}

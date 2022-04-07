@@ -28,19 +28,12 @@ enum class ActorCollisionType
 	PLAYER,
 	ATTACK,
 	MONSTER,
-	MAP,
+	PREVMAP,
+	NEXTMAP,
 };
 
 enum class LeftRight
 {
 	LEFT,
 	RIGHT,
-};
-
-enum class MapProgress
-{
-	BENCH,
-	MIDDLEROOM,
-	MIDDLEBOSS,
-	FINALBOSS,
 };

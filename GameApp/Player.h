@@ -3,7 +3,6 @@
 #include <GameEngine/GameEngineFSM.h>
 
 // Ό³Έν :
-class Attack;
 class GameEngineImageRenderer;
 class Player : public GameEngineActor
 {
