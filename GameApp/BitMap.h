@@ -21,6 +21,8 @@ public:
 	static float4 GetColor(GameEngineTransform* _Ptr, bool YRevers = true);
 	static float4 GetColor(float4 _Postion, bool YReverse = true);
 
+	MapProgress Progress;
+
 protected:
 	//std::vector<GameEngineCollision> MapJumpCollision;
 	GameEngineCollision* BenchNextCollision;

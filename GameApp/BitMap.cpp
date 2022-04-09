@@ -66,8 +66,8 @@ void BitMap::Start()
 	{
 		FinalBossPrevCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::PREVMAP);
 		FinalBossPrevCollision->GetTransform()->SetLocalScaling(RoomSkipCollsionSize);
-
 	}
+
 }
 
 void BitMap::LevelChangeStartEvent()
@@ -108,9 +108,20 @@ void BitMap::Update(float DeltaTime_)
 	//	GetLevel()->PushDebugRender(FinalBossPrevCollision->GetTransform(), CollisionType::Rect);
 	}
 
-	if ("BenchRoom" != GetLevel()->GetName())
+	switch (BitMap::Progress)
 	{
-		BenchNextCollision->GetTransform()->SetLocalScaling({0.0f, 0.0f, 1.0f});
-		BenchNextCollision->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, 1.0f });
+	case MapProgress::BENCHROOM:
+		break;
+	case MapProgress::MIDDLEROOM:
+	{
+		BenchNextCollision->Off();
+	}
+		break;
+	case MapProgress::MIDDLEBOSSROOM:
+		break;
+	case MapProgress::FINALBOSSROOM:
+		break;
+	default:
+		break;
 	}
 }

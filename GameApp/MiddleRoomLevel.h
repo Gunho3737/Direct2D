@@ -3,7 +3,7 @@
 
 // Ό³Έν :
 class Player;
-
+class BitMap;
 class MiddleRoomLevel : public GameEngineLevel
 {
 public:
@@ -21,6 +21,7 @@ public:
 
 protected:
 	Player* PlayerActor;
+	BitMap* BitMapActor;
 	float4 PlayerPos;
 
 private:

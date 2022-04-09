@@ -37,3 +37,12 @@ enum class LeftRight
 	LEFT,
 	RIGHT,
 };
+
+enum class MapProgress
+{
+	BENCHROOM,
+	MIDDLEROOM,
+	MIDDLEBOSSROOM,
+	FINALBOSSROOM
+
+};

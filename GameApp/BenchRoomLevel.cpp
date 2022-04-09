@@ -27,12 +27,14 @@ void BenchRoomLevel::LevelStart()
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
 	{
-		BitMap* Player = CreateActor<BitMap>();
+		BitMapActor = CreateActor<BitMap>();
+		BitMapActor->Progress = MapProgress::BENCHROOM;
 	}
 
 	{
 		ViewMap* Player = CreateActor<ViewMap>();
 	}
+
 
 	{
 		PlayerActor = CreateActor<Player>();

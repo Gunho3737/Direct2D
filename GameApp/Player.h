@@ -19,6 +19,7 @@ public:
 
 	LeftRight PlayerDirection;
 	class PostFade* FadeEffect;
+	GameEngineFSM StateManager_;
 	
 protected:
 	GameEngineImageRenderer* PlayerImageRenderer;
@@ -26,7 +27,6 @@ protected:
 	GameEngineImageRenderer* PlayerSlashRenderer;
 	GameEngineCollision* PlayerSlashCollision;
 
-	GameEngineFSM StateManager_;
 
 	float Speed;
 	float TimeCheck;
