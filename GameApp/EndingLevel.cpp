@@ -22,3 +22,9 @@ void EndingLevel::LevelChangeEndEvent()
 
 void EndingLevel::LevelChangeStartEvent()
 {}
+
+void EndingLevel::FadeOn()
+{}
+
+void EndingLevel::FadeOff()
+{}

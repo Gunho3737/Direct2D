@@ -28,6 +28,9 @@ void MiddleRoomLevel::LevelStart()
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
+	FadeEffect = AddPostProcessCameraMergeNext<PostFade>();
+	FadeEffect->SetTarget(GameEngineDevice::GetBackBufferTarget());
+
 	{
 		BitMapActor = CreateActor<BitMap>();
 		BitMapActor->Progress = MapProgress::MIDDLEROOM;
@@ -46,7 +49,7 @@ void MiddleRoomLevel::LevelStart()
 
 	{
 		FlyBug* Actor = CreateActor<FlyBug>();
-		Actor->GetTransform()->SetWorldPosition(float4(6050.0f * 1.25f, -2200.0f * 1.25f, 0.0f));
+		Actor->GetTransform()->SetWorldPosition(float4(10000.0f, -2900.0f, 0.0f));
 	}
 
 	{
@@ -155,7 +158,31 @@ void MiddleRoomLevel::LevelUpdate(float _DeltaTime)
 }
 
 void MiddleRoomLevel::LevelChangeEndEvent()
-{}
+{
+
+}
 
 void MiddleRoomLevel::LevelChangeStartEvent()
-{}
+{
+	FadeOn();
+
+	{
+		BitMapActor->Progress = MapProgress::MIDDLEROOM;
+	}
+
+	{
+		PlayerActor->PlayerDirection = LeftRight::RIGHT;
+		PlayerActor->GetTransform()->SetLocalPosition({ 9400.0f,-2850.0f });
+		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
+	}
+}
+
+void MiddleRoomLevel::FadeOn()
+{
+	FadeEffect->SetData(1.0f, FadeOption::LIGHT);
+}
+
+void MiddleRoomLevel::FadeOff()
+{
+	FadeEffect->SetData(1.0f, FadeOption::DARK);
+}

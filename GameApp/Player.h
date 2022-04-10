@@ -18,7 +18,6 @@ public:
 	Player& operator=(Player&& _Other) noexcept = delete;
 
 	LeftRight PlayerDirection;
-	class PostFade* FadeEffect;
 	GameEngineFSM StateManager_;
 	
 protected:
@@ -41,7 +40,6 @@ protected:
 	float4 MapRightCollsionColor;
 
 	bool LevelMoveOn;
-
 
 private:
 	void Start() override;

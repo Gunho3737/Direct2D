@@ -116,8 +116,9 @@ void Player::Update(float _DeltaTime)
 			if (LevelMoveOn == false)
 			{
 			LevelMoveOn = true;
-			TimeCheck = 0.5f;
+			TimeCheck = 1.0f;
 			StateManager_.ChangeState("MapMove");
+			GetLevel()->FadeOff();
 			}
 		}
 	);
@@ -680,8 +681,12 @@ void Player::MapMove()
 	if (TimeCheck <= 0)
 	{
 		LevelMoveOn = false;
-		UserGame::LevelChange("MiddleRoom");
 		StateManager_.ChangeState("Idle");
+
+		if (GetLevel()->GetName() == "BenchRoom")
+		{
+		UserGame::LevelChange("MiddleRoom");
+		}
 	}
 }
 

@@ -2,7 +2,6 @@
 #include "BenchRoomLevel.h"
 #include "Player.h"
 #include "UI_HpBar.h"
-#include "FlyBug.h"
 #include "BitMap.h"
 #include "ViewMap.h"
 #include <GameEngine\PostFade.h>
@@ -26,26 +25,24 @@ void BenchRoomLevel::LevelStart()
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
+	FadeEffect = AddPostProcessCameraMergeNext<PostFade>();
+	FadeEffect->SetTarget(GameEngineDevice::GetBackBufferTarget());
+
 	{
 		BitMapActor = CreateActor<BitMap>();
 		BitMapActor->Progress = MapProgress::BENCHROOM;
 	}
 
 	{
-		ViewMap* Player = CreateActor<ViewMap>();
+		VieMapActor = CreateActor<ViewMap>();
 	}
 
 
 	{
 		PlayerActor = CreateActor<Player>();
 		PlayerActor->PlayerDirection = LeftRight::RIGHT;
-		PlayerActor->GetTransform()->SetLocalPosition({ 7300.0f,-2400.0f});
+		PlayerActor->GetTransform()->SetLocalPosition({ 7300.0f,-2400.0f });
 		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
-	}
-
-	{
-		FlyBug* Actor = CreateActor<FlyBug>();
-		Actor->GetTransform()->SetWorldPosition(float4(6050.0f*1.25f, -2200.0f * 1.25f, 0.0f));
 	}
 
 	{
@@ -53,14 +50,7 @@ void BenchRoomLevel::LevelStart()
 		Actor->GetTransform()->SetWorldPosition(float4(0.0f, 0.0f, 0.0f));
 	}
 
-	//FadeEffect = AddPostProcessCameraMergeNext<PostFade>();
-	//FadeEffect->SetTarget(GameEngineDevice::GetBackBufferTarget());
-	//
-	//GameEngineRenderWindow* Window = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineRenderWindow>("RenderWindow");
-	//float4 Size = { 128, 72 };
-	//Window->PushRenderTarget("PostEffectFade", FadeEffect->GetResult(), Size * 3);
-	//
-	//FadeEffect->SetData(0.5f, FadeOption::DARK);
+	Reverse = false;
 }
 
 void BenchRoomLevel::LevelUpdate(float _DeltaTime)
@@ -119,7 +109,43 @@ void BenchRoomLevel::LevelChangeEndEvent()
 {
 
 }
+
 void BenchRoomLevel::LevelChangeStartEvent()
 {
+	FadeOn();
+	//
+	//GameEngineRenderWindow* Window = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineRenderWindow>("RenderWindow");
+	//float4 Size = { 128, 72 };
+	//Window->PushRenderTarget("PostEffectFade", FadeEffect->GetResult(), Size * 3);
+	//
+	//FadeEffect->SetData(1.0f, FadeOption::LIGHT);
 
+
+
+	{
+		if (Reverse == false)
+		{
+		PlayerActor->PlayerDirection = LeftRight::RIGHT;
+		PlayerActor->GetTransform()->SetLocalPosition({ 7300.0f,-2400.0f });
+		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
+		Reverse = true;
+		}
+		else
+		{
+			PlayerActor->PlayerDirection = LeftRight::LEFT;
+			PlayerActor->GetTransform()->SetLocalPosition({ 9350.0f,-2850.0f });
+			GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
+			Reverse = false;
+		}
+	}
+}
+
+void BenchRoomLevel::FadeOn()
+{
+	FadeEffect->SetData(1.0f, FadeOption::LIGHT);
+}
+
+void BenchRoomLevel::FadeOff()
+{
+	FadeEffect->SetData(1.0f, FadeOption::DARK);
 }

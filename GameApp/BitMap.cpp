@@ -25,12 +25,13 @@ void BitMap::Start()
 	}
 
 	//사이즈의 z값은 1.0f
-	float4 RoomSkipCollsionSize = float4{ 60.0f, 130.0f, 1.0f};
+	RoomSkipCollsionSize = float4{ 60.0f, 130.0f, 1.0f};
 
 	{
 		BenchNextCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::NEXTMAP);
 		BenchNextCollision->GetTransform()->SetLocalScaling(RoomSkipCollsionSize);
-		BenchNextCollision->GetTransform()->SetLocalPosition(float4{9400.0f, -2800.0f, -10.0f});
+		BenchNextCollision->GetTransform()->SetLocalPosition(float4{ 9500.0f, -2800.0f, -10.0f });
+
 
 	}
 	
@@ -98,23 +99,51 @@ void BitMap::Update(float DeltaTime_)
 {
 	if (true == GetLevel()->IsDebugCheck())
 	{
-		GetLevel()->PushDebugRender(BenchNextCollision->GetTransform(), CollisionType::Rect);
-	//	GetLevel()->PushDebugRender(MiddleRoomNextCollision->GetTransform(), CollisionType::Rect);
-	//	GetLevel()->PushDebugRender(MiddleBossNextCollision->GetTransform(), CollisionType::Rect);
-	//	GetLevel()->PushDebugRender(FinalBossNextCollision->GetTransform(), CollisionType::Rect);
-	//
-	//	GetLevel()->PushDebugRender(MiddleRoomPrevCollision->GetTransform(), CollisionType::Rect);
-	//	GetLevel()->PushDebugRender(MiddleBossPrevCollision->GetTransform(), CollisionType::Rect);
-	//	GetLevel()->PushDebugRender(FinalBossPrevCollision->GetTransform(), CollisionType::Rect);
+		switch (BitMap::Progress)
+		{
+		case MapProgress::BENCHROOM:
+		{
+			GetLevel()->PushDebugRender(BenchNextCollision->GetTransform(), CollisionType::Rect);
+		}
+		break;
+		case MapProgress::MIDDLEROOM:
+		{
+			//GetLevel()->PushDebugRender(MiddleRoomNextCollision->GetTransform(), CollisionType::Rect);
+			//GetLevel()->PushDebugRender(MiddleRoomPrevCollision->GetTransform(), CollisionType::Rect);
+		}
+		break;
+		case MapProgress::MIDDLEBOSSROOM:
+		{
+			//GetLevel()->PushDebugRender(MiddleBossNextCollision->GetTransform(), CollisionType::Rect);
+			//GetLevel()->PushDebugRender(MiddleBossPrevCollision->GetTransform(), CollisionType::Rect);
+		}
+			break;
+		case MapProgress::FINALBOSSROOM:
+		{
+			//GetLevel()->PushDebugRender(FinalBossNextCollision->GetTransform(), CollisionType::Rect);
+			//GetLevel()->PushDebugRender(FinalBossPrevCollision->GetTransform(), CollisionType::Rect);
+		}
+			break;
+		default:
+			break;
+		}
+
 	}
 
 	switch (BitMap::Progress)
 	{
 	case MapProgress::BENCHROOM:
+	{
+		BenchNextCollision->On();
+		MiddleRoomPrevCollision->Off();
+	}
 		break;
 	case MapProgress::MIDDLEROOM:
 	{
 		BenchNextCollision->Off();
+		MiddleRoomPrevCollision->On();
+		//BenchNextCollision->GetTransform()->SetLocalScaling(float4::ZERO);
+		//BenchNextCollision->GetTransform()->SetLocalPosition(float4::ZERO);
 	}
 		break;
 	case MapProgress::MIDDLEBOSSROOM:

@@ -19,6 +19,9 @@ public:
 
 	class PostFade* FadeEffect;
 
+	void FadeOn() override;
+	void FadeOff() override;
+
 protected:
 	Player* PlayerActor;
 	BitMap* BitMapActor;
@@ -29,6 +32,8 @@ private:
 	void LevelUpdate(float _DeltaTime) override;
 	void LevelChangeEndEvent() override;
 	void LevelChangeStartEvent() override;
+
+
 
 };
 

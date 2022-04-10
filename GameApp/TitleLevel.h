@@ -15,11 +15,15 @@ public:
 	TitleLevel& operator=(const TitleLevel& _Other) = delete;
 	TitleLevel& operator=(TitleLevel&& _Other) noexcept = delete;
 
+	void FadeOn() override;
+	void FadeOff() override;
+
 protected:
 	void LevelStart() override;
 	void LevelUpdate(float _DeltaTime) override;
 	void LevelChangeEndEvent() override;
 	void LevelChangeStartEvent() override;
+
 
 private:
 

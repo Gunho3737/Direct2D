@@ -25,5 +25,8 @@ public:
 	void LevelUpdate(float _DeltaTime) override;
 	void LevelChangeEndEvent() override;
 	void LevelChangeStartEvent() override;
+
+	void FadeOn() override;
+	void FadeOff() override;
 };
 

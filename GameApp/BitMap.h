@@ -42,4 +42,5 @@ protected:
 
 private:
 	static BitMap* CurrentMap;
+	float4 RoomSkipCollsionSize;
 };

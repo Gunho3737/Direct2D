@@ -58,3 +58,11 @@ void TitleLevel::LevelChangeStartEvent()
 {
 
 }
+
+void TitleLevel::FadeOn()
+{
+}
+
+void TitleLevel::FadeOff()
+{
+}

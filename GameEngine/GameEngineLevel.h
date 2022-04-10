@@ -89,6 +89,10 @@ public:
 	virtual void LevelChangeEndEvent() = 0;
 	virtual void LevelChangeStartEvent() = 0;
 
+	//Fade 관련 추가한 virtual 함수
+	virtual void FadeOn() = 0;
+	virtual void FadeOff() = 0;
+
 
 
 	//////////////////////////////////////////////////////// collision:

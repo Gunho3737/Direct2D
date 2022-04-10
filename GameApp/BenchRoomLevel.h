@@ -4,6 +4,7 @@
 // Ό³Έν :
 class Player;
 class BitMap;
+class ViewMap;
 class BenchRoomLevel : public GameEngineLevel
 {
 public:
@@ -19,10 +20,17 @@ public:
 
 	class PostFade* FadeEffect;
 
+	void FadeOn() override;
+	void FadeOff() override;
+
 protected:
 	Player* PlayerActor;
 	BitMap* BitMapActor;
+	ViewMap* VieMapActor;
+
+
 	float4 PlayerPos;
+	bool Reverse;
 
 private:
 	void LevelStart() override;
