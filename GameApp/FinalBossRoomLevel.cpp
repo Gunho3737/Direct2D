@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "MiddleRoomLevel.h"
+#include "FinalBossRoomLevel.h"
 #include "Player.h"
 #include "UI_HpBar.h"
 #include "FlyBug.h"
@@ -12,17 +12,17 @@
 #include <GameEngine/GameEngineGUI.h>
 #include <GameEngine/GameEngineRenderWindow.h>
 
-MiddleRoomLevel::MiddleRoomLevel() // default constructer 디폴트 생성자
+FinalBossRoomLevel::FinalBossRoomLevel() // default constructer 디폴트 생성자
 {
 
 }
 
-MiddleRoomLevel::~MiddleRoomLevel() // default destructer 디폴트 소멸자
+FinalBossRoomLevel::~FinalBossRoomLevel() // default destructer 디폴트 소멸자
 {
 
 }
 
-void MiddleRoomLevel::LevelStart()
+void FinalBossRoomLevel::LevelStart()
 {
 
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
@@ -43,7 +43,7 @@ void MiddleRoomLevel::LevelStart()
 	{
 		PlayerActor = CreateActor<Player>();
 		PlayerActor->PlayerDirection = LeftRight::RIGHT;
-		PlayerActor->GetTransform()->SetLocalPosition({ 9600.0f,-2850.0f });
+		PlayerActor->GetTransform()->SetLocalPosition({ 9400.0f,-2850.0f });
 		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
 	}
 
@@ -68,7 +68,7 @@ void MiddleRoomLevel::LevelStart()
 
 }
 
-void MiddleRoomLevel::LevelUpdate(float _DeltaTime)
+void FinalBossRoomLevel::LevelUpdate(float _DeltaTime)
 {
 	if (true == GameEngineInput::GetInst().Down("DebugOn"))
 	{
@@ -87,51 +87,51 @@ void MiddleRoomLevel::LevelUpdate(float _DeltaTime)
 
 	if (PlayerPos.y < -2760.0f)
 	{
-		if (PlayerPos.x < 10250.0f)
+		if (PlayerPos.x < 10100.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10250.0f, -2760.0f, PlayerPos.z });
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10100.0f, -2760.0f, PlayerPos.z });
 		}
-		else if (PlayerPos.x >= 10250.0f && PlayerPos.x <= 10300.0f)
+		else if (PlayerPos.x >= 10100.0f && PlayerPos.x <= 10250.0f)
 		{
 			GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x, -2760.0f, PlayerPos.z });
 		}
-		else if (PlayerPos.x >= 10300.0f)
+		else if (PlayerPos.x >= 10250.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10300.0f, -2760.0f, PlayerPos.z });
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10250.0f, -2760.0f, PlayerPos.z });
 		}
 	}
 	
 
 	if (PlayerPos.y >= -2760.0f && PlayerPos.y <= -1600.0f )
 	{
-		if (PlayerPos.x < 10250.0f)
+		if (PlayerPos.x < 10100.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10250.0f, PlayerPos.y, PlayerPos.z });
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10100.0f, PlayerPos.y, PlayerPos.z });
 		}
-		else if (PlayerPos.x >= 10250.0f && PlayerPos.x <= 10300.0f)
+		else if (PlayerPos.x >= 10100.0f && PlayerPos.x <= 10250.0f)
 		{
 			GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x, PlayerPos.y, PlayerPos.z });
 		}
-		else if (PlayerPos.x >= 10300.0f)
+		else if (PlayerPos.x >= 10250.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10300.0f, PlayerPos.y, PlayerPos.z });
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10250.0f, PlayerPos.y, PlayerPos.z });
 		}
 	}
 
 
 	if (PlayerPos.y > -1600.0f)
 	{
-		if (PlayerPos.x < 10250.0f)
+		if (PlayerPos.x < 10100.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10250.0f, -1600.0f, PlayerPos.z });
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10100.0f, -1600.0f, PlayerPos.z });
 		}
-		else if (PlayerPos.x >= 10250.0f && PlayerPos.x <= 10300.0f)
+		else if (PlayerPos.x >= 10100.0f && PlayerPos.x <= 10250.0f)
 		{
 			GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x, -1600.0f, PlayerPos.z });
 		}
-		else if (PlayerPos.x >= 10300.0f)
+		else if (PlayerPos.x >= 10250.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10300.0f, -1600.0f, PlayerPos.z });
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 10250.0f, -1600.0f, PlayerPos.z });
 		}
 	}
 
@@ -141,7 +141,7 @@ void MiddleRoomLevel::LevelUpdate(float _DeltaTime)
 	if (false == Check && nullptr != GameEngineGUI::GetInst()->FindGUIWindow("RenderWindow"))
 	{
 		GameEngineRenderWindow* Window = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineRenderWindow>("RenderWindow");
-		float4 Size = {128, 72};
+		float4 Size = { 128, 72};
 		Window->PushRenderTarget("메인 카메라 타겟", GetMainCamera()->GetCameraRenderTarget(), Size * 3);
 		Window->PushRenderTarget("UI 카메라 타겟", GetUICamera()->GetCameraRenderTarget(), Size * 3);
 		//Window->PushRenderTarget("PostEffectFade", PlayerActor->FadeEffect->GetResult(), Size * 3);
@@ -157,12 +157,12 @@ void MiddleRoomLevel::LevelUpdate(float _DeltaTime)
 
 }
 
-void MiddleRoomLevel::LevelChangeEndEvent()
+void FinalBossRoomLevel::LevelChangeEndEvent()
 {
 
 }
 
-void MiddleRoomLevel::LevelChangeStartEvent()
+void FinalBossRoomLevel::LevelChangeStartEvent()
 {
 	FadeOn();
 
@@ -172,17 +172,17 @@ void MiddleRoomLevel::LevelChangeStartEvent()
 
 	{
 		PlayerActor->PlayerDirection = LeftRight::RIGHT;
-		PlayerActor->GetTransform()->SetLocalPosition({ 9600.0f,-2850.0f });
+		PlayerActor->GetTransform()->SetLocalPosition({ 9400.0f,-2850.0f });
 		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
 	}
 }
 
-void MiddleRoomLevel::FadeOn()
+void FinalBossRoomLevel::FadeOn()
 {
 	FadeEffect->SetData(1.0f, FadeOption::LIGHT);
 }
 
-void MiddleRoomLevel::FadeOff()
+void FinalBossRoomLevel::FadeOff()
 {
 	FadeEffect->SetData(1.0f, FadeOption::DARK);
 }

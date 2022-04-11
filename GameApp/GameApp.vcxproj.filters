@@ -47,6 +47,12 @@
     <ClCompile Include="MiddleRoomLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
+    <ClCompile Include="FinalBossRoomLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="MiddleBossRoomLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -122,6 +128,12 @@
       <Filter>Actor\PlayLevel\Map</Filter>
     </ClInclude>
     <ClInclude Include="MiddleRoomLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="FinalBossRoomLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="MiddleBossRoomLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>

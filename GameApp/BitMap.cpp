@@ -38,7 +38,7 @@ void BitMap::Start()
 	{
 		MiddleRoomNextCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::NEXTMAP);
 		MiddleRoomNextCollision->GetTransform()->SetLocalScaling(RoomSkipCollsionSize);
-		MiddleRoomNextCollision->GetTransform()->SetLocalPosition(float4{ 9400.0f, -1550.0f, -10.0f });
+		MiddleRoomNextCollision->GetTransform()->SetLocalPosition(float4{ 9500.0f, -1550.0f, -10.0f });
 	}
 
 	{
@@ -56,7 +56,7 @@ void BitMap::Start()
 	{
 		MiddleRoomPrevCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::PREVMAP);
 		MiddleRoomPrevCollision->GetTransform()->SetLocalScaling(RoomSkipCollsionSize);
-		MiddleRoomPrevCollision->GetTransform()->SetLocalPosition(float4{ 9300.0f, -2800.0f, -10.0f });
+		MiddleRoomPrevCollision->GetTransform()->SetLocalPosition(float4{ 9500.0f, -2800.0f, -10.0f });
 
 	}
 
