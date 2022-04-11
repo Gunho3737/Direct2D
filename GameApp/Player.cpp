@@ -69,6 +69,7 @@ void Player::Start()
 	StateManager_.CreateState("UpAttack", std::bind(&Player::UpAttack, this));
 	StateManager_.CreateState("DownAttack", std::bind(&Player::DownAttack, this));
 	StateManager_.CreateState("MapMove", std::bind(&Player::MapMove, this));
+	StateManager_.CreateState("MapPrev", std::bind(&Player::MapPrev, this));
 
 
 	StateManager_.ChangeState("Idle");
@@ -119,6 +120,19 @@ void Player::Update(float _DeltaTime)
 			TimeCheck = 1.0f;
 			StateManager_.ChangeState("MapMove");
 			GetLevel()->FadeOff();
+			}
+		}
+	);
+
+	PlayerCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PREVMAP,
+		[&](GameEngineCollision* _OtherCollision)
+		{
+			if (LevelMoveOn == false)
+			{
+				LevelMoveOn = true;
+				TimeCheck = 1.0f;
+				StateManager_.ChangeState("MapPrev");
+				GetLevel()->FadeOff();
 			}
 		}
 	);
@@ -686,6 +700,44 @@ void Player::MapMove()
 		if (GetLevel()->GetName() == "BenchRoom")
 		{
 		UserGame::LevelChange("MiddleRoom");
+		}
+
+		if (GetLevel()->GetName() == "MiddleRoom")
+		{
+			UserGame::LevelChange("BenchRoom");
+		}
+	}
+}
+
+void Player::MapPrev()
+{
+	PlayerImageRenderer->SetChangeAnimation("MapMove");
+
+	TimeCheck -= GameEngineTime::GetInst().GetDeltaTime();
+
+	if (MapBotCollsionColor != float4::BLACK)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(FallDownPower);
+	}
+
+	if (PlayerDirection == LeftRight::LEFT)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+	}
+	else if (PlayerDirection == LeftRight::RIGHT)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+	}
+
+
+	if (TimeCheck <= 0)
+	{
+		LevelMoveOn = false;
+		StateManager_.ChangeState("Idle");
+
+		if (GetLevel()->GetName() == "MiddleRoom")
+		{
+			UserGame::LevelChange("BenchRoom");
 		}
 	}
 }

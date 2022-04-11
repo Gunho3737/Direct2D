@@ -25,7 +25,7 @@ void BitMap::Start()
 	}
 
 	//사이즈의 z값은 1.0f
-	RoomSkipCollsionSize = float4{ 60.0f, 130.0f, 1.0f};
+	RoomSkipCollsionSize = float4{ 60.0f, 300.0f, 1.0f};
 
 	{
 		BenchNextCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::NEXTMAP);
@@ -38,6 +38,7 @@ void BitMap::Start()
 	{
 		MiddleRoomNextCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::NEXTMAP);
 		MiddleRoomNextCollision->GetTransform()->SetLocalScaling(RoomSkipCollsionSize);
+		MiddleRoomNextCollision->GetTransform()->SetLocalPosition(float4{ 9400.0f, -1550.0f, -10.0f });
 	}
 
 	{
@@ -55,6 +56,7 @@ void BitMap::Start()
 	{
 		MiddleRoomPrevCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::PREVMAP);
 		MiddleRoomPrevCollision->GetTransform()->SetLocalScaling(RoomSkipCollsionSize);
+		MiddleRoomPrevCollision->GetTransform()->SetLocalPosition(float4{ 9300.0f, -2800.0f, -10.0f });
 
 	}
 
@@ -108,8 +110,8 @@ void BitMap::Update(float DeltaTime_)
 		break;
 		case MapProgress::MIDDLEROOM:
 		{
-			//GetLevel()->PushDebugRender(MiddleRoomNextCollision->GetTransform(), CollisionType::Rect);
-			//GetLevel()->PushDebugRender(MiddleRoomPrevCollision->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(MiddleRoomNextCollision->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(MiddleRoomPrevCollision->GetTransform(), CollisionType::Rect);
 		}
 		break;
 		case MapProgress::MIDDLEBOSSROOM:
@@ -142,8 +144,7 @@ void BitMap::Update(float DeltaTime_)
 	{
 		BenchNextCollision->Off();
 		MiddleRoomPrevCollision->On();
-		//BenchNextCollision->GetTransform()->SetLocalScaling(float4::ZERO);
-		//BenchNextCollision->GetTransform()->SetLocalPosition(float4::ZERO);
+		MiddleRoomNextCollision->On();
 	}
 		break;
 	case MapProgress::MIDDLEBOSSROOM:

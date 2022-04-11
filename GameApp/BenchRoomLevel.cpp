@@ -135,7 +135,6 @@ void BenchRoomLevel::LevelChangeStartEvent()
 			PlayerActor->PlayerDirection = LeftRight::LEFT;
 			PlayerActor->GetTransform()->SetLocalPosition({ 9350.0f,-2850.0f });
 			GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
-			Reverse = false;
 		}
 	}
 }

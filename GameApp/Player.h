@@ -60,5 +60,6 @@ private:
 	void UpAttack();
 	void DownAttack();
 	void MapMove();
+	void MapPrev();
 };
 
