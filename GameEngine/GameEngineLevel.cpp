@@ -14,6 +14,8 @@
 #include <GameEngine\GameEnginePostProcessRender.h>
 
 
+std::string GameEngineLevel::PrevMap = "";
+
 CameraActor* GameEngineLevel::GetMainCameraActor()
 {
 	return MainCameraActor_;

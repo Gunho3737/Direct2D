@@ -5,7 +5,6 @@
 #include "FlyBug.h"
 #include "BitMap.h"
 #include "ViewMap.h"
-#include "MiddleRoomLevel.h"
 #include <GameEngine\PostFade.h>
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
@@ -157,7 +156,7 @@ void MiddleBossRoomLevel::LevelUpdate(float _DeltaTime)
 
 void MiddleBossRoomLevel::LevelChangeEndEvent()
 {
-
+	GameEngineLevel::PrevMap = "MiddleBossRoom";
 }
 
 void MiddleBossRoomLevel::LevelChangeStartEvent()

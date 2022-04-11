@@ -5,8 +5,6 @@
 #include "FlyBug.h"
 #include "BitMap.h"
 #include "ViewMap.h"
-#include "BenchRoomLevel.h"
-#include "MiddleBossRoomLevel.h"
 #include <GameEngine\PostFade.h>
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
@@ -154,7 +152,7 @@ void MiddleRoomLevel::LevelUpdate(float _DeltaTime)
 
 void MiddleRoomLevel::LevelChangeEndEvent()
 {
-
+	GameEngineLevel::PrevMap = "MiddleRoom";
 }
 
 void MiddleRoomLevel::LevelChangeStartEvent()
@@ -165,11 +163,10 @@ void MiddleRoomLevel::LevelChangeStartEvent()
 		BitMapActor->Progress = MapProgress::MIDDLEROOM;
 	}
 
-	/* {
-		PlayerActor->PlayerDirection = LeftRight::RIGHT;
-		PlayerActor->GetTransform()->SetLocalPosition({ 9600.0f,-2850.0f });
-		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
-	}*/
+	if (GameEngineLevel::PrevMap == "BenchRoom")
+	{
+		Reverse = false;
+	}
 
 	if (Reverse == false)
 	{

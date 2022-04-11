@@ -93,6 +93,8 @@ public:
 	virtual void FadeOn() = 0;
 	virtual void FadeOff() = 0;
 
+
+	static std::string PrevMap;
 	//////////////////////////////////////////////////////// collision:
 private:
 	std::map<int, std::list<GameEngineCollision*>> CollisionList_;

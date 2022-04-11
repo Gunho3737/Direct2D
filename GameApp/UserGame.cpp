@@ -42,7 +42,7 @@ void UserGame::Initialize()
 	LevelCreate<MiddleBossRoomLevel>("MiddleBossRoom");
 	LevelCreate<EndingLevel>("Ending");
 
-	LevelChange("Title");
+	LevelChange("BenchRoom");
 
 	return;
 }
