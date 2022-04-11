@@ -22,10 +22,14 @@ public:
 	void FadeOn() override;
 	void FadeOff() override;
 
+	static std::string PrevLevel;
+
 protected:
 	Player* PlayerActor;
 	BitMap* BitMapActor;
 	float4 PlayerPos;
+
+	bool Reverse;
 
 private:
 	void LevelStart() override;

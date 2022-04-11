@@ -4,6 +4,7 @@
 #include "UI_HpBar.h"
 #include "BitMap.h"
 #include "ViewMap.h"
+#include "MiddleRoomLevel.h"
 #include <GameEngine\PostFade.h>
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
@@ -107,7 +108,7 @@ void BenchRoomLevel::LevelUpdate(float _DeltaTime)
 }
 void BenchRoomLevel::LevelChangeEndEvent()
 {
-
+	
 }
 
 void BenchRoomLevel::LevelChangeStartEvent()
@@ -141,10 +142,10 @@ void BenchRoomLevel::LevelChangeStartEvent()
 
 void BenchRoomLevel::FadeOn()
 {
-	FadeEffect->SetData(1.0f, FadeOption::LIGHT);
+	FadeEffect->SetData(0.5f, FadeOption::LIGHT);
 }
 
 void BenchRoomLevel::FadeOff()
 {
-	FadeEffect->SetData(1.0f, FadeOption::DARK);
+	FadeEffect->SetData(0.5f, FadeOption::DARK);
 }

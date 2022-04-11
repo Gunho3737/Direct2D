@@ -11,6 +11,7 @@
 #include "TitleLevel.h"
 #include "BenchRoomLevel.h"
 #include "MiddleRoomLevel.h"
+#include "MiddleBossRoomLevel.h"
 #include "EndingLevel.h"
 
 UserGame::UserGame() // default constructer 디폴트 생성자
@@ -38,9 +39,10 @@ void UserGame::Initialize()
 	LevelCreate<TitleLevel>("Title");
 	LevelCreate<BenchRoomLevel>("BenchRoom");
 	LevelCreate<MiddleRoomLevel>("MiddleRoom");
+	LevelCreate<MiddleBossRoomLevel>("MiddleBossRoom");
 	LevelCreate<EndingLevel>("Ending");
 
-	LevelChange("BenchRoom");
+	LevelChange("Title");
 
 	return;
 }

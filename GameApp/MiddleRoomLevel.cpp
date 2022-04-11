@@ -5,6 +5,8 @@
 #include "FlyBug.h"
 #include "BitMap.h"
 #include "ViewMap.h"
+#include "BenchRoomLevel.h"
+#include "MiddleBossRoomLevel.h"
 #include <GameEngine\PostFade.h>
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
@@ -31,6 +33,8 @@ void MiddleRoomLevel::LevelStart()
 	FadeEffect = AddPostProcessCameraMergeNext<PostFade>();
 	FadeEffect->SetTarget(GameEngineDevice::GetBackBufferTarget());
 
+	Reverse = false;
+
 	{
 		BitMapActor = CreateActor<BitMap>();
 		BitMapActor->Progress = MapProgress::MIDDLEROOM;
@@ -56,15 +60,6 @@ void MiddleRoomLevel::LevelStart()
 		UI_HpBar* Actor = CreateActor<UI_HpBar>();
 		Actor->GetTransform()->SetWorldPosition(float4(0.0f, 0.0f, 0.0f));
 	}
-
-	//FadeEffect = AddPostProcessCameraMergeNext<PostFade>();
-	//FadeEffect->SetTarget(GameEngineDevice::GetBackBufferTarget());
-	//
-	//GameEngineRenderWindow* Window = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineRenderWindow>("RenderWindow");
-	//float4 Size = { 128, 72 };
-	//Window->PushRenderTarget("PostEffectFade", FadeEffect->GetResult(), Size * 3);
-	//
-	//FadeEffect->SetData(1.0f, FadeOption::LIGHT);
 
 }
 
@@ -170,19 +165,33 @@ void MiddleRoomLevel::LevelChangeStartEvent()
 		BitMapActor->Progress = MapProgress::MIDDLEROOM;
 	}
 
+	/* {
+		PlayerActor->PlayerDirection = LeftRight::RIGHT;
+		PlayerActor->GetTransform()->SetLocalPosition({ 9600.0f,-2850.0f });
+		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
+	}*/
+
+	if (Reverse == false)
 	{
 		PlayerActor->PlayerDirection = LeftRight::RIGHT;
 		PlayerActor->GetTransform()->SetLocalPosition({ 9600.0f,-2850.0f });
+		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
+		Reverse = true;
+	}
+	else
+	{
+		PlayerActor->PlayerDirection = LeftRight::RIGHT;
+		PlayerActor->GetTransform()->SetLocalPosition({ 9600.0f,-1550.0f });
 		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
 	}
 }
 
 void MiddleRoomLevel::FadeOn()
 {
-	FadeEffect->SetData(1.0f, FadeOption::LIGHT);
+	FadeEffect->SetData(0.5f, FadeOption::LIGHT);
 }
 
 void MiddleRoomLevel::FadeOff()
 {
-	FadeEffect->SetData(1.0f, FadeOption::DARK);
+	FadeEffect->SetData(0.5f, FadeOption::DARK);
 }
