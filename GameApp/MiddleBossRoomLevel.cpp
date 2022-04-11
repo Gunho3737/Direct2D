@@ -31,6 +31,8 @@ void MiddleBossRoomLevel::LevelStart()
 	FadeEffect = AddPostProcessCameraMergeNext<PostFade>();
 	FadeEffect->SetTarget(GameEngineDevice::GetBackBufferTarget());
 
+	Reverse = false;
+
 	{
 		BitMapActor = CreateActor<BitMap>();
 		BitMapActor->Progress = MapProgress::MIDDLEBOSSROOM;
@@ -96,11 +98,11 @@ void MiddleBossRoomLevel::LevelUpdate(float _DeltaTime)
 	// y = 1160 ~ 1970
 	if (PlayerPos.y < -1970.0f)
 	{
-		if (PlayerPos.x < 4600.0f)
+		if (PlayerPos.x < 4800.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 4600.0f, -1970.0f, PlayerPos.z });
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 4800.0f, -1970.0f, PlayerPos.z });
 		}
-		else if (PlayerPos.x >= 4600.0f && PlayerPos.x <= 8720.0f)
+		else if (PlayerPos.x >= 4800.0f && PlayerPos.x <= 8720.0f)
 		{
 			GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x, -1970.0f, PlayerPos.z });
 		}
@@ -113,11 +115,11 @@ void MiddleBossRoomLevel::LevelUpdate(float _DeltaTime)
 
 	if (PlayerPos.y >= -1970.0f && PlayerPos.y <= -1160.0f)
 	{
-		if (PlayerPos.x < 4600.0f)
+		if (PlayerPos.x < 4800.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 4600.0f, PlayerPos.y, PlayerPos.z });
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 4800.0f, PlayerPos.y, PlayerPos.z });
 		}
-		else if (PlayerPos.x >= 4600.0f && PlayerPos.x <= 8720.0f)
+		else if (PlayerPos.x >= 4800.0f && PlayerPos.x <= 8720.0f)
 		{
 			GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x, PlayerPos.y, PlayerPos.z });
 		}
@@ -130,11 +132,11 @@ void MiddleBossRoomLevel::LevelUpdate(float _DeltaTime)
 
 	if (PlayerPos.y > -1160.0f)
 	{
-		if (PlayerPos.x < 4600.0f)
+		if (PlayerPos.x < 4800.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 4600.0f, -1160.0f, PlayerPos.z });
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 4800.0f, -1160.0f, PlayerPos.z });
 		}
-		else if (PlayerPos.x >= 4600.0f && PlayerPos.x <= 8720.0f)
+		else if (PlayerPos.x >= 4800.0f && PlayerPos.x <= 8720.0f)
 		{
 			GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x, -1160.0f, PlayerPos.z });
 		}
@@ -175,13 +177,27 @@ void MiddleBossRoomLevel::LevelChangeStartEvent()
 {
 	FadeOn();
 
+	if (GameEngineLevel::PrevMap == "MiddleRoom")
+	{
+		Reverse = false;
+	}
+
 	{
 		BitMapActor->Progress = MapProgress::MIDDLEBOSSROOM;
 	}
 
+	if (Reverse == false)
 	{
 		PlayerActor->PlayerDirection = LeftRight::LEFT;
 		PlayerActor->GetTransform()->SetLocalPosition({ 9400.0f,-1550.0f });
+		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
+		Reverse = true;
+
+	}
+	else
+	{
+		PlayerActor->PlayerDirection = LeftRight::RIGHT;
+		PlayerActor->GetTransform()->SetLocalPosition({ 4150.0f, -2080.0f });
 		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
 	}
 

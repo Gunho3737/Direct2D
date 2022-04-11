@@ -27,6 +27,7 @@ protected:
 	BitMap* BitMapActor;
 	float4 PlayerPos;
 
+	bool Reverse;
 private:
 	void LevelStart() override;
 	void LevelUpdate(float _DeltaTime) override;

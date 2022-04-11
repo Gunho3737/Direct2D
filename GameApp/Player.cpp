@@ -718,6 +718,11 @@ void Player::MapMove()
 		{
 			UserGame::LevelChange("MiddleBossRoom");
 		}
+
+		if (GetLevel()->GetName() == "MiddleBossRoom")
+		{
+			UserGame::LevelChange("FinalBossRoom");
+		}
 	}
 }
 
@@ -755,6 +760,11 @@ void Player::MapPrev()
 		if (GetLevel()->GetName() == "MiddleBossRoom")
 		{
 			UserGame::LevelChange("MiddleRoom");
+		}
+
+		if (GetLevel()->GetName() == "FinalBossRoom")
+		{
+			UserGame::LevelChange("MiddleBossRoom");
 		}
 	}
 }

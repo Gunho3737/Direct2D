@@ -44,7 +44,7 @@ void BitMap::Start()
 	{
 		MiddleBossNextCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::NEXTMAP);
 		MiddleBossNextCollision->GetTransform()->SetLocalScaling(RoomSkipCollsionSize);
-
+		MiddleBossNextCollision->GetTransform()->SetLocalPosition(float4{ 4050.0f, -1950.0f, -10.0f });
 	}
 
 	{
@@ -68,6 +68,7 @@ void BitMap::Start()
 	{
 		FinalBossPrevCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::PREVMAP);
 		FinalBossPrevCollision->GetTransform()->SetLocalScaling(RoomSkipCollsionSize);
+		FinalBossPrevCollision->GetTransform()->SetLocalPosition(float4{ 4000.0f, -1950.0f, -10.0f });
 	}
 
 }
@@ -115,14 +116,14 @@ void BitMap::Update(float DeltaTime_)
 		break;
 		case MapProgress::MIDDLEBOSSROOM:
 		{
-			//GetLevel()->PushDebugRender(MiddleBossNextCollision->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(MiddleBossNextCollision->GetTransform(), CollisionType::Rect);
 			GetLevel()->PushDebugRender(MiddleBossPrevCollision->GetTransform(), CollisionType::Rect);
 		}
 			break;
 		case MapProgress::FINALBOSSROOM:
 		{
 			//GetLevel()->PushDebugRender(FinalBossNextCollision->GetTransform(), CollisionType::Rect);
-			//GetLevel()->PushDebugRender(FinalBossPrevCollision->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(FinalBossPrevCollision->GetTransform(), CollisionType::Rect);
 		}
 			break;
 		default:
