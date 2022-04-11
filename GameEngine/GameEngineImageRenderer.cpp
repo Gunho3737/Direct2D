@@ -48,7 +48,10 @@ void GameEngineImageRenderer::Animation2D::Reset()
 
 void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 {
-	CurTime_ -= _DeltaTime;
+	if (true == Renderer->IsPlay_)
+	{
+		CurTime_ -= _DeltaTime;
+	}
 
 	if (CurTime_ <= 0.0f)
 	{
@@ -305,6 +308,7 @@ void GameEngineImageRenderer::SetChangeAnimation(const std::string& _Name, bool 
 	}
 	CurAnimation_->Reset();
 	CurAnimation_->CallStart();
+	AnimationPlay();
 }
 
 void GameEngineImageRenderer::Update(float _DeltaTime)
