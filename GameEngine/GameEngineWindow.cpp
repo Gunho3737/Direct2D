@@ -201,3 +201,27 @@ void GameEngineWindow::Loop(void(*_loopFunc)())
     }
 }
 
+bool GameEngineWindow::IsWindowRangeOut(const float4& _Pos)
+{
+    if (0 > _Pos.x)
+    {
+        return true;
+    }
+
+    if (0 > _Pos.y)
+    {
+        return true;
+    }
+
+    if (_Pos.x > GetSize().x)
+    {
+        return true;
+    }
+
+    if (_Pos.y > GetSize().y)
+    {
+        return true;
+    }
+
+    return false;
+}

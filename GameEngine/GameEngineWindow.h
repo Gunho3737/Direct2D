@@ -63,6 +63,7 @@ public:
 	void SetSizeAndPos(const float4& _size, const float4& _pos);
 	void Loop(void(*_loopFunc)());
 
+	bool IsWindowRangeOut(const float4& _Pos);
 
 private:
 	static std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)> MessageCallBack_;

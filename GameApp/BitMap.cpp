@@ -156,4 +156,6 @@ void BitMap::Update(float DeltaTime_)
 	default:
 		break;
 	}
+
+	
 }

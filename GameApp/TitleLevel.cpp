@@ -14,7 +14,7 @@ TitleLevel::~TitleLevel()
 void TitleLevel::LevelStart()
 {
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
-	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
+	GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
 	if (false == GameEngineInput::GetInst().IsKey("PlayerMove"))
 	{
@@ -25,6 +25,7 @@ void TitleLevel::LevelStart()
 		GameEngineInput::GetInst().CreateKey("Attack", 'X');
 		GameEngineInput::GetInst().CreateKey("Jump", 'Z');
 		GameEngineInput::GetInst().CreateKey("DebugOn", 'R');
+		GameEngineInput::GetInst().CreateKey("FreeCameraOn", 'o');
 		GameEngineInput::GetInst().CreateKey("NextLevel", VK_SPACE);
 	}
 

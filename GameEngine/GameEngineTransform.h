@@ -120,47 +120,100 @@ public:
 
 	float4 GetWorldForwardVector() { return TransformData_.WorldWorld_.vz.NormalizeReturn3D(); }
 	float4 GetLocalForwardVector() { return TransformData_.LocalWorld_.vz.NormalizeReturn3D(); }
+
+	float4 GetWorldBackVector() { return -TransformData_.WorldWorld_.vz.NormalizeReturn3D(); }
+	float4 GetLocalBackVector() { return -TransformData_.LocalWorld_.vz.NormalizeReturn3D(); }
+
 	float4 GetWorldRightVector() { return TransformData_.WorldWorld_.vx.NormalizeReturn3D(); }
 	float4 GetLocalRightVector() { return TransformData_.LocalWorld_.vx.NormalizeReturn3D(); }
+
+	float4 GetWorldLeftVector() { return -TransformData_.WorldWorld_.vx.NormalizeReturn3D(); }
+	float4 GetLocalLeftVector() { return -TransformData_.LocalWorld_.vx.NormalizeReturn3D(); }
+
 	float4 GetWorldUpVector() { return TransformData_.WorldWorld_.vy.NormalizeReturn3D(); }
 	float4 GetLocalUpVector() { return TransformData_.LocalWorld_.vy.NormalizeReturn3D(); }
+
+	float4 GetWorldDownVector() { return -TransformData_.WorldWorld_.vy.NormalizeReturn3D(); }
+	float4 GetLocalDownVector() { return -TransformData_.LocalWorld_.vy.NormalizeReturn3D(); }
+
 
 	void SetLocalScaling(const float4& _Value);
 	void SetLocalScaling(GameEngineImageRenderer* _Image);
 	void SetWorldScaling(const float4& _Value);
 
-	void SetLocalRotation(const float4& _Value);
-	void SetWorldRotation(const float4& _Value);
+	void SetLocalRotationDegree(const float4& _Value);
+	void SetWorldRotationDegree(const float4& _Value);
 
-	void SetLocalDeltaTimeRotation(const float4& _Value)
+	void AddLocalRotationDegreeX(const float _Value)
 	{
-		SetLocalRotation(TransformData_.vLocalRotation_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
+		float4 Local = TransformData_.vLocalRotation_;
+		Local.x += _Value;
+		SetLocalRotationDegree(Local);
+	}
+	void AddWorldRotationDegreeX(const float _Value)
+	{
+		float4 Local = TransformData_.vLocalRotation_;
+		Local.x += _Value;
+		SetWorldRotationDegree(Local);
 	}
 
-	void SetWorldDeltaTimeRotation(const float4& _Value)
+	void AddLocalRotationDegreeY(const float _Value)
 	{
-		SetWorldRotation(TransformData_.vWorldRotation_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
+		float4 Local = TransformData_.vLocalRotation_;
+		Local.y += _Value;
+		SetLocalRotationDegree(Local);
+	}
+
+	void AddWorldRotationDegreeY(const float _Value)
+	{
+		float4 Local = TransformData_.vLocalRotation_;
+		Local.y += _Value;
+		SetWorldRotationDegree(Local);
+	}
+
+	void AddLocalRotationDegreeZ(const float _Value)
+	{
+		float4 Local = TransformData_.vLocalRotation_;
+		Local.z += _Value;
+		SetLocalRotationDegree(Local);
+	}
+	void AddWorldRotationDegreeZ(const float _Value)
+	{
+		float4 Local = TransformData_.vLocalRotation_;
+		Local.z += _Value;
+		SetWorldRotationDegree(Local);
+	}
+
+	inline void AddLocalDeltaTimeRotation(const float4& _Value)
+	{
+		SetLocalRotationDegree(TransformData_.vLocalRotation_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
+	}
+
+	inline void AddWorldDeltaTimeRotation(const float4& _Value)
+	{
+		SetWorldRotationDegree(TransformData_.vWorldRotation_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
 	}
 
 	void SetLocalPosition(const float4& _Value);
 	void SetWorldPosition(const float4& _Value);
 
-	void SetLocalMove(const float4& _Value)
+
+	inline void SetLocalMove(const float4& _Value)
 	{
 		SetLocalPosition(TransformData_.vLocalPosition_ + _Value);
 	}
 
-	void SetWorldMove(const float4& _Value)
+	inline void SetWorldMove(const float4& _Value)
 	{
 		SetWorldPosition(TransformData_.vWorldPosition_ + _Value);
 	}
 
-	void SetLocalDeltaTimeMove(const float4& _Value)
+	inline void SetLocalDeltaTimeMove(const float4& _Value)
 	{
 		SetLocalPosition(TransformData_.vLocalPosition_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
 	}
 
-	void SetWorldDeltaTimeMove(const float4& _Value)
+	inline void SetWorldDeltaTimeMove(const float4& _Value)
 	{
 		SetWorldPosition(TransformData_.vWorldPosition_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
 	}
@@ -172,30 +225,32 @@ public:
 	void DetachChildTransform(GameEngineTransform* _Child);
 	void AttachTransform(GameEngineTransform* _Transform);
 
-	TransformData& GetTransformData()
+	inline TransformData& GetTransformData()
 	{
 		return TransformData_;
 	}
 
-	const CollisionData& GetCollisionData()
+	inline const CollisionData& GetCollisionData()
 	{
 		return ColData_;
 	}
 
-	const DirectX::BoundingSphere& GetSphere()
+	inline const DirectX::BoundingSphere& GetSphere()
 	{
 		return ColData_.Sphere;
 	}
 
-	const DirectX::BoundingOrientedBox& GetOBB()
+	inline const DirectX::BoundingOrientedBox& GetOBB()
 	{
 		return ColData_.OBB;
 	}
 
-	const DirectX::BoundingBox& GetAABB()
+	inline const DirectX::BoundingBox& GetAABB()
 	{
 		return ColData_.AABB;
 	}
+
+	void Copy(const GameEngineTransform& _Other);
 
 protected:
 	TransformData TransformData_;

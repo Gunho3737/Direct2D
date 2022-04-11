@@ -80,6 +80,18 @@ void Player::Start()
 
 void Player::Update(float _DeltaTime)
 {
+//	프리카메라, 카메라 이동자유/원근투영, 이 프로젝트에서는 플레이어가 카메라 조종을 하지 않음
+//	if (true == GameEngineInput::GetInst().Down("FreeCameraOn"))
+//	{
+//		GetLevel()->GetMainCameraActor()->FreeCameraModeSwitch();
+//	}
+//
+//	if (true == GetLevel()->GetMainCameraActor()->IsFreeCameraMode())
+//	{
+//		return;
+//	}
+
+
 	//좌우를 바꿔줘야함
 	if (PlayerDirection == LeftRight::LEFT)
 	{

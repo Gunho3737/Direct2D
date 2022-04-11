@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngineActor.h"
+#include "CameraComponent.h"
 
 class CameraComponent;
 // Ό³Έν :
@@ -24,12 +25,26 @@ public:
 	float4x4 GetViewMatrix();
 	float4x4 GetProjectionMatrix();
 
+	bool IsFreeCameraMode();
+
+	void FreeCameraModeSwitch();
+	void FreeCameraModeOn();
+	void FreeCameraModeOff();
+
+
 protected:
 	virtual void Start();
 	virtual void Update(float _DeltaTime);
 
 private:
+	GameEngineTransform OriginTransform;
+	float FreeCameraSpeed_;
+	float RotSpeed_;
+	bool IsFreeCameraMode_;
+	ProjectionMode PrevCamMode_;
 	CameraComponent* Camera_;
+
+
 
 };
 

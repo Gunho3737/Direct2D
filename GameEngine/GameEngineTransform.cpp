@@ -167,7 +167,7 @@ void GameEngineTransform::SetWorldScaling(const float4& _Value)
 }
 
 // 무모건 디그리
-void GameEngineTransform::SetLocalRotation(const float4& _Value)
+void GameEngineTransform::SetLocalRotationDegree(const float4& _Value)
 {
 	if (nullptr == Parent_)
 	{
@@ -185,7 +185,7 @@ void GameEngineTransform::SetLocalRotation(const float4& _Value)
 	TransformUpdate();
 }
 
-void GameEngineTransform::SetWorldRotation(const float4& _Value)
+void GameEngineTransform::SetWorldRotationDegree(const float4& _Value)
 {
 	if (nullptr == Parent_)
 	{
@@ -273,3 +273,11 @@ void GameEngineTransform::AttachTransform(GameEngineTransform* _Transform)
 	Parent_->Childs_.push_back(this);
 }
 
+
+void GameEngineTransform::Copy(const GameEngineTransform& _Other)
+{
+	TransformData_ = _Other.TransformData_;
+	ColData_ = _Other.ColData_;
+	Parent_ = _Other.Parent_;
+	Childs_ = _Other.Childs_;
+}

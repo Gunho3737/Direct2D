@@ -23,7 +23,7 @@ BenchRoomLevel::~BenchRoomLevel()
 void BenchRoomLevel::LevelStart()
 {
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
-	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
+	GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
 	FadeEffect = AddPostProcessCameraMergeNext<PostFade>();
 	FadeEffect->SetTarget(GameEngineDevice::GetBackBufferTarget());
@@ -55,6 +55,17 @@ void BenchRoomLevel::LevelStart()
 
 void BenchRoomLevel::LevelUpdate(float _DeltaTime)
 {
+	//프리카메라 상태 온오프
+	if (true == GameEngineInput::GetInst().Down("FreeCameraOn"))
+	{
+		GetMainCameraActor()->FreeCameraModeSwitch();
+	}
+
+	if (true == GetMainCameraActor()->IsFreeCameraMode())
+	{
+		return;
+	}
+
 	if (true == GameEngineInput::GetInst().Down("DebugOn"))
 	{
 		if (false == IsDebugCheck())
