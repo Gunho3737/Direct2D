@@ -57,6 +57,7 @@ void Player::Start()
 
 	{
 		PlayerSlashCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::ATTACK));
+		PlayerSlashCollision->Off();
 	}
 
 	StateManager_.CreateState("Idle", std::bind(&Player::Idle, this));
@@ -117,7 +118,12 @@ void Player::Update(float _DeltaTime)
 	if (true == GetLevel()->IsDebugCheck())
 	{
 		GetLevel()->PushDebugRender(PlayerCollision->GetTransform(), CollisionType::Rect);
+
+		if (true == PlayerSlashCollision->IsUpdate())
+		{
+
 		GetLevel()->PushDebugRender(PlayerSlashCollision->GetTransform(), CollisionType::Rect);
+		}
 	}
 
 	//카메라를 레벨에서 직접 관리하게 만드는중
@@ -775,6 +781,9 @@ void Player::SetCallBackFunc()
 	{
 		PlayerImageRenderer->SetStartCallBack("Attack", [&]()
 			{
+				PlayerSlashRenderer->On();
+				PlayerSlashCollision->On();
+
 				PlayerSlashRenderer->SetChangeAnimation("SlashEffect", true);
 				if (PlayerDirection == LeftRight::LEFT)
 				{
@@ -799,10 +808,13 @@ void Player::SetCallBackFunc()
 
 		PlayerSlashRenderer->SetEndCallBack("SlashEffect", [&]()
 			{
-				PlayerSlashRenderer->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
-				PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition());
-				PlayerSlashCollision->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
-				PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerCollision->GetTransform()->GetLocalPosition());
+				PlayerSlashRenderer->Off();
+				PlayerSlashCollision->Off();
+
+				//PlayerSlashRenderer->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
+				//PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition());
+				//PlayerSlashCollision->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
+				//PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerCollision->GetTransform()->GetLocalPosition());
 			}
 		);
 	}
@@ -811,6 +823,9 @@ void Player::SetCallBackFunc()
 	{
 		PlayerImageRenderer->SetStartCallBack("UpAttack", [&]()
 			{
+				PlayerSlashRenderer->On();
+				PlayerSlashCollision->On();
+
 				PlayerSlashRenderer->SetChangeAnimation("UpSlashEffect", true);
 				PlayerSlashRenderer->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
 				PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, 70.0f, -1.0f});
@@ -821,10 +836,14 @@ void Player::SetCallBackFunc()
 
 		PlayerSlashRenderer->SetEndCallBack("UpSlashEffect", [&]()
 			{
-				PlayerSlashRenderer->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
-				PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition());
-				PlayerSlashCollision->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
-				PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerCollision->GetTransform()->GetLocalPosition());
+
+				PlayerSlashRenderer->Off();
+				PlayerSlashCollision->Off();
+
+			//	PlayerSlashRenderer->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
+			//	PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition());
+			//	PlayerSlashCollision->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
+			//	PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerCollision->GetTransform()->GetLocalPosition());
 			}
 		);
 	}
@@ -833,6 +852,9 @@ void Player::SetCallBackFunc()
 	{
 		PlayerImageRenderer->SetStartCallBack("DownAttack", [&]()
 			{
+				PlayerSlashRenderer->On();
+				PlayerSlashCollision->On();
+
 				PlayerSlashRenderer->SetChangeAnimation("DownSlashEffect", true);
 				PlayerSlashRenderer->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
 				PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, -70.0f, -1.0f});
@@ -843,10 +865,14 @@ void Player::SetCallBackFunc()
 
 		PlayerSlashRenderer->SetEndCallBack("DownSlashEffect", [&]()
 			{
-				PlayerSlashRenderer->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
-				PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition());
-				PlayerSlashCollision->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
-				PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerCollision->GetTransform()->GetLocalPosition());
+
+				PlayerSlashRenderer->Off();
+				PlayerSlashCollision->Off();
+
+				//PlayerSlashRenderer->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
+				//PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition());
+				//PlayerSlashCollision->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
+				//PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerCollision->GetTransform()->GetLocalPosition());
 			}
 		);
 	}
