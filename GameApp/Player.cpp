@@ -8,7 +8,7 @@
 
 
 Player::Player()
-	: Speed(600.0f), JumpPower(float4::ZERO), BasicJumpPower(float4::UP * 950.0f), FallDownPower(float4::DOWN * 700.0f), TimeCheck(0.0f), LevelMoveOn(false)
+	: Speed(600.0f), JumpPower(float4::ZERO), BasicJumpPower(float4::UP * 1000.0f), FallDownPower(float4::DOWN * 700.0f), TimeCheck(0.0f), LevelMoveOn(false)
 {
 }
 

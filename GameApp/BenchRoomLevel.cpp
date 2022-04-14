@@ -41,7 +41,7 @@ void BenchRoomLevel::LevelStart()
 	{
 		PlayerActor = CreateActor<Player>();
 		PlayerActor->PlayerDirection = LeftRight::RIGHT;
-		PlayerActor->GetTransform()->SetLocalPosition({ 7300.0f,-2400.0f });
+		PlayerActor->GetTransform()->SetLocalPosition({ 7300.0f,-2400.0f , 1.0f});
 		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
 	}
 
@@ -137,14 +137,14 @@ void BenchRoomLevel::LevelChangeStartEvent()
 		if (Reverse == false)
 		{
 		PlayerActor->PlayerDirection = LeftRight::RIGHT;
-		PlayerActor->GetTransform()->SetLocalPosition({ 7300.0f,-2400.0f });
+		PlayerActor->GetTransform()->SetLocalPosition({ 7300.0f,-2400.0f, 1.0f});
 		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
 		Reverse = true;
 		}
 		else
 		{
 			PlayerActor->PlayerDirection = LeftRight::LEFT;
-			PlayerActor->GetTransform()->SetLocalPosition({ 9350.0f,-2850.0f });
+			PlayerActor->GetTransform()->SetLocalPosition({ 9350.0f,-2850.0f, 1.0f });
 			GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
 		}
 	}

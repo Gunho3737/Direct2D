@@ -19,6 +19,7 @@ public:
 
 	GameEngineImageRenderer* ImageRenderer;
 	GameEngineImageRenderer* BackGroundImageRenderer;
+	GameEngineImageRenderer* FogRenderer;
 
 
 protected:

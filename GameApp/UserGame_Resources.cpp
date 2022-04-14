@@ -101,6 +101,9 @@ void UserGame::ResourcesLoad()
 			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
 		}
 
+
+		GameEngineTexture* Texture = GameEngineTextureManager::GetInst().Find("fog.png");
+		Texture->Cut(5, 4);
 	}
 
 	{
