@@ -280,4 +280,10 @@ void GameEngineTransform::Copy(const GameEngineTransform& _Other)
 	ColData_ = _Other.ColData_;
 	Parent_ = _Other.Parent_;
 	Childs_ = _Other.Childs_;
+
+	AllChildCalculationScaling();
+	AllChildCalculationRotation();
+	AllChildCalculationPosition();
+
+	TransformUpdate();
 }
