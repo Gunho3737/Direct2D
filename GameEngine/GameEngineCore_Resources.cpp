@@ -14,12 +14,31 @@
 void GameEngineCore::EngineResourcesLoad()
 {
 	{
-		GameEngineDirectory EngineTextureDir;
-		EngineTextureDir.MoveParent("LGH_HollowKnight");
-		EngineTextureDir.MoveChild("EngineResources");
-		EngineTextureDir.MoveChild("Texture");
+		GameEngineDirectory EngineDir;
 
-		std::vector<GameEngineFile> AllFile = EngineTextureDir.GetAllFile();
+		while (true)
+		{
+			if (EngineDir.IsRoot())
+			{
+				GameEngineDebug::MsgBoxError("엔진 리소스 폴더가 존재하지 않습니다.");
+				return;
+			}
+
+			std::vector<GameEngineDirectory> AllDir = EngineDir.GetAllDirectory("EngineResources");
+
+			if (0 == AllDir.size())
+			{
+				EngineDir.MoveParent();
+				continue;
+			}
+
+			EngineDir.MoveChild("EngineResources");
+			break;
+		}
+
+		EngineDir.MoveChild("Texture");
+
+		std::vector<GameEngineFile> AllFile = EngineDir.GetAllFile();
 
 		for (size_t i = 0; i < AllFile.size(); i++)
 		{
@@ -28,12 +47,31 @@ void GameEngineCore::EngineResourcesLoad()
 	}
 
 	{
-		GameEngineDirectory Dir;
-		Dir.MoveParent("LGH_HollowKnight");
-		Dir.MoveChild("EngineResources");
-		Dir.MoveChild("Shader");
+		GameEngineDirectory EngineDir;
 
-		std::vector<GameEngineFile> AllShader = Dir.GetAllFile("fx");
+		while (true)
+		{
+			if (EngineDir.IsRoot())
+			{
+				GameEngineDebug::MsgBoxError("엔진 리소스 폴더가 존재하지 않습니다.");
+				return;
+			}
+
+			std::vector<GameEngineDirectory> AllDir = EngineDir.GetAllDirectory("EngineResources");
+
+			if (0 == AllDir.size())
+			{
+				EngineDir.MoveParent();
+				continue;
+			}
+
+			EngineDir.MoveChild("EngineResources");
+			break;
+		}
+
+		EngineDir.MoveChild("Shader");
+
+		std::vector<GameEngineFile> AllShader = EngineDir.GetAllFile("fx");
 
 		for (auto& ShaderFile : AllShader)
 		{
@@ -53,11 +91,11 @@ void GameEngineCore::EngineResourcesLoad()
 			}
 
 		}
-
-		GameEngineSampler* NewRes = GameEngineSamplerManager::GetInst().Find("PointSmp");
-		NewRes->Info_.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-		NewRes->ReCreate();
 	}
+
+	GameEngineSampler* NewRes = GameEngineSamplerManager::GetInst().Find("PointSmp");
+	NewRes->Info_.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+	NewRes->ReCreate();
 }
 void GameEngineCore::EngineResourcesCreate()
 {
@@ -225,11 +263,13 @@ void GameEngineCore::EngineResourcesCreate()
 		Info.AntialiasedLineEnable = true;
 		Info.MultisampleEnable = true;
 		GameEngineRasterizer* Ptr = GameEngineRasterizerManager::GetInst().Create("EngineBaseRasterizer", Info);
-		Ptr->SetViewPort(1600.0f, 900.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+		Ptr->AddWindowSizeViewPort();
 	}
 
+
+
 	{
-		D3D11_BLEND_DESC BlendInfo = { 0, };
+		D3D11_BLEND_DESC BlendInfo = { 0 };
 
 		BlendInfo.AlphaToCoverageEnable = FALSE;
 		BlendInfo.IndependentBlendEnable = FALSE;
@@ -245,6 +285,23 @@ void GameEngineCore::EngineResourcesCreate()
 		GameEngineBlendManager::GetInst().Create("AlphaBlend", BlendInfo);
 	}
 
+	{
+		D3D11_BLEND_DESC BlendInfo = { 0 };
+
+		BlendInfo.AlphaToCoverageEnable = FALSE;
+		BlendInfo.IndependentBlendEnable = FALSE;
+		BlendInfo.RenderTarget[0].BlendEnable = true;
+		BlendInfo.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		BlendInfo.RenderTarget[0].BlendOp = D3D11_BLEND_OP::D3D11_BLEND_OP_MAX;
+		BlendInfo.RenderTarget[0].SrcBlend = D3D11_BLEND::D3D11_BLEND_ONE;
+		BlendInfo.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_DEST_COLOR;
+		BlendInfo.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+		BlendInfo.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND::D3D11_BLEND_ZERO;
+		BlendInfo.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+
+		GameEngineBlendManager::GetInst().Create("Trans", BlendInfo);
+	}
+
 
 	{
 		D3D11_DEPTH_STENCIL_DESC DepthInfo = { 0 };
@@ -254,6 +311,16 @@ void GameEngineCore::EngineResourcesCreate()
 		DepthInfo.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
 		DepthInfo.StencilEnable = false;
 		GameEngineDepthStencilManager::GetInst().Create("BaseDepthOn", DepthInfo);
+	}
+
+	{
+		D3D11_DEPTH_STENCIL_DESC DepthInfo = { 0 };
+
+		DepthInfo.DepthEnable = true;
+		DepthInfo.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_ALWAYS;
+		DepthInfo.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ZERO;
+		DepthInfo.StencilEnable = false;
+		GameEngineDepthStencilManager::GetInst().Create("MergeDepth", DepthInfo);
 	}
 
 
@@ -266,24 +333,13 @@ void GameEngineCore::EngineResourcesCreate()
 	}
 
 	{
-		D3D11_DEPTH_STENCIL_DESC DepthInfo = { 0 };
-		DepthInfo.DepthEnable = true;
-		DepthInfo.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_ALWAYS;
-		DepthInfo.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ZERO;
-		DepthInfo.StencilEnable = false;
-		GameEngineDepthStencilManager::GetInst().Create("MergeDepth", DepthInfo);
-	}
-
-	{
 		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("DebugRect");
 		Pipe->SetInputAssembler1VertexBufferSetting("DebugRect");
 		Pipe->SetInputAssembler1InputLayOutSetting("Color_VS");
 		Pipe->SetVertexShader("Color_VS");
 		Pipe->SetInputAssembler2IndexBufferSetting("DebugRect");
 		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
-		Pipe->SetRasterizer("EngineBaseRasterizer");
 		Pipe->SetPixelShader("Color_PS");
-		Pipe->SetOutputMergerBlend("AlphaBlend");
 	}
 
 	{
@@ -293,7 +349,9 @@ void GameEngineCore::EngineResourcesCreate()
 		Pipe->SetInputAssembler1InputLayOutSetting("TargetMerge_VS");
 		Pipe->SetVertexShader("TargetMerge_VS");
 		Pipe->SetPixelShader("TargetMerge_PS");
+		Pipe->SetOutputMergerDepthStencil("BaseDepthOff");
 	}
+
 
 	{
 		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("Color");
@@ -343,5 +401,20 @@ void GameEngineCore::EngineResourcesCreate()
 		Pipe->SetOutputMergerDepthStencil("BaseDepthOff");
 		Pipe->SetOutputMergerBlend("AlphaBlend");
 	}
+
+	{
+		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("TextureTrans");
+		Pipe->SetInputAssembler1VertexBufferSetting("Rect");
+		Pipe->SetInputAssembler1InputLayOutSetting("Texture_VS");
+		Pipe->SetVertexShader("Texture_VS");
+		Pipe->SetInputAssembler2IndexBufferSetting("Rect");
+		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		Pipe->SetRasterizer("EngineBaseRasterizer");
+		Pipe->SetPixelShader("Texture_PS");
+		Pipe->SetOutputMergerBlend("Trans");
+	}
+
+
+
 
 }

@@ -30,6 +30,7 @@ GameEngineDirectory::~GameEngineDirectory()
 }
 
 GameEngineDirectory::GameEngineDirectory(GameEngineDirectory&& _other) noexcept
+	: GameEnginePath(_other)
 {
 }
 
@@ -123,6 +124,40 @@ std::vector<GameEngineFile> GameEngineDirectory::GetAllFile(const std::string& _
 		}
 
 		Return.push_back(GameEngineFile(File.path()));
+
+	}
+
+
+	return Return;
+}
+
+std::vector<GameEngineDirectory> GameEngineDirectory::GetAllDirectory(const std::string& _filter/* = ""*/)
+{
+	std::string Filter = _filter;
+	GameEngineString::toupper(Filter);
+
+	std::vector<GameEngineDirectory> Return;
+
+	std::filesystem::directory_iterator DirIter = std::filesystem::directory_iterator(path_);
+
+	for (const std::filesystem::directory_entry& File : DirIter)
+	{
+		if (true != File.is_directory())
+		{
+			continue;
+		}
+
+
+		std::string FileName = File.path().filename().string();
+		GameEngineString::toupper(FileName);
+
+		if (std::string::npos == File.path().string().find(Filter))
+		{
+			continue;
+		}
+
+
+		Return.push_back(GameEngineDirectory(File.path().string()));
 
 	}
 

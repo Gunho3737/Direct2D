@@ -16,3 +16,8 @@ GameEngineObjectNameBase::GameEngineObjectNameBase(GameEngineObjectNameBase&& _o
 
 }
 
+GameEngineObjectNameBase::GameEngineObjectNameBase(const GameEngineObjectNameBase& _other)
+	: name_(_other.name_)
+{
+
+}

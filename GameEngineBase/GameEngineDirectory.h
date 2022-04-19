@@ -46,5 +46,7 @@ public:
 	// .
 	// * 모든 확장자
 	std::vector<GameEngineFile> GetAllFile(const std::string& _filter = "*");
+
+	std::vector<GameEngineDirectory> GetAllDirectory(const std::string& _filter = "");
 };
 

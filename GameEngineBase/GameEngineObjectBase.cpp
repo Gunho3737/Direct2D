@@ -24,3 +24,13 @@ GameEngineObjectBase::GameEngineObjectBase(GameEngineObjectBase&& _other) noexce
 
 }
 
+
+
+GameEngineObjectBase::GameEngineObjectBase(const GameEngineObjectBase& _other)
+	: isDeath_(_other.isDeath_),
+	isUpdate_(_other.isUpdate_),
+	isDebug_(_other.isDebug_), // 디버깅 기능 이거 true로 해놓고 f9 걸어 놓으면 
+	parent_(_other.parent_)
+{
+
+}

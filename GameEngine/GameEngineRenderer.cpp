@@ -51,6 +51,8 @@ void GameEngineRenderer::SetRenderingPipeLine(const std::string& _Value)
 	{
 		GameEngineDebug::MsgBoxError("존재하지 않는 파이프라인 입니다!");
 	}
+
+	SetRenderingPipeLineSettingNext();
 }
 
 void GameEngineRenderer::Start()
