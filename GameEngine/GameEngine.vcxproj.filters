@@ -297,9 +297,6 @@
     <ClCompile Include="GameEngineInput.cpp">
       <Filter>Control</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineImageRenderer.cpp">
-      <Filter>Object\Component\Renderer\Sub</Filter>
-    </ClCompile>
     <ClCompile Include="GameEngineUIRenderer.cpp">
       <Filter>Object\Component\Renderer</Filter>
     </ClCompile>
@@ -378,6 +375,9 @@
     </ClCompile>
     <ClCompile Include="GameEnginePostProcessRender.cpp">
       <Filter>Object\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineImageRenderer.cpp">
+      <Filter>Object\Component\Renderer\Sub</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

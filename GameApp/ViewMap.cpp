@@ -31,12 +31,13 @@ void ViewMap::Start()
 
 	{
 		FogRenderer = CreateTransformComponent<GameEngineImageRenderer>();
+		//FogRenderer->SetRenderingPipeLine("TextureTrans");
+		FogRenderer->SetAlpha(0.5f);
 		FogRenderer->SetImage("fog.Png");
 		FogRenderer->CreateAnimation("fog.png", "fog", 0, 15, 0.15f);
 		FogRenderer->SetChangeAnimation("fog");
-		FogRenderer->SetAlpha(1.5f);
 		FogRenderer->GetTransform()->SetLocalScaling(ImageRenderer->GetCurrentTexture()->GetTextureSize() *= 5.0f);
-		FogRenderer->GetTransform()->SetLocalPosition({ Mapsize.hx(), -(Mapsize.y += 200.0f), 10.0f });
+		FogRenderer->GetTransform()->SetLocalPosition({(Mapsize.hx()), -(Mapsize.y += 400.0f), 10.0f});
 	}
 }
 

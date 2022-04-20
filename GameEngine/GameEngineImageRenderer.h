@@ -116,6 +116,7 @@ public:
 	float4 GetFolderTextureBotPivot();
 
 protected:
+	void SetRenderingPipeLineSettingNext() override;
 	void ImageRendererStart();
 	void Update(float _DeltaTime) override;
 

@@ -175,10 +175,9 @@ void GameEngineImageRenderer::Start()
 {
 	GameEngineRenderer::Start();
 	SetRenderingPipeLine("Texture");
-	ImageRendererStart();
 }
 
-void GameEngineImageRenderer::ImageRendererStart()
+void GameEngineImageRenderer::SetRenderingPipeLineSettingNext()
 {
 	ShaderHelper.SettingConstantBufferLink("TextureCutData", CutData);
 

@@ -16,7 +16,6 @@ void GameEngineUIRenderer::Start()
 	// Push Render¸¦ ¸Þ
 	GetLevel()->GetUICamera()->PushRenderer(GetOrder(), this);
 	SetRenderingPipeLine("Texture");
-	ImageRendererStart();
 }
 
 
