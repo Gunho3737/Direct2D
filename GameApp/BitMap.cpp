@@ -73,7 +73,7 @@ void BitMap::Start()
 
 }
 
-void BitMap::LevelChangeStartEvent()
+void BitMap::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	CurrentMap = this;
 }

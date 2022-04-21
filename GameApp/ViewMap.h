@@ -25,7 +25,7 @@ public:
 protected:
 
 	void Start() override;
-	void LevelChangeStartEvent() override;
+	void LevelChangeStartEvent(GameEngineLevel* _PrevLevel) override;
 
 
 

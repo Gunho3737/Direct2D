@@ -106,7 +106,7 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 	}
 }
 
-void GameEngineLevel::LevelChangeEndActorEvent()
+void GameEngineLevel::LevelChangeEndActorEvent(GameEngineLevel* _NextLevel)
 {
 	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
 	{
@@ -114,11 +114,11 @@ void GameEngineLevel::LevelChangeEndActorEvent()
 
 		for (GameEngineActor* Actor : Actors)
 		{
-			Actor->LevelChangeEndEvent();
+			Actor->LevelChangeEndEvent(_NextLevel);
 		}
 	}
 }
-void GameEngineLevel::LevelChangeStartActorEvent()
+void GameEngineLevel::LevelChangeStartActorEvent(GameEngineLevel* _PrevLevel)
 {
 	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
 	{
@@ -126,7 +126,7 @@ void GameEngineLevel::LevelChangeStartActorEvent()
 
 		for (GameEngineActor* Actor : Actors)
 		{
-			Actor->LevelChangeStartEvent();
+			Actor->LevelChangeStartEvent(_PrevLevel);
 		}
 	}
 }
@@ -246,6 +246,16 @@ void GameEngineLevel::Release(float _DeltaTime)
 
 				if (true == ReleaseActor->IsDeath())
 				{
+					if (true == ReleaseActor->IsFindObject_)
+					{
+						if (FindMap_.end() == FindMap_.find(ReleaseActor->GetName()))
+						{
+							GameEngineDebug::MsgBoxError("찾을수 없는 액터가 찾을수 있는 액터라고 지정되어 있습니다.");
+						}
+
+						FindMap_.erase(ReleaseActor->GetName());
+					}
+
 					delete* BeginIter;
 					*BeginIter = nullptr;
 
@@ -265,12 +275,12 @@ void GameEngineLevel::Release(float _DeltaTime)
 // 	RendererList_[_Order].push_back(_Renderer);
 
 
-void GameEngineLevel::LevelChangeStartEvent()
+void GameEngineLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 
 }
 
-void GameEngineLevel::LevelChangeEndEvent()
+void GameEngineLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
 
 }

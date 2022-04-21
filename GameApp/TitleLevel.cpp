@@ -51,11 +51,11 @@ void TitleLevel::LevelUpdate(float _DeltaTime)
 	}
 
 }
-void TitleLevel::LevelChangeEndEvent()
+void TitleLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
 
 }
-void TitleLevel::LevelChangeStartEvent() 
+void TitleLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 
 }

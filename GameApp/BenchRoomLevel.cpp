@@ -116,12 +116,12 @@ void BenchRoomLevel::LevelUpdate(float _DeltaTime)
 	}
 
 }
-void BenchRoomLevel::LevelChangeEndEvent()
+void BenchRoomLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
 	GameEngineLevel::PrevMap = "BenchRoom";
 }
 
-void BenchRoomLevel::LevelChangeStartEvent()
+void BenchRoomLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	FadeOn();
 	//

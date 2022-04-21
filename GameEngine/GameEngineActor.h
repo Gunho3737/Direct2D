@@ -23,8 +23,15 @@ public:
 	GameEngineActor& operator=(const GameEngineActor& _Other) = delete;
 	GameEngineActor& operator=(GameEngineActor&& _Other) noexcept = delete;
 
+	bool IsFindObject_;
+	bool NextLevelMove_;
 	bool IsDestroyed_;
 	float DeathTime_;
+
+	void MoveNextOn()
+	{
+		NextLevelMove_ = true;
+	}
 
 	GameEngineLevel* GetLevel()
 	{
@@ -94,8 +101,8 @@ protected:
 	virtual void Start() {}
 	virtual void Update(float _DeltaTime) {}
 	virtual void ReleaseEvent() {}
-	virtual void LevelChangeEndEvent() {}
-	virtual void LevelChangeStartEvent() {}
+	virtual void LevelChangeEndEvent(GameEngineLevel* _NextLevel) {}
+	virtual void LevelChangeStartEvent(GameEngineLevel* _PrevLevel) {}
 
 
 	// 트랜스폼을 변화시킨다는걸 기본적으로 생각할겁니다.

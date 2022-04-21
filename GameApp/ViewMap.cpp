@@ -41,6 +41,6 @@ void ViewMap::Start()
 	}
 }
 
-void ViewMap::LevelChangeStartEvent()
+void ViewMap::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 }

@@ -168,12 +168,12 @@ void MiddleBossRoomLevel::LevelUpdate(float _DeltaTime)
 
 }
 
-void MiddleBossRoomLevel::LevelChangeEndEvent()
+void MiddleBossRoomLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
 	GameEngineLevel::PrevMap = "MiddleBossRoom";
 }
 
-void MiddleBossRoomLevel::LevelChangeStartEvent()
+void MiddleBossRoomLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	FadeOn();
 

@@ -17,10 +17,10 @@ void EndingLevel::LevelStart()
 void EndingLevel::LevelUpdate(float _DeltaTime)
 {}
 
-void EndingLevel::LevelChangeEndEvent()
+void EndingLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {}
 
-void EndingLevel::LevelChangeStartEvent()
+void EndingLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {}
 
 void EndingLevel::FadeOn()

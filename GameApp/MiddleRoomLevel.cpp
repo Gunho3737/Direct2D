@@ -162,12 +162,12 @@ void MiddleRoomLevel::LevelUpdate(float _DeltaTime)
 
 }
 
-void MiddleRoomLevel::LevelChangeEndEvent()
+void MiddleRoomLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
 	GameEngineLevel::PrevMap = "MiddleRoom";
 }
 
-void MiddleRoomLevel::LevelChangeStartEvent()
+void MiddleRoomLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	FadeOn();
 

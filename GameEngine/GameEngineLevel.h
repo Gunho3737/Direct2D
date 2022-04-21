@@ -54,6 +54,7 @@ public:
 protected:
 
 private:
+	std::map<std::string, GameEngineActor*> FindMap_;
 	std::map<int, std::list<GameEngineActor*>> ActorList_;
 	CameraActor* MainCameraActor_;
 	CameraActor* UICameraActor_;
@@ -80,20 +81,52 @@ public:
 		return dynamic_cast<ActorType*>(NewActor);
 	}
 
+	template<typename ActorType>
+	ActorType* CreateActor(std::string _Name, bool _IsFind = false, int _UpdateOrder = 0)
+	{
+		GameEngineActor* NewActor = new ActorType();
+		NewActor->IsFindObject_ = _IsFind;
+		NewActor->SetName(_Name);
+		NewActor->SetLevel(this);
+		NewActor->Start();
+		NewActor->SetOrder(_UpdateOrder);
+
+		if (true == _IsFind)
+		{
+			FindMap_.insert(std::make_pair(_Name, NewActor));
+		}
+
+		// Insert + Find
+		std::list<GameEngineActor*>& List = ActorList_[_UpdateOrder];
+		List.push_back(NewActor);
+		return dynamic_cast<ActorType*>(NewActor);
+	}
+
+	template<typename ActorType>
+	ActorType* FindActor(std::string _Name)
+	{
+		if (FindMap_.end() == FindMap_.find(_Name))
+		{
+			return nullptr;
+		}
+
+		return dynamic_cast<ActorType>(FindMap_[_Name]);
+	}
+
 	void ActorUpdate(float _DeltaTime);
 	void Render(float _DeltaTime);
 	void Release(float _DeltaTime);
 
 	virtual void LevelStart() = 0;
 	virtual void LevelUpdate(float _DeltaTime) = 0;
-	virtual void LevelChangeEndEvent() = 0;
-	virtual void LevelChangeStartEvent() = 0;
+	virtual void LevelChangeEndEvent(GameEngineLevel* _NextLevel) = 0;
+	virtual void LevelChangeStartEvent(GameEngineLevel* _PrevLevel) = 0;
 
 	//Fade 관련 추가한 virtual 함수
 	virtual void FadeOn() = 0;
 	virtual void FadeOff() = 0;
 
-
+	//이전맵의 여부를 받아오기 위한 static string
 	static std::string PrevMap;
 	//////////////////////////////////////////////////////// collision:
 private:
@@ -107,8 +140,8 @@ private:
 
 	void ChangeCollisionGroup(int _Group, GameEngineCollision* _Collision);
 
-	void LevelChangeEndActorEvent();
-	void LevelChangeStartActorEvent();
+	void LevelChangeEndActorEvent(GameEngineLevel* _NextLevel);
+	void LevelChangeStartActorEvent(GameEngineLevel* _PrevLevel);
 
 	// 다른애가 이걸 가릴수 있나요?
 

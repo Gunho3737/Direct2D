@@ -18,7 +18,6 @@ private:
 	static GameEngineLevel* NextLevel_;
 	static GameEngineLevel* CurrentLevel_;
 	static std::map<std::string, GameEngineLevel*> AllLevel_;
-	static GameEngineThreadQueue ThreadQueue;
 
 public:
 	template<typename LevelType>
