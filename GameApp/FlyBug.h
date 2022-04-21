@@ -37,6 +37,9 @@ private:
 private:
 	void Idle();
 	void Die();
+	void Attack();
+
+public:
 	void ImmuneOff();
 };
 

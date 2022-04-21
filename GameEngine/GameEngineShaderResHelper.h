@@ -43,11 +43,13 @@ public:
 	template<typename T>
 	void SettingConstantBufferLink(const std::string& _SettingName, T& _Data)
 	{
-		std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllConstantBufferData_.find(_SettingName);
+		std::string UpperName = GameEngineString::toupper(_SettingName);
+
+		std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllConstantBufferData_.find(UpperName);
 
 		if (FindIter == AllConstantBufferData_.end())
 		{
-			GameEngineDebug::MsgBoxError("존재하지 않는 상수버퍼를 세팅하려고 했습니다." + _SettingName);
+			GameEngineDebug::MsgBoxError("존재하지 않는 상수버퍼를 세팅하려고 했습니다." + UpperName);
 			return;
 		}
 
@@ -63,11 +65,14 @@ public:
 	template<typename T>
 	void SettingConstantBufferSet(const std::string& _SettingName, const T& _Data)
 	{
-		std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllConstantBufferData_.find(_SettingName);
+		std::string UpperName = GameEngineString::toupper(_SettingName);
+
+
+		std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllConstantBufferData_.find(UpperName);
 
 		if (FindIter == AllConstantBufferData_.end())
 		{
-			GameEngineDebug::MsgBoxError("존재하지 않는 상수버퍼를 세팅하려고 했습니다." + _SettingName);
+			GameEngineDebug::MsgBoxError("존재하지 않는 상수버퍼를 세팅하려고 했습니다." + UpperName);
 			return;
 		}
 
@@ -93,6 +98,10 @@ public:
 	void SettingTexture(const std::string& _SettingName, const std::string& _ImageName);
 
 	void SettingTexture(const std::string& _SettingName, GameEngineTexture* _Texture);
+
+	void SettingSampler(const std::string& _SettingName, const std::string& _Name);
+
+	void SettingSampler(const std::string& _SettingName, GameEngineSampler* _Value);
 
 	void ReSet();
 	void Setting();

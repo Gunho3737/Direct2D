@@ -85,7 +85,7 @@ void GameEngineShader::ResCheck()
 		//D3D_SRV_DIMENSION           Dimension;      // Dimension (if texture) // 3차원 텍스처
 		//UINT                        NumSamples;     // Number of samples (0 if not MS texture)
 
-		std::string Name = ResInfo.Name;
+		std::string Name = GameEngineString::toupper(ResInfo.Name);
 		unsigned int BindPoint = ResInfo.BindPoint;
 		D3D_SHADER_INPUT_TYPE Type = ResInfo.Type;
 
@@ -93,7 +93,7 @@ void GameEngineShader::ResCheck()
 		{
 		case D3D_SIT_CBUFFER:
 		{
-			ID3D11ShaderReflectionConstantBuffer* Buffer = CompilInfo->GetConstantBufferByName(Name.c_str());
+			ID3D11ShaderReflectionConstantBuffer* Buffer = CompilInfo->GetConstantBufferByName(ResInfo.Name);
 
 			D3D11_SHADER_BUFFER_DESC BufferDesc;
 			Buffer->GetDesc(&BufferDesc);
@@ -116,9 +116,19 @@ void GameEngineShader::ResCheck()
 			memset(&Smp_Decs, 0, sizeof(D3D11_SAMPLER_DESC));
 
 			// 뭉개라.
+
+			std::string CheckName = GameEngineString::toupper(Name);
+
 			Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-			// 딱딱 도트처럼 만들어라
-			// Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+
+			if (std::string::npos != CheckName.find("POINT"))
+			{
+				Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+			}
+			else if (std::string::npos != CheckName.find("LINEAR"))
+			{
+				Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+			}
 
 			Smp_Decs.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
 			Smp_Decs.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;

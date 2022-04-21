@@ -333,6 +333,47 @@ void GameEngineCore::EngineResourcesCreate()
 	}
 
 	{
+		D3D11_SAMPLER_DESC Smp_Decs = {};
+
+		memset(&Smp_Decs, 0, sizeof(D3D11_SAMPLER_DESC));
+		Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+		Smp_Decs.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+		Smp_Decs.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+		Smp_Decs.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+
+		Smp_Decs.MipLODBias = 0.0f;
+		Smp_Decs.MaxAnisotropy = 1;
+		Smp_Decs.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+		Smp_Decs.MinLOD = -FLT_MAX;
+		Smp_Decs.MaxLOD = FLT_MAX;
+		// Smp_Decs.BorderColor;
+		// Smp_Decs.MaxAnisotropy;
+
+		GameEngineSampler* NewRes = GameEngineSamplerManager::GetInst().CreateAndFind("LINEARSmp", Smp_Decs);
+	}
+
+
+	{
+		D3D11_SAMPLER_DESC Smp_Decs = {};
+
+		memset(&Smp_Decs, 0, sizeof(D3D11_SAMPLER_DESC));
+		Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+		Smp_Decs.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+		Smp_Decs.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+		Smp_Decs.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+
+		Smp_Decs.MipLODBias = 0.0f;
+		Smp_Decs.MaxAnisotropy = 1;
+		Smp_Decs.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+		Smp_Decs.MinLOD = -FLT_MAX;
+		Smp_Decs.MaxLOD = FLT_MAX;
+		// Smp_Decs.BorderColor;
+		// Smp_Decs.MaxAnisotropy;
+
+		GameEngineSampler* NewRes = GameEngineSamplerManager::GetInst().CreateAndFind("PointSmp", Smp_Decs);
+	}
+
+	{
 		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("DebugRect");
 		Pipe->SetInputAssembler1VertexBufferSetting("DebugRect");
 		Pipe->SetInputAssembler1InputLayOutSetting("Color_VS");

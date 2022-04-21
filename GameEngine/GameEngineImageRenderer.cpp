@@ -3,6 +3,7 @@
 #include "GameEngineTextureManager.h"
 #include "GameEngineFolderTextureManager.h"
 #include "GameEngineFolderTexture.h"
+#include "GameEngineSamplerManager.h"
 
 void GameEngineImageRenderer::Animation2D::CallStart()
 {
@@ -201,7 +202,7 @@ void GameEngineImageRenderer::SetIndex(const int Index)
 
 }
 
-void GameEngineImageRenderer::SetImage(const std::string& _ImageName)
+void GameEngineImageRenderer::SetImage(const std::string& _ImageName, const std::string& _Sampler/* = ""*/)
 {
 	CurTexture = GameEngineTextureManager::GetInst().Find(_ImageName);
 
@@ -212,6 +213,16 @@ void GameEngineImageRenderer::SetImage(const std::string& _ImageName)
 	}
 
 	ShaderHelper.SettingTexture("Tex", _ImageName);
+
+	GameEngineSampler* Sampler = GameEngineSamplerManager::GetInst().Find(_Sampler);
+
+	if (nullptr == Sampler)
+	{
+		return;
+	}
+
+	ShaderHelper.SettingSampler("Smp", _Sampler);
+
 }
 
 void GameEngineImageRenderer::CreateAnimation(const std::string& _TextureName, const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop /*= true*/)

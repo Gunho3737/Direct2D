@@ -31,7 +31,10 @@ GameEngineSamplerManager::GameEngineSamplerManager(GameEngineSamplerManager&& _o
 
 GameEngineSampler* GameEngineSamplerManager::Create(const std::string& _Name, const D3D11_SAMPLER_DESC& _Info)
 {
-	GameEngineSampler* FindRes = Find(_Name);
+	std::string UpperName = GameEngineString::toupper(_Name);
+
+
+	GameEngineSampler* FindRes = Find(UpperName);
 
 	if (nullptr != FindRes)
 	{
@@ -40,18 +43,20 @@ GameEngineSampler* GameEngineSamplerManager::Create(const std::string& _Name, co
 
 
 	GameEngineSampler* NewRes = new GameEngineSampler();
-	NewRes->SetName(_Name);
+	NewRes->SetName(UpperName);
 	NewRes->Create(_Info);
 
 	// 그리고 뭘할거냐?
 
-	ResourcesMap.insert(std::map<std::string, GameEngineSampler*>::value_type(_Name, NewRes));
+	ResourcesMap.insert(std::map<std::string, GameEngineSampler*>::value_type(UpperName, NewRes));
 	return NewRes;
 }
 
 GameEngineSampler* GameEngineSamplerManager::Find(const std::string& _Name)
 {
-	std::map<std::string, GameEngineSampler*>::iterator FindIter = ResourcesMap.find(_Name);
+	std::string UpperName = GameEngineString::toupper(_Name);
+
+	std::map<std::string, GameEngineSampler*>::iterator FindIter = ResourcesMap.find(UpperName);
 
 	if (FindIter != ResourcesMap.end())
 	{
@@ -63,7 +68,9 @@ GameEngineSampler* GameEngineSamplerManager::Find(const std::string& _Name)
 
 GameEngineSampler* GameEngineSamplerManager::CreateAndFind(const std::string& _Name, const D3D11_SAMPLER_DESC& _Info)
 {
-	GameEngineSampler* FindRes = Find(_Name);
+	std::string UpperName = GameEngineString::toupper(_Name);
+
+	GameEngineSampler* FindRes = Find(UpperName);
 
 	if (nullptr != FindRes)
 	{
@@ -71,10 +78,10 @@ GameEngineSampler* GameEngineSamplerManager::CreateAndFind(const std::string& _N
 	}
 
 	GameEngineSampler* NewRes = new GameEngineSampler();
-	NewRes->SetName(_Name);
+	NewRes->SetName(UpperName);
 	NewRes->Create(_Info);
 
-	ResourcesMap.insert(std::map<std::string, GameEngineSampler*>::value_type(_Name, NewRes));
+	ResourcesMap.insert(std::map<std::string, GameEngineSampler*>::value_type(UpperName, NewRes));
 
 	return NewRes;
 }

@@ -38,6 +38,13 @@ public:
 		return Level_;
 	}
 
+	template<typename LevelType>
+	LevelType* GetLevelConvert()
+	{
+		return dynamic_cast<LevelType*>(Level_);
+	}
+
+
 	void Release(float _Time = 0.0f)
 	{
 		if (0.0f >= _Time)

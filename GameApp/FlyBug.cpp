@@ -47,6 +47,7 @@ void FlyBug::Start()
 
 	StateManager_.CreateState("Idle", std::bind(&FlyBug::Idle, this));
 	StateManager_.CreateState("Die", std::bind(&FlyBug::Die, this));
+	StateManager_.CreateState("Attack", std::bind(&FlyBug::Attack, this));
 
 	StateManager_.ChangeState("Idle");
 
@@ -118,5 +119,10 @@ void FlyBug::Die()
 			Off();
 		}
 	);
+
+}
+
+void FlyBug::Attack()
+{
 
 }

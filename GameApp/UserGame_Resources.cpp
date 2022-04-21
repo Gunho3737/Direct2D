@@ -6,15 +6,15 @@
 
 void TextureLoading(GameEngineDirectory Dir)
 {
-	std::vector<GameEngineFile> AllFile = Dir.GetAllFile();
-
-	for (size_t i = 0; i < AllFile.size(); i++)
-	{
-		GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
-		// Sleep(10);
-	}
-
-	--UserGame::LoadingFolder;
+	//std::vector<GameEngineFile> AllFile = Dir.GetAllFile();
+	//
+	//for (size_t i = 0; i < AllFile.size(); i++)
+	//{
+	//	GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+	//	// Sleep(10);
+	//}
+	//
+	//--UserGame::LoadingFolder;
 }
 
 void UserGame::ResourcesLoad()
