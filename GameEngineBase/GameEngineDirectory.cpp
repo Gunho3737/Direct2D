@@ -164,3 +164,40 @@ std::vector<GameEngineDirectory> GameEngineDirectory::GetAllDirectory(const std:
 
 	return Return;
 }
+
+
+std::vector<GameEngineDirectory> GameEngineDirectory::GetAllDirectoryRecursive(const std::string& _filter/* = ""*/)
+{
+
+	std::string Filter = _filter;
+	GameEngineString::toupper(Filter);
+
+	std::vector<GameEngineDirectory> Return;
+
+	Return.push_back(GameEngineDirectory(GetFullPath()));
+
+	std::filesystem::recursive_directory_iterator DirIter = std::filesystem::recursive_directory_iterator(path_);
+
+	for (const std::filesystem::directory_entry& File : DirIter)
+	{
+		if (false == File.is_directory())
+		{
+			continue;
+		}
+
+
+		std::string FileName = File.path().filename().string();
+		GameEngineString::toupper(FileName);
+
+		if (std::string::npos == File.path().string().find(Filter))
+		{
+			continue;
+		}
+
+
+		Return.push_back(GameEngineDirectory(File.path().string()));
+
+	}
+
+	return Return;
+}

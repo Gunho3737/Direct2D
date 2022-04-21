@@ -48,5 +48,7 @@ public:
 	std::vector<GameEngineFile> GetAllFile(const std::string& _filter = "*");
 
 	std::vector<GameEngineDirectory> GetAllDirectory(const std::string& _filter = "");
+
+	std::vector<GameEngineDirectory> GetAllDirectoryRecursive(const std::string& _filter = "");
 };
 

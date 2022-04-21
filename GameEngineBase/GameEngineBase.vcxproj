@@ -22,6 +22,7 @@
     <ClInclude Include="GameEngineDebug.h" />
     <ClInclude Include="GameEngineDirectory.h" />
     <ClInclude Include="GameEngineFile.h" />
+    <ClInclude Include="GameEngineIocp.h" />
     <ClInclude Include="GameEngineMath.h">
       <SubType>
       </SubType>
@@ -40,6 +41,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineThread.h" />
+    <ClInclude Include="GameEngineThreadQueue.h" />
     <ClInclude Include="GameEngineTime.h" />
     <ClInclude Include="PreCompile.h">
       <SubType>
@@ -50,6 +53,7 @@
     <ClCompile Include="GameEngineDebug.cpp" />
     <ClCompile Include="GameEngineDirectory.cpp" />
     <ClCompile Include="GameEngineFile.cpp" />
+    <ClCompile Include="GameEngineIocp.cpp" />
     <ClCompile Include="GameEngineMath.cpp">
       <SubType>
       </SubType>
@@ -68,6 +72,8 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineThread.cpp" />
+    <ClCompile Include="GameEngineThreadQueue.cpp" />
     <ClCompile Include="GameEngineTime.cpp" />
     <ClCompile Include="PreCompile.cpp">
       <SubType>
