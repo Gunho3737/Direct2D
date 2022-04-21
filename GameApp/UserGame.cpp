@@ -15,6 +15,10 @@
 #include "FinalBossRoomLevel.h"
 #include "EndingLevel.h"
 
+std::atomic<int> UserGame::LoadingFolder = 0;
+
+
+
 UserGame::UserGame() // default constructer 디폴트 생성자
 {
 
