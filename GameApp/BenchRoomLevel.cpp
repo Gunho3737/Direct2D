@@ -43,6 +43,7 @@ void BenchRoomLevel::LevelStart()
 		PlayerActor->PlayerDirection = LeftRight::RIGHT;
 		PlayerActor->GetTransform()->SetLocalPosition({ 7300.0f,-2400.0f , 1.0f});
 		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
+
 	}
 
 	{
@@ -124,14 +125,8 @@ void BenchRoomLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 void BenchRoomLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	FadeOn();
-	//
-	//GameEngineRenderWindow* Window = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineRenderWindow>("RenderWindow");
-	//float4 Size = { 128, 72 };
-	//Window->PushRenderTarget("PostEffectFade", FadeEffect->GetResult(), Size * 3);
-	//
-	//FadeEffect->SetData(1.0f, FadeOption::LIGHT);
 
-
+	Player::MainPlayer = PlayerActor;
 
 	{
 		if (Reverse == false)

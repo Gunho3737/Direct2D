@@ -163,6 +163,8 @@ void FinalBossRoomLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	FadeOn();
 
+	Player::MainPlayer = PlayerActor;
+
 	{
 		BitMapActor->Progress = MapProgress::FINALBOSSROOM;
 	}

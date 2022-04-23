@@ -6,9 +6,10 @@
 #include <GameEngine\PostFade.h>
 #include "UserGame.h"
 
+Player* Player::MainPlayer = nullptr;
 
 Player::Player()
-	: Speed(600.0f), JumpPower(float4::ZERO), BasicJumpPower(float4::UP * 1000.0f), FallDownPower(float4::DOWN * 700.0f), TimeCheck(0.0f), LevelMoveOn(false)
+	: Speed(600.0f), JumpPower(float4::ZERO), BasicJumpPower(float4::UP * 1000.0f), FallDownPower(float4::DOWN * 700.0f), TimeCheck(0.0f), LevelMoveOn(false), Impact(false)
 {
 }
 
@@ -33,6 +34,10 @@ void Player::Start()
 		PlayerImageRenderer->CreateAnimationFolder("UpAttack", "UpSlash", 0.05f, false);
 		PlayerImageRenderer->CreateAnimationFolder("DownAttack", "DownSlash", 0.05f, false);
 		PlayerImageRenderer->CreateAnimationFolder("MapMove", "Run", 0.1f);
+		PlayerImageRenderer->CreateAnimationFolder("Damage", "Damage", 0.1f, false);
+		PlayerImageRenderer->CreateAnimationFolder("DeathDamage", "DeathDamage", 0.1f, false);
+		PlayerImageRenderer->CreateAnimationFolder("Death", "Death", 0.1f, false);
+		PlayerImageRenderer->CreateAnimationFolder("DeathHead", "DeathHead", 0.1f, false);
 
 		PlayerImageRenderer->SetChangeAnimation("Idle");
 		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize());
@@ -71,6 +76,7 @@ void Player::Start()
 	StateManager_.CreateState("DownAttack", std::bind(&Player::DownAttack, this));
 	StateManager_.CreateState("MapMove", std::bind(&Player::MapMove, this));
 	StateManager_.CreateState("MapPrev", std::bind(&Player::MapPrev, this));
+	StateManager_.CreateState("Damage", std::bind(&Player::Damage, this));
 
 
 	StateManager_.ChangeState("Idle");
@@ -81,18 +87,6 @@ void Player::Start()
 
 void Player::Update(float _DeltaTime)
 {
-//	프리카메라, 카메라 이동자유/원근투영, 이 프로젝트에서는 플레이어가 카메라 조종을 하지 않음
-//	if (true == GameEngineInput::GetInst().Down("FreeCameraOn"))
-//	{
-//		GetLevel()->GetMainCameraActor()->FreeCameraModeSwitch();
-//	}
-//
-//	if (true == GetLevel()->GetMainCameraActor()->IsFreeCameraMode())
-//	{
-//		return;
-//	}
-
-
 	//좌우를 바꿔줘야함
 	if (PlayerDirection == LeftRight::LEFT)
 	{
@@ -126,35 +120,45 @@ void Player::Update(float _DeltaTime)
 		}
 	}
 
-	//카메라를 레벨에서 직접 관리하게 만드는중
-	//GetLevel()->GetMainCameraActor()->GetTransform()->SetLocalPosition(GetTransform()->GetLocalPosition());
-	
-	PlayerCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::NEXTMAP,
-		[&](GameEngineCollision* _OtherCollision)
-		{
-			if (LevelMoveOn == false)
+	//맵 이동 충돌체크
+	{
+		PlayerCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::NEXTMAP,
+			[&](GameEngineCollision* _OtherCollision)
 			{
-			LevelMoveOn = true;
-			TimeCheck = 1.0f;
-			StateManager_.ChangeState("MapMove");
-			GetLevel()->FadeOff();
+				if (LevelMoveOn == false)
+				{
+					LevelMoveOn = true;
+					TimeCheck = 1.0f;
+					StateManager_.ChangeState("MapMove");
+					GetLevel()->FadeOff();
+				}
 			}
-		}
-	);
+		);
 
-	PlayerCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PREVMAP,
-		[&](GameEngineCollision* _OtherCollision)
-		{
-			if (LevelMoveOn == false)
+		PlayerCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PREVMAP,
+			[&](GameEngineCollision* _OtherCollision)
 			{
-				LevelMoveOn = true;
-				TimeCheck = 1.0f;
-				StateManager_.ChangeState("MapPrev");
-				GetLevel()->FadeOff();
+				if (LevelMoveOn == false)
+				{
+					LevelMoveOn = true;
+					TimeCheck = 1.0f;
+					StateManager_.ChangeState("MapPrev");
+					GetLevel()->FadeOff();
+				}
 			}
-		}
-	);
+		);
+	}
 
+	//몬스터 충돌체크
+	{
+		PlayerCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::MONSTER,
+			[&](GameEngineCollision* _OtherCollision)
+			{
+				//TimeCheck = 0.3f;
+				//StateManager_.ChangeState("Damage");
+			}
+		);
+	}
 }
 
 void Player::Idle()
@@ -773,6 +777,46 @@ void Player::MapPrev()
 			UserGame::LevelChange("MiddleBossRoom");
 		}
 	}
+}
+
+void Player::Damage()
+{
+	//첫순간에만 일어난다
+	if (true == Impact)
+	{
+	PlayerImageRenderer->SetChangeAnimation("Damage");
+	PlayerCollision->Off();
+	}
+
+	if (true == Impact)
+	{
+		//여러가지 효과가 멈추는 함수를 만들어야한다
+		//ex)
+		//GetLevel() -> DamageStop(0.5f);
+		//->0.5초 동안 다른 액터들도 멈춘다
+		Impact = false;
+	}
+
+	TimeCheck -= GameEngineTime::GetInst().GetDeltaTime();
+
+	if (PlayerDirection == LeftRight::RIGHT)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * 100.0f);
+	}
+	else if (PlayerDirection == LeftRight::LEFT)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * 100.0f);
+	}
+
+	if (TimeCheck <= 0.0f)
+	{
+		PlayerCollision->On();
+		StateManager_.ChangeState("Idle");
+	}
+}
+
+void Player::Death()
+{
 }
 
 void Player::SetCallBackFunc()

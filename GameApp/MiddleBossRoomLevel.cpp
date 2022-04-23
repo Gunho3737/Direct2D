@@ -177,6 +177,8 @@ void MiddleBossRoomLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	FadeOn();
 
+	Player::MainPlayer = PlayerActor;
+
 	if (GameEngineLevel::PrevMap == "MiddleRoom")
 	{
 		Reverse = false;

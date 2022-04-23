@@ -20,6 +20,8 @@ public:
 	LeftRight PlayerDirection;
 	GameEngineFSM StateManager_;
 	
+	static Player* MainPlayer;
+
 protected:
 	GameEngineImageRenderer* PlayerImageRenderer;
 	GameEngineCollision* PlayerCollision;
@@ -39,7 +41,11 @@ protected:
 	float4 MapLeftCollsionColor;
 	float4 MapRightCollsionColor;
 
+	//레벨 이동 상태냐?
 	bool LevelMoveOn;
+	
+	//데미지를 받은 상태냐?
+	bool Impact;
 
 private:
 	void Start() override;
@@ -61,5 +67,7 @@ private:
 	void DownAttack();
 	void MapMove();
 	void MapPrev();
+	void Damage();
+	void Death();
 };
 

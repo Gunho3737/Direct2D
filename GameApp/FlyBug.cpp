@@ -4,6 +4,7 @@
 #include <GameEngine\GameEngineCollision.h>
 #include "FlyBug.h"
 #include <GameApp/BitMap.h>
+#include "Player.h"
 
 
 
@@ -45,6 +46,10 @@ void FlyBug::Start()
 	Collision->GetTransform()->SetLocalScaling(float4{ 100.0f, 90.0f, 1.0f });
 	Collision->GetTransform()->SetLocalPosition({-10.0f, 40.0f, -10.0f});
 
+	RangeCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERVIEW));
+	RangeCollision->GetTransform()->SetLocalScaling(float4{ 500.0f, 300.0f, 1.0f });
+	RangeCollision->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, -10.0f });
+
 	StateManager_.CreateState("Idle", std::bind(&FlyBug::Idle, this));
 	StateManager_.CreateState("Die", std::bind(&FlyBug::Die, this));
 	StateManager_.CreateState("Attack", std::bind(&FlyBug::Attack, this));
@@ -61,6 +66,7 @@ void FlyBug::Update(float _DeltaTime)
 	if (true == GetLevel()->IsDebugCheck())
 	{
 		GetLevel()->PushDebugRender(Collision->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(RangeCollision->GetTransform(), CollisionType::Rect);
 	}
 
 	if (HP <= 0)
@@ -107,6 +113,13 @@ void FlyBug::ImmuneOff()
 void FlyBug::Idle()
 {
 	PlayerImageRenderer->SetChangeAnimation("Idle");
+
+	RangeCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
+		[this](GameEngineCollision* _OtherCollision)
+		{
+			StateManager_.ChangeState("Attack");
+		}
+	);
 }
 
 void FlyBug::Die()
@@ -124,5 +137,5 @@ void FlyBug::Die()
 
 void FlyBug::Attack()
 {
-
+	int a = 0;
 }

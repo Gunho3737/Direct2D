@@ -17,7 +17,9 @@ public:
 	FlyBug& operator=(FlyBug&& _Other) noexcept = delete;
 
 	GameEngineImageRenderer* PlayerImageRenderer;
+
 	GameEngineCollision* Collision;
+	GameEngineCollision* RangeCollision;
 
 	GameEngineFSM StateManager_;
 

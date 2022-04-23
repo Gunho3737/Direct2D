@@ -98,6 +98,10 @@ void UserGame::ResourcesLoad()
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("RunToIdle"));
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("Jump"));
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("Airborne"));
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("Damage"));
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("DeathDamage"));
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("Death"));
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("DeathHead"));
 	}
 
 	{

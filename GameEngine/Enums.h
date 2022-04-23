@@ -30,6 +30,7 @@ enum class ActorCollisionType
 	MONSTER,
 	PREVMAP,
 	NEXTMAP,
+	MONSTERVIEW
 };
 
 enum class LeftRight
