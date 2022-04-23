@@ -9,13 +9,14 @@
 #include "GameEngineCollision.h"
 #include "GameEngineDebugRenderData.h"
 #include "GameEngineRenderTarget.h"
+//#include "GameEngineFontManager.h" 폰트안씀
+//#include "GameEngineFont.h"
 #include "GameEngineUIRenderer.h"
 #include "GameEngineGUI.h"
 #include <GameEngine\GameEnginePostProcessRender.h>
 
-
+//Static 맵 초기화
 std::string GameEngineLevel::PrevMap = "";
-
 CameraActor* GameEngineLevel::GetMainCameraActor()
 {
 	return MainCameraActor_;
@@ -43,36 +44,7 @@ GameEngineLevel::GameEngineLevel()
 
 GameEngineLevel::~GameEngineLevel()
 {
-	for (auto& Event : AllEvent_)
-	{
-		delete Event;
-	}
-
-	AddEvent_.clear();
-
-	for (auto& Effects : PostRender)
-	{
-		for (auto& Effect : Effects.second)
-		{
-			delete Effect;
-		}
-	}
-
-
-	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
-	{
-		std::list<GameEngineActor*>& Actors = Pair.second;
-
-		for (GameEngineActor* Actor : Actors)
-		{
-			if (nullptr != Actor)
-			{
-				delete Actor;
-				Actor = nullptr;
-			}
-
-		}
-	}
+	AllClear();
 }
 
 void GameEngineLevel::Init()
@@ -81,7 +53,7 @@ void GameEngineLevel::Init()
 	UICameraActor_ = CreateActor<CameraActor>();
 
 	UICameraActor_->GetCamera()->SetProjectionMode(ProjectionMode::Orthographic);
-	UICameraActor_->GetCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
+	UICameraActor_->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 }
 
 void GameEngineLevel::ActorUpdate(float _DeltaTime)
@@ -112,6 +84,7 @@ void GameEngineLevel::LevelChangeEndActorEvent(GameEngineLevel* _NextLevel)
 	{
 		std::list<GameEngineActor*>& Actors = Pair.second;
 
+		// Actors End
 		for (GameEngineActor* Actor : Actors)
 		{
 			Actor->LevelChangeEndEvent(_NextLevel);
@@ -160,6 +133,7 @@ void GameEngineLevel::Render(float _DeltaTime)
 			PostCameraMergeNext[i]->Effect(_DeltaTime);
 		}
 	}
+
 
 	GameEngineGUI::GetInst()->GUIRenderStart();
 	GameEngineGUI::GetInst()->GUIRenderEnd();
@@ -339,4 +313,134 @@ void GameEngineLevel::TimeEventUpdate()
 		}
 		++StartIter;
 	}
+}
+
+void GameEngineLevel::AllClear()
+{
+	for (auto& Event : AllEvent_)
+	{
+		delete Event;
+	}
+
+	AddEvent_.clear();
+
+	for (auto& Effects : PostRender)
+	{
+		for (auto& Effect : Effects.second)
+		{
+			delete Effect;
+		}
+	}
+
+
+	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
+	{
+		std::list<GameEngineActor*>& Actors = Pair.second;
+
+		for (GameEngineActor* Actor : Actors)
+		{
+			if (nullptr != Actor)
+			{
+				delete Actor;
+				Actor = nullptr;
+			}
+
+		}
+	}
+}
+
+void GameEngineLevel::SetLevelActorMoveProcess()
+{
+	for (size_t i = 0; i < NextLevelActorsData_.size(); i++)
+	{
+		GameEngineLevel* _NextLevel = NextLevelActorsData_[i].Level;
+		GameEngineActor* _Actor = NextLevelActorsData_[i].Actor;
+
+		// 지금 내 카메라에서 어떠한 랜더러를 빼서
+		MainCameraActor_->GetCamera()->NextLevelMoveRenderer(_NextLevel->GetMainCamera(), _Actor);
+		UICameraActor_->GetCamera()->NextLevelMoveRenderer(_NextLevel->GetUICamera(), _Actor);
+
+		// 콜리전 삭제
+		{
+			std::map<int, std::list<GameEngineCollision*>>::iterator RenderMapBeginIter = CollisionList_.begin();
+			std::map<int, std::list<GameEngineCollision*>>::iterator RenderMapEndIter = CollisionList_.end();
+
+
+			for (; RenderMapBeginIter != RenderMapEndIter; ++RenderMapBeginIter)
+			{
+				std::list<GameEngineCollision*>& Collisions = RenderMapBeginIter->second;
+
+				std::list<GameEngineCollision*>::iterator BeginIter = Collisions.begin();
+				std::list<GameEngineCollision*>::iterator EndIter = Collisions.end();
+
+				for (; BeginIter != EndIter; )
+				{
+					GameEngineCollision* ReleaseCollision = *BeginIter;
+
+					if (nullptr == ReleaseCollision)
+					{
+						GameEngineDebug::MsgBoxError("Release Actor Is Nullptr!!!!");
+					}
+
+					if (ReleaseCollision->GetActor() == _Actor)
+					{
+						_NextLevel->CollisionList_[(*BeginIter)->GetOrder()].push_back(*BeginIter);
+
+						BeginIter = Collisions.erase(BeginIter);
+
+						continue;
+					}
+
+					++BeginIter;
+
+				}
+			}
+		}
+
+		{
+			std::map<int, std::list<GameEngineActor*>>::iterator ActorMapBeginIter = ActorList_.begin();
+			std::map<int, std::list<GameEngineActor*>>::iterator ActorMapEndIter = ActorList_.end();
+
+			for (; ActorMapBeginIter != ActorMapEndIter; ++ActorMapBeginIter)
+			{
+				std::list<GameEngineActor*>& Actors = ActorMapBeginIter->second;
+
+				std::list<GameEngineActor*>::iterator BeginIter = Actors.begin();
+				std::list<GameEngineActor*>::iterator EndIter = Actors.end();
+
+				for (; BeginIter != EndIter; )
+				{
+					GameEngineActor* ReleaseActor = *BeginIter;
+
+					if (nullptr == ReleaseActor)
+					{
+						GameEngineDebug::MsgBoxError("Release Actor Is Nullptr!!!!");
+					}
+
+					if (ReleaseActor == _Actor)
+					{
+						_NextLevel->ActorList_[ReleaseActor->GetOrder()].push_back(ReleaseActor);
+
+						ReleaseActor->SetLevel(_NextLevel);
+
+						BeginIter = Actors.erase(BeginIter);
+
+						continue;
+					}
+
+					++BeginIter;
+				}
+
+			}
+		}
+	}
+
+	NextLevelActorsData_.clear();
+}
+
+void GameEngineLevel::SetLevelActorMove(GameEngineLevel* _NextLevel, GameEngineActor* _Actor)
+{
+	NextLevelActorsData_.push_back({ _Actor , _NextLevel });
+
+
 }

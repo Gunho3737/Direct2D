@@ -47,52 +47,6 @@ void GameEngineImageRenderer::Animation2D::Reset()
 	CurFrame_ = StartFrame_;
 }
 
-void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
-{
-	if (true == Renderer->IsPlay_)
-	{
-		CurTime_ -= _DeltaTime;
-	}
-
-	if (CurTime_ <= 0.0f)
-	{
-		++CurFrame_;
-		CurTime_ = InterTime_;
-		if (true == Loop_
-			&& CurFrame_ > EndFrame_)
-		{
-			CallEnd();
-			CurFrame_ = StartFrame_;
-		}
-		else if (false == Loop_
-			&& CurFrame_ > EndFrame_)
-		{
-			if (false == IsEnd)
-			{
-				CallEnd();
-			}
-
-			IsEnd = true;
-
-			CurFrame_ = EndFrame_;
-		}
-	}
-
-	CallFrame();
-	if (nullptr == FolderTextures_)
-	{
-		Renderer->ShaderHelper.SettingTexture("Tex", AnimationTexture_);
-		Renderer->CurTexture = AnimationTexture_;
-		Renderer->SetIndex(CurFrame_);
-	}
-	else
-	{
-		Renderer->CutData = float4(0, 0, 1, 1);
-		Renderer->ShaderHelper.SettingTexture("Tex", FolderTextures_->GetTextureIndex(CurFrame_));
-	}
-
-}
-
 void GameEngineImageRenderer::Animation2D::FrameUpdate()
 {
 	if (CurTime_ <= 0.0f)
@@ -149,6 +103,38 @@ void GameEngineImageRenderer::Animation2D::ReverseFrameUpdate()
 
 }
 
+void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
+{
+	if (true == Renderer->IsPlay_)
+	{
+		CurTime_ -= _DeltaTime;
+	}
+
+	if (StartFrame_ < EndFrame_)
+	{
+		FrameUpdate();
+	}
+	else
+	{
+		ReverseFrameUpdate();
+	}
+
+	CallFrame();
+	if (nullptr == FolderTextures_)
+	{
+		Renderer->ShaderHelper.SettingTexture("Tex", AnimationTexture_);
+		Renderer->CurTexture = AnimationTexture_;
+		Renderer->SetIndex(CurFrame_);
+	}
+	else
+	{
+		Renderer->CutData = float4(0, 0, 1, 1);
+		Renderer->ShaderHelper.SettingTexture("Tex", FolderTextures_->GetTextureIndex(CurFrame_));
+	}
+
+
+
+}
 
 /// ///////////////////////////////////////////////////////////////////
 
@@ -258,7 +244,7 @@ void GameEngineImageRenderer::CreateAnimation(const std::string& _TextureName, c
 	AllAnimations_.insert(std::map<std::string, Animation2D*>::value_type(_Name, NewAnimation));
 }
 
-void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime, bool _Loop /*= true*/)
+void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _FolderTexName, const std::string& _Name, float _InterTime, bool _Loop /*= true*/)
 {
 	std::map<std::string, Animation2D*>::iterator FindIter = AllAnimations_.find(_Name);
 
@@ -316,6 +302,11 @@ void GameEngineImageRenderer::SetChangeAnimation(const std::string& _Name, bool 
 	{
 		ShaderHelper.SettingTexture("Tex", CurAnimation_->AnimationTexture_);
 	}
+	else
+	{
+		ShaderHelper.SettingTexture("Tex", CurAnimation_->FolderTextures_->GetTextureIndex(CurAnimation_->CurFrame_));
+	}
+
 	CurAnimation_->Reset();
 	CurAnimation_->CallStart();
 	AnimationPlay();

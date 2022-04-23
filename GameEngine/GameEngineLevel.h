@@ -30,7 +30,12 @@ class GameEngineLevel : public GameEngineObjectNameBase
 	friend class GameEngineCollision;
 
 private:
-
+	class NextLevelActor
+	{
+	public:
+		GameEngineActor* Actor;
+		GameEngineLevel* Level;
+	};
 
 public:
 	// constrcuter destructer
@@ -54,6 +59,7 @@ public:
 protected:
 
 private:
+	std::vector<NextLevelActor> NextLevelActorsData_;
 	std::map<std::string, GameEngineActor*> FindMap_;
 	std::map<int, std::list<GameEngineActor*>> ActorList_;
 	CameraActor* MainCameraActor_;
@@ -77,9 +83,10 @@ public:
 		// Insert + Find
 		std::list<GameEngineActor*>& List = ActorList_[_UpdateOrder];
 		List.push_back(NewActor);
-
 		return dynamic_cast<ActorType*>(NewActor);
 	}
+
+
 
 	template<typename ActorType>
 	ActorType* CreateActor(std::string _Name, bool _IsFind = false, int _UpdateOrder = 0)
@@ -122,14 +129,20 @@ public:
 	virtual void LevelChangeEndEvent(GameEngineLevel* _NextLevel) = 0;
 	virtual void LevelChangeStartEvent(GameEngineLevel* _PrevLevel) = 0;
 
+	void SetLevelActorMove(GameEngineLevel* _NextLevel, GameEngineActor* _Actor);
+
+
+public:
 	//Fade 관련 추가한 virtual 함수
 	virtual void FadeOn() = 0;
 	virtual void FadeOff() = 0;
+
 
 	//이전맵의 여부를 받아오기 위한 static string
 	static std::string PrevMap;
 	//////////////////////////////////////////////////////// collision:
 private:
+
 	std::map<int, std::list<GameEngineCollision*>> CollisionList_;
 
 
@@ -142,6 +155,8 @@ private:
 
 	void LevelChangeEndActorEvent(GameEngineLevel* _NextLevel);
 	void LevelChangeStartActorEvent(GameEngineLevel* _PrevLevel);
+
+	void SetLevelActorMoveProcess();
 
 	// 다른애가 이걸 가릴수 있나요?
 
@@ -161,6 +176,11 @@ private:
 	std::map<std::string, std::vector<GameEnginePostProcessRender*>> PostRender;
 
 public:
+	// FadeIn : public GameEnginePostProcessRender
+	// FadeIn(float Speed)
+
+	// ColorLerp : public GameEnginePostProcessRender
+	// ColorLerp(Color _Start, Color _End)
 
 	template<typename PostProcess, typename ... Parameter>
 	PostProcess* AddPostProcessCameraMergePrev(Parameter ... _Arg)
@@ -183,4 +203,6 @@ public:
 		PostRender[_Key].push_back(NewPost);
 		return NewPost;
 	}
+
+	void AllClear();
 };

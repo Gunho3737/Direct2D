@@ -94,9 +94,11 @@ void GameEngineCore::MainLoop()
 		{
 			CurrentLevel_->LevelChangeEndActorEvent(NextLevel_);
 			CurrentLevel_->LevelChangeEndEvent(NextLevel_);
+			CurrentLevel_->SetLevelActorMoveProcess();
 
 			NextLevel_->LevelChangeStartActorEvent(CurrentLevel_);
 			NextLevel_->LevelChangeStartEvent(CurrentLevel_);
+			NextLevel_->SetLevelActorMoveProcess();
 
 			CurrentLevel_ = NextLevel_;
 		}
@@ -160,6 +162,11 @@ GameEngineLevel* GameEngineCore::LevelFind(const std::string& _Level)
 void GameEngineCore::LevelChange(const std::string& _Level)
 {
 	GameEngineLevel* FindLevel = LevelFind(_Level);
+
+	if (FindLevel == CurrentLevel_)
+	{
+		return;
+	}
 
 	if (nullptr == FindLevel)
 	{

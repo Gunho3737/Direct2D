@@ -30,11 +30,9 @@ public:
 		}
 
 		AllLevel_.insert(std::make_pair(_Level, new LevelType()));
+		AllLevel_[_Level]->SetName(_Level);
 		AllLevel_[_Level]->Init();
 		AllLevel_[_Level]->LevelStart();
-
-		//모든 레벨에 이름을 붙힘
-		AllLevel_[_Level]->SetName(_Level);
 	}
 
 	static GameEngineLevel* CurrentLevel()

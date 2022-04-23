@@ -114,10 +114,8 @@ public:
 
 	float4 GetFolderTextureImageSize();
 	float4 GetFolderTextureBotPivot();
-
 protected:
 	void SetRenderingPipeLineSettingNext() override;
-	void ImageRendererStart();
 	void Update(float _DeltaTime) override;
 
 private:
@@ -127,10 +125,8 @@ private:
 	float4 ResultColor;
 	float4 CutData;
 	GameEngineTexture* CurTexture;
-
 	bool IsPlay_;
 
 	void Start() override;
-
 };
 

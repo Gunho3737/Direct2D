@@ -27,13 +27,13 @@ void Player::Start()
 		PlayerImageRenderer->CreateAnimationFolder("Idle", "Idle", 0.2f);
 		PlayerImageRenderer->CreateAnimationFolder("IdleToRun", "IdleToRun", 0.07f);
 		PlayerImageRenderer->CreateAnimationFolder("Run", "Run", 0.1f);
-		PlayerImageRenderer->CreateAnimationFolder("Attack", "Slash", 0.05f, false);
+		PlayerImageRenderer->CreateAnimationFolder("Slash", "Attack", 0.05f, false);
 		PlayerImageRenderer->CreateAnimationFolder("RunToIdle", "RunToIdle", 0.07f);
 		PlayerImageRenderer->CreateAnimationFolder("Airborne", "Airborne", 0.07f);
 		PlayerImageRenderer->CreateAnimationFolder("Jump", "Jump", 0.07f, false);
-		PlayerImageRenderer->CreateAnimationFolder("UpAttack", "UpSlash", 0.05f, false);
-		PlayerImageRenderer->CreateAnimationFolder("DownAttack", "DownSlash", 0.05f, false);
-		PlayerImageRenderer->CreateAnimationFolder("MapMove", "Run", 0.1f);
+		PlayerImageRenderer->CreateAnimationFolder("UpSlash", "UpAttack", 0.05f, false);
+		PlayerImageRenderer->CreateAnimationFolder("DownSlash", "DownAttack", 0.05f, false);
+		PlayerImageRenderer->CreateAnimationFolder("Run", "MapMove", 0.1f);
 		PlayerImageRenderer->CreateAnimationFolder("Damage", "Damage", 0.1f, false);
 		PlayerImageRenderer->CreateAnimationFolder("DeathDamage", "DeathDamage", 0.1f, false);
 		PlayerImageRenderer->CreateAnimationFolder("Death", "Death", 0.1f, false);
