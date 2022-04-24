@@ -15,8 +15,9 @@
 #include "GameEngineGUI.h"
 #include <GameEngine\GameEnginePostProcessRender.h>
 
-//Static 맵 초기화
+//Static 스트링 초기화
 std::string GameEngineLevel::PrevMap = "";
+
 CameraActor* GameEngineLevel::GetMainCameraActor()
 {
 	return MainCameraActor_;

@@ -21,6 +21,7 @@ public:
 	GameEngineCollision* Collision;
 	GameEngineCollision* RangeCollision;
 
+	LeftRight Direction;
 	GameEngineFSM StateManager_;
 
 	bool Immune;
@@ -39,7 +40,8 @@ private:
 private:
 	void Idle();
 	void Die();
-	void Attack();
+	void Startle();
+	void Chase();
 
 public:
 	void ImmuneOff();

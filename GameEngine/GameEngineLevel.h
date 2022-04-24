@@ -131,8 +131,9 @@ public:
 
 	void SetLevelActorMove(GameEngineLevel* _NextLevel, GameEngineActor* _Actor);
 
-
 public:
+	//레벨 추가한것
+	// 
 	//Fade 관련 추가한 virtual 함수
 	virtual void FadeOn() = 0;
 	virtual void FadeOff() = 0;
@@ -140,6 +141,9 @@ public:
 
 	//이전맵의 여부를 받아오기 위한 static string
 	static std::string PrevMap;
+
+	//추가한것 끝
+ 
 	//////////////////////////////////////////////////////// collision:
 private:
 

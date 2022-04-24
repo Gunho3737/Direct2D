@@ -30,6 +30,8 @@ void FlyBug::Start()
 
 		//애니메이션 제작
 		PlayerImageRenderer->CreateAnimation("FlyBug.png", "Idle", 1, 6, 0.1f);
+		PlayerImageRenderer->CreateAnimation("FlyBug.png", "Startle", 10, 13, 0.1f);
+		PlayerImageRenderer->CreateAnimation("FlyBug.png", "Chase", 14, 19, 0.1f);
 		PlayerImageRenderer->CreateAnimation("FlyBug.png", "Die", 21, 23, 0.1f);
 		//	
 		//		//애니메이션의 첫프레임/마지막 프레임/애니메이션의x번째프레임을 지정해 특정 함수가 실행되도록한다
@@ -51,8 +53,9 @@ void FlyBug::Start()
 	RangeCollision->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, -10.0f });
 
 	StateManager_.CreateState("Idle", std::bind(&FlyBug::Idle, this));
+	StateManager_.CreateState("Startle", std::bind(&FlyBug::Startle, this));
+	StateManager_.CreateState("Chase", std::bind(&FlyBug::Chase, this));
 	StateManager_.CreateState("Die", std::bind(&FlyBug::Die, this));
-	StateManager_.CreateState("Attack", std::bind(&FlyBug::Attack, this));
 
 	StateManager_.ChangeState("Idle");
 
@@ -67,6 +70,15 @@ void FlyBug::Update(float _DeltaTime)
 	{
 		GetLevel()->PushDebugRender(Collision->GetTransform(), CollisionType::Rect);
 		GetLevel()->PushDebugRender(RangeCollision->GetTransform(), CollisionType::Rect);
+	}
+
+	if (Direction == LeftRight::LEFT)
+	{
+		PlayerImageRenderer->GetTransform()->SetLocalScaling(float4{ 300.0f, 300.0f, 1.0f });
+	}
+	else
+	{
+		PlayerImageRenderer->GetTransform()->SetLocalScaling(float4{ 300.0f, 300.0f, 1.0f } *= float4::XFLIP);
 	}
 
 	if (HP <= 0)
@@ -117,7 +129,7 @@ void FlyBug::Idle()
 	RangeCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
 		[this](GameEngineCollision* _OtherCollision)
 		{
-			StateManager_.ChangeState("Attack");
+			StateManager_.ChangeState("Startle");
 		}
 	);
 }
@@ -135,7 +147,44 @@ void FlyBug::Die()
 
 }
 
-void FlyBug::Attack()
+void FlyBug::Startle()
 {
-	int a = 0;
+	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+	float4 MonsterPos = Collision->GetTransform()->GetWorldPosition();
+	
+	if (PlayerPos.x > MonsterPos.x)
+	{
+		Direction = LeftRight::RIGHT;
+	}
+	else
+	{
+		Direction = LeftRight::LEFT;
+	}
+
+	PlayerImageRenderer->SetChangeAnimation("Startle");
+
+	PlayerImageRenderer->SetEndCallBack("Startle", [&]()
+		{
+			StateManager_.ChangeState("Chase");
+		}
+	);
+}
+
+void FlyBug::Chase()
+{
+	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+	float4 MonsterPos = Collision->GetTransform()->GetWorldPosition();
+
+	if (PlayerPos.x > MonsterPos.x)
+	{
+		Direction = LeftRight::RIGHT;
+	}
+	else
+	{
+		Direction = LeftRight::LEFT;
+	}
+
+	PlayerImageRenderer->SetChangeAnimation("Chase");
+	//Player::MainPlayer->GetTransform();
+
 }

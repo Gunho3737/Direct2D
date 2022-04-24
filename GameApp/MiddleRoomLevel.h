@@ -27,6 +27,7 @@ public:
 protected:
 	Player* PlayerActor;
 	BitMap* BitMapActor;
+
 	float4 PlayerPos;
 
 	bool Reverse;
