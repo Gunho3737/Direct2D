@@ -115,7 +115,6 @@ void Player::Update(float _DeltaTime)
 
 		if (true == PlayerSlashCollision->IsUpdate())
 		{
-
 		GetLevel()->PushDebugRender(PlayerSlashCollision->GetTransform(), CollisionType::Rect);
 		}
 	}
@@ -373,6 +372,7 @@ void Player::RunToIdle()
 void Player::Attack()
 {
 	PlayerImageRenderer->SetChangeAnimation("Attack");
+
 	if (0 <= JumpPower.y)
 	{
 		JumpPower += float4::DOWN * GameEngineTime::GetInst().GetDeltaTime() * 1500.0f;
@@ -841,7 +841,7 @@ void Player::SetCallBackFunc()
 					{
 						PlayerSlashRenderer->GetTransform()->SetLocalScaling(float4{ -157.0f,114.0f, 1.0f });
 						PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {70.0f, 0.0f, -1.0f});
-						PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ -157.0f,114.0f, 1.0f });
+						PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
 						PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {70.0f, 0.0f, -1.0f});
 					}
 				}

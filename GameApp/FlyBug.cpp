@@ -87,7 +87,7 @@ void FlyBug::Update(float _DeltaTime)
 	}
 
 	Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::ATTACK,
-		[this](GameEngineCollision* _OtherCollision)
+		[&](GameEngineCollision* _OtherCollision)
 		{
 			if (true == Immune)
 			{
@@ -98,7 +98,6 @@ void FlyBug::Update(float _DeltaTime)
 				HP -= 1;
 				Immune = true;
 			}
-
 
 		}
 	);
@@ -177,35 +176,35 @@ void FlyBug::Chase()
 	PlayerImageRenderer->SetChangeAnimation("Chase");
 
 
-	if (PlayerPos.x > MonsterPos.x)
-	{
-		Direction = LeftRight::RIGHT;
-		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
-
-		if (PlayerPos.y > MonsterPos.y)
-		{
-			GetTransform()->SetLocalDeltaTimeMove(float4::UP * Speed);
-		}
-		else
-		{
-			GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * Speed);
-		}
-
-	}
-	else
-	{
-		Direction = LeftRight::LEFT;
-		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
-		if (PlayerPos.y > MonsterPos.y)
-		{
-			GetTransform()->SetLocalDeltaTimeMove(float4::UP * Speed);
-		}
-		else
-		{
-			GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * Speed);
-		}
-
-	}
+	//if (PlayerPos.x > MonsterPos.x)
+	//{
+	//	Direction = LeftRight::RIGHT;
+	//	GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+	//
+	//	if (PlayerPos.y > MonsterPos.y)
+	//	{
+	//		GetTransform()->SetLocalDeltaTimeMove(float4::UP * Speed);
+	//	}
+	//	else
+	//	{
+	//		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * Speed);
+	//	}
+	//
+	//}
+	//else
+	//{
+	//	Direction = LeftRight::LEFT;
+	//	GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+	//	if (PlayerPos.y > MonsterPos.y)
+	//	{
+	//		GetTransform()->SetLocalDeltaTimeMove(float4::UP * Speed);
+	//	}
+	//	else
+	//	{
+	//		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * Speed);
+	//	}
+	//
+	//}
 
 
 }
