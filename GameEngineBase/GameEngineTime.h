@@ -42,6 +42,41 @@ private:
 	std::list<TimeEvent*> AllEvent_;
 	std::list<TimeEvent*> AddEvent_;
 
+	std::map<int, float> TimeScale_;
+
+public:
+	template<typename EnumType>
+	void SetTimeScale(EnumType _Index, float _Scale)
+	{
+		SetTimeScale(static_cast<int>(_Index), _Scale);
+	}
+
+	void SetTimeScale(int _Index, float _Scale)
+	{
+		if (TimeScale_.end() == TimeScale_.find(_Index))
+		{
+			TimeScale_[_Index] = 1.0f;
+		}
+
+		TimeScale_[_Index] = _Scale;
+	}
+
+	template<typename EnumType>
+	float GetTimeScale(EnumType _Index)
+	{
+		return GetTimeScale(static_cast<int>(_Index));
+	}
+
+	float GetTimeScale(int _Index)
+	{
+		if (TimeScale_.end() == TimeScale_.find(_Index))
+		{
+			TimeScale_[_Index] = 1.0f;
+		}
+
+		return TimeScale_[_Index];
+	}
+
 public:
 	// 여기에 이렇게 헤더에 구현한 이유
 	// 리턴하는게 기본자료형이어서
@@ -54,6 +89,17 @@ public:
 	{
 		return static_cast<float>(deltaTime_);
 	}
+
+	float GetDeltaTime(int _Index)
+	{
+		if (TimeScale_.end() == TimeScale_.find(_Index))
+		{
+			TimeScale_[_Index] = 1.0f;
+		}
+
+		return static_cast<float>(deltaTime_) * TimeScale_[_Index];
+	}
+
 public:
 	GameEngineTime(); // default constructer 디폴트 생성자
 	~GameEngineTime(); // default destructer 디폴트 소멸자

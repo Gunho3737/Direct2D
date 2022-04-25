@@ -133,7 +133,7 @@ public:
 
 public:
 	//레벨 추가한것
-	// 
+
 	//Fade 관련 추가한 virtual 함수
 	virtual void FadeOn() = 0;
 	virtual void FadeOff() = 0;
