@@ -2,14 +2,14 @@
 #include "GameEngine/GameEngineRenderer.h"
 #include "GameEngine/GameEngineImageRenderer.h"
 #include <GameEngine\GameEngineCollision.h>
-#include "FlyBug.h"
+#include "FlyBug.h" 
 #include <GameApp/BitMap.h>
 #include "Player.h"
 
 
 
 FlyBug::FlyBug()
-	: HP(3), Immune(false), ImmuneTime(0.5f)
+	: HP(3), Immune(false), ImmuneTime(0.5f), Speed(300.0f)
 {
 }
 
@@ -174,17 +174,38 @@ void FlyBug::Chase()
 {
 	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 	float4 MonsterPos = Collision->GetTransform()->GetWorldPosition();
+	PlayerImageRenderer->SetChangeAnimation("Chase");
+
 
 	if (PlayerPos.x > MonsterPos.x)
 	{
 		Direction = LeftRight::RIGHT;
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+
+		if (PlayerPos.y > MonsterPos.y)
+		{
+			GetTransform()->SetLocalDeltaTimeMove(float4::UP * Speed);
+		}
+		else
+		{
+			GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * Speed);
+		}
+
 	}
 	else
 	{
 		Direction = LeftRight::LEFT;
+		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+		if (PlayerPos.y > MonsterPos.y)
+		{
+			GetTransform()->SetLocalDeltaTimeMove(float4::UP * Speed);
+		}
+		else
+		{
+			GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * Speed);
+		}
+
 	}
 
-	PlayerImageRenderer->SetChangeAnimation("Chase");
-	//Player::MainPlayer->GetTransform();
 
 }

@@ -32,6 +32,7 @@ protected:
 	int HP;
 
 	float ImmuneTime;
+	float Speed;
 	
 private:
 	void Start() override;
