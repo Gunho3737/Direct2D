@@ -40,10 +40,17 @@ protected:
 	float4 BasicJumpPower;
 	float4 FallDownPower;
 
-	float4 MapBotCollsionColor;
-	float4 MapTopCollsionColor;
-	float4 MapLeftCollsionColor;
-	float4 MapRightCollsionColor;
+
+	//4방향 맵충돌
+	float4 MapBotCollisionColor;
+	float4 MapTopCollisionColor;
+	float4 MapLeftCollisionColor;
+	float4 MapRightCollisionColor;
+
+	//대각선방향 맵충돌
+	float4 MapTopLeftCollisionColor;
+	float4 MapTopRightCollisionColor;
+
 
 	//레벨 이동 상태냐?
 	bool LevelMoveOn;

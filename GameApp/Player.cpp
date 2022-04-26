@@ -118,12 +118,17 @@ void Player::Update(float _DeltaTime)
 
 
 	//플레이어의 Transform = 렌더러의 발에있다
-	MapBotCollsionColor = BitMap::GetColor(GetTransform());
+	MapBotCollisionColor = BitMap::GetColor(GetTransform());
 
 	//그러므로 머리와 접촉하는 곳은 이미지의 높이만큼
-	MapTopCollsionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 120.0f, 0.0f});
-	MapLeftCollsionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {-30.0f, 60.0f, 0.0f});
-	MapRightCollsionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {30.0f, 60.0f, 0.0f});
+	MapTopCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 120.0f, 0.0f});
+	MapLeftCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {-30.0f, 60.0f, 0.0f});
+	MapRightCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {30.0f, 60.0f, 0.0f});
+
+	//대각선 방향 충돌
+	MapTopLeftCollisionColor  = BitMap::GetColor(GetTransform()->GetWorldPosition() += {-30.0f, 120.0f, 0.0f});
+	MapTopRightCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {30.0f, 120.0f, 0.0f});
+
 
 
 	StateManager_.Update();
@@ -234,7 +239,7 @@ void Player::Idle()
 		StateManager_.ChangeState("Jump");
 	}
 
-	if (MapBotCollsionColor != float4::BLACK)
+	if (MapBotCollisionColor != float4::BLACK)
 	{
 		StateManager_.ChangeState("Airborne");
 	}
@@ -245,7 +250,10 @@ void Player::IdleToRun()
 {
 	PlayerImageRenderer->SetChangeAnimation("IdleToRun");
 
-	if (MapLeftCollsionColor != float4::BLACK)
+	if (
+		MapLeftCollisionColor != float4::BLACK &&
+		MapTopLeftCollisionColor != float4::BLACK
+		)
 	{
 		if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 		{
@@ -257,7 +265,9 @@ void Player::IdleToRun()
 		}
 	}
 
-	if (MapRightCollsionColor != float4::BLACK)
+	if (MapRightCollisionColor != float4::BLACK &&
+		MapTopRightCollisionColor != float4::BLACK
+		)
 	{
 		if (GameEngineInput::GetInst().Press("MoveRight"))
 		{
@@ -303,7 +313,7 @@ void Player::IdleToRun()
 		StateManager_.ChangeState("Jump");
 	}
 
-	if (MapBotCollsionColor != float4::BLACK)
+	if (MapBotCollisionColor != float4::BLACK)
 	{
 		StateManager_.ChangeState("Airborne");
 	}
@@ -314,7 +324,9 @@ void Player::Run()
 {
 	PlayerImageRenderer->SetChangeAnimation("Run");
 
-	if (MapLeftCollsionColor != float4::BLACK)
+	if (MapLeftCollisionColor != float4::BLACK &&
+		MapTopLeftCollisionColor != float4::BLACK
+		)
 	{
 		if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 		{
@@ -326,7 +338,9 @@ void Player::Run()
 		}
 	}
 
-	if (MapRightCollsionColor != float4::BLACK)
+	if (MapRightCollisionColor != float4::BLACK &&
+		MapTopRightCollisionColor != float4::BLACK
+		)
 	{
 		if (GameEngineInput::GetInst().Press("MoveRight"))
 		{
@@ -366,7 +380,7 @@ void Player::Run()
 		StateManager_.ChangeState("Jump");
 	}
 
-	if (MapBotCollsionColor != float4::BLACK)
+	if (MapBotCollisionColor != float4::BLACK)
 	{
 		StateManager_.ChangeState("Airborne");
 	}
@@ -394,7 +408,7 @@ void Player::RunToIdle()
 		StateManager_.ChangeState("Jump");
 	}
 
-	if (MapBotCollsionColor != float4::BLACK)
+	if (MapBotCollisionColor != float4::BLACK)
 	{
 		StateManager_.ChangeState("Airborne");
 	}
@@ -421,7 +435,7 @@ void Player::Attack()
 	if (0 <= JumpPower.y)
 	{
 		JumpPower += float4::DOWN * GameEngineTime::GetInst().GetDeltaTime() * 1500.0f;
-		if (MapTopCollsionColor != float4::BLACK)
+		if (MapTopCollisionColor != float4::BLACK)
 		{
 			GetTransform()->SetLocalDeltaTimeMove(float4::UP * JumpPower);
 		}
@@ -429,13 +443,19 @@ void Player::Attack()
 
 	if (0 > JumpPower.y)
 	{
-		if (MapBotCollsionColor != float4::BLACK)
+		if (
+			MapLeftCollisionColor != float4::BLACK &&
+			MapTopLeftCollisionColor != float4::BLACK 
+			)
 		{
 			GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 500.0f);
 		}		
 	}
 
-	if (MapLeftCollsionColor != float4::BLACK)
+	if (
+		MapLeftCollisionColor != float4::BLACK &&
+		MapTopLeftCollisionColor != float4::BLACK
+		)
 	{
 		if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 		{
@@ -447,7 +467,10 @@ void Player::Attack()
 		}
 	}
 
-	if (MapRightCollsionColor != float4::BLACK)
+	if (
+		MapRightCollisionColor != float4::BLACK &&
+		MapTopRightCollisionColor != float4::BLACK
+		)
 	{
 		if (GameEngineInput::GetInst().Press("MoveRight"))
 		{
@@ -487,7 +510,10 @@ void Player::Airborne()
 
 	PlayerImageRenderer->SetChangeAnimation("Airborne");
 
-	if (MapLeftCollsionColor != float4::BLACK)
+	if (
+		MapLeftCollisionColor != float4::BLACK &&
+		MapTopLeftCollisionColor != float4::BLACK
+		)
 	{
 		if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 		{
@@ -499,7 +525,10 @@ void Player::Airborne()
 		}
 	}
 
-	if (MapRightCollsionColor != float4::BLACK)
+	if (
+		MapRightCollisionColor != float4::BLACK &&
+		MapTopRightCollisionColor != float4::BLACK
+		)
 	{
 		if (GameEngineInput::GetInst().Press("MoveRight"))
 		{
@@ -529,7 +558,7 @@ void Player::Airborne()
 		}
 	}
 
-	if (MapBotCollsionColor == float4::BLACK)
+	if (MapBotCollisionColor == float4::BLACK)
 	{
 		StateManager_.ChangeState("Idle");
 	}
@@ -544,7 +573,7 @@ void Player::Jump()
 	if (0 <= JumpPower.y)
 	{
 		JumpPower += float4::DOWN * GameEngineTime::GetInst().GetDeltaTime() * 1500.0f;
-		if (MapTopCollsionColor != float4::BLACK)
+		if (MapTopCollisionColor != float4::BLACK)
 		{
 			GetTransform()->SetLocalDeltaTimeMove(float4::UP * JumpPower);
 		}
@@ -555,7 +584,10 @@ void Player::Jump()
 		}
 	}
 
-	if (MapLeftCollsionColor != float4::BLACK)
+	if (
+		MapLeftCollisionColor != float4::BLACK &&
+		MapTopLeftCollisionColor != float4::BLACK
+		)
 	{
 		if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 		{
@@ -567,7 +599,10 @@ void Player::Jump()
 		}
 	}
 
-	if (MapRightCollsionColor != float4::BLACK)
+	if (
+		MapRightCollisionColor != float4::BLACK &&
+		MapTopRightCollisionColor != float4::BLACK
+		)
 	{
 		if (GameEngineInput::GetInst().Press("MoveRight"))
 		{
@@ -606,7 +641,7 @@ void Player::UpAttack()
 	if (0 <= JumpPower.y)
 	{
 		JumpPower += float4::DOWN * GameEngineTime::GetInst().GetDeltaTime() * 1500.0f;
-		if (MapTopCollsionColor != float4::BLACK)
+		if (MapTopCollisionColor != float4::BLACK)
 		{
 			GetTransform()->SetLocalDeltaTimeMove(float4::UP * JumpPower);
 		}
@@ -614,13 +649,16 @@ void Player::UpAttack()
 
 	if (0 > JumpPower.y)
 	{
-		if (MapBotCollsionColor != float4::BLACK)
+		if (MapBotCollisionColor != float4::BLACK)
 		{
 			GetTransform()->SetLocalDeltaTimeMove(FallDownPower);
 		}
 	}
 
-	if (MapLeftCollsionColor != float4::BLACK)
+	if (
+		MapLeftCollisionColor != float4::BLACK &&
+		MapTopLeftCollisionColor != float4::BLACK
+		)
 	{
 		if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 		{
@@ -632,7 +670,10 @@ void Player::UpAttack()
 		}
 	}
 
-	if (MapRightCollsionColor != float4::BLACK)
+	if (
+		MapRightCollisionColor != float4::BLACK &&
+		MapTopRightCollisionColor != float4::BLACK
+		)
 	{
 		if (GameEngineInput::GetInst().Press("MoveRight"))
 		{
@@ -672,7 +713,7 @@ void Player::DownAttack()
 	if (0 <= JumpPower.y)
 	{
 		JumpPower += float4::DOWN * GameEngineTime::GetInst().GetDeltaTime() * 1500.0f;
-		if (MapTopCollsionColor != float4::BLACK)
+		if (MapTopCollisionColor != float4::BLACK)
 		{
 			GetTransform()->SetLocalDeltaTimeMove(float4::UP * JumpPower);
 		}
@@ -680,13 +721,16 @@ void Player::DownAttack()
 
 	if (0 > JumpPower.y)
 	{
-		if (MapBotCollsionColor != float4::BLACK)
+		if (MapBotCollisionColor != float4::BLACK)
 		{
 			GetTransform()->SetLocalDeltaTimeMove(FallDownPower);
 		}
 	}
 
-	if (MapLeftCollsionColor != float4::BLACK)
+	if (
+		MapLeftCollisionColor != float4::BLACK &&
+		MapTopLeftCollisionColor != float4::BLACK
+		)
 	{
 		if (true == GameEngineInput::GetInst().Press("MoveLeft"))
 		{
@@ -698,7 +742,10 @@ void Player::DownAttack()
 		}
 	}
 
-	if (MapRightCollsionColor != float4::BLACK)
+	if (
+		MapRightCollisionColor != float4::BLACK &&
+		MapTopRightCollisionColor != float4::BLACK
+		)
 	{
 		if (GameEngineInput::GetInst().Press("MoveRight"))
 		{
@@ -744,7 +791,7 @@ void Player::MapMove()
 
 	TimeCheck -= GameEngineTime::GetInst().GetDeltaTime();
 
-	if (MapBotCollsionColor != float4::BLACK)
+	if (MapBotCollisionColor != float4::BLACK)
 	{
 		GetTransform()->SetLocalDeltaTimeMove(FallDownPower);
 	}
@@ -787,7 +834,7 @@ void Player::MapPrev()
 
 	TimeCheck -= GameEngineTime::GetInst().GetDeltaTime();
 
-	if (MapBotCollsionColor != float4::BLACK)
+	if (MapBotCollisionColor != float4::BLACK)
 	{
 		GetTransform()->SetLocalDeltaTimeMove(FallDownPower);
 	}
@@ -850,7 +897,6 @@ void Player::Damage()
 		GameEngineTime::GetInst().SetTimeScale(0, 1.0f);
 		Immune = true;
 		ImmuneTime = 3.0f;
-		//PlayerEffectRenderer->Off();
 		StateManager_.ChangeState("Idle");
 	}
 }
