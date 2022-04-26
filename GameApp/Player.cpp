@@ -65,6 +65,16 @@ void Player::Start()
 		PlayerSlashCollision->Off();
 	}
 
+	{
+		PlayerEffectRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		PlayerEffectRenderer->CreateAnimationFolder("DamageEffect", "DamageEffect", 0.02f);
+		PlayerEffectRenderer->CreateAnimationFolder("StunEffect", "StunEffect", 0.02f);
+		PlayerEffectRenderer->SetChangeAnimation("DamageEffect");
+		PlayerEffectRenderer->GetTransform()->SetLocalScaling(PlayerEffectRenderer->GetFolderTextureImageSize());
+		PlayerEffectRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot());
+		PlayerEffectRenderer->Off();
+	}
+
 	StateManager_.CreateState("Idle", std::bind(&Player::Idle, this));
 	StateManager_.CreateState("IdleToRun", std::bind(&Player::IdleToRun, this));
 	StateManager_.CreateState("Run", std::bind(&Player::Run, this));
@@ -808,13 +818,17 @@ void Player::MapPrev()
 void Player::Damage()
 {
 	PlayerImageRenderer->SetChangeAnimation("Damage");
+	PlayerEffectRenderer->SetChangeAnimation("DamageEffect", true);
+
 
 	//첫순간에만 일어난다
 	if (true == Impact)
 	{
+	PlayerEffectRenderer->On();
 	TimeCheck = 1.0f;
 	GameEngineTime::GetInst().SetTimeScale(0, 0.0f);
 	Impact = false;
+
 	}
 
 	
@@ -826,6 +840,7 @@ void Player::Damage()
 		GameEngineTime::GetInst().SetTimeScale(0, 1.0f);
 		Immune = true;
 		ImmuneTime = 3.0f;
+		//PlayerEffectRenderer->Off();
 		StateManager_.ChangeState("Idle");
 	}
 }
@@ -927,11 +942,20 @@ void Player::SetCallBackFunc()
 
 				PlayerSlashRenderer->Off();
 				PlayerSlashCollision->Off();
+			}
+		);
+	}
 
-				//PlayerSlashRenderer->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
-				//PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition());
-				//PlayerSlashCollision->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
-				//PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerCollision->GetTransform()->GetLocalPosition());
+	{
+		PlayerEffectRenderer->SetStartCallBack("DamageEffect", [&]()
+		{
+			
+		}
+		);
+
+		PlayerEffectRenderer->SetEndCallBack("DamageEffect", [&]()
+			{
+				PlayerEffectRenderer->Off();
 			}
 		);
 	}

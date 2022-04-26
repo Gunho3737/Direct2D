@@ -28,6 +28,8 @@ protected:
 	GameEngineImageRenderer* PlayerSlashRenderer;
 	GameEngineCollision* PlayerSlashCollision;
 
+	GameEngineImageRenderer* PlayerEffectRenderer;
+
 
 	float Speed;
 	float TimeCheck;

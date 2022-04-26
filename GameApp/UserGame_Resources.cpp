@@ -139,7 +139,17 @@ void UserGame::ResourcesLoad()
 
 	}
 
+	{
+		GameEngineDirectory TextureDir;
+		TextureDir.MoveParent("LGH_HollowKnight");
+		TextureDir.MoveChild("Resources");
+		TextureDir.MoveChild("Image");
+		TextureDir.MoveChild("Effect");
 
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("DamageEffect"));
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("StunEffect"));
+	
+	}
 
 
 
