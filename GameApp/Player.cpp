@@ -49,7 +49,7 @@ void Player::Start()
 	{
 		PlayerCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::PLAYER);
 		PlayerCollision->GetTransform()->SetLocalScaling(float4{ 60.0f, 130.0f, 1.0f });
-		PlayerCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot() += {0.0f, 0.0f, -1.0f});
+		PlayerCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot() += {0.0f, 0.0f, -2.0f});
 	}
 
 
@@ -68,11 +68,20 @@ void Player::Start()
 	{
 		PlayerEffectRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		PlayerEffectRenderer->CreateAnimationFolder("DamageEffect", "DamageEffect", 0.02f);
-		PlayerEffectRenderer->CreateAnimationFolder("StunEffect", "StunEffect", 0.02f);
+		//PlayerEffectRenderer->CreateAnimationFolder("StunEffect", "StunEffect", 0.02f);
 		PlayerEffectRenderer->SetChangeAnimation("DamageEffect");
 		PlayerEffectRenderer->GetTransform()->SetLocalScaling(PlayerEffectRenderer->GetFolderTextureImageSize());
-		PlayerEffectRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot());
+		PlayerEffectRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot() += {0.0f, 0.0f, -1.0f});
 		PlayerEffectRenderer->Off();
+	}
+
+	{
+		PlayerEffectRenderer2 = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		PlayerEffectRenderer2->CreateAnimationFolder("StunEffect", "StunEffect", 0.02f);
+		PlayerEffectRenderer2->SetChangeAnimation("StunEffect");
+		PlayerEffectRenderer2->GetTransform()->SetLocalScaling(PlayerEffectRenderer2->GetFolderTextureImageSize());
+		PlayerEffectRenderer2->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot());
+		PlayerEffectRenderer2->Off();
 	}
 
 	StateManager_.CreateState("Idle", std::bind(&Player::Idle, this));
@@ -819,12 +828,13 @@ void Player::Damage()
 {
 	PlayerImageRenderer->SetChangeAnimation("Damage");
 	PlayerEffectRenderer->SetChangeAnimation("DamageEffect", true);
-
+	PlayerEffectRenderer2->SetChangeAnimation("StunEffect", true);
 
 	//첫순간에만 일어난다
 	if (true == Impact)
 	{
 	PlayerEffectRenderer->On();
+	PlayerEffectRenderer2->On();
 	TimeCheck = 1.0f;
 	GameEngineTime::GetInst().SetTimeScale(0, 0.0f);
 	Impact = false;
@@ -956,6 +966,18 @@ void Player::SetCallBackFunc()
 		PlayerEffectRenderer->SetEndCallBack("DamageEffect", [&]()
 			{
 				PlayerEffectRenderer->Off();
+			}
+		);
+
+		PlayerEffectRenderer2->SetStartCallBack("StunEffect", [&]()
+			{
+
+			}
+		);
+
+		PlayerEffectRenderer2->SetEndCallBack("StunEffect", [&]()
+			{
+				PlayerEffectRenderer2->Off();
 			}
 		);
 	}

@@ -29,6 +29,7 @@ protected:
 	GameEngineCollision* PlayerSlashCollision;
 
 	GameEngineImageRenderer* PlayerEffectRenderer;
+	GameEngineImageRenderer* PlayerEffectRenderer2;
 
 
 	float Speed;
