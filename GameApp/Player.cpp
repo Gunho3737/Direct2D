@@ -9,7 +9,7 @@
 Player* Player::MainPlayer = nullptr;
 
 Player::Player()
-	: Speed(600.0f), JumpPower(float4::ZERO), BasicJumpPower(float4::UP * 1000.0f), FallDownPower(float4::DOWN * 700.0f), TimeCheck(0.0f), LevelMoveOn(false), Impact(false)
+	: Speed(600.0f), JumpPower(float4::ZERO), BasicJumpPower(float4::UP * 1000.0f), FallDownPower(float4::DOWN * 700.0f), TimeCheck(0.0f),ImmuneTime(0.0f), LevelMoveOn(false), Impact(false), Immune(false)
 {
 }
 
@@ -109,13 +109,36 @@ void Player::Update(float _DeltaTime)
 
 	StateManager_.Update();
 
+	//콜리전만이 꺼진거로는 충돌상태가 꺼지지 않음
+	if (Immune == true)
+	{
+		PlayerCollision->Off();
+	}
+	else if (Immune == false)
+	{
+		PlayerCollision->On();
+	}
+	
+	if (Immune == true)
+	{
+		ImmuneTime -= _DeltaTime;
+
+		if (ImmuneTime <= 0)
+		{
+			Immune = false;
+		}
+	}
+
 	if (true == GetLevel()->IsDebugCheck())
 	{
-		GetLevel()->PushDebugRender(PlayerCollision->GetTransform(), CollisionType::Rect);
+		if (true == PlayerCollision->IsUpdate())
+		{
+			GetLevel()->PushDebugRender(PlayerCollision->GetTransform(), CollisionType::Rect);
+		}
 
 		if (true == PlayerSlashCollision->IsUpdate())
 		{
-		GetLevel()->PushDebugRender(PlayerSlashCollision->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(PlayerSlashCollision->GetTransform(), CollisionType::Rect);
 		}
 	}
 
@@ -148,16 +171,19 @@ void Player::Update(float _DeltaTime)
 		);
 	}
 
-	//몬스터 충돌체크
+	//내가 데미지 상태가 아니고, 플레이어콜리전이 업데이트 중일때만 충돌체크
+	if (false == (StateManager_.IsCurrentState("Damage")) && true == PlayerCollision->IsUpdate())
 	{
 		PlayerCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::MONSTER,
 			[&](GameEngineCollision* _OtherCollision)
 			{
-				//TimeCheck = 0.3f;
-				//StateManager_.ChangeState("Damage");
+				StateManager_.ChangeState("Damage");
+				Impact = true;
 			}
 		);
 	}
+	
+	
 }
 
 void Player::Idle()
@@ -781,36 +807,25 @@ void Player::MapPrev()
 
 void Player::Damage()
 {
+	PlayerImageRenderer->SetChangeAnimation("Damage");
+
 	//첫순간에만 일어난다
 	if (true == Impact)
 	{
-	PlayerImageRenderer->SetChangeAnimation("Damage");
-	PlayerCollision->Off();
+	TimeCheck = 1.0f;
+	GameEngineTime::GetInst().SetTimeScale(0, 0.0f);
+	Impact = false;
 	}
 
-	if (true == Impact)
-	{
-		//여러가지 효과가 멈추는 함수를 만들어야한다
-		//ex)
-		//GetLevel() -> DamageStop(0.5f);
-		//->0.5초 동안 다른 액터들도 멈춘다
-		Impact = false;
-	}
+	
 
 	TimeCheck -= GameEngineTime::GetInst().GetDeltaTime();
 
-	if (PlayerDirection == LeftRight::RIGHT)
-	{
-		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * 100.0f);
-	}
-	else if (PlayerDirection == LeftRight::LEFT)
-	{
-		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * 100.0f);
-	}
-
 	if (TimeCheck <= 0.0f)
 	{
-		PlayerCollision->On();
+		GameEngineTime::GetInst().SetTimeScale(0, 1.0f);
+		Immune = true;
+		ImmuneTime = 3.0f;
 		StateManager_.ChangeState("Idle");
 	}
 }

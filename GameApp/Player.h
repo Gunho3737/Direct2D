@@ -31,6 +31,7 @@ protected:
 
 	float Speed;
 	float TimeCheck;
+	float ImmuneTime;
 
 	float4 JumpPower;
 	float4 BasicJumpPower;
@@ -46,6 +47,9 @@ protected:
 	
 	//데미지를 받은 상태냐?
 	bool Impact;
+
+	//일정시간 무적상태를 위한 bool
+	bool Immune;
 
 private:
 	void Start() override;
