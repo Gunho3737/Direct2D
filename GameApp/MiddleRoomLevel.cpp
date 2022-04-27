@@ -52,7 +52,7 @@ void MiddleRoomLevel::LevelStart()
 	{
 		FlyBug* Actor = CreateActor<FlyBug>();
 		Actor->Direction = LeftRight::LEFT;
-		Actor->GetTransform()->SetWorldPosition(float4(10000.0f, -2800.0f, 0.0f));
+		Actor->GetTransform()->SetWorldPosition(float4(10000.0f, -2200.0f, 0.0f));
 	}
 
 	{

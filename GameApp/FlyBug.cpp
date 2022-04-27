@@ -32,7 +32,7 @@ void FlyBug::Start()
 		PlayerImageRenderer->CreateAnimation("FlyBug.png", "Idle", 1, 6, 0.1f);
 		PlayerImageRenderer->CreateAnimation("FlyBug.png", "Startle", 10, 13, 0.1f);
 		PlayerImageRenderer->CreateAnimation("FlyBug.png", "Chase", 14, 19, 0.1f);
-		PlayerImageRenderer->CreateAnimation("FlyBug.png", "Die", 21, 23, 0.1f);
+		PlayerImageRenderer->CreateAnimation("FlyBug.png", "Die", 21, 23, 0.1f, false);
 		//	
 		//		//애니메이션의 첫프레임/마지막 프레임/애니메이션의x번째프레임을 지정해 특정 함수가 실행되도록한다
 		//		PlayerImageRenderer->SetStartCallBack("Test", std::bind(&FlyBug::TestStartCallBack, this));
@@ -147,13 +147,17 @@ void FlyBug::Die()
 {
 	PlayerImageRenderer->SetChangeAnimation("Die");
 
+	if (MapBotCollisionColor != float4::BLACK)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN *1000.0f);
+	}
+
 	PlayerImageRenderer->SetEndCallBack("Die", [&]()
 		{
 			StateManager_.ChangeState("Idle");
 			Off();
 		}
 	);
-
 }
 
 void FlyBug::Startle()
