@@ -184,7 +184,7 @@ void FlyBug::Chase()
 	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 	float4 MonsterPos = Collision->GetTransform()->GetWorldPosition();
 	PlayerImageRenderer->SetChangeAnimation("Chase");
-
+	LeftRight PostDirection = Direction;
 
 	if (PlayerPos.x > MonsterPos.x)
 	{
@@ -234,6 +234,14 @@ void FlyBug::Chase()
 			}
 		}
 	
+	}
+
+	//x값이 겹칠경우 float 값때문에 발작하는것 방지
+	if (-2.0f <= (PlayerPos.x - MonsterPos.x) &&
+		2.0f >= (PlayerPos.x - MonsterPos.x)
+		)
+	{
+		Direction = PostDirection;
 	}
 
 
