@@ -25,7 +25,12 @@ public:
 	GameEngineFSM StateManager_;
 
 	bool Immune;
+	bool GetDamage;
 
+	float4 MapBotCollisionColor;
+	float4 MapTopCollisionColor;
+	float4 MapLeftCollisionColor;
+	float4 MapRightCollisionColor;
 
 protected:
 
@@ -43,8 +48,5 @@ private:
 	void Die();
 	void Startle();
 	void Chase();
-
-public:
-	void ImmuneOff();
 };
 

@@ -9,7 +9,7 @@
 
 
 FlyBug::FlyBug()
-	: HP(3), Immune(false), ImmuneTime(0.5f), Speed(300.0f)
+	: HP(3), Immune(false), GetDamage(false), ImmuneTime(0.0f), Speed(300.0f)
 {
 }
 
@@ -66,6 +66,13 @@ void FlyBug::Update(float _DeltaTime)
 {
 	StateManager_.Update();
 
+	MapBotCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 0.0f, 0.0f});
+
+	MapTopCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 150.0f, 0.0f});
+	MapLeftCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {-30.0f, 0.0f, 0.0f});
+	MapRightCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {30.0f, 0.0f, 0.0f});
+
+
 	if (true == GetLevel()->IsDebugCheck())
 	{
 		GetLevel()->PushDebugRender(Collision->GetTransform(), CollisionType::Rect);
@@ -86,40 +93,43 @@ void FlyBug::Update(float _DeltaTime)
 		StateManager_.ChangeState("Die");
 	}
 
-	Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::ATTACK,
-		[&](GameEngineCollision* _OtherCollision)
+	if (true == GetDamage)
+	{
+		ImmuneTime -= _DeltaTime;
+
+		if (Direction == LeftRight::LEFT)
 		{
-			if (true == Immune)
-			{
-				return;
-			}
-			else if (false == Immune)
+			GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * 500.0f);
+		}
+		else if (Direction == LeftRight::RIGHT)
+		{
+			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * 500.0f);
+		}
+
+		if (ImmuneTime <= 0.0f)
+		{
+			Immune = false;
+			GetDamage = false;
+		}
+	}
+
+	if (false == Immune)
+	{
+		Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::ATTACK,
+			[&](GameEngineCollision* _OtherCollision)
 			{
 				HP -= 1;
 				Immune = true;
+				GetDamage = true;
+				ImmuneTime = 0.3f;
 			}
-
-		}
-	);
-
-
-	if (true == Immune)
-	{
-		GetLevel()->AddTimeEvent(0.7f, std::bind(&FlyBug::ImmuneOff, this));
+		);
 	}
+
+
+
 }
 
-void FlyBug::ImmuneOff()
-{ 
-	if (Immune == false)
-	{
-		return;
-	}
-	else if (Immune == true)
-	{
-		Immune = false;
-	}
-}
 
 void FlyBug::Idle()
 {
@@ -176,35 +186,55 @@ void FlyBug::Chase()
 	PlayerImageRenderer->SetChangeAnimation("Chase");
 
 
-	//if (PlayerPos.x > MonsterPos.x)
-	//{
-	//	Direction = LeftRight::RIGHT;
-	//	GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
-	//
-	//	if (PlayerPos.y > MonsterPos.y)
-	//	{
-	//		GetTransform()->SetLocalDeltaTimeMove(float4::UP * Speed);
-	//	}
-	//	else
-	//	{
-	//		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * Speed);
-	//	}
-	//
-	//}
-	//else
-	//{
-	//	Direction = LeftRight::LEFT;
-	//	GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
-	//	if (PlayerPos.y > MonsterPos.y)
-	//	{
-	//		GetTransform()->SetLocalDeltaTimeMove(float4::UP * Speed);
-	//	}
-	//	else
-	//	{
-	//		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * Speed);
-	//	}
-	//
-	//}
+	if (PlayerPos.x > MonsterPos.x)
+	{
+		Direction = LeftRight::RIGHT;
+
+		if (MapRightCollisionColor != float4::BLACK)
+		{
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+		}
+	
+		if (PlayerPos.y > MonsterPos.y)
+		{
+			if (MapTopCollisionColor != float4::BLACK)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::UP * Speed);
+			}
+		}
+		else
+		{
+			if (MapBotCollisionColor != float4::BLACK)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * Speed);
+			}
+		}
+	
+	}
+	else
+	{
+		Direction = LeftRight::LEFT;
+		if (MapLeftCollisionColor != float4::BLACK)
+		{
+			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+		}
+
+		if (PlayerPos.y > MonsterPos.y)
+		{
+			if (MapTopCollisionColor != float4::BLACK)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::UP * Speed);
+			}
+		}
+		else
+		{
+			if (MapBotCollisionColor != float4::BLACK)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * Speed);
+			}
+		}
+	
+	}
 
 
 }

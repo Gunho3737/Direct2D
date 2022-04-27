@@ -444,8 +444,7 @@ void Player::Attack()
 	if (0 > JumpPower.y)
 	{
 		if (
-			MapLeftCollisionColor != float4::BLACK &&
-			MapTopLeftCollisionColor != float4::BLACK 
+			MapBotCollisionColor != float4::BLACK
 			)
 		{
 			GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 500.0f);
