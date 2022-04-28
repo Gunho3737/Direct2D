@@ -53,6 +53,9 @@
     <ClCompile Include="MiddleBossRoomLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
+    <ClCompile Include="CrawlBug.cpp">
+      <Filter>Actor\PlayLevel\Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -135,6 +138,9 @@
     </ClInclude>
     <ClInclude Include="MiddleBossRoomLevel.h">
       <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="CrawlBug.h">
+      <Filter>Actor\PlayLevel\Monster</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

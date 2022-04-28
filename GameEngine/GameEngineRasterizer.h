@@ -61,6 +61,8 @@ public:
 	void SwitchState();
 
 	void Setting();
+
+	GameEngineRasterizer* Clone();
 };
 
 

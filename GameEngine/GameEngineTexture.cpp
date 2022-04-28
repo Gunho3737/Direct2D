@@ -112,6 +112,8 @@ void GameEngineTexture::Create(ID3D11Texture2D* _Texture2D)
 
 
 	Texture2D_ = _Texture2D;
+
+	Texture2D_->GetDesc(&TextureDesc_);
 }
 
 

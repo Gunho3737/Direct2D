@@ -42,6 +42,12 @@ private:	// member Var
 	GameEngineDepthStencil* DepthStencil_;
 
 public:
+	inline GameEngineRasterizer* GetRasterizer() const
+	{
+		return Rasterizer_;
+	}
+
+
 	inline GameEnginePixelShader* GetPixelShader() const
 	{
 		return PixelShader_;
@@ -75,6 +81,13 @@ public:
 	void Rendering();
 
 	void Reset();
+
+	void InstanceRendering();
+
+	GameEngineRenderingPipeLine* Clone();
+
+
+	void RasterizerClone();
 
 
 public:

@@ -30,6 +30,8 @@ public:
 
 	void CreateResultTarget();
 
+	void CreateResultTarget(const float4& _Size);
+
 	inline void SetEffect(const std::string& _Effect)
 	{
 		Effect_ = GameEngineRenderingPipeLineManager::GetInst().Find(_Effect);

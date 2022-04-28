@@ -24,10 +24,8 @@ public:
 		return Actor_;
 	}
 
-	GameEngineLevel* GetLevel()
-	{
-		return Level_;
-	}
+	GameEngineLevel* GetLevel();
+
 
 protected:
 	virtual void InitComponent(GameEngineActor* Actor_);

@@ -20,6 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Appmain.cpp" />
+    <ClCompile Include="CrawlBug.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EndingLevel.cpp">
       <SubType>
       </SubType>
@@ -75,6 +79,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CrawlBug.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CustomVertex.h" />
     <ClInclude Include="EndingLevel.h">
       <SubType>

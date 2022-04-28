@@ -19,6 +19,11 @@ GameEngineRenderingPipeLine::GameEngineRenderingPipeLine() // default constructe
 
 GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine() // default destructer 디폴트 소멸자
 {
+	if (true == Rasterizer_->IsClone())
+	{
+		delete Rasterizer_;
+		Rasterizer_ = nullptr;
+	}
 
 }
 
@@ -183,8 +188,42 @@ void GameEngineRenderingPipeLine::Rendering()
 	GameEngineDevice::GetContext()->DrawIndexed(IndexBuffer_->GetIndexCount(), 0, 0);
 }
 
+void GameEngineRenderingPipeLine::InstanceRendering()
+{
+	// 같은 매쉬를 쓰고
+	// 같은 랜더링 파이프라인을 사용할건데.
+	// 상수버퍼 
+	RenderingPipeLineSetting();
+
+	// GameEngineDevice::GetContext()->DrawIndexedInstanced(IndexBuffer_->GetIndexCount(), 0, 0);
+}
+
 void GameEngineRenderingPipeLine::Reset()
 {
 	Blend_->Reset();
 	DepthStencil_->Reset();
+}
+
+GameEngineRenderingPipeLine* GameEngineRenderingPipeLine::Clone()
+{
+	GameEngineRenderingPipeLine* NewClone = new GameEngineRenderingPipeLine();
+
+	NewClone->VertexBuffer_ = VertexBuffer_;
+	NewClone->InputLayOutVertexShader_ = InputLayOutVertexShader_;
+	NewClone->VertexShader_ = VertexShader_;
+	NewClone->IndexBuffer_ = IndexBuffer_;
+	NewClone->Topology_ = Topology_;
+	NewClone->Rasterizer_ = Rasterizer_;
+	NewClone->PixelShader_ = PixelShader_;
+	NewClone->Blend_ = Blend_;
+	NewClone->RenderTarget_ = RenderTarget_;
+	NewClone->DepthStencil_ = DepthStencil_;
+	NewClone->CloneOn();
+
+	return NewClone;
+}
+
+void GameEngineRenderingPipeLine::RasterizerClone()
+{
+	Rasterizer_ = Rasterizer_->Clone();
 }

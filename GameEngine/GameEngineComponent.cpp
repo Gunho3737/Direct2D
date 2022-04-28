@@ -19,3 +19,7 @@ void GameEngineComponent::InitComponent(GameEngineActor* _Actor)
 }
 
 
+GameEngineLevel* GameEngineComponent::GetLevel()
+{
+	return Actor_->GetLevel();
+}

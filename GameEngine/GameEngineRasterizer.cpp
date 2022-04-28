@@ -102,3 +102,16 @@ void GameEngineRasterizer::SwitchState()
     State_ = OldState_;
     OldState_ = State;
 }
+
+GameEngineRasterizer* GameEngineRasterizer::Clone()
+{
+    GameEngineRasterizer* NewClone = new GameEngineRasterizer();
+
+    NewClone->Create(Desc_);
+
+    NewClone->ViewPort_ = ViewPort_;
+    NewClone->CloneOn();
+
+
+    return NewClone;
+}

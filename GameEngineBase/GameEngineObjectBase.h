@@ -11,6 +11,7 @@ private:	// member Var
 	bool isUpdate_; // 이게 업데이트되는 기능이 아니고 업데이트를 해야
 	bool isDebug_; // 디버깅 기능 이거 true로 해놓고 f9 걸어 놓으면 
 	int Order_;
+	bool isOrigin_; 
 	GameEngineObjectBase* parent_;
 
 public:
@@ -47,6 +48,15 @@ public:
 			parent_->isUpdate_; // 부모도 켜져있어야
 	}
 
+	void CloneOn()
+	{
+		isOrigin_ = false;
+	}
+
+	bool IsClone()
+	{
+		return isOrigin_ == false;
+	}
 
 	void Death()
 	{
