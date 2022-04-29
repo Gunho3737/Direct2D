@@ -24,8 +24,8 @@ void CrawlBug::Start()
 	ImageRenderer->GetTransform()->SetLocalScaling({ 250.0f, 250.0f, 1.0f });
 
 	Collision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTER));
-	Collision->GetTransform()->SetLocalScaling(float4{ 100.0f, 90.0f, 1.0f });
-	Collision->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, -10.0f });
+	Collision->GetTransform()->SetLocalScaling(float4{ 80.0f, 80.0f, 1.0f });
+	Collision->GetTransform()->SetLocalPosition({ 0.0f, -0.0f, -10.0f });
 
 	StateManager_.CreateState("Walk", std::bind(&CrawlBug::Walk, this));
 	StateManager_.CreateState("Spin", std::bind(&CrawlBug::Spin, this));

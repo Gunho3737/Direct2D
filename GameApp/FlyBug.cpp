@@ -99,11 +99,17 @@ void FlyBug::Update(float _DeltaTime)
 
 		if (Direction == LeftRight::LEFT)
 		{
-			GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * 500.0f);
+			if (MapRightCollisionColor != float4::BLACK)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * 500.0f);
+			}
 		}
 		else if (Direction == LeftRight::RIGHT)
 		{
-			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * 500.0f);
+			if (MapLeftCollisionColor != float4::BLACK)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * 500.0f);
+			}
 		}
 
 		if (ImmuneTime <= 0.0f)
@@ -238,6 +244,11 @@ void FlyBug::Chase()
 			}
 		}
 	
+	}
+
+	if (MapBotCollisionColor == float4::BLACK)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::UP * Speed);
 	}
 
 	//x값이 겹칠경우 float 값때문에 발작하는것 방지

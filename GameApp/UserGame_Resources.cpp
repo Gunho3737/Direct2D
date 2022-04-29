@@ -50,7 +50,7 @@ void UserGame::ResourcesLoad()
 		GameEngineTexture* Texture = GameEngineTextureManager::GetInst().Find("FlyBug.png");
 		Texture->Cut(5, 5);
 		Texture = GameEngineTextureManager::GetInst().Find("CrawlBug.png");
-		Texture->Cut(5, 5);
+		Texture->Cut(5, 3);
 	}
 
 	{
