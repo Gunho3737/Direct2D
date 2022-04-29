@@ -4,6 +4,8 @@
 // Ό³Έν :
 class Player;
 class BitMap;
+class FlyBug;
+class CrawlBug;
 class MiddleRoomLevel : public GameEngineLevel
 {
 public:
@@ -27,6 +29,8 @@ public:
 protected:
 	Player* PlayerActor;
 	BitMap* BitMapActor;
+	FlyBug* FlyActor;
+	CrawlBug* CrawlActor;
 
 	float4 PlayerPos;
 

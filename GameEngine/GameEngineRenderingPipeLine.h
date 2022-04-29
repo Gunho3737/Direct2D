@@ -108,7 +108,5 @@ private:		//delete operator
 	void Rasterizer();
 	void PixelShader();
 	void OutPutMerger();
-
-
 };
 

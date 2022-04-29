@@ -25,6 +25,7 @@ GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine() // default destructe
 		Rasterizer_ = nullptr;
 	}
 
+
 }
 
 GameEngineRenderingPipeLine::GameEngineRenderingPipeLine(GameEngineRenderingPipeLine&& _other) noexcept  // default RValue Copy constructer 디폴트 RValue 복사생성자

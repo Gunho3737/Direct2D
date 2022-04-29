@@ -5,6 +5,7 @@
 #include "FlyBug.h"
 #include "BitMap.h"
 #include "ViewMap.h"
+#include "CrawlBug.h"
 #include <GameEngine\PostFade.h>
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
@@ -50,14 +51,19 @@ void MiddleRoomLevel::LevelStart()
 	}
 
 	{
-		FlyBug* Actor = CreateActor<FlyBug>();
-		Actor->Direction = LeftRight::LEFT;
-		Actor->GetTransform()->SetWorldPosition(float4(10000.0f, -2200.0f, 0.0f));
+		FlyActor = CreateActor<FlyBug>();
+		FlyActor->Direction = LeftRight::LEFT;
+		FlyActor->GetTransform()->SetWorldPosition(float4(10000.0f, -2200.0f, 0.0f));
 	}
 
 	{
 		UI_HpBar* Actor = CreateActor<UI_HpBar>();
 		Actor->GetTransform()->SetWorldPosition(float4(0.0f, 0.0f, 0.0f));
+	}
+
+	{
+		CrawlActor = CreateActor<CrawlBug>();
+		CrawlActor->GetTransform()->SetWorldPosition(float4(10420.0f, -2400.0f, 0.0f));
 	}
 
 }
