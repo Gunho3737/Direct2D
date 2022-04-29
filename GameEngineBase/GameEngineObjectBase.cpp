@@ -5,7 +5,8 @@ GameEngineObjectBase::GameEngineObjectBase() // default constructer 디폴트 생성�
 	: isDeath_(false),
 	isUpdate_(true),
 	isDebug_(false), // 디버깅 기능 이거 true로 해놓고 f9 걸어 놓으면 
-	parent_(nullptr)
+	parent_(nullptr),
+	isOrigin_(true)
 {
 
 }
