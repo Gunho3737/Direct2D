@@ -25,6 +25,7 @@ public:
 	float4 MapRightCollisionColor;
 
 
+	float StartX;
 protected:		// delete constructer
 	CrawlBug(const CrawlBug& _other) = delete; // default Copy constructer 디폴트 복사생성자
 	CrawlBug(CrawlBug&& _other) = delete; // default RValue Copy constructer 디폴트 RValue 복사생성자
@@ -42,6 +43,10 @@ private:
 	void Spin();
 	void Death();
 
+
+	float MoveDistance;
+
 	int HP;
+	float Speed;
 };
 

@@ -5,7 +5,8 @@
 #include <GameEngine\GameEngineCollision.h>
 
 
-CrawlBug::CrawlBug() // default constructer 디폴트 생성자
+CrawlBug::CrawlBug()
+	: HP(3), Speed(50.0f), StartX(0.0f), MoveDistance(200.0f)
 {
 
 }
@@ -32,16 +33,20 @@ void CrawlBug::Start()
 	StateManager_.CreateState("Death", std::bind(&CrawlBug::Death, this));
 
 	StateManager_.ChangeState("Walk");
+
+	StartX = GetTransform()->GetWorldPosition().x;
 }
 
 void CrawlBug::Update(float _DeltaTime)
 {
+	StateManager_.Update();
+
 	if (true == GetLevel()->IsDebugCheck())
 	{
 		GetLevel()->PushDebugRender(Collision->GetTransform(), CollisionType::Rect);
 	}
 
-	if (Direction == LeftRight::LEFT)
+	if (Direction == LeftRight::RIGHT)
 	{
 		ImageRenderer->GetTransform()->SetLocalScaling(float4{ 250.0f, 250.0f, 1.0f });
 	}
@@ -54,6 +59,32 @@ void CrawlBug::Update(float _DeltaTime)
 void CrawlBug::Walk()
 {
 	ImageRenderer->SetChangeAnimation("Walk");
+
+
+	switch (Direction)
+	{
+	case LeftRight::LEFT:
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+		if ((StartX - (GetTransform()->GetWorldPosition().x)) >= MoveDistance)
+		{
+			Direction = LeftRight::RIGHT;
+		}
+	}
+		break;
+	case LeftRight::RIGHT:
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+		if ((StartX - (GetTransform()->GetWorldPosition().x)) <= 0.0f)
+		{
+			Direction = LeftRight::LEFT;
+		}
+	}
+		break;
+	default:
+		break;
+	}
+
 }
 
 void CrawlBug::Spin()

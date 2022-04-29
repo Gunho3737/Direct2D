@@ -62,10 +62,10 @@ void MiddleRoomLevel::LevelStart()
 	}
 
 	{
-		//10260, 2650
 		CrawlActor = CreateActor<CrawlBug>();
-		CrawlActor->Direction = LeftRight::RIGHT;
+		CrawlActor->Direction = LeftRight::LEFT;
 		CrawlActor->GetTransform()->SetWorldPosition(float4(10260.0f, -2610.0f, 0.0f));
+		CrawlActor->StartX = 10260.0f;
 	}
 
 }
