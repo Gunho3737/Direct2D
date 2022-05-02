@@ -9,7 +9,7 @@
 
 
 FlyBug::FlyBug()
-	: HP(3), Immune(false), GetDamage(false), ImmuneTime(0.0f), Speed(300.0f)
+	: HP(3), GetDamage(false), ImmuneTime(0.0f), Speed(300.0f)
 {
 }
 
@@ -114,18 +114,16 @@ void FlyBug::Update(float _DeltaTime)
 
 		if (ImmuneTime <= 0.0f)
 		{
-			Immune = false;
 			GetDamage = false;
 		}
 	}
 
-	if (false == Immune)
+	if (false == GetDamage)
 	{
 		Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::ATTACK,
 			[&](GameEngineCollision* _OtherCollision)
 			{
 				HP -= 1;
-				Immune = true;
 				GetDamage = true;
 				ImmuneTime = 0.3f;
 			}

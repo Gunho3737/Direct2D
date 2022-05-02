@@ -43,10 +43,12 @@ private:
 	void Spin();
 	void Death();
 
+public:
+	bool GetDamage;
+	int HP;
 
 	float MoveDistance;
-
-	int HP;
+	float ImmuneTime;
 	float Speed;
 };
 

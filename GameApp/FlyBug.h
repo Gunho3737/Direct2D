@@ -24,7 +24,6 @@ public:
 	LeftRight Direction;
 	GameEngineFSM StateManager_;
 
-	bool Immune;
 	bool GetDamage;
 
 	float4 MapBotCollisionColor;

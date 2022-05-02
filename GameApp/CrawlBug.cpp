@@ -54,6 +54,49 @@ void CrawlBug::Update(float _DeltaTime)
 	{
 		ImageRenderer->GetTransform()->SetLocalScaling(float4{ 250.0f, 250.0f, 1.0f } *= float4::XFLIP);
 	}
+
+
+	if (true == GetDamage)
+	{
+		ImmuneTime -= _DeltaTime;
+
+		if (Direction == LeftRight::LEFT)
+		{
+			if (MapRightCollisionColor != float4::BLACK)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * 300.0f);
+			}
+		}
+		else if (Direction == LeftRight::RIGHT)
+		{
+			if (MapLeftCollisionColor != float4::BLACK)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * 300.0f);
+			}
+		}
+
+		if (ImmuneTime <= 0.0f)
+		{
+			GetDamage = false;
+		}
+	}
+
+	if (false == GetDamage)
+	{
+		Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::ATTACK,
+			[&](GameEngineCollision* _OtherCollision)
+			{
+				HP -= 1;
+				GetDamage = true;
+				ImmuneTime = 0.3f;
+			}
+		);
+	}
+
+	if (HP <= 0)
+	{
+		StateManager_.ChangeState("Death");
+	}
 }
 
 void CrawlBug::Walk()
@@ -94,5 +137,5 @@ void CrawlBug::Spin()
 
 void CrawlBug::Death()
 {
-
+	int a = 0;
 }
