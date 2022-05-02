@@ -112,6 +112,21 @@ void FlyBug::Update(float _DeltaTime)
 			}
 		}
 
+		if (Player::MainPlayer->GetTransform()->GetWorldPosition().y >= Collision->GetTransform()->GetWorldPosition().y)
+		{
+			if (MapBotCollisionColor != float4::BLACK)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 300.0f);
+			}
+		}
+		else if (Player::MainPlayer->GetTransform()->GetWorldPosition().y < Collision->GetTransform()->GetWorldPosition().y)
+		{
+			if (MapTopCollisionColor != float4::BLACK)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::UP * 300.0f);
+			}
+		}
+
 		if (ImmuneTime <= 0.0f)
 		{
 			GetDamage = false;
@@ -129,8 +144,6 @@ void FlyBug::Update(float _DeltaTime)
 			}
 		);
 	}
-
-
 
 }
 

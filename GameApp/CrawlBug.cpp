@@ -3,10 +3,11 @@
 #include "GameEngine/GameEngineRenderer.h"
 #include "GameEngine/GameEngineImageRenderer.h"
 #include <GameEngine\GameEngineCollision.h>
-
+#include <GameApp/BitMap.h>
+#include "Player.h"
 
 CrawlBug::CrawlBug()
-	: HP(3), Speed(50.0f), StartX(0.0f), MoveDistance(200.0f)
+	: HP(3), Speed(50.0f), StartX(0.0f), MoveDistance(200.0f), SpinTime(0.0f), ImmuneTime(0.0f)
 {
 
 }
@@ -21,6 +22,8 @@ void CrawlBug::Start()
 	ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 
 	ImageRenderer->CreateAnimation("CrawlBug.png", "Walk", 0, 3, 0.1f);
+	ImageRenderer->CreateAnimation("CrawlBug.png", "Spin", 6, 12, 0.03f);
+	ImageRenderer->CreateAnimation("CrawlBug.png", "Death", 13, 14, 0.1f);
 	ImageRenderer->SetChangeAnimation("Walk");
 	ImageRenderer->GetTransform()->SetLocalScaling({ 250.0f, 250.0f, 1.0f });
 
@@ -41,6 +44,13 @@ void CrawlBug::Update(float _DeltaTime)
 {
 	StateManager_.Update();
 
+	MapBotCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 0.0f, 0.0f});
+
+	//스프라이트는 렌더러의 절반부분이 머리가된다
+	MapTopCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 125.0f, 0.0f});
+	MapLeftCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {-30.0f, 0.0f, 0.0f});
+	MapRightCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {30.0f, 0.0f, 0.0f});
+
 	if (true == GetLevel()->IsDebugCheck())
 	{
 		GetLevel()->PushDebugRender(Collision->GetTransform(), CollisionType::Rect);
@@ -55,6 +65,13 @@ void CrawlBug::Update(float _DeltaTime)
 		ImageRenderer->GetTransform()->SetLocalScaling(float4{ 250.0f, 250.0f, 1.0f } *= float4::XFLIP);
 	}
 
+
+	if (HP <= 0)
+	{
+		SpinTime = 0.2f;
+		HP = 3;
+		StateManager_.ChangeState("Spin");
+	}
 
 	if (true == GetDamage)
 	{
@@ -93,10 +110,6 @@ void CrawlBug::Update(float _DeltaTime)
 		);
 	}
 
-	if (HP <= 0)
-	{
-		StateManager_.ChangeState("Death");
-	}
 }
 
 void CrawlBug::Walk()
@@ -132,10 +145,55 @@ void CrawlBug::Walk()
 
 void CrawlBug::Spin()
 {
+	ImageRenderer->SetChangeAnimation("Spin");
+	Collision->Off();
 
+	SpinTime -= GameEngineTime::GetInst().GetDeltaTime();
+
+	if (Direction == LeftRight::LEFT)
+	{
+		if (MapRightCollisionColor != float4::BLACK)
+		{
+			GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * 500.0f);
+		}
+	}
+	else if (Direction == LeftRight::RIGHT)
+	{
+		if (MapLeftCollisionColor != float4::BLACK)
+		{
+			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * 500.0f);
+		}
+	}
+
+	if (SpinTime <= 0.0f)
+	{
+		StateManager_.ChangeState("Death");
+	}
 }
 
 void CrawlBug::Death()
 {
-	int a = 0;
+	ImageRenderer->SetChangeAnimation("Death");
+
+	if (Direction == LeftRight::LEFT)
+	{
+		if (MapRightCollisionColor != float4::BLACK)
+		{
+			GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * 500.0f);
+		}
+	}
+	else if (Direction == LeftRight::RIGHT)
+	{
+		if (MapLeftCollisionColor != float4::BLACK)
+		{
+			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * 500.0f);
+		}
+	}
+
+	ImageRenderer->SetEndCallBack("Death", [&]()
+		{
+			StateManager_.ChangeState("Walk");
+			Off();
+		}
+	);
 }

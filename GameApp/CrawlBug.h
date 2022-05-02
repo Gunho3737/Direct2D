@@ -49,6 +49,7 @@ public:
 
 	float MoveDistance;
 	float ImmuneTime;
+	float SpinTime;
 	float Speed;
 };
 

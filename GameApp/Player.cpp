@@ -201,6 +201,12 @@ void Player::Update(float _DeltaTime)
 		PlayerCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::MONSTER,
 			[&](GameEngineCollision* _OtherCollision)
 			{
+				if (false == _OtherCollision->IsUpdate())
+				{
+					return;
+					//상대 몬스터의 콜리전이 꺼져있으면 바로 리턴, 충돌체크 안함
+				}
+
 				StateManager_.ChangeState("Damage");
 				Impact = true;
 			}
