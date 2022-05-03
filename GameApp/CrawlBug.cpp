@@ -77,14 +77,17 @@ void CrawlBug::Update(float _DeltaTime)
 	{
 		ImmuneTime -= _DeltaTime;
 
-		if (Direction == LeftRight::LEFT)
+		float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+		float4 MonsterPos = Collision->GetTransform()->GetWorldPosition();
+
+		if (PlayerPos.x < MonsterPos.x)
 		{
 			if (MapRightCollisionColor != float4::BLACK)
 			{
 				GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * 300.0f);
 			}
 		}
-		else if (Direction == LeftRight::RIGHT)
+		else if (PlayerPos.x >= MonsterPos.x)
 		{
 			if (MapLeftCollisionColor != float4::BLACK)
 			{
@@ -95,6 +98,7 @@ void CrawlBug::Update(float _DeltaTime)
 		if (ImmuneTime <= 0.0f)
 		{
 			GetDamage = false;
+			Collision->On();
 		}
 	}
 
@@ -106,6 +110,7 @@ void CrawlBug::Update(float _DeltaTime)
 				HP -= 1;
 				GetDamage = true;
 				ImmuneTime = 0.3f;
+				Collision->Off();
 			}
 		);
 	}

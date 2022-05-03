@@ -31,6 +31,7 @@ protected:
 	BitMap* BitMapActor;
 	FlyBug* FlyActor;
 	CrawlBug* CrawlActor;
+	CrawlBug* CrawlActor2;
 
 	float4 PlayerPos;
 

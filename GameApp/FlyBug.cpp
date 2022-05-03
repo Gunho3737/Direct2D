@@ -130,6 +130,7 @@ void FlyBug::Update(float _DeltaTime)
 		if (ImmuneTime <= 0.0f)
 		{
 			GetDamage = false;
+			Collision->On();
 		}
 	}
 
@@ -141,6 +142,7 @@ void FlyBug::Update(float _DeltaTime)
 				HP -= 1;
 				GetDamage = true;
 				ImmuneTime = 0.3f;
+				Collision->Off();
 			}
 		);
 	}

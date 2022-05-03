@@ -64,10 +64,18 @@ void MiddleRoomLevel::LevelStart()
 	{
 		CrawlActor = CreateActor<CrawlBug>();
 		CrawlActor->Direction = LeftRight::LEFT;
-		CrawlActor->GetTransform()->SetWorldPosition(float4(10260.0f, -2610.0f, 0.0f));
+		CrawlActor->GetTransform()->SetWorldPosition(float4(10260.0f, -2612.0f, 0.0f));
 		CrawlActor->StartX = 10260.0f;
 	}
 
+
+
+	{
+		CrawlActor2 = CreateActor<CrawlBug>();
+		CrawlActor2->Direction = LeftRight::LEFT;
+		CrawlActor2->GetTransform()->SetWorldPosition(float4(10420.0f, -1548.0f, 0.0f));
+		CrawlActor2->StartX = 10420.0f;
+	}
 }
 
 void MiddleRoomLevel::LevelUpdate(float _DeltaTime)
