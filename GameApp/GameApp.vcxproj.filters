@@ -56,6 +56,9 @@
     <ClCompile Include="CrawlBug.cpp">
       <Filter>Actor\PlayLevel\Monster</Filter>
     </ClCompile>
+    <ClCompile Include="MiddleBoss.cpp">
+      <Filter>Actor\PlayLevel\Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -140,6 +143,9 @@
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="CrawlBug.h">
+      <Filter>Actor\PlayLevel\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="MiddleBoss.h">
       <Filter>Actor\PlayLevel\Monster</Filter>
     </ClInclude>
   </ItemGroup>
