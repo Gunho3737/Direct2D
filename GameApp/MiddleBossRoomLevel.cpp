@@ -11,6 +11,7 @@
 #include <GameEngine/CameraActor.h>
 #include <GameEngine/GameEngineGUI.h>
 #include <GameEngine/GameEngineRenderWindow.h>
+#include "MiddleBoss.h"
 
 MiddleBossRoomLevel::MiddleBossRoomLevel() // default constructer 디폴트 생성자
 {
@@ -55,14 +56,11 @@ void MiddleBossRoomLevel::LevelStart()
 		Actor->GetTransform()->SetWorldPosition(float4(0.0f, 0.0f, 0.0f));
 	}
 
-	//FadeEffect = AddPostProcessCameraMergeNext<PostFade>();
-	//FadeEffect->SetTarget(GameEngineDevice::GetBackBufferTarget());
-	//
-	//GameEngineRenderWindow* Window = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineRenderWindow>("RenderWindow");
-	//float4 Size = { 128, 72 };
-	//Window->PushRenderTarget("PostEffectFade", FadeEffect->GetResult(), Size * 3);
-	//
-	//FadeEffect->SetData(1.0f, FadeOption::LIGHT);
+	{
+		MiddleBoss* BossActor = CreateActor<MiddleBoss>();
+		BossActor->GetTransform()->SetWorldPosition(float4(7600.0f, -2200.0f, 0.0f));
+	}
+	
 
 }
 
