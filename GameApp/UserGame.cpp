@@ -48,7 +48,7 @@ void UserGame::Initialize()
 	LevelCreate<FinalBossRoomLevel>("FinalBossRoom");
 	LevelCreate<EndingLevel>("Ending");
 
-	LevelChange("BenchRoom");
+	LevelChange("Title");
 
 	return;
 }

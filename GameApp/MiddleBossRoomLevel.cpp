@@ -58,7 +58,7 @@ void MiddleBossRoomLevel::LevelStart()
 
 	{
 		MiddleBoss* BossActor = CreateActor<MiddleBoss>();
-		BossActor->GetTransform()->SetWorldPosition(float4(7600.0f, -2200.0f, 0.0f));
+		BossActor->GetTransform()->SetWorldPosition(float4(7400.0f, -2200.0f, 0.0f));
 	}
 	
 

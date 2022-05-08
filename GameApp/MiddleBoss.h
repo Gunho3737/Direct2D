@@ -15,7 +15,18 @@ public:
 	~MiddleBoss(); // default destructer 디폴트 소멸자
 
 	GameEngineImageRenderer* ImageRenderer;
+
+	//보스자체의콜리전
 	GameEngineCollision* Collision;
+
+	//플레이어 인식콜리전
+	GameEngineCollision* ViewCollision;
+
+	//플레이어와의 거리를 재기위한 콜리전
+	GameEngineCollision* RangeCollision;
+
+	//공격자체의 콜리전
+	GameEngineCollision* AttackCollision;
 	GameEngineFSM StateManager_;
 
 	float4 MapBotCollisionColor;
