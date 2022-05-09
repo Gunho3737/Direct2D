@@ -22,6 +22,7 @@ MiddleBoss::~MiddleBoss() // default destructer 디폴트 소멸자
 void MiddleBoss::Start()
 {
 	ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	AttackEffectRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 
 	ImageRenderer->CreateAnimation("MiddleBoss.png", "Idle", 6, 12, 0.1f);
 	ImageRenderer->CreateAnimation("MiddleBoss.png", "Wait", 6, 12, 0.1f);
@@ -36,15 +37,19 @@ void MiddleBoss::Start()
 
 	RangeCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERVIEW));
 	RangeCollision->GetTransform()->SetLocalScaling(float4{ 700.0f, 700.0f, 1.0f });
-	RangeCollision->GetTransform()->SetLocalPosition({ 0.0f, 175.0f, -10.0f });
+	RangeCollision->GetTransform()->SetLocalPosition({ 0.0f, 130.0f, -10.0f });
 
 	ViewCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERVIEW));
-	ViewCollision->GetTransform()->SetLocalScaling(float4{ 1200.0f, 1200.0f, 1.0f });
-	ViewCollision->GetTransform()->SetLocalPosition({ 0.0f, 175.0f, -10.0f });
+	ViewCollision->GetTransform()->SetLocalScaling(float4{ 1200.0f, 700.0f, 1.0f });
+	ViewCollision->GetTransform()->SetLocalPosition({ 0.0f, 130.0f, -10.0f });
 
 	AttackCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTER));
 	//AttackCollision->GetTransform()->SetLocalScaling(float4{ 1200.0f, 1200.0f, 1.0f });
 	//AttackCollision->GetTransform()->SetLocalPosition({ 0.0f, 175.0f, -10.0f });
+
+	AttackEffectRenderer->Off();
+	AttackCollision->Off();
+
 
 	StateManager_.CreateState("Wait", std::bind(&MiddleBoss::Wait, this));
 	StateManager_.CreateState("Idle", std::bind(&MiddleBoss::Idle, this));
@@ -72,9 +77,10 @@ void MiddleBoss::Update(float _DeltaTime)
 
 void MiddleBoss::Wait()
 {
+	ImageRenderer->SetChangeAnimation("Wait");
+
 	if (PrevState_ == "Walk")
 	{
-		ImageRenderer->SetChangeAnimation("Wait");
 		return;
 	}
 }
@@ -126,7 +132,14 @@ void  MiddleBoss::Turn()
 {}
 
 void  MiddleBoss::Attack()
-{}
+{
+	ImageRenderer->SetChangeAnimation("Attack");
+	
+	if (true)
+	{
+
+	}
+}
 
 void  MiddleBoss::JumpReady()
 {}
@@ -142,7 +155,10 @@ void  MiddleBoss::Death()
 
 void MiddleBoss::SetCallBackFunc()
 {
-
+	ImageRenderer->SetStartCallBack("Attack", [&]()
+		{
+		}
+	);
 }
 
 void MiddleBoss::DirectionCheck()
