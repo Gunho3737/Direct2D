@@ -15,6 +15,7 @@ public:
 	~MiddleBoss(); // default destructer 디폴트 소멸자
 
 	GameEngineImageRenderer* ImageRenderer;
+	GameEngineImageRenderer* AttackEffectRenderer;
 
 	//보스자체의콜리전
 	GameEngineCollision* Collision;
@@ -27,12 +28,17 @@ public:
 
 	//공격자체의 콜리전
 	GameEngineCollision* AttackCollision;
+
+
 	GameEngineFSM StateManager_;
+	std::string PrevState_;
+	LeftRight Direction;
 
 	float4 MapBotCollisionColor;
 	float4 MapTopCollisionColor;
 	float4 MapLeftCollisionColor;
 	float4 MapRightCollisionColor;
+
 
 	float StartX;
 protected:		// delete constructer
@@ -49,7 +55,7 @@ private:
 
 private:
 	void Idle();
-	void Wake();
+	void Wait(); // 행동 중간중간에 대기를 위한 상태
 	void Walk();
 	void Turn();
 	void Attack();
@@ -57,9 +63,12 @@ private:
 	void JumpReady();
 	void Jump();
 	void GetUp();
-
 	void Death();
 
+
+	void SetCallBackFunc();
+
+	void DirectionCheck();
 public:
 	bool GetDamage;
 	int HP;
