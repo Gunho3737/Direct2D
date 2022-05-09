@@ -153,6 +153,7 @@ void UserGame::ResourcesLoad()
 
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("DamageEffect"));
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("StunEffect"));
+
 	
 	}
 
