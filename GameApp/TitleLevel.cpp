@@ -27,6 +27,8 @@ void TitleLevel::LevelStart()
 		GameEngineInput::GetInst().CreateKey("DebugOn", 'R');
 		GameEngineInput::GetInst().CreateKey("FreeCameraOn", 'o');
 		GameEngineInput::GetInst().CreateKey("NextLevel", VK_SPACE);
+		GameEngineInput::GetInst().CreateKey("SuperUp", 'y');
+
 	}
 
 	if (false == GameEngineInput::GetInst().IsKey("PlayerMove"))

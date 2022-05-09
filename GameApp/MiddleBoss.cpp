@@ -58,6 +58,14 @@ void MiddleBoss::Update(float _DeltaTime)
 void MiddleBoss::Idle()
 {
 	ImageRenderer->SetChangeAnimation("Idle");
+
+
+	ViewCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
+		[this](GameEngineCollision* _OtherCollision)
+		{
+			StateManager_.ChangeState("Walk");
+		}
+	);
 }
 
 void  MiddleBoss::Wake()

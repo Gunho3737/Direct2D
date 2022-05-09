@@ -250,6 +250,11 @@ void Player::Idle()
 		StateManager_.ChangeState("Airborne");
 	}
 
+	//디버그용 강제 위로 이동
+	if (true == GameEngineInput::GetInst().Press("SuperUp"))
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::UP * Speed);
+	}
 }
 
 void Player::IdleToRun()
