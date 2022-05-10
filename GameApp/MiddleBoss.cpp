@@ -34,7 +34,7 @@ void MiddleBoss::Start()
 	AttackEffectRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	AttackEffectRenderer->CreateAnimation("MiddleBoss.png", "SmashEffectBack", 49, 49, 0.05f);
 	AttackEffectRenderer->CreateAnimation("MiddleBoss.png", "SmashEffectFront", 50, 50, 0.05f);
-	AttackEffectRenderer->SetChangeAnimation("SmashEffect");
+	AttackEffectRenderer->SetChangeAnimation("SmashEffectBack");
 
 	Collision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTER));
 	Collision->GetTransform()->SetLocalScaling(float4{ 350.0f, 350.0f, 1.0f });
@@ -45,7 +45,7 @@ void MiddleBoss::Start()
 	RangeCollision->GetTransform()->SetLocalPosition({ 0.0f, 130.0f, -10.0f });
 
 	ViewCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERVIEW));
-	ViewCollision->GetTransform()->SetLocalScaling(float4{ 1200.0f, 700.0f, 1.0f });
+	ViewCollision->GetTransform()->SetLocalScaling(float4{ 1000.0f, 700.0f, 1.0f });
 	ViewCollision->GetTransform()->SetLocalPosition({ 0.0f, 130.0f, -10.0f });
 
 	AttackCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTER));
@@ -99,13 +99,6 @@ void MiddleBoss::Wait()
 {
 	ImageRenderer->SetChangeAnimation("Wait");
 
-	if (PrevState_ == "Attack")
-	{
-		StateManager_.ChangeState("Attack");
-		DirectionCheck();
-		return;
-	}
-
 }
 
 void MiddleBoss::Idle()
@@ -151,6 +144,14 @@ void  MiddleBoss::Walk()
 		{
 			PrevState_ = "Walk";
 			StateManager_.ChangeState("Attack");
+		}
+	);
+
+	RangeCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::MONSTERMOVESTOP,
+		[this](GameEngineCollision* _OtherCollision)
+		{
+			PrevState_ = "Walk";
+			StateManager_.ChangeState("Wait");
 		}
 	);
 

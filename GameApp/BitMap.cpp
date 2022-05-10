@@ -71,6 +71,18 @@ void BitMap::Start()
 		FinalBossPrevCollision->GetTransform()->SetLocalPosition(float4{ 4000.0f, -1950.0f, -10.0f });
 	}
 
+	{
+		MIddleBossRightMoveBlockCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERMOVESTOP));
+		MIddleBossRightMoveBlockCollision->GetTransform()->SetLocalScaling(float4{ 10.0f, 300.0f, 1.0f });
+		MIddleBossRightMoveBlockCollision->GetTransform()->SetLocalPosition(float4{ 8950.0f, -2100.0f, -10.0f });
+	}
+
+	{
+	//7150, 2120
+		MIddleBossLeftMoveBlockCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERMOVESTOP));
+		MIddleBossLeftMoveBlockCollision->GetTransform()->SetLocalScaling(float4{ 10.0f, 300.0f, 1.0f });
+		MIddleBossLeftMoveBlockCollision->GetTransform()->SetLocalPosition(float4{ 7150.0f, -2100.0f, -10.0f });
+	}
 }
 
 void BitMap::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
@@ -130,6 +142,8 @@ void BitMap::Update(float DeltaTime_)
 			break;
 		}
 
+		GetLevel()->PushDebugRender(MIddleBossRightMoveBlockCollision->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(MIddleBossLeftMoveBlockCollision->GetTransform(), CollisionType::Rect);
 	}
 
 	switch (BitMap::Progress)

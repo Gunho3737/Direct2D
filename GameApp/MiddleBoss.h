@@ -29,15 +29,9 @@ public:
 	//공격자체의 콜리전
 	GameEngineCollision* AttackCollision;
 
-
 	GameEngineFSM StateManager_;
 	std::string PrevState_;
 	LeftRight Direction;
-
-	float4 MapBotCollisionColor;
-	float4 MapTopCollisionColor;
-	float4 MapLeftCollisionColor;
-	float4 MapRightCollisionColor;
 
 
 	float StartX;
