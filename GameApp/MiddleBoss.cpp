@@ -9,7 +9,7 @@
 
 
 MiddleBoss::MiddleBoss() // default constructer 디폴트 생성자
-	: HP(10), Speed(300.0f)
+	: HP(1), Speed(300.0f), GetDamage(false), ImmuneTime(0.0f)
 {
 
 }
@@ -27,6 +27,7 @@ void MiddleBoss::Start()
 	ImageRenderer->CreateAnimation("MiddleBoss.png", "Wait", 6, 12, 0.1f);
 	ImageRenderer->CreateAnimation("MiddleBoss.png", "Walk", 15, 24, 0.05f);
 	ImageRenderer->CreateAnimation("MiddleBoss.png", "Attack", 39, 48, 0.1f,false);
+	ImageRenderer->CreateAnimation("MiddleBoss.png", "Death", 64, 74, 0.1f, false);
 	ImageRenderer->SetChangeAnimation("Idle");
 	ImageRenderer->GetTransform()->SetLocalScaling({ 1200.0f, 1200.0f, 1.0f });
 
@@ -58,6 +59,7 @@ void MiddleBoss::Start()
 	StateManager_.CreateState("Idle", std::bind(&MiddleBoss::Idle, this));
 	StateManager_.CreateState("Walk", std::bind(&MiddleBoss::Walk, this));
 	StateManager_.CreateState("Attack", std::bind(&MiddleBoss::Attack, this));
+	StateManager_.CreateState("Death", std::bind(&MiddleBoss::Death, this));
 
 	StateManager_.ChangeState("Idle");
 
@@ -93,6 +95,34 @@ void MiddleBoss::Update(float _DeltaTime)
 		}
 	}
 
+	if (HP <= 0)
+	{
+		StateManager_.ChangeState("Death");
+	}
+
+	if (true == GetDamage)
+	{
+		ImmuneTime -= _DeltaTime;
+
+		if (ImmuneTime <= 0.0f)
+		{
+			GetDamage = false;
+			Collision->On();
+		}
+	}
+
+	if (false == GetDamage)
+	{
+		Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::ATTACK,
+			[&](GameEngineCollision* _OtherCollision)
+			{
+				HP -= 1;
+				GetDamage = true;
+				ImmuneTime = 0.3f;
+				Collision->Off();
+			}
+		);
+	}
 }
 
 void MiddleBoss::Wait()
@@ -184,7 +214,16 @@ void  MiddleBoss::GetUp()
 {}
 
 void  MiddleBoss::Death()
-{}
+{
+	ImageRenderer->SetChangeAnimation("Death");
+
+
+	Collision->Off();
+	ViewCollision->Off();
+	RangeCollision->Off();
+	AttackCollision->Off();
+
+}
 
 void MiddleBoss::SetCallBackFunc()
 {
