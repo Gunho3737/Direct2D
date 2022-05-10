@@ -54,7 +54,6 @@ private:
 	void Idle();
 	void Wait(); // 행동 중간중간에 대기를 위한 상태
 	void Walk();
-	void Turn();
 	void Attack();
 
 	void JumpReady();
