@@ -9,7 +9,7 @@
 
 
 MiddleBoss::MiddleBoss() // default constructer 디폴트 생성자
-	: HP(1), Speed(300.0f), GetDamage(false), ImmuneTime(0.0f)
+	: HP(1), Speed(300.0f), GetDamage(false), ImmuneTime(0.0f), TurnOn(false)
 {
 
 }
@@ -38,7 +38,7 @@ void MiddleBoss::Start()
 	AttackEffectRenderer->SetChangeAnimation("SmashEffectBack");
 
 	Collision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTER));
-	Collision->GetTransform()->SetLocalScaling(float4{ 350.0f, 350.0f, 1.0f });
+	Collision->GetTransform()->SetLocalScaling(float4{ 300.0f, 300.0f, 1.0f });
 	Collision->GetTransform()->SetLocalPosition({ 0.0f, 175.0f, -10.0f });
 
 	RangeCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERVIEW));
@@ -49,8 +49,11 @@ void MiddleBoss::Start()
 	ViewCollision->GetTransform()->SetLocalScaling(float4{ 1000.0f, 700.0f, 1.0f });
 	ViewCollision->GetTransform()->SetLocalPosition({ 0.0f, 130.0f, -10.0f });
 
+	TurnCheckCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERVIEW));
+
 	AttackCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTER));
 
+	TurnCheckCollision->Off();
 	AttackEffectRenderer->Off();
 	AttackCollision->Off();
 
@@ -93,6 +96,21 @@ void MiddleBoss::Update(float _DeltaTime)
 		{
 			GetLevel()->PushDebugRender(AttackCollision->GetTransform(), CollisionType::Rect);
 		}
+
+		if (true == TurnCheckCollision->IsUpdate())
+		{
+			GetLevel()->PushDebugRender(TurnCheckCollision->GetTransform(), CollisionType::Rect);
+		}
+	}
+
+	if (TurnOn == true)
+	{
+		TurnTime -= _DeltaTime;
+
+		if (TurnTime <= 0.0f)
+		{
+			TurnOn = false;
+		}
 	}
 
 	if (HP <= 0)
@@ -129,6 +147,49 @@ void MiddleBoss::Wait()
 {
 	ImageRenderer->SetChangeAnimation("Wait");
 
+
+	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+	float4 MonsterPos = Collision->GetTransform()->GetWorldPosition();
+
+	switch (Direction)
+	{
+	case LeftRight::LEFT:
+	{
+	TurnCheckCollision->GetTransform()->SetLocalScaling(float4{ 500.0f, 700.0f, 1.0f });
+	TurnCheckCollision->GetTransform()->SetLocalPosition({ 250.0f, 130.0f, -10.0f });
+	}
+		break;
+	case LeftRight::RIGHT:
+	{
+		TurnCheckCollision->GetTransform()->SetLocalScaling(float4{ 500.0f, 700.0f, 1.0f });
+		TurnCheckCollision->GetTransform()->SetLocalPosition({ -250.0f, 130.0f, -10.0f });
+	}
+		break;
+	default:
+		break;
+	}
+
+
+	TurnCheckCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
+		[this](GameEngineCollision* _OtherCollision)
+			{
+			PrevState_ = "Idle";
+			TurnTime = 0.5f;
+			TurnOn = true;
+			
+			if (Direction == LeftRight::RIGHT)
+			{
+				Direction = LeftRight::LEFT;
+			}
+			else
+			{
+				Direction = LeftRight::RIGHT;
+			}
+			
+			StateManager_.ChangeState("Walk");
+			}
+		);
+	
 }
 
 void MiddleBoss::Idle()
@@ -177,14 +238,18 @@ void  MiddleBoss::Walk()
 		}
 	);
 
-	RangeCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::MONSTERMOVESTOP,
-		[this](GameEngineCollision* _OtherCollision)
-		{
-			PrevState_ = "Walk";
-			StateManager_.ChangeState("Wait");
-		}
-	);
-
+	//회전후 일정 시간이 지나서 TurnOn이 꺼진 상태에서만 막힌다
+	if (TurnOn == false)
+	{
+		RangeCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::MONSTERMOVESTOP,
+			[this](GameEngineCollision* _OtherCollision)
+			{
+				PrevState_ = "Walk";
+				TurnCheckCollision->On();
+				StateManager_.ChangeState("Wait");
+			}
+		);
+	}
 
 	if (-2.0f <= (PlayerPos.x - MonsterPos.x) &&
 		2.0f >= (PlayerPos.x - MonsterPos.x)
@@ -195,9 +260,6 @@ void  MiddleBoss::Walk()
 
 	DirectionCheck();
 }
-
-void  MiddleBoss::Turn()
-{}
 
 void  MiddleBoss::Attack()
 {

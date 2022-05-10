@@ -23,6 +23,9 @@ public:
 	//플레이어 인식콜리전
 	GameEngineCollision* ViewCollision;
 
+	//이동정지후, 방향 전환을 위한 인식 콜리전
+	GameEngineCollision* TurnCheckCollision;
+
 	//플레이어와의 거리를 재기위한 콜리전
 	GameEngineCollision* RangeCollision;
 
@@ -65,9 +68,13 @@ private:
 	void DirectionCheck();
 public:
 	bool GetDamage;
+
+	//이동정지후 회전 여부를 체크하는 bool
+	bool TurnOn;
+
 	int HP;
 
-	float MoveDistance;
+	float TurnTime;
 	float ImmuneTime;
 	float SpinTime;
 	float Speed;
