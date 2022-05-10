@@ -9,7 +9,7 @@
 
 
 MiddleBoss::MiddleBoss() // default constructer 디폴트 생성자
-	: HP(1), Speed(300.0f), GetDamage(false), ImmuneTime(0.0f), TurnOn(false), GroundAttackCount(0)
+	: HP(1), Speed(300.0f), GetDamage(false), ImmuneTime(0.0f), TurnOn(false), GroundAttackCount(0), JumpReadyTime(0.0f), TurnTime(0.0f)
 {
 
 }
@@ -28,9 +28,9 @@ void MiddleBoss::Start()
 	ImageRenderer->CreateAnimation("MiddleBoss.png", "Walk", 15, 24, 0.05f);
 	ImageRenderer->CreateAnimation("MiddleBoss.png", "Attack", 39, 48, 0.1f,false);
 	ImageRenderer->CreateAnimation("MiddleBoss.png", "Death", 64, 74, 0.1f, false);
-	ImageRenderer->CreateAnimation("MiddleBoss.png", "JumpReady", 51, 54, 0.15f, false);
-	ImageRenderer->CreateAnimation("MiddleBoss.png", "Jump", 55, 57, 0.15f, false);
-	ImageRenderer->CreateAnimation("MiddleBoss.png", "GetUp", 58, 63, 0.15f, false);
+	ImageRenderer->CreateAnimation("MiddleBoss.png", "JumpReady", 51, 54, 0.05f, false);
+	ImageRenderer->CreateAnimation("MiddleBoss.png", "Jump", 55, 57, 0.07f, false);
+	ImageRenderer->CreateAnimation("MiddleBoss.png", "GetUp", 58, 63, 0.07f, false);
 	ImageRenderer->SetChangeAnimation("Idle");
 	ImageRenderer->GetTransform()->SetLocalScaling({ 1200.0f, 1200.0f, 1.0f });
 
@@ -276,11 +276,29 @@ void  MiddleBoss::Attack()
 void  MiddleBoss::JumpReady()
 {
 	ImageRenderer->SetChangeAnimation("JumpReady");
+
+	JumpReadyTime -= GameEngineTime::GetInst().GetDeltaTime();
+
+	if (JumpReadyTime <= 0.0f)
+	{
+		StateManager_.ChangeState("Jump");
+	}
+
+
 }
 
 void  MiddleBoss::Jump()
 {
 	ImageRenderer->SetChangeAnimation("Jump");
+
+	if (Direction == LeftRight::RIGHT)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * 400.0f);
+	}
+	else
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * 400.0f);
+	}
 }
 
 void  MiddleBoss::GetUp()
@@ -372,17 +390,25 @@ void MiddleBoss::SetCallBackFunc()
 
 				if (GroundAttackCount >= 2)
 				{
-					StateManager_.ChangeState("Jump");
+					JumpReadyTime = 0.5f;
+					StateManager_.ChangeState("JumpReady");
 				}
 			}
 		);
+	}
 
 		ImageRenderer->SetEndCallBack("Jump", [&]()
 			{
 				StateManager_.ChangeState("GetUp");
 			}
 		);
-	}
+
+		ImageRenderer->SetEndCallBack("GetUp", [&]()
+			{
+				GroundAttackCount = 0;
+				StateManager_.ChangeState("Walk");
+			}
+		);
 }
 
 void MiddleBoss::DirectionCheck()

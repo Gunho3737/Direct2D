@@ -77,7 +77,7 @@ public:
 
 	float TurnTime;
 	float ImmuneTime;
-	float SpinTime;
+	float JumpReadyTime;
 	float Speed;
 };
 
