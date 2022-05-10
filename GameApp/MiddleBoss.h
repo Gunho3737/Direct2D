@@ -55,7 +55,6 @@ private:
 	void Wait(); // 행동 중간중간에 대기를 위한 상태
 	void Walk();
 	void Attack();
-
 	void JumpReady();
 	void Jump();
 	void GetUp();
@@ -72,6 +71,9 @@ public:
 	bool TurnOn;
 
 	int HP;
+
+	//충격파를 사용하기위한 공격횟수카운트
+	int GroundAttackCount;
 
 	float TurnTime;
 	float ImmuneTime;

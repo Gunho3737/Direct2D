@@ -9,7 +9,7 @@
 
 
 MiddleBoss::MiddleBoss() // default constructer 디폴트 생성자
-	: HP(1), Speed(300.0f), GetDamage(false), ImmuneTime(0.0f), TurnOn(false)
+	: HP(1), Speed(300.0f), GetDamage(false), ImmuneTime(0.0f), TurnOn(false), GroundAttackCount(0)
 {
 
 }
@@ -28,6 +28,9 @@ void MiddleBoss::Start()
 	ImageRenderer->CreateAnimation("MiddleBoss.png", "Walk", 15, 24, 0.05f);
 	ImageRenderer->CreateAnimation("MiddleBoss.png", "Attack", 39, 48, 0.1f,false);
 	ImageRenderer->CreateAnimation("MiddleBoss.png", "Death", 64, 74, 0.1f, false);
+	ImageRenderer->CreateAnimation("MiddleBoss.png", "JumpReady", 51, 54, 0.15f, false);
+	ImageRenderer->CreateAnimation("MiddleBoss.png", "Jump", 55, 57, 0.15f, false);
+	ImageRenderer->CreateAnimation("MiddleBoss.png", "GetUp", 58, 63, 0.15f, false);
 	ImageRenderer->SetChangeAnimation("Idle");
 	ImageRenderer->GetTransform()->SetLocalScaling({ 1200.0f, 1200.0f, 1.0f });
 
@@ -63,6 +66,10 @@ void MiddleBoss::Start()
 	StateManager_.CreateState("Walk", std::bind(&MiddleBoss::Walk, this));
 	StateManager_.CreateState("Attack", std::bind(&MiddleBoss::Attack, this));
 	StateManager_.CreateState("Death", std::bind(&MiddleBoss::Death, this));
+	StateManager_.CreateState("JumpReady", std::bind(&MiddleBoss::JumpReady, this));
+	StateManager_.CreateState("Jump", std::bind(&MiddleBoss::Jump, this));
+	StateManager_.CreateState("GetUp", std::bind(&MiddleBoss::GetUp, this));
+	
 
 	StateManager_.ChangeState("Idle");
 
@@ -267,13 +274,19 @@ void  MiddleBoss::Attack()
 }
 
 void  MiddleBoss::JumpReady()
+{
+	ImageRenderer->SetChangeAnimation("JumpReady");
+}
 
-{}
 void  MiddleBoss::Jump()
-{}
+{
+	ImageRenderer->SetChangeAnimation("Jump");
+}
 
 void  MiddleBoss::GetUp()
-{}
+{
+	ImageRenderer->SetChangeAnimation("GetUp");
+}
 
 void  MiddleBoss::Death()
 {
@@ -355,6 +368,18 @@ void MiddleBoss::SetCallBackFunc()
 		ImageRenderer->SetEndCallBack("Attack", [&]()
 			{
 				StateManager_.ChangeState("Walk");
+				GroundAttackCount += 1;
+
+				if (GroundAttackCount >= 2)
+				{
+					StateManager_.ChangeState("Jump");
+				}
+			}
+		);
+
+		ImageRenderer->SetEndCallBack("Jump", [&]()
+			{
+				StateManager_.ChangeState("GetUp");
 			}
 		);
 	}
