@@ -41,6 +41,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GroundWave.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MiddleBoss.cpp">
       <SubType>
       </SubType>
@@ -102,6 +106,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BitMap.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GroundWave.h">
       <SubType>
       </SubType>
     </ClInclude>

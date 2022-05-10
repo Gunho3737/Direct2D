@@ -59,6 +59,9 @@
     <ClCompile Include="MiddleBoss.cpp">
       <Filter>Actor\PlayLevel\Monster</Filter>
     </ClCompile>
+    <ClCompile Include="GroundWave.cpp">
+      <Filter>Actor\PlayLevel\Ammo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -90,6 +93,9 @@
     </Filter>
     <Filter Include="Actor\PlayLevel\Player">
       <UniqueIdentifier>{e3b17049-998e-4452-a5e6-ec0bf979b648}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\PlayLevel\Ammo">
+      <UniqueIdentifier>{56507052-82c6-4396-8a10-c25c6807d9c0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +153,9 @@
     </ClInclude>
     <ClInclude Include="MiddleBoss.h">
       <Filter>Actor\PlayLevel\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="GroundWave.h">
+      <Filter>Actor\PlayLevel\Ammo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
