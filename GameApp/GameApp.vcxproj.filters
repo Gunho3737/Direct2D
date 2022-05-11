@@ -62,6 +62,12 @@
     <ClCompile Include="GroundWave.cpp">
       <Filter>Actor\PlayLevel\Ammo</Filter>
     </ClCompile>
+    <ClCompile Include="DashBug.cpp">
+      <Filter>Actor\PlayLevel\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="JumpBug.cpp">
+      <Filter>Actor\PlayLevel\Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -156,6 +162,12 @@
     </ClInclude>
     <ClInclude Include="GroundWave.h">
       <Filter>Actor\PlayLevel\Ammo</Filter>
+    </ClInclude>
+    <ClInclude Include="DashBug.h">
+      <Filter>Actor\PlayLevel\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="JumpBug.h">
+      <Filter>Actor\PlayLevel\Monster</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

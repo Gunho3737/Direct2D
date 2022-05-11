@@ -24,6 +24,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="DashBug.cpp" />
     <ClCompile Include="EndingLevel.cpp">
       <SubType>
       </SubType>
@@ -45,6 +46,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="JumpBug.cpp" />
     <ClCompile Include="MiddleBoss.cpp">
       <SubType>
       </SubType>
@@ -92,6 +94,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="CustomVertex.h" />
+    <ClInclude Include="DashBug.h" />
     <ClInclude Include="EndingLevel.h">
       <SubType>
       </SubType>
@@ -113,6 +116,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="JumpBug.h" />
     <ClInclude Include="MiddleBoss.h">
       <SubType>
       </SubType>

@@ -10,7 +10,7 @@
 
 
 MiddleBoss::MiddleBoss() // default constructer 디폴트 생성자
-	: HP(1), Speed(300.0f), GetDamage(false), ImmuneTime(0.0f), TurnOn(false), GroundAttackCount(0), JumpReadyTime(0.0f), TurnTime(0.0f)
+	: HP(10), Speed(300.0f), GetDamage(false), ImmuneTime(0.0f), TurnOn(false), GroundAttackCount(0), JumpReadyTime(0.0f), TurnTime(0.0f)
 {
 
 }
@@ -73,8 +73,6 @@ void MiddleBoss::Start()
 	
 
 	StateManager_.ChangeState("Idle");
-
-	StartX = GetTransform()->GetWorldPosition().x;
 
 	SetCallBackFunc();
 }
@@ -181,7 +179,6 @@ void MiddleBoss::Wait()
 	TurnCheckCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
 		[this](GameEngineCollision* _OtherCollision)
 			{
-			PrevState_ = "Idle";
 			TurnTime = 0.5f;
 			TurnOn = true;
 			
@@ -208,7 +205,6 @@ void MiddleBoss::Idle()
 	ViewCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
 		[this](GameEngineCollision* _OtherCollision)
 		{
-			PrevState_ = "Idle";
 			StateManager_.ChangeState("Walk");
 		}
 	);
@@ -241,7 +237,6 @@ void  MiddleBoss::Walk()
 	RangeCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
 		[this](GameEngineCollision* _OtherCollision)
 		{
-			PrevState_ = "Walk";
 			StateManager_.ChangeState("Attack");
 		}
 	);
@@ -252,7 +247,6 @@ void  MiddleBoss::Walk()
 		RangeCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::MONSTERMOVESTOP,
 			[this](GameEngineCollision* _OtherCollision)
 			{
-				PrevState_ = "Walk";
 				TurnCheckCollision->On();
 				StateManager_.ChangeState("Wait");
 			}
