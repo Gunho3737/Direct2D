@@ -16,6 +16,8 @@ public:
 	UI_HpBar& operator=(const UI_HpBar& _Other) = delete;
 	UI_HpBar& operator=(UI_HpBar&& _Other) noexcept = delete;
 
+	int HP;
+
 protected:
 
 private:

@@ -81,6 +81,8 @@ void UserGame::ResourcesLoad()
 
 		
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("HealthIdle"));
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("HealthBreak"));
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("HealthEmpty"));
 
 	}
 

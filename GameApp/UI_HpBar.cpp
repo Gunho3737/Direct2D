@@ -13,6 +13,7 @@ UI_HpBar::~UI_HpBar()
 
 void UI_HpBar::Start()
 {
+
 	GetTransform()->SetWorldPosition(float4(0.0f, 0.0f, 0.0f));
 	HPBarRenderer = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	HPBarRenderer->SetImage("hpbar.png");

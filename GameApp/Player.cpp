@@ -973,11 +973,6 @@ void Player::SetCallBackFunc()
 			{
 				PlayerSlashRenderer->Off();
 				PlayerSlashCollision->Off();
-
-				//PlayerSlashRenderer->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
-				//PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition());
-				//PlayerSlashCollision->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
-				//PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerCollision->GetTransform()->GetLocalPosition());
 			}
 		);
 	}
@@ -1003,11 +998,6 @@ void Player::SetCallBackFunc()
 
 				PlayerSlashRenderer->Off();
 				PlayerSlashCollision->Off();
-
-			//	PlayerSlashRenderer->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
-			//	PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition());
-			//	PlayerSlashCollision->GetTransform()->SetLocalScaling({ 0.0f,0.0f, 1.0f });
-			//	PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerCollision->GetTransform()->GetLocalPosition());
 			}
 		);
 	}
@@ -1030,7 +1020,6 @@ void Player::SetCallBackFunc()
 
 		PlayerSlashRenderer->SetEndCallBack("DownSlashEffect", [&]()
 			{
-
 				PlayerSlashRenderer->Off();
 				PlayerSlashCollision->Off();
 			}
