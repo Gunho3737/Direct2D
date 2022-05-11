@@ -6,6 +6,7 @@
 #include <GameApp/BitMap.h>
 #include "MiddleBoss.h"
 #include "Player.h"
+#include "GroundWave.h"
 
 
 MiddleBoss::MiddleBoss() // default constructer 디폴트 생성자
@@ -400,6 +401,14 @@ void MiddleBoss::SetCallBackFunc()
 		ImageRenderer->SetEndCallBack("Jump", [&]()
 			{
 				StateManager_.ChangeState("GetUp");
+				GroundWave* WaveAttackLeft = GetLevel()->CreateActor<GroundWave>();
+				WaveAttackLeft->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() += {0.0f, 50.0f, 0.0f});
+				WaveAttackLeft->Direction = LeftRight::LEFT;
+
+				GroundWave* WaveAttackRight = GetLevel()->CreateActor<GroundWave>();
+				WaveAttackRight->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() += {0.0f, 50.0f, 0.0f});
+				WaveAttackRight->Direction = LeftRight::RIGHT;
+
 			}
 		);
 

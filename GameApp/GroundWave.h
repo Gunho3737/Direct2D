@@ -31,5 +31,7 @@ private:		//delete operator
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+
+	float Speed;
 };
 
