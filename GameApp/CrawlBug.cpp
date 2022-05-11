@@ -7,7 +7,7 @@
 #include "Player.h"
 
 CrawlBug::CrawlBug()
-	: HP(3), Speed(50.0f), StartX(0.0f), MoveDistance(200.0f), SpinTime(0.0f), ImmuneTime(0.0f)
+	: HP(100), Speed(50.0f), StartX(0.0f), MoveDistance(200.0f), SpinTime(0.0f), ImmuneTime(0.0f)
 {
 
 }

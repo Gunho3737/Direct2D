@@ -31,6 +31,8 @@ protected:
 	GameEngineImageRenderer* PlayerEffectRenderer;
 	GameEngineImageRenderer* PlayerEffectRenderer2;
 
+	//몬스터와 닿을시 나오는 이펙트를 위한 렌더러
+	GameEngineImageRenderer* PlayerSlashEffectRenderer;
 
 	float Speed;
 	float TimeCheck;

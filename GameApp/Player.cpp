@@ -68,9 +68,9 @@ void Player::Start()
 	{
 		PlayerEffectRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		PlayerEffectRenderer->CreateAnimationFolder("DamageEffect", "DamageEffect", 0.02f);
-		//PlayerEffectRenderer->CreateAnimationFolder("StunEffect", "StunEffect", 0.02f);
 		PlayerEffectRenderer->SetChangeAnimation("DamageEffect");
 		PlayerEffectRenderer->GetTransform()->SetLocalScaling(PlayerEffectRenderer->GetFolderTextureImageSize());
+		//플레이어렌더러 보다 앞에 나와야함
 		PlayerEffectRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot() += {0.0f, 0.0f, -1.0f});
 		PlayerEffectRenderer->Off();
 	}
@@ -82,6 +82,15 @@ void Player::Start()
 		PlayerEffectRenderer2->GetTransform()->SetLocalScaling(PlayerEffectRenderer2->GetFolderTextureImageSize());
 		PlayerEffectRenderer2->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot());
 		PlayerEffectRenderer2->Off();
+	}
+
+	{
+		PlayerSlashEffectRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		PlayerSlashEffectRenderer->CreateAnimationFolder("AttackEffect", "AttackEffect", 0.02f);
+		PlayerSlashEffectRenderer->SetChangeAnimation("AttackEffect");
+		PlayerSlashEffectRenderer->GetTransform()->SetLocalScaling(PlayerEffectRenderer2->GetFolderTextureImageSize());
+		PlayerSlashEffectRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot() += {0.0f, 0.0f, -1.0f});
+		PlayerSlashEffectRenderer->Off();
 	}
 
 	StateManager_.CreateState("Idle", std::bind(&Player::Idle, this));
@@ -194,6 +203,18 @@ void Player::Update(float _DeltaTime)
 			}
 		);
 	}
+
+
+	PlayerSlashCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::MONSTER,
+		[&](GameEngineCollision* _OtherCollision)
+		{
+			if (true == _OtherCollision->IsUpdate() && true == PlayerSlashCollision->IsUpdate())
+			{
+				PlayerSlashEffectRenderer->On();
+				PlayerSlashEffectRenderer->SetChangeAnimation("AttackEffect", true);
+			}
+		}
+	);
 
 	//내가 데미지 상태가 아니고, 플레이어콜리전이 업데이트 중일때만 충돌체크
 	if (false == (StateManager_.IsCurrentState("Damage")) && true == PlayerCollision->IsUpdate())
@@ -931,6 +952,7 @@ void Player::SetCallBackFunc()
 					PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {-70.0f, 0.0f, -1.0f});
 					PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
 					PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {-70.0f, 0.0f, -1.0f});
+					PlayerSlashEffectRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {-120.0f, 0.0f, -2.0f});
 				}
 				else if (PlayerDirection == LeftRight::RIGHT)
 				{
@@ -939,6 +961,7 @@ void Player::SetCallBackFunc()
 						PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {70.0f, 0.0f, -1.0f});
 						PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
 						PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {70.0f, 0.0f, -1.0f});
+						PlayerSlashEffectRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {120.0f, 0.0f, -2.0f});
 					}
 				}
 
@@ -968,9 +991,10 @@ void Player::SetCallBackFunc()
 
 				PlayerSlashRenderer->SetChangeAnimation("UpSlashEffect", true);
 				PlayerSlashRenderer->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
-				PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, 70.0f, -1.0f});
+				PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, 100.0f, -1.0f});
 				PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
-				PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, 70.0f, -1.0f});
+				PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, 100.0f, -1.0f});
+				PlayerSlashEffectRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, 100.0f, -2.0f});
 			}
 		);
 
@@ -997,9 +1021,10 @@ void Player::SetCallBackFunc()
 
 				PlayerSlashRenderer->SetChangeAnimation("DownSlashEffect", true);
 				PlayerSlashRenderer->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
-				PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, -70.0f, -1.0f});
+				PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, -100.0f, -1.0f});
 				PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
-				PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, -70.0f, -1.0f});
+				PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, -100.0f, -1.0f});
+				PlayerSlashEffectRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {0.0f, -100.0f, -2.0f});
 			}
 		);
 
@@ -1034,6 +1059,25 @@ void Player::SetCallBackFunc()
 		PlayerEffectRenderer2->SetEndCallBack("StunEffect", [&]()
 			{
 				PlayerEffectRenderer2->Off();
+			}
+		);
+
+		PlayerSlashEffectRenderer->SetStartCallBack("AttackEffect", [&]()
+			{
+				if (PlayerDirection == LeftRight::RIGHT)
+				{
+					PlayerSlashEffectRenderer->GetTransform()->SetLocalScaling(PlayerEffectRenderer2->GetFolderTextureImageSize() *= float4::XFLIP);
+				}
+				else
+				{
+					PlayerSlashEffectRenderer->GetTransform()->SetLocalScaling(PlayerEffectRenderer2->GetFolderTextureImageSize());
+				}
+			}
+		);
+
+		PlayerSlashEffectRenderer->SetEndCallBack("AttackEffect", [&]()
+			{
+				PlayerSlashEffectRenderer->Off();
 			}
 		);
 	}
