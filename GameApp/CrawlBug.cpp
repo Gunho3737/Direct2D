@@ -195,6 +195,11 @@ void CrawlBug::Death()
 		}
 	}
 
+	if (MapBotCollisionColor != float4::BLACK)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 500.0f);
+	}
+
 	ImageRenderer->SetEndCallBack("Death", [&]()
 		{
 			StateManager_.ChangeState("Walk");

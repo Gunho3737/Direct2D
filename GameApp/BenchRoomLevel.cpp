@@ -4,6 +4,7 @@
 #include "UI_HpBar.h"
 #include "BitMap.h"
 #include "ViewMap.h"
+#include "JumpBug.h"
 #include <GameEngine\PostFade.h>
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
@@ -49,6 +50,12 @@ void BenchRoomLevel::LevelStart()
 	{
 		UI_HpBar* Actor = CreateActor<UI_HpBar>();
 		Actor->GetTransform()->SetWorldPosition(float4(0.0f, 0.0f, 0.0f));
+	}
+
+	{
+		JumpActor = CreateActor<JumpBug>();
+		//8300 ,2860
+		JumpActor->GetTransform()->SetLocalPosition(float4(8500.0f, -2870.0f, 1.0f));
 	}
 
 	Reverse = false;

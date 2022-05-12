@@ -54,6 +54,9 @@ void UserGame::ResourcesLoad()
 
 		Texture = GameEngineTextureManager::GetInst().Find("MiddleBoss.png");
 		Texture->Cut(10, 8);
+
+		Texture = GameEngineTextureManager::GetInst().Find("JumpBug.png");
+		Texture->Cut(5, 8);
 	}
 
 	{

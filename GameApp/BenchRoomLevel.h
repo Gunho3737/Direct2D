@@ -5,6 +5,7 @@
 class Player;
 class BitMap;
 class ViewMap;
+class JumpBug;
 class BenchRoomLevel : public GameEngineLevel
 {
 public:
@@ -27,6 +28,7 @@ protected:
 	Player* PlayerActor;
 	BitMap* BitMapActor;
 	ViewMap* VieMapActor;
+	JumpBug* JumpActor;
 
 
 	float4 PlayerPos;

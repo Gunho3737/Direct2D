@@ -86,7 +86,7 @@ void Player::Start()
 
 	{
 		PlayerSlashEffectRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-		PlayerSlashEffectRenderer->CreateAnimationFolder("AttackEffect", "AttackEffect", 0.02f);
+		PlayerSlashEffectRenderer->CreateAnimationFolder("AttackEffect", "AttackEffect", 0.015f);
 		PlayerSlashEffectRenderer->SetChangeAnimation("AttackEffect");
 		PlayerSlashEffectRenderer->GetTransform()->SetLocalScaling(PlayerEffectRenderer2->GetFolderTextureImageSize());
 		PlayerSlashEffectRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot() += {0.0f, 0.0f, -1.0f});

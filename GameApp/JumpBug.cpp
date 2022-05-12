@@ -9,7 +9,7 @@
 
 
 JumpBug::JumpBug() // default constructer 디폴트 생성자
-	: HP(10), Speed(300.0f), GetDamage(false), ImmuneTime(0.0f), JumpReadyTime(0.0f)
+	: HP(1), Speed(150.0f), GetDamage(false), ImmuneTime(0.0f), JumpReadyTime(0.0f)
 {
 
 }
@@ -23,21 +23,23 @@ void JumpBug::Start()
 {
 	ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 
-	ImageRenderer->CreateAnimation("MiddleBoss.png", "Idle", 6, 12, 0.1f);
+	ImageRenderer->CreateAnimation("JumpBug.png", "Idle", 0, 5, 0.1f);
+	ImageRenderer->CreateAnimation("JumpBug.png", "Walk", 6, 12, 0.1f);
+	ImageRenderer->CreateAnimation("JumpBug.png", "Death", 28, 36, 0.1f, false);
 	ImageRenderer->SetChangeAnimation("Idle");
-	ImageRenderer->GetTransform()->SetLocalScaling({ 1200.0f, 1200.0f, 1.0f });
+	ImageRenderer->GetTransform()->SetLocalScaling({ 500.0f, 500.0f, 1.0f });
 
 	Collision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTER));
-	Collision->GetTransform()->SetLocalScaling(float4{ 300.0f, 300.0f, 1.0f });
-	Collision->GetTransform()->SetLocalPosition({ 0.0f, 175.0f, -10.0f });
+	Collision->GetTransform()->SetLocalScaling(float4{ 90.0f, 200.0f, 1.0f });
+	Collision->GetTransform()->SetLocalPosition({ 0.0f, 100.0f, -10.0f });
 
 	ViewCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERVIEW));
-	ViewCollision->GetTransform()->SetLocalScaling(float4{ 1000.0f, 700.0f, 1.0f });
-	ViewCollision->GetTransform()->SetLocalPosition({ 0.0f, 130.0f, -10.0f });
+	ViewCollision->GetTransform()->SetLocalScaling(float4{ 700.0f, 350.0f, 1.0f });
+	ViewCollision->GetTransform()->SetLocalPosition({ 0.0f, 100.0f, -10.0f });
 
 	RangeCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERVIEW));
-	RangeCollision->GetTransform()->SetLocalScaling(float4{ 1000.0f, 700.0f, 1.0f });
-	RangeCollision->GetTransform()->SetLocalPosition({ 0.0f, 130.0f, -10.0f });
+	RangeCollision->GetTransform()->SetLocalScaling(float4{ 300.0f, 300.0f, 1.0f });
+	RangeCollision->GetTransform()->SetLocalPosition({ 0.0f, 100.0f, -10.0f });
 
 
 
@@ -49,8 +51,6 @@ void JumpBug::Start()
 	
 
 	StateManager_.ChangeState("Idle");
-
-	StartX = GetTransform()->GetWorldPosition().x;
 
 	SetCallBackFunc();
 }
@@ -69,6 +69,11 @@ void JumpBug::Update(float _DeltaTime)
 		if (true == ViewCollision->IsUpdate())
 		{
 			GetLevel()->PushDebugRender(ViewCollision->GetTransform(), CollisionType::Rect);
+		}
+
+		if (true == RangeCollision->IsUpdate())
+		{
+			GetLevel()->PushDebugRender(RangeCollision->GetTransform(), CollisionType::Rect);
 		}
 
 		if (HP <= 0)
@@ -200,12 +205,12 @@ void JumpBug::SetCallBackFunc()
 
 void JumpBug::DirectionCheck()
 {
-	if (Direction == LeftRight::RIGHT)
+	if (Direction == LeftRight::LEFT)
 	{
-		//ImageRenderer->GetTransform()->SetLocalScaling(float4{ 1200.0f, 1200.0f, 1.0f });
+		ImageRenderer->GetTransform()->SetLocalScaling(float4{ 500.0f, 500.0f, 1.0f } );
 	}
 	else
 	{
-		//ImageRenderer->GetTransform()->SetLocalScaling(float4{ 1200.0f, 1200.0f, 1.0f } *= float4::XFLIP);
+		ImageRenderer->GetTransform()->SetLocalScaling(float4{ 500.0f, 500.0f, 1.0f } *= float4::XFLIP);
 	}
 }
