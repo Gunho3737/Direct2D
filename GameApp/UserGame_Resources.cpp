@@ -57,6 +57,9 @@ void UserGame::ResourcesLoad()
 
 		Texture = GameEngineTextureManager::GetInst().Find("JumpBug.png");
 		Texture->Cut(5, 8);
+
+		Texture = GameEngineTextureManager::GetInst().Find("DashBug.png");
+		Texture->Cut(5, 7);
 	}
 
 	{
