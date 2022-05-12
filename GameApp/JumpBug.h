@@ -26,6 +26,11 @@ public:
 	GameEngineFSM StateManager_;
 	LeftRight Direction;
 
+	float4 MapBotCollisionColor;
+	float4 MapTopCollisionColor;
+	float4 MapLeftCollisionColor;
+	float4 MapRightCollisionColor;
+
 protected:		// delete constructer
 	JumpBug(const JumpBug& _other) = delete; // default Copy constructer 디폴트 복사생성자
 	JumpBug(JumpBug&& _other) = delete; // default RValue Copy constructer 디폴트 RValue 복사생성자
@@ -43,6 +48,7 @@ private:
 	void Walk();
 	void JumpReady();
 	void Jump();
+	void JumpAttack();
 	void Death();
 
 
@@ -50,12 +56,13 @@ private:
 
 	void DirectionCheck();
 public:
+	float4 JumpPower;
+
 	bool GetDamage;
 
 	int HP;
 
 	float ImmuneTime;
-	float JumpReadyTime;
 	float Speed;
 };
 

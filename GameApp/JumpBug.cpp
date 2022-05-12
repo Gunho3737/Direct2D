@@ -9,7 +9,7 @@
 
 
 JumpBug::JumpBug() // default constructer 디폴트 생성자
-	: HP(1), Speed(150.0f), GetDamage(false), ImmuneTime(0.0f), JumpReadyTime(0.0f)
+	: HP(1), Speed(150.0f), GetDamage(false), ImmuneTime(0.0f), JumpPower({0.0f,0.0f,0.0f})
 {
 
 }
@@ -26,6 +26,9 @@ void JumpBug::Start()
 	ImageRenderer->CreateAnimation("JumpBug.png", "Idle", 0, 5, 0.1f);
 	ImageRenderer->CreateAnimation("JumpBug.png", "Walk", 6, 12, 0.1f);
 	ImageRenderer->CreateAnimation("JumpBug.png", "Death", 28, 36, 0.1f, false);
+	ImageRenderer->CreateAnimation("JumpBug.png", "JumpReady", 15, 17, 0.1f, false);
+	ImageRenderer->CreateAnimation("JumpBug.png", "Jump", 18, 25, 0.1f, false);
+	ImageRenderer->CreateAnimation("JumpBug.png", "JumpAttack", 26, 27, 0.1f, false);
 	ImageRenderer->SetChangeAnimation("Idle");
 	ImageRenderer->GetTransform()->SetLocalScaling({ 500.0f, 500.0f, 1.0f });
 
@@ -48,6 +51,7 @@ void JumpBug::Start()
 	StateManager_.CreateState("Death", std::bind(&JumpBug::Death, this));
 	StateManager_.CreateState("JumpReady", std::bind(&JumpBug::JumpReady, this));
 	StateManager_.CreateState("Jump", std::bind(&JumpBug::Jump, this));
+	StateManager_.CreateState("JumpAttack", std::bind(&JumpBug::Jump, this));
 	
 
 	StateManager_.ChangeState("Idle");
@@ -58,6 +62,12 @@ void JumpBug::Start()
 void JumpBug::Update(float _DeltaTime)
 {
 	StateManager_.Update();
+
+	MapBotCollisionColor = BitMap::GetColor(GetTransform());
+
+	MapTopCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 200.0f, 0.0f});
+	MapLeftCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {-45.0f, 100.0f, 0.0f});
+	MapRightCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {45.0f, 100.0f, 0.0f});
 
 	if (true == GetLevel()->IsDebugCheck())
 	{
@@ -145,7 +155,7 @@ void JumpBug::Walk()
 	RangeCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
 		[this](GameEngineCollision* _OtherCollision)
 		{
-			//StateManager_.ChangeState("JumpReady");
+			StateManager_.ChangeState("JumpReady");
 		}
 	);
 
@@ -162,29 +172,41 @@ void JumpBug::Walk()
 void JumpBug::JumpReady()
 {
 	ImageRenderer->SetChangeAnimation("JumpReady");
-
-	JumpReadyTime -= GameEngineTime::GetInst().GetDeltaTime();
-
-	if (JumpReadyTime <= 0.0f)
-	{
-		StateManager_.ChangeState("Jump");
-	}
-
-
 }
 
 void JumpBug::Jump()
 {
 	ImageRenderer->SetChangeAnimation("Jump");
 
+	JumpPower += float4::DOWN * GameEngineTime::GetInst().GetDeltaTime() * 1500.0f;
+
+
+	if (MapTopCollisionColor != float4::BLACK)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::UP * JumpPower);
+	}
+
 	if (Direction == LeftRight::RIGHT)
 	{
-		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * 400.0f);
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
 	}
 	else
 	{
-		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * 400.0f);
+		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
 	}
+
+	if (0 > JumpPower.y)
+	{
+		if (MapBotCollisionColor == float4::BLACK)
+		{
+			StateManager_.ChangeState("JumpAttack");
+		}
+	}
+}
+
+void JumpBug::JumpAttack()
+{
+	ImageRenderer->SetChangeAnimation("JumpAttack");
 }
 
 void JumpBug::Death()
@@ -201,6 +223,12 @@ void JumpBug::Death()
 void JumpBug::SetCallBackFunc()
 {
 
+	ImageRenderer->SetEndCallBack("JumpReady", [&]()
+		{
+			JumpPower = float4::UP * 700.0f;
+			StateManager_.ChangeState("Jump");
+		}
+	);
 }
 
 void JumpBug::DirectionCheck()
