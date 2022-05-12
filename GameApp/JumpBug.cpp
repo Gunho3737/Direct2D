@@ -37,7 +37,7 @@ void JumpBug::Start()
 	Collision->GetTransform()->SetLocalPosition({ 0.0f, 100.0f, -10.0f });
 
 	ViewCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERVIEW));
-	ViewCollision->GetTransform()->SetLocalScaling(float4{ 700.0f, 350.0f, 1.0f });
+	ViewCollision->GetTransform()->SetLocalScaling(float4{ 800.0f, 350.0f, 1.0f });
 	ViewCollision->GetTransform()->SetLocalPosition({ 0.0f, 100.0f, -10.0f });
 
 	RangeCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERVIEW));
@@ -85,7 +85,7 @@ void JumpBug::Update(float _DeltaTime)
 		{
 			GetLevel()->PushDebugRender(RangeCollision->GetTransform(), CollisionType::Rect);
 		}
-
+	}
 		if (HP <= 0)
 		{
 			StateManager_.ChangeState("Death");
@@ -114,7 +114,6 @@ void JumpBug::Update(float _DeltaTime)
 				}
 			);
 		}
-	}
 }
 
 void JumpBug::Idle()

@@ -9,7 +9,7 @@
 
 
 DashBug::DashBug() // default constructer 디폴트 생성자
-	: HP(10), Speed(200.0f), GetDamage(false), ImmuneTime(0.0f), DashTime(0.0f)
+	: HP(5), Speed(200.0f), GetDamage(false), ImmuneTime(0.0f), DashTime(0.0f)
 {
 
 }
@@ -37,11 +37,11 @@ void DashBug::Start()
 	Collision->GetTransform()->SetLocalPosition({ 0.0f, 60.0f, -10.0f });
 
 	ViewCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERVIEW));
-	ViewCollision->GetTransform()->SetLocalScaling(float4{ 700.0f, 350.0f, 1.0f });
+	ViewCollision->GetTransform()->SetLocalScaling(float4{ 900.0f, 350.0f, 1.0f });
 	ViewCollision->GetTransform()->SetLocalPosition({ 0.0f, 60.0f, -10.0f });
 
 	RangeCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERVIEW));
-	RangeCollision->GetTransform()->SetLocalScaling(float4{ 450.0f, 350.0f, 1.0f });
+	RangeCollision->GetTransform()->SetLocalScaling(float4{ 300.0f, 300.0f, 1.0f });
 	RangeCollision->GetTransform()->SetLocalPosition({ 0.0f, 60.0f, -10.0f });
 
 
@@ -62,6 +62,10 @@ void DashBug::Update(float _DeltaTime)
 {
 	StateManager_.Update();
 
+	MapBotCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 0.0f, 0.0f});
+	MapLeftCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {-50.0f, 30.0f, 0.0f});
+	MapRightCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {50.0f, 30.0f, 0.0f});
+
 	if (true == GetLevel()->IsDebugCheck())
 	{
 		if (true == Collision->IsUpdate())
@@ -78,36 +82,39 @@ void DashBug::Update(float _DeltaTime)
 		{
 			GetLevel()->PushDebugRender(RangeCollision->GetTransform(), CollisionType::Rect);
 		}
+	}
 
-		if (HP <= 0)
+	if (HP <= 0)
+	{
+		StateManager_.ChangeState("Death");
+	}
+
+	if (true == GetDamage)
+	{
+		ImmuneTime -= _DeltaTime;
+
+		if (ImmuneTime <= 0.0f)
 		{
-			StateManager_.ChangeState("Death");
-		}
-
-		if (true == GetDamage)
-		{
-			ImmuneTime -= _DeltaTime;
-
-			if (ImmuneTime <= 0.0f)
-			{
-				GetDamage = false;
-				Collision->On();
-			}
-		}
-
-		if (false == GetDamage)
-		{
-			Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::ATTACK,
-				[&](GameEngineCollision* _OtherCollision)
-				{
-					HP -= 1;
-					GetDamage = true;
-					ImmuneTime = 0.3f;
-					Collision->Off();
-				}
-			);
+			GetDamage = false;
+			Collision->On();
 		}
 	}
+
+		
+
+	if (false == GetDamage)
+	{
+		Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::ATTACK,
+			[&](GameEngineCollision* _OtherCollision)
+			{
+				HP -= 1;
+				GetDamage = true;
+				ImmuneTime = 0.3f;
+				Collision->Off();
+			}
+		);
+	}
+
 }
 
 void DashBug::Idle()
@@ -135,12 +142,18 @@ void DashBug::Walk()
 	if (PlayerPos.x >= MonsterPos.x)
 	{
 		Direction = LeftRight::RIGHT;
+		if (MapRightCollisionColor != float4::BLACK)
+		{
 		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+		}
 	}
 	else if (PlayerPos.x < MonsterPos.x)
 	{
 		Direction = LeftRight::LEFT;
-		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+		if (MapLeftCollisionColor != float4::BLACK)
+		{
+			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+		}
 	}
 
 
@@ -148,9 +161,14 @@ void DashBug::Walk()
 	RangeCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
 		[this](GameEngineCollision* _OtherCollision)
 		{
-			//StateManager_.ChangeState("DashReady");
+			StateManager_.ChangeState("DashReady");
 		}
 	);
+
+	if (MapBotCollisionColor != float4::BLACK)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 500.0f);
+	}
 
 	if (-2.0f <= (PlayerPos.x - MonsterPos.x) &&
 		2.0f >= (PlayerPos.x - MonsterPos.x)
@@ -175,19 +193,69 @@ void DashBug::Death()
 }
 
 void DashBug::DashReady()
-{}
+{
+	ImageRenderer->SetChangeAnimation("DashReady");
+}
 
 void DashBug::Dash()
 {
+	ImageRenderer->SetChangeAnimation("Dash");
 
+	DashTime -= GameEngineTime::GetInst().GetDeltaTime();
+
+	if (Direction == LeftRight::LEFT)
+	{
+		if (MapLeftCollisionColor != float4::BLACK)
+		{
+		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * 800.0f);
+		}
+	}
+	else
+	{
+		if (MapRightCollisionColor != float4::BLACK)
+		{
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * 800.0f);
+		}
+	}
+
+	if (MapBotCollisionColor != float4::BLACK)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 500.0f);
+	}
+
+	if (DashTime <= 0.0f)
+	{
+		DashTime = 0.1f;
+		StateManager_.ChangeState("DashCoolDown");
+	}
 }
 
 void DashBug::DashCoolDown()
-{}
+{
+	ImageRenderer->SetChangeAnimation("DashCoolDown");
+
+	DashTime -= GameEngineTime::GetInst().GetDeltaTime();
+
+	if (MapBotCollisionColor != float4::BLACK)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 500.0f);
+	}
+
+	if (DashTime <= 0.0f)
+	{
+		DashTime = 0.0f;
+		StateManager_.ChangeState("Walk");
+	}
+}
 
 void DashBug::SetCallBackFunc()
 {
-
+	ImageRenderer->SetEndCallBack("DashReady", [&]()
+		{
+			DashTime = 0.6f;
+			StateManager_.ChangeState("Dash");
+		}
+	);
 }
 
 void DashBug::DirectionCheck()

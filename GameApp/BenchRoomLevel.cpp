@@ -5,7 +5,6 @@
 #include "BitMap.h"
 #include "ViewMap.h"
 #include "JumpBug.h"
-#include "DashBug.h"
 #include <GameEngine\PostFade.h>
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
@@ -55,14 +54,7 @@ void BenchRoomLevel::LevelStart()
 
 	{
 		JumpActor = CreateActor<JumpBug>();
-		//8300 ,2860
 		JumpActor->GetTransform()->SetLocalPosition(float4(8500.0f, -2870.0f, 1.0f));
-	}
-
-
-	{
-		DashBug* Actor = CreateActor<DashBug>();
-		Actor->GetTransform()->SetLocalPosition(float4(8300.0f, -2870.0f, 1.0f));
 	}
 
 	Reverse = false;

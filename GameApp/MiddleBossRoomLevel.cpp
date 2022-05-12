@@ -5,6 +5,7 @@
 #include "FlyBug.h"
 #include "BitMap.h"
 #include "ViewMap.h"
+#include "DashBug.h"
 #include <GameEngine\PostFade.h>
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
@@ -62,6 +63,10 @@ void MiddleBossRoomLevel::LevelStart()
 		BossActor->Direction = LeftRight::RIGHT;
 	}
 	
+	{
+		DashBug* Actor = CreateActor<DashBug>();
+		Actor->GetTransform()->SetLocalPosition(float4(4500.0f, -2200.0f, 1.0f));
+	}
 
 }
 

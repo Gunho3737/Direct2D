@@ -26,6 +26,10 @@ public:
 	GameEngineFSM StateManager_;
 	LeftRight Direction;
 
+	float4 MapBotCollisionColor;
+	float4 MapLeftCollisionColor;
+	float4 MapRightCollisionColor;
+
 protected:		// delete constructer
 	DashBug(const DashBug& _other) = delete; // default Copy constructer 디폴트 복사생성자
 	DashBug(DashBug&& _other) = delete; // default RValue Copy constructer 디폴트 RValue 복사생성자
