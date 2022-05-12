@@ -28,7 +28,7 @@ void JumpBug::Start()
 	ImageRenderer->CreateAnimation("JumpBug.png", "Death", 28, 36, 0.1f, false);
 	ImageRenderer->CreateAnimation("JumpBug.png", "JumpReady", 15, 17, 0.1f, false);
 	ImageRenderer->CreateAnimation("JumpBug.png", "Jump", 18, 25, 0.1f, false);
-	ImageRenderer->CreateAnimation("JumpBug.png", "JumpAttack", 26, 27, 0.1f, false);
+	ImageRenderer->CreateAnimation("JumpBug.png", "JumpAttack", 26, 27, 0.07f, false);
 	ImageRenderer->SetChangeAnimation("Idle");
 	ImageRenderer->GetTransform()->SetLocalScaling({ 500.0f, 500.0f, 1.0f });
 
@@ -51,7 +51,7 @@ void JumpBug::Start()
 	StateManager_.CreateState("Death", std::bind(&JumpBug::Death, this));
 	StateManager_.CreateState("JumpReady", std::bind(&JumpBug::JumpReady, this));
 	StateManager_.CreateState("Jump", std::bind(&JumpBug::Jump, this));
-	StateManager_.CreateState("JumpAttack", std::bind(&JumpBug::Jump, this));
+	StateManager_.CreateState("JumpAttack", std::bind(&JumpBug::JumpAttack, this));
 	
 
 	StateManager_.ChangeState("Idle");
@@ -227,6 +227,12 @@ void JumpBug::SetCallBackFunc()
 		{
 			JumpPower = float4::UP * 700.0f;
 			StateManager_.ChangeState("Jump");
+		}
+	);
+
+	ImageRenderer->SetEndCallBack("JumpAttack", [&]()
+		{
+			StateManager_.ChangeState("Walk");
 		}
 	);
 }
