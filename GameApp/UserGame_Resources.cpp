@@ -162,6 +162,7 @@ void UserGame::ResourcesLoad()
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("DamageEffect"));
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("StunEffect"));
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("AttackEffect"));
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("MonsterDamageEffect"));
 
 	
 	}

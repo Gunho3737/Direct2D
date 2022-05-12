@@ -93,6 +93,10 @@ void Player::Start()
 		PlayerSlashEffectRenderer->Off();
 	}
 
+	{
+		PlayerShotImpactRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	}
+
 	StateManager_.CreateState("Idle", std::bind(&Player::Idle, this));
 	StateManager_.CreateState("IdleToRun", std::bind(&Player::IdleToRun, this));
 	StateManager_.CreateState("Run", std::bind(&Player::Run, this));

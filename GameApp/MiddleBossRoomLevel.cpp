@@ -47,7 +47,7 @@ void MiddleBossRoomLevel::LevelStart()
 	{
 		PlayerActor = CreateActor<Player>();
 		PlayerActor->PlayerDirection = LeftRight::RIGHT;
-		PlayerActor->GetTransform()->SetLocalPosition({ 9400.0f,-1550.0f });
+		PlayerActor->GetTransform()->SetLocalPosition({ 9400.0f,-1550.0f , 1.0f});
 		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
 	}
 
@@ -59,13 +59,13 @@ void MiddleBossRoomLevel::LevelStart()
 
 	{
 		MiddleBoss* BossActor = CreateActor<MiddleBoss>();
-		BossActor->GetTransform()->SetWorldPosition(float4(7900.0f, -2200.0f, 0.0f));
+		BossActor->GetTransform()->SetWorldPosition(float4(7900.0f, -2200.0f, 2.0f));
 		BossActor->Direction = LeftRight::RIGHT;
 	}
 	
 	{
 		DashBug* Actor = CreateActor<DashBug>();
-		Actor->GetTransform()->SetLocalPosition(float4(4500.0f, -2200.0f, 1.0f));
+		Actor->GetTransform()->SetLocalPosition(float4(4500.0f, -2200.0f, 2.0f));
 	}
 
 }

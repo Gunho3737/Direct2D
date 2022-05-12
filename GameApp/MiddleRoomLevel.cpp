@@ -46,14 +46,14 @@ void MiddleRoomLevel::LevelStart()
 	{
 		PlayerActor = CreateActor<Player>();
 		PlayerActor->PlayerDirection = LeftRight::RIGHT;
-		PlayerActor->GetTransform()->SetLocalPosition({ 9600.0f,-2850.0f });
+		PlayerActor->GetTransform()->SetLocalPosition({ 9600.0f,-2850.0f , 1.0f});
 		GetMainCameraActor()->GetTransform()->SetWorldPosition(PlayerActor->GetTransform()->GetLocalPosition());
 	}
 
 	{
 		FlyActor = CreateActor<FlyBug>();
 		FlyActor->Direction = LeftRight::LEFT;
-		FlyActor->GetTransform()->SetWorldPosition(float4(10000.0f, -2200.0f, 0.0f));
+		FlyActor->GetTransform()->SetWorldPosition(float4(10000.0f, -2200.0f, 2.0f));
 	}
 
 	{
@@ -64,7 +64,7 @@ void MiddleRoomLevel::LevelStart()
 	{
 		CrawlActor = CreateActor<CrawlBug>();
 		CrawlActor->Direction = LeftRight::LEFT;
-		CrawlActor->GetTransform()->SetWorldPosition(float4(10260.0f, -2612.0f, 0.0f));
+		CrawlActor->GetTransform()->SetWorldPosition(float4(10260.0f, -2612.0f, 2.0f));
 		CrawlActor->StartX = 10260.0f;
 	}
 

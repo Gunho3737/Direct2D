@@ -31,8 +31,13 @@ protected:
 	GameEngineImageRenderer* PlayerEffectRenderer;
 	GameEngineImageRenderer* PlayerEffectRenderer2;
 
-	//몬스터와 닿을시 나오는 이펙트를 위한 렌더러
+	//몬스터와 공격이 닿을시 나오는 이펙트를 위한 렌더러
+
+	//칼이 부딪히는 이펙트
 	GameEngineImageRenderer* PlayerSlashEffectRenderer;
+
+	//오렌지 이펙트가 피처럼 튀는 이펙트, 플레이어의 공격위치를 받아야 하기때문에 플레이어에서 생성
+	GameEngineImageRenderer* PlayerShotImpactRenderer;
 
 	float Speed;
 	float TimeCheck;
