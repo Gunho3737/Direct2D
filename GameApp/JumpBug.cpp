@@ -9,7 +9,7 @@
 
 
 JumpBug::JumpBug() // default constructer 디폴트 생성자
-	: HP(1), Speed(150.0f), GetDamage(false), ImmuneTime(0.0f), JumpPower({0.0f,0.0f,0.0f})
+	: HP(5), Speed(150.0f), GetDamage(false), ImmuneTime(0.0f), JumpPower({0.0f,0.0f,0.0f})
 {
 
 }
@@ -212,6 +212,11 @@ void JumpBug::Death()
 {
 	ImageRenderer->SetChangeAnimation("Death");
 
+
+	if (MapBotCollisionColor != float4::BLACK)
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * Speed);
+	}
 
 	Collision->Off();
 	ViewCollision->Off();

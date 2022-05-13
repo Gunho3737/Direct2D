@@ -54,7 +54,7 @@ void BenchRoomLevel::LevelStart()
 
 	{
 		JumpActor = CreateActor<JumpBug>();
-		JumpActor->GetTransform()->SetLocalPosition(float4(8500.0f, -2870.0f, 1.0f));
+		JumpActor->GetTransform()->SetLocalPosition(float4(8500.0f, -2870.0f, 2.0f));
 	}
 
 	Reverse = false;

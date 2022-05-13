@@ -15,6 +15,8 @@ public:
 
 	GameEngineImageRenderer* ImageRenderer;
 
+	GameEngineImageRenderer* DamageEffectRenderer;
+
 	//몬스터자체의콜리전
 	GameEngineCollision* Collision;
 
