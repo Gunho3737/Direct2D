@@ -21,9 +21,15 @@ TitleScreen::TitleScreen(TitleScreen&& _other) noexcept  // default RValue Copy 
 
 void TitleScreen::Start()
 {
-	ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-	ImageRenderer->SetImage("TitleBackGround.png");
-	ImageRenderer->GetTransform()->SetLocalScaling(ImageRenderer->GetCurrentTexture()->GetTextureSize());
+	BackGroundImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	BackGroundImageRenderer->CreateAnimationFolder("TitleBackGround", "TitleBackGround", 0.05f);
+	BackGroundImageRenderer->SetChangeAnimation("TitleBackGround");
+	BackGroundImageRenderer->GetTransform()->SetLocalScaling(BackGroundImageRenderer->GetFolderTextureImageSize());
+
+	LogoImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	LogoImageRenderer->SetImage("TitleLogo.png");
+	LogoImageRenderer->GetTransform()->SetLocalScaling(LogoImageRenderer->GetCurrentTexture()->GetTextureSize());
+	LogoImageRenderer->GetTransform()->SetLocalPosition({0.0f, 100.0f, 0.0f});
 }
 
 void TitleScreen::Update(float _DeltaTime)

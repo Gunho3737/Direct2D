@@ -2,6 +2,7 @@
 #include "TitleLevel.h"
 #include "TitleScreen.h"
 #include "UserGame.h"
+#include <GameEngine\PostFade.h>
 
 TitleLevel::TitleLevel() 
 {
@@ -15,6 +16,9 @@ void TitleLevel::LevelStart()
 {
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
+
+	FadeEffect = AddPostProcessCameraMergeNext<PostFade>();
+	FadeEffect->SetTarget(GameEngineDevice::GetBackBufferTarget());
 
 	if (false == GameEngineInput::GetInst().IsKey("PlayerMove"))
 	{
@@ -55,17 +59,19 @@ void TitleLevel::LevelUpdate(float _DeltaTime)
 }
 void TitleLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 {
-
+	FadeOff();
 }
 void TitleLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
-
+	FadeOn();
 }
 
 void TitleLevel::FadeOn()
 {
+	FadeEffect->SetData(0.5f, FadeOption::LIGHT);
 }
 
 void TitleLevel::FadeOff()
 {
+	FadeEffect->SetData(0.5f, FadeOption::DARK);
 }

@@ -149,7 +149,9 @@ void UserGame::ResourcesLoad()
 		{
 			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
 		}
+		
 
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("TitleBackGround"));
 	}
 
 	{

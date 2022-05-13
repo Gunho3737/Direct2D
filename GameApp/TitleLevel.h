@@ -18,6 +18,8 @@ public:
 	void FadeOn() override;
 	void FadeOff() override;
 
+	class PostFade* FadeEffect;
+
 protected:
 	void LevelStart() override;
 	void LevelUpdate(float _DeltaTime) override;
