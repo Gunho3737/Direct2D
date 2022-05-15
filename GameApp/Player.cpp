@@ -43,6 +43,7 @@ void Player::Start()
 		PlayerImageRenderer->GetTransform()->SetLocalScaling(PlayerImageRenderer->GetFolderTextureImageSize());
 		//렌더러가 그려지는곳을 봇으로 설정
 		PlayerImageRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot());
+		//PlayerImageRenderer->SetPlusColor({ 0.0f, 0.0f, 0.0f, 0.0f });
 	}
 
 

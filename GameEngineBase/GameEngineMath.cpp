@@ -10,7 +10,7 @@ const float GameEngineMath::RadianToDegree = 180.0f / GameEngineMath::PI;
 // Static Var
 // Static Func
 
-const float4 float4::ZERO = { 0.0f, 0.0f };
+const float4 float4::ZERO = { 0.0f, 0.0f, 0.0f, 0.0f };
 const float4 float4::ONE = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 const float4 float4::LEFT = { -1.0f, 0.0f };
@@ -26,8 +26,6 @@ const float4 float4::BLACK = { 0.0f, 0.0f, 0.0f, 1.0f };
 const float4 float4::NONE = { 0.0f, 0.0f, 0.0f, 0.0f };
 
 const float4 float4::XFLIP = { -1.0f, 1.0f, 1.0f};
-
-const float4 float4::TEXTUREPERCENT = { 0.70f, 0.70f, 1.0f };
 
 float4 float4::RotateYRadian(const float4& _OriginVector, float _Radian)
 {
