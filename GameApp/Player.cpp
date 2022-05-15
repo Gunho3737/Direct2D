@@ -955,7 +955,7 @@ void Player::SetCallBackFunc()
 				{
 					PlayerSlashRenderer->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
 					PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {-70.0f, 0.0f, -1.0f});
-					PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
+					PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 137.0f,114.0f, 1.0f });
 					PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {-70.0f, 0.0f, -1.0f});
 					PlayerSlashEffectRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {-120.0f, 0.0f, -2.0f});
 				}
@@ -964,7 +964,7 @@ void Player::SetCallBackFunc()
 					{
 						PlayerSlashRenderer->GetTransform()->SetLocalScaling(float4{ -157.0f,114.0f, 1.0f });
 						PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {70.0f, 0.0f, -1.0f});
-						PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
+						PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 137.0f,114.0f, 1.0f });
 						PlayerSlashCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {70.0f, 0.0f, -1.0f});
 						PlayerSlashEffectRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {120.0f, 0.0f, -2.0f});
 					}
@@ -1000,7 +1000,6 @@ void Player::SetCallBackFunc()
 
 		PlayerSlashRenderer->SetEndCallBack("UpSlashEffect", [&]()
 			{
-
 				PlayerSlashRenderer->Off();
 				PlayerSlashCollision->Off();
 			}

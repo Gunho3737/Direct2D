@@ -99,6 +99,7 @@ void CrawlBug::Update(float _DeltaTime)
 		{
 			GetDamage = false;
 			Collision->On();
+			ImageRenderer->SetPlusColor({ 0.0f, 0.0f, 0.0f, 0.0f });
 		}
 	}
 
@@ -109,8 +110,12 @@ void CrawlBug::Update(float _DeltaTime)
 			{
 				HP -= 1;
 				GetDamage = true;
-				ImmuneTime = 0.3f;
+				ImmuneTime = 0.2f;
 				Collision->Off();
+				if ("Death" != ImageRenderer->GetCurrentAnimationName())
+				{
+					ImageRenderer->SetPlusColor({ 1.0f, 1.0f, 1.0f, 0.0f });
+				}
 			}
 		);
 	}

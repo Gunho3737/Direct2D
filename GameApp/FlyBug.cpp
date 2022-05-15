@@ -45,7 +45,7 @@ void FlyBug::Start()
 	}
 
 	Collision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTER));
-	Collision->GetTransform()->SetLocalScaling(float4{ 100.0f, 90.0f, 1.0f });
+	Collision->GetTransform()->SetLocalScaling(float4{ 90.0f, 80.0f, 1.0f });
 	Collision->GetTransform()->SetLocalPosition({-10.0f, 40.0f, -10.0f});
 
 	RangeCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERVIEW));
@@ -131,6 +131,7 @@ void FlyBug::Update(float _DeltaTime)
 		{
 			GetDamage = false;
 			Collision->On();
+			PlayerImageRenderer->SetPlusColor({ 0.0f, 0.0f, 0.0f, 0.0f });
 		}
 	}
 
@@ -141,8 +142,12 @@ void FlyBug::Update(float _DeltaTime)
 			{
 				HP -= 1;
 				GetDamage = true;
-				ImmuneTime = 0.3f;
+				ImmuneTime = 0.2f;
 				Collision->Off();
+				if ("Die" != PlayerImageRenderer->GetCurrentAnimationName())
+				{
+					PlayerImageRenderer->SetPlusColor({ 1.0f, 1.0f, 1.0f, 0.0f });
+				}
 			}
 		);
 	}

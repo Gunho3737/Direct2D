@@ -33,7 +33,7 @@ void JumpBug::Start()
 	ImageRenderer->GetTransform()->SetLocalScaling({ 500.0f, 500.0f, 1.0f });
 
 	Collision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTER));
-	Collision->GetTransform()->SetLocalScaling(float4{ 90.0f, 200.0f, 1.0f });
+	Collision->GetTransform()->SetLocalScaling(float4{ 80.0f, 180.0f, 1.0f });
 	Collision->GetTransform()->SetLocalPosition({ 0.0f, 100.0f, -10.0f });
 
 	ViewCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERVIEW));
@@ -99,6 +99,7 @@ void JumpBug::Update(float _DeltaTime)
 			{
 				GetDamage = false;
 				Collision->On();
+				ImageRenderer->SetPlusColor({ 0.0f, 0.0f, 0.0f, 0.0f });
 			}
 		}
 
@@ -109,8 +110,12 @@ void JumpBug::Update(float _DeltaTime)
 				{
 					HP -= 1;
 					GetDamage = true;
-					ImmuneTime = 0.3f;
+					ImmuneTime = 0.2f;
 					Collision->Off();
+					if ("Death" != ImageRenderer->GetCurrentAnimationName())
+					{
+					ImageRenderer->SetPlusColor({ 1.0f, 1.0f, 1.0f, 0.0f });
+					}
 				}
 			);
 		}

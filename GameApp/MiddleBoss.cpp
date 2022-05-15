@@ -42,7 +42,7 @@ void MiddleBoss::Start()
 	AttackEffectRenderer->SetChangeAnimation("SmashEffectBack");
 
 	Collision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTER));
-	Collision->GetTransform()->SetLocalScaling(float4{ 300.0f, 300.0f, 1.0f });
+	Collision->GetTransform()->SetLocalScaling(float4{ 270.0f, 270.0f, 1.0f });
 	Collision->GetTransform()->SetLocalPosition({ 0.0f, 175.0f, -10.0f });
 
 	RangeCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERVIEW));
@@ -132,6 +132,7 @@ void MiddleBoss::Update(float _DeltaTime)
 		{
 			GetDamage = false;
 			Collision->On();
+			ImageRenderer->SetPlusColor({ 0.0f, 0.0f, 0.0f, 0.0f });
 		}
 	}
 
@@ -142,8 +143,12 @@ void MiddleBoss::Update(float _DeltaTime)
 			{
 				HP -= 1;
 				GetDamage = true;
-				ImmuneTime = 0.3f;
+				ImmuneTime = 0.2f;
 				Collision->Off();
+				if ("Death" != ImageRenderer->GetCurrentAnimationName())
+				{
+					ImageRenderer->SetPlusColor({ 1.0f, 1.0f, 1.0f, 0.0f });
+				}
 			}
 		);
 	}
