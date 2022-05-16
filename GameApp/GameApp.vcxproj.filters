@@ -68,6 +68,9 @@
     <ClCompile Include="JumpBug.cpp">
       <Filter>Actor\PlayLevel\Monster</Filter>
     </ClCompile>
+    <ClCompile Include="CollapseFloor.cpp">
+      <Filter>Actor\PlayLevel\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -168,6 +171,9 @@
     </ClInclude>
     <ClInclude Include="JumpBug.h">
       <Filter>Actor\PlayLevel\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CollapseFloor.h">
+      <Filter>Actor\PlayLevel\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

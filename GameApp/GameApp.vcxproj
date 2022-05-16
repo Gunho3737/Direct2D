@@ -20,6 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Appmain.cpp" />
+    <ClCompile Include="CollapseFloor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="CrawlBug.cpp">
       <SubType>
       </SubType>
@@ -89,6 +93,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CollapseFloor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CrawlBug.h">
       <SubType>
       </SubType>

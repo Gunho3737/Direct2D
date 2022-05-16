@@ -125,6 +125,8 @@ void UserGame::ResourcesLoad()
 		TextureDir.MoveChild("Image");
 		TextureDir.MoveChild("Map");
 
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("CollapseFloor"));
+
 		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFile();
 
 		for (size_t i = 0; i < AllFile.size(); i++)
@@ -135,6 +137,8 @@ void UserGame::ResourcesLoad()
 
 		GameEngineTexture* Texture = GameEngineTextureManager::GetInst().Find("fog.png");
 		Texture->Cut(5, 4);
+
+	
 	}
 
 	{
