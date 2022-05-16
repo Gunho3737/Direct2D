@@ -3,6 +3,7 @@
 #include "TitleScreen.h"
 #include "UserGame.h"
 #include <GameEngine\PostFade.h>
+#include "GameEngineBase/GameEngineSoundPlayer.h"
 
 TitleLevel::TitleLevel() 
 {
@@ -54,6 +55,7 @@ void TitleLevel::LevelUpdate(float _DeltaTime)
 	if (true == GameEngineInput::GetInst().Down("NextLevel"))
 	{
 		UserGame::LevelChange("BenchRoom");
+		TitleScreen::TitleBackGroundPlayer->Stop();
 	}
 
 }

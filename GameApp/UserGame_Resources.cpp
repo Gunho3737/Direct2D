@@ -24,6 +24,7 @@ void UserGame::ResourcesLoad()
 		SoundDir.MoveParent("LGH_HollowKnight");
 		SoundDir.MoveChild("Resources");
 		SoundDir.MoveChild("Sound");
+		SoundDir.MoveChild("BackGround");
 
 		std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile("mp3");
 

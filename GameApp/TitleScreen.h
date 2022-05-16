@@ -5,6 +5,7 @@
 // 분류 : 
 // 용도 : 
 // 설명 : 
+class GameEngineSoundPlayer;
 class TitleScreen : public GameEngineActor
 {
 private:	// member Var
@@ -15,6 +16,8 @@ public:
 
 	GameEngineImageRenderer* BackGroundImageRenderer;
 	GameEngineImageRenderer* LogoImageRenderer;
+
+	static GameEngineSoundPlayer* TitleBackGroundPlayer;
 
 protected:		// delete constructer
 	TitleScreen(const TitleScreen& _other) = delete; // default Copy constructer 디폴트 복사생성자
