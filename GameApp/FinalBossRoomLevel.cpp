@@ -84,11 +84,11 @@ void FinalBossRoomLevel::LevelUpdate(float _DeltaTime)
 
 	if (PlayerPos.y < -1750.0f)
 	{
-		if (PlayerPos.x < 0.0f)
+		if (PlayerPos.x < 1000.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 0.0f, -1750.0f, PlayerPos.z });
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 1000.0f, -1750.0f, PlayerPos.z });
 		}
-		else if (PlayerPos.x >= 0.0f && PlayerPos.x <= 3200.0f)
+		else if (PlayerPos.x >= 1000.0f && PlayerPos.x <= 3200.0f)
 		{
 			GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x, -1750.0f, PlayerPos.z });
 		}
@@ -99,13 +99,13 @@ void FinalBossRoomLevel::LevelUpdate(float _DeltaTime)
 	}
 	
 
-	if (PlayerPos.y >= -1750.0f && PlayerPos.y <= -700.0f)
+	if (PlayerPos.y >= -1750.0f && PlayerPos.y <= -600.0f)
 	{
-		if (PlayerPos.x < 0.0f)
+		if (PlayerPos.x < 1000.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 0.0f, PlayerPos.y, PlayerPos.z });
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 1000.0f, PlayerPos.y, PlayerPos.z });
 		}
-		else if (PlayerPos.x >= 0.0f && PlayerPos.x <= 3200.0f)
+		else if (PlayerPos.x >= 1000.0f && PlayerPos.x <= 3200.0f)
 		{
 			GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x, PlayerPos.y, PlayerPos.z });
 		}
@@ -116,19 +116,19 @@ void FinalBossRoomLevel::LevelUpdate(float _DeltaTime)
 	}
 
 
-	if (PlayerPos.y > -700.0f)
+	if (PlayerPos.y > -600.0f)
 	{
-		if (PlayerPos.x < 0.0f)
+		if (PlayerPos.x < 1000.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 0.0f, -700.0f, PlayerPos.z });
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 1000.0f, -600.0f, PlayerPos.z });
 		}
 		else if (PlayerPos.x >= 0.0f && PlayerPos.x <= 3200.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x, -700.0f, PlayerPos.z });
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x, -600.0f, PlayerPos.z });
 		}
 		else if (PlayerPos.x >= 3200.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 3200.0f, -700.0f, PlayerPos.z });
+			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 3200.0f, -600.0f, PlayerPos.z });
 		}
 	}
 
