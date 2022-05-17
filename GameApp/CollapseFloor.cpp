@@ -24,7 +24,7 @@ void CollapseFloor::Start()
 
 	Collision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::FLOOR));
 	Collision->GetTransform()->SetLocalScaling({1500.0f, 30.0f});
-	Collision->GetTransform()->SetLocalPosition({0.0f,130.0f,-10.0f });
+	Collision->GetTransform()->SetLocalPosition({0.0f,140.0f,-10.0f });
 	//1600,1040
 }
 
@@ -37,4 +37,12 @@ void CollapseFloor::Update(float _DeltaTime)
 			GetLevel()->PushDebugRender(Collision->GetTransform(), CollisionType::Rect);
 		}
 	}
+
+	Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
+		[&](GameEngineCollision* _OtherCollision)
+		{
+			ImageRenderer->Off();
+			Collision->Off();
+		}
+	);
 }
