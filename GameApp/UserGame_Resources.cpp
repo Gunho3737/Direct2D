@@ -125,7 +125,6 @@ void UserGame::ResourcesLoad()
 		TextureDir.MoveChild("Image");
 		TextureDir.MoveChild("Map");
 
-		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("CollapseFloor"));
 
 		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFile();
 

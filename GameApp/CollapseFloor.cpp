@@ -17,9 +17,24 @@ CollapseFloor::~CollapseFloor() // default destructer 디폴트 소멸자
 
 void CollapseFloor::Start()
 {
+	ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 
+	ImageRenderer->SetImage("CollapseFloor_2.png");
+	ImageRenderer->GetTransform()->SetLocalScaling(ImageRenderer->GetCurrentTexture()->GetTextureSize());
+
+	Collision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::FLOOR));
+	Collision->GetTransform()->SetLocalScaling({1500.0f, 30.0f});
+	Collision->GetTransform()->SetLocalPosition({0.0f,130.0f,-10.0f });
+	//1600,1040
 }
 
 void CollapseFloor::Update(float _DeltaTime)
 {
+	if (true == GetLevel()->IsDebugCheck())
+	{
+		if (true == Collision->IsUpdate())
+		{
+			GetLevel()->PushDebugRender(Collision->GetTransform(), CollisionType::Rect);
+		}
+	}
 }

@@ -31,7 +31,8 @@ enum class ActorCollisionType
 	PREVMAP,
 	NEXTMAP,
 	MONSTERVIEW,
-	MONSTERMOVESTOP
+	MONSTERMOVESTOP,
+	FLOOR
 };
 
 enum class LeftRight
