@@ -402,11 +402,11 @@ void MiddleBoss::SetCallBackFunc()
 			{
 				StateManager_.ChangeState("GetUp");
 				GroundWave* WaveAttackLeft = GetLevel()->CreateActor<GroundWave>();
-				WaveAttackLeft->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() += {0.0f, 50.0f, 2.0f});
+				WaveAttackLeft->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() += {0.0f, 60.0f, 2.0f});
 				WaveAttackLeft->Direction = LeftRight::LEFT;
 
 				GroundWave* WaveAttackRight = GetLevel()->CreateActor<GroundWave>();
-				WaveAttackRight->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() += {0.0f, 50.0f, 2.0f});
+				WaveAttackRight->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() += {0.0f, 60.0f, 2.0f});
 				WaveAttackRight->Direction = LeftRight::RIGHT;
 
 			}

@@ -4,6 +4,7 @@
 // Ό³Έν :
 class Player;
 class BitMap;
+class FinalBoss;
 class FinalBossRoomLevel : public GameEngineLevel
 {
 public:
@@ -25,6 +26,7 @@ public:
 protected:
 	Player* PlayerActor;
 	BitMap* BitMapActor;
+	FinalBoss* FinalBossActor;
 	float4 PlayerPos;
 
 private:

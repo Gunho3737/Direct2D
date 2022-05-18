@@ -5,6 +5,7 @@
 #include "FlyBug.h"
 #include "BitMap.h"
 #include "ViewMap.h"
+#include "FinalBoss.h"
 #include "CollapseFloor.h"
 #include <GameEngine\PostFade.h>
 #include <GameEngine/CameraComponent.h>
@@ -56,6 +57,11 @@ void FinalBossRoomLevel::LevelStart()
 	{
 		CollapseFloor* Floor = CreateActor<CollapseFloor>();
 		Floor->GetTransform()->SetWorldPosition({ 1610.0f,-842.0f, -90.0f });
+	}
+
+	{
+		FinalBossActor = CreateActor<FinalBoss>();
+		FinalBossActor->GetTransform()->SetWorldPosition({ 1610.0f,-800.0f});
 	}
 
 }

@@ -61,6 +61,19 @@ void UserGame::ResourcesLoad()
 
 		Texture = GameEngineTextureManager::GetInst().Find("DashBug.png");
 		Texture->Cut(5, 7);
+
+		Texture = GameEngineTextureManager::GetInst().Find("FinalBoss.png");
+		Texture->Cut(10, 11);
+	}
+
+	{
+		GameEngineDirectory TextureDir;
+		TextureDir.MoveParent("LGH_HollowKnight");
+		TextureDir.MoveChild("Resources");
+		TextureDir.MoveChild("Image");
+		TextureDir.MoveChild("Monster");
+
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("BossGroundWave"));
 	}
 
 	{
