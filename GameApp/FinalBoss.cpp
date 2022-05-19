@@ -21,7 +21,7 @@ void FinalBoss::Start()
 
 	ImageRenderer->CreateAnimation("FinalBoss.png", "Idle", 0, 4, 0.1f);
 	ImageRenderer->SetChangeAnimation("Idle");
-	ImageRenderer->GetTransform()->SetLocalScaling({ 1000.0f, 1000.0f, 1.0f });
+	ImageRenderer->GetTransform()->SetLocalScaling({ 1400.0f, 1400.0f, 1.0f });
 
 	StateManager_.CreateState("Idle", std::bind(&FinalBoss::Idle, this));
 	StateManager_.ChangeState("Idle");

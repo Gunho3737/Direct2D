@@ -38,11 +38,11 @@ void CollapseFloor::Update(float _DeltaTime)
 		}
 	}
 
-	Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
-		[&](GameEngineCollision* _OtherCollision)
-		{
-			ImageRenderer->Off();
-			Collision->Off();
-		}
-	);
+	//Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
+	//	[&](GameEngineCollision* _OtherCollision)
+	//	{
+	//		ImageRenderer->Off();
+	//		Collision->Off();
+	//	}
+	//);
 }
