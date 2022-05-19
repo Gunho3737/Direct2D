@@ -9,7 +9,7 @@
 Player* Player::MainPlayer = nullptr;
 
 Player::Player()
-	: Speed(600.0f), JumpPower(float4::ZERO), BasicJumpPower(float4::UP * 1000.0f), FallDownPower(float4::DOWN * 700.0f), TimeCheck(0.0f),ImmuneTime(0.0f), LevelMoveOn(false), Impact(false), Immune(false)
+	: Speed(600.0f), JumpPower(float4::ZERO), BasicJumpPower(float4::UP * 1000.0f), FallDownPower(float4::DOWN * 700.0f), TimeCheck(0.0f),ImmuneTime(0.0f), LevelMoveOn(false), Impact(false), Immune(false), BossFight(false)
 {
 }
 
@@ -238,8 +238,7 @@ void Player::Update(float _DeltaTime)
 			}
 		);
 	}
-	
-	
+
 }
 
 void Player::Idle()
@@ -271,9 +270,20 @@ void Player::Idle()
 		StateManager_.ChangeState("Jump");
 	}
 
+	PlayerCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::FLOOR,
+		[&](GameEngineCollision* _OtherCollision)
+		{
+			BossFight = true;
+		}
+	);
+
+
 	if (MapBotCollisionColor != float4::BLACK)
 	{
+		if (BossFight == false)
+		{
 		StateManager_.ChangeState("Airborne");
+		}
 	}
 
 	//디버그용 강제 위로 이동
@@ -286,6 +296,13 @@ void Player::Idle()
 void Player::IdleToRun()
 {
 	PlayerImageRenderer->SetChangeAnimation("IdleToRun");
+
+	PlayerCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::FLOOR,
+		[&](GameEngineCollision* _OtherCollision)
+		{
+			BossFight = true;
+		}
+	);
 
 	if (
 		MapLeftCollisionColor != float4::BLACK &&
@@ -352,14 +369,26 @@ void Player::IdleToRun()
 
 	if (MapBotCollisionColor != float4::BLACK)
 	{
-		StateManager_.ChangeState("Airborne");
+		if (BossFight == false)
+		{
+			StateManager_.ChangeState("Airborne");
+		}
 	}
 
 }
 
 void Player::Run()
 {
+
 	PlayerImageRenderer->SetChangeAnimation("Run");
+
+	BossFight = false;
+	PlayerCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::FLOOR,
+		[&](GameEngineCollision* _OtherCollision)
+		{
+			BossFight = true;
+		}
+	);
 
 	if (MapLeftCollisionColor != float4::BLACK &&
 		MapTopLeftCollisionColor != float4::BLACK
@@ -419,7 +448,10 @@ void Player::Run()
 
 	if (MapBotCollisionColor != float4::BLACK)
 	{
+		if (BossFight == false)
+		{
 		StateManager_.ChangeState("Airborne");
+		}
 	}
 
 }
@@ -427,6 +459,14 @@ void Player::Run()
 void Player::RunToIdle()
 {
 	PlayerImageRenderer->SetChangeAnimation("RunToIdle");
+
+	BossFight = false;
+	PlayerCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::FLOOR,
+		[&](GameEngineCollision* _OtherCollision)
+		{
+			BossFight = true;
+		}
+	);
 
 	if (true == GameEngineInput::GetInst().Press("MoveLeft") || GameEngineInput::GetInst().Press("MoveRight"))
 	{
@@ -447,7 +487,10 @@ void Player::RunToIdle()
 
 	if (MapBotCollisionColor != float4::BLACK)
 	{
-		StateManager_.ChangeState("Airborne");
+		if (BossFight == false)
+		{
+			StateManager_.ChangeState("Airborne");
+		}
 	}
 
 	if (true == GameEngineInput::GetInst().Down("Attack"))
@@ -469,6 +512,14 @@ void Player::Attack()
 {
 	PlayerImageRenderer->SetChangeAnimation("Attack");
 
+	BossFight = false;
+	PlayerCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::FLOOR,
+		[&](GameEngineCollision* _OtherCollision)
+		{
+			BossFight = true;
+		}
+	);
+
 	if (0 <= JumpPower.y)
 	{
 		JumpPower += float4::DOWN * GameEngineTime::GetInst().GetDeltaTime() * 1500.0f;
@@ -480,11 +531,12 @@ void Player::Attack()
 
 	if (0 > JumpPower.y)
 	{
-		if (
-			MapBotCollisionColor != float4::BLACK
-			)
+		if (MapBotCollisionColor != float4::BLACK)
 		{
+			if (BossFight == false)
+			{
 			GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 500.0f);
+			}
 		}		
 	}
 
@@ -542,6 +594,15 @@ void Player::Attack()
 
 void Player::Airborne()
 {
+
+	BossFight = false;
+	PlayerCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::FLOOR,
+		[&](GameEngineCollision* _OtherCollision)
+		{
+			BossFight = true;
+		}
+	);
+
 	GetTransform()->SetLocalDeltaTimeMove(FallDownPower);
 
 	PlayerImageRenderer->SetChangeAnimation("Airborne");
@@ -594,7 +655,7 @@ void Player::Airborne()
 		}
 	}
 
-	if (MapBotCollisionColor == float4::BLACK)
+	if (MapBotCollisionColor == float4::BLACK || BossFight == true)
 	{
 		StateManager_.ChangeState("Idle");
 	}
@@ -605,6 +666,7 @@ void Player::Airborne()
 
 void Player::Jump()
 {
+
 	PlayerImageRenderer->SetChangeAnimation("Jump");
 	if (0 <= JumpPower.y)
 	{
@@ -672,6 +734,14 @@ void Player::Jump()
 
 void Player::UpAttack()
 {
+	BossFight = false;
+	PlayerCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::FLOOR,
+		[&](GameEngineCollision* _OtherCollision)
+		{
+			BossFight = true;
+		}
+	);
+
 	PlayerImageRenderer->SetChangeAnimation("UpAttack");
 
 	if (0 <= JumpPower.y)
@@ -687,7 +757,10 @@ void Player::UpAttack()
 	{
 		if (MapBotCollisionColor != float4::BLACK)
 		{
+			if (BossFight == false)
+			{
 			GetTransform()->SetLocalDeltaTimeMove(FallDownPower);
+			}
 		}
 	}
 
@@ -746,6 +819,14 @@ void Player::DownAttack()
 {
 	PlayerImageRenderer->SetChangeAnimation("DownAttack");
 
+	BossFight = false;
+	PlayerCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::FLOOR,
+		[&](GameEngineCollision* _OtherCollision)
+		{
+			BossFight = true;
+		}
+	);
+
 	if (0 <= JumpPower.y)
 	{
 		JumpPower += float4::DOWN * GameEngineTime::GetInst().GetDeltaTime() * 1500.0f;
@@ -759,7 +840,10 @@ void Player::DownAttack()
 	{
 		if (MapBotCollisionColor != float4::BLACK)
 		{
+			if (BossFight == true)
+			{
 			GetTransform()->SetLocalDeltaTimeMove(FallDownPower);
+			}
 		}
 	}
 

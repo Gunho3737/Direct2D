@@ -68,6 +68,9 @@ protected:
 	//일정시간 무적상태를 위한 bool
 	bool Immune;
 
+	//보스전 바닥꺼짐을 위한 bool
+	bool BossFight;
+
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;

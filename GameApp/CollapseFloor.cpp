@@ -23,7 +23,7 @@ void CollapseFloor::Start()
 	ImageRenderer->GetTransform()->SetLocalScaling(ImageRenderer->GetCurrentTexture()->GetTextureSize());
 
 	Collision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::FLOOR));
-	Collision->GetTransform()->SetLocalScaling({1500.0f, 30.0f});
+	Collision->GetTransform()->SetLocalScaling({2500.0f, 30.0f});
 	Collision->GetTransform()->SetLocalPosition({0.0f,140.0f,-10.0f });
 	//1600,1040
 }

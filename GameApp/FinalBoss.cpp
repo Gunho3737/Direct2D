@@ -48,6 +48,7 @@ void FinalBoss::Start()
 	ViewCollision->GetTransform()->SetLocalPosition({ 50.0f, 130.0f, -10.0f });
 
 
+
 	StateManager_.CreateState("Idle", std::bind(&FinalBoss::Idle, this));
 	StateManager_.ChangeState("Idle");
 }
@@ -55,6 +56,9 @@ void FinalBoss::Start()
 void FinalBoss::Update(float _DeltaTime)
 {
 	StateManager_.Update();
+
+	MapBotCollisionColor = BitMap::GetColor(GetTransform());
+
 
 	if (true == GetLevel()->IsDebugCheck())
 	{
