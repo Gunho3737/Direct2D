@@ -35,6 +35,11 @@ public:
 	GameEngineFSM StateManager_;
 	LeftRight Direction;
 
+	float4 MapBotCollisionColor;
+	float4 MapTopCollisionColor;
+	float4 MapLeftCollisionColor;
+	float4 MapRightCollisionColor;
+
 protected:		// delete constructer
 	FinalBoss(const FinalBoss& _other) = delete; // default Copy constructer 디폴트 복사생성자
 	FinalBoss(FinalBoss&& _other) = delete; // default RValue Copy constructer 디폴트 RValue 복사생성자
@@ -49,11 +54,13 @@ private:
 
 private:
 	void Idle();
-	void Wait(); 
 	void Walk();
+	void AttackReady();
 	void Attack();
-	void JumpReady();
+	void AttackRecover();
 	void Jump();
+	void JumpAttack();
+	void JumpAttackRecover();
 	void GetUp();
 	void Death();
 

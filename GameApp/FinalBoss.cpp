@@ -4,6 +4,11 @@
 #include "GameEngine/GameEngineImageRenderer.h"
 #include <GameEngine\GameEngineCollision.h>
 
+#include <GameApp/BitMap.h>
+#include "Player.h"
+#include "GroundWave.h"
+
+
 
 FinalBoss::FinalBoss() // default constructer 디폴트 생성자
 {
@@ -20,6 +25,13 @@ void FinalBoss::Start()
 	ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 
 	ImageRenderer->CreateAnimation("FinalBoss.png", "Idle", 0, 4, 0.1f);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "Walk", 10, 13, 0.1f);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "AttackReady", 24, 29, 0.1f, false);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "Attack", 30, 32, 0.1f, false);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "AttackRecover", 33, 37, 0.1f);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "Jump", 38, 42, 0.1f);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "JumpAttack", 43, 44, 0.2f);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "JumpAttackRecover", 45, 48, 0.1f);
 	ImageRenderer->SetChangeAnimation("Idle");
 	ImageRenderer->GetTransform()->SetLocalScaling({ 1400.0f, 1400.0f, 1.0f });
 
@@ -37,19 +49,26 @@ void FinalBoss::Idle()
 	ImageRenderer->SetChangeAnimation("Idle");
 }
 
-void FinalBoss::Wait() 
+void FinalBoss::Walk() 
 {}
 
-void FinalBoss::Walk() 
+void FinalBoss::AttackReady()
 {}
 
 void FinalBoss::Attack() 
 {}
 
-void FinalBoss::JumpReady() 
+void FinalBoss::AttackRecover()
 {}
 
+
 void FinalBoss::Jump()
+{}
+
+void FinalBoss::JumpAttack()
+{}
+
+void FinalBoss::JumpAttackRecover()
 {}
 
 void FinalBoss::GetUp() 

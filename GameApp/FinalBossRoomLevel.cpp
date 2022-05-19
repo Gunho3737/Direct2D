@@ -61,7 +61,7 @@ void FinalBossRoomLevel::LevelStart()
 
 	{
 		FinalBossActor = CreateActor<FinalBoss>();
-		FinalBossActor->GetTransform()->SetWorldPosition({ 1610.0f,-700.0f});
+		FinalBossActor->GetTransform()->SetWorldPosition({ 1610.0f,-600.0f});
 	}
 
 }

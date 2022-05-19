@@ -74,6 +74,7 @@ void UserGame::ResourcesLoad()
 		TextureDir.MoveChild("Monster");
 
 		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("BossGroundWave"));
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("BossDropAttack"));
 	}
 
 	{

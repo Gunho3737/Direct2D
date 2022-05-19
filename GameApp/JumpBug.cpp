@@ -184,10 +184,11 @@ void JumpBug::Jump()
 
 	JumpPower += float4::DOWN * GameEngineTime::GetInst().GetDeltaTime() * 1500.0f;
 
+	GetTransform()->SetLocalDeltaTimeMove(float4::UP * JumpPower);
 
-	if (MapTopCollisionColor != float4::BLACK)
+	if (MapTopCollisionColor == float4::BLACK)
 	{
-		GetTransform()->SetLocalDeltaTimeMove(float4::UP * JumpPower);
+		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * JumpPower);
 	}
 
 	if (Direction == LeftRight::RIGHT)
