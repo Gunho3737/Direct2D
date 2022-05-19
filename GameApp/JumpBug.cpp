@@ -188,7 +188,7 @@ void JumpBug::Jump()
 
 	if (MapTopCollisionColor == float4::BLACK)
 	{
-		GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * JumpPower);
+		JumpPower = float4::ZERO;
 	}
 
 	if (Direction == LeftRight::RIGHT)
