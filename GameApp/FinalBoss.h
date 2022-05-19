@@ -63,6 +63,7 @@ private:
 	void JumpAttackRecover();
 	void GetUp();
 	void Death();
+	void DirectionCheck();
 
 public:
 	bool GetDamage;

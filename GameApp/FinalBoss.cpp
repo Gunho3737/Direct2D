@@ -36,16 +36,16 @@ void FinalBoss::Start()
 	ImageRenderer->GetTransform()->SetLocalScaling({ 1400.0f, 1400.0f, 1.0f });
 
 	Collision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTER));
-	Collision->GetTransform()->SetLocalScaling(float4{ 270.0f, 270.0f, 1.0f });
-	Collision->GetTransform()->SetLocalPosition({ 0.0f, 175.0f, -10.0f });
+	Collision->GetTransform()->SetLocalScaling(float4{ 300.0f, 300.0f, 1.0f });
+	Collision->GetTransform()->SetLocalPosition({ 50.0f, 130.0f, -10.0f });
 
 	RangeCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERVIEW));
 	RangeCollision->GetTransform()->SetLocalScaling(float4{ 500.0f, 500.0f, 1.0f });
-	RangeCollision->GetTransform()->SetLocalPosition({ 0.0f, 130.0f, -10.0f });
+	RangeCollision->GetTransform()->SetLocalPosition({ 50.0f, 130.0f, -10.0f });
 
 	ViewCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERVIEW));
-	ViewCollision->GetTransform()->SetLocalScaling(float4{ 1000.0f, 700.0f, 1.0f });
-	ViewCollision->GetTransform()->SetLocalPosition({ 0.0f, 130.0f, -10.0f });
+	ViewCollision->GetTransform()->SetLocalScaling(float4{ 1200.0f, 700.0f, 1.0f });
+	ViewCollision->GetTransform()->SetLocalPosition({ 50.0f, 130.0f, -10.0f });
 
 
 	StateManager_.CreateState("Idle", std::bind(&FinalBoss::Idle, this));
@@ -112,3 +112,21 @@ void FinalBoss::GetUp()
 
 void FinalBoss::Death() 
 {}
+
+void FinalBoss::DirectionCheck()
+{
+	if (Direction == LeftRight::RIGHT)
+	{
+		ImageRenderer->GetTransform()->SetLocalScaling(float4{ 1400.0f, 1400.0f, 1.0f });
+		Collision->GetTransform()->SetLocalPosition({ 50.0f, 130.0f, -10.0f });
+		RangeCollision->GetTransform()->SetLocalPosition({ 50.0f, 130.0f, -10.0f });
+		ViewCollision->GetTransform()->SetLocalPosition({ 50.0f, 130.0f, -10.0f });
+	}
+	else
+	{
+		ImageRenderer->GetTransform()->SetLocalScaling(float4{ 1400.0f, 1400.0f, 1.0f } *= float4::XFLIP);
+		Collision->GetTransform()->SetLocalPosition({ -50.0f, 130.0f, -10.0f });
+		RangeCollision->GetTransform()->SetLocalPosition({ -50.0f, 130.0f, -10.0f });
+		ViewCollision->GetTransform()->SetLocalPosition({ -50.0f, 130.0f, -10.0f });
+	}
+}

@@ -62,8 +62,10 @@ void FinalBossRoomLevel::LevelStart()
 	{
 		FinalBossActor = CreateActor<FinalBoss>();
 		FinalBossActor->GetTransform()->SetWorldPosition({ 1610.0f,-600.0f});
+		FinalBossActor->Direction = LeftRight::RIGHT;
 	}
-
+	
+	BossBattleOn = false;
 }
 
 void FinalBossRoomLevel::LevelUpdate(float _DeltaTime)
@@ -111,36 +113,73 @@ void FinalBossRoomLevel::LevelUpdate(float _DeltaTime)
 	}
 	
 
-	if (PlayerPos.y >= -1750.0f && PlayerPos.y <= -600.0f)
+	if (BossBattleOn == false)
 	{
-		if (PlayerPos.x < 1000.0f)
+		if (PlayerPos.y >= -1750.0f && PlayerPos.y <= -600.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 1000.0f, PlayerPos.y, PlayerPos.z });
+			if (PlayerPos.x < 1000.0f)
+			{
+				GetMainCameraActor()->GetTransform()->SetLocalPosition({ 1000.0f, PlayerPos.y, PlayerPos.z });
+			}
+			else if (PlayerPos.x >= 1000.0f && PlayerPos.x <= 3200.0f)
+			{
+				GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x, PlayerPos.y, PlayerPos.z });
+			}
+			else if (PlayerPos.x >= 3200.0f)
+			{
+				GetMainCameraActor()->GetTransform()->SetLocalPosition({ 3200.0f, PlayerPos.y, PlayerPos.z });
+			}
 		}
-		else if (PlayerPos.x >= 1000.0f && PlayerPos.x <= 3200.0f)
+	
+		if (PlayerPos.y > -600.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x, PlayerPos.y, PlayerPos.z });
-		}
-		else if (PlayerPos.x >= 3200.0f)
-		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 3200.0f, PlayerPos.y, PlayerPos.z });
+			if (PlayerPos.x < 1000.0f)
+			{
+				GetMainCameraActor()->GetTransform()->SetLocalPosition({ 1000.0f, -600.0f, PlayerPos.z });
+			}
+			else if (PlayerPos.x >= 0.0f && PlayerPos.x <= 3200.0f)
+			{
+				GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x, -600.0f, PlayerPos.z });
+			}
+			else if (PlayerPos.x >= 3200.0f)
+			{
+				GetMainCameraActor()->GetTransform()->SetLocalPosition({ 3200.0f, -600.0f, PlayerPos.z });
+			}
 		}
 	}
-
-
-	if (PlayerPos.y > -600.0f)
+	else if (BossBattleOn == true)
 	{
-		if (PlayerPos.x < 1000.0f)
+		if (GetMainCameraActor()->GetTransform()->GetLocalPosition().y < -450.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 1000.0f, -600.0f, PlayerPos.z });
+			GetMainCameraActor()->GetTransform()->SetLocalDeltaTimeMove(float4::UP * 200.0f);
+
+			if (PlayerPos.x < 1000.0f)
+			{
+				GetMainCameraActor()->GetTransform()->SetLocalPosition({ 1000.0f, GetMainCameraActor()->GetTransform()->GetLocalPosition().y, PlayerPos.z });
+			}
+			else if (PlayerPos.x >= 0.0f && PlayerPos.x <= 3200.0f)
+			{
+				GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x, GetMainCameraActor()->GetTransform()->GetLocalPosition().y, PlayerPos.z });
+			}
+			else if (PlayerPos.x >= 3200.0f)
+			{
+				GetMainCameraActor()->GetTransform()->SetLocalPosition({ 3200.0f, GetMainCameraActor()->GetTransform()->GetLocalPosition().y, PlayerPos.z });
+			}
 		}
-		else if (PlayerPos.x >= 0.0f && PlayerPos.x <= 3200.0f)
+		else if (GetMainCameraActor()->GetTransform()->GetLocalPosition().y >= -450.0f)
 		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x, -600.0f, PlayerPos.z });
-		}
-		else if (PlayerPos.x >= 3200.0f)
-		{
-			GetMainCameraActor()->GetTransform()->SetLocalPosition({ 3200.0f, -600.0f, PlayerPos.z });
+			if (PlayerPos.x < 1000.0f)
+			{
+				GetMainCameraActor()->GetTransform()->SetLocalPosition({ 1000.0f, -450.0f, PlayerPos.z });
+			}
+			else if (PlayerPos.x >= 0.0f && PlayerPos.x <= 3200.0f)
+			{
+				GetMainCameraActor()->GetTransform()->SetLocalPosition({ PlayerPos.x, -450.0f, PlayerPos.z });
+			}
+			else if (PlayerPos.x >= 3200.0f)
+			{
+				GetMainCameraActor()->GetTransform()->SetLocalPosition({ 3200.0f, -450.0f, PlayerPos.z });
+			}
 		}
 	}
 
@@ -197,3 +236,9 @@ void FinalBossRoomLevel::FadeOff()
 {
 	FadeEffect->SetData(0.5f, FadeOption::DARK);
 }
+
+void FinalBossRoomLevel::CameraUp()
+{}
+
+void FinalBossRoomLevel::CameraDown()
+{}

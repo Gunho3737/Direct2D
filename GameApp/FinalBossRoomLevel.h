@@ -23,6 +23,12 @@ public:
 	void FadeOn() override;
 	void FadeOff() override;
 
+public:
+	void CameraUp();
+	void CameraDown();
+
+	bool BossBattleOn;
+
 protected:
 	Player* PlayerActor;
 	BitMap* BitMapActor;
