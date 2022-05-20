@@ -65,17 +65,19 @@ private:
 	void Death();
 	void DirectionCheck();
 
+	void FloorCollisionCheck();
+	void SetCallBackFunc();
+
 public:
 	bool GetDamage;
-
-	//이동정지후 회전 여부를 체크하는 bool
-	bool TurnOn;
+	bool FloorCheck;
 
 	int HP;
 
 	//충격파를 사용하기위한 공격횟수카운트
 	int GroundAttackCount;
 
+	float4 JumpPower;
 	float TurnTime;
 	float ImmuneTime;
 	float JumpReadyTime;

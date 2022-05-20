@@ -69,7 +69,7 @@ protected:
 	bool Immune;
 
 	//º¸½ºÀü ¹Ù´Ú²¨ÁüÀ» À§ÇÑ bool
-	bool BossFight;
+	bool FloorCheck;
 
 private:
 	void Start() override;
@@ -93,5 +93,7 @@ private:
 	void MapPrev();
 	void Damage();
 	void Death();
+
+	void FloorCollisionCheck();
 };
 
