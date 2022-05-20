@@ -270,8 +270,8 @@ void FlyBug::Chase()
 	}
 
 	//x값이 겹칠경우 float 값때문에 발작하는것 방지
-	if (-2.0f <= (PlayerPos.x - MonsterPos.x) &&
-		2.0f >= (PlayerPos.x - MonsterPos.x)
+	if (-3.0f <= (PlayerPos.x - MonsterPos.x) &&
+		3.0f >= (PlayerPos.x - MonsterPos.x)
 		)
 	{
 		Direction = PostDirection;
