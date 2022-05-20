@@ -80,7 +80,7 @@ public:
 	float4 JumpPower;
 	float TurnTime;
 	float ImmuneTime;
-	float JumpReadyTime;
+	float AttackReadyTime;
 	float Speed;
 };
 

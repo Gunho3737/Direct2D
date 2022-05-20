@@ -16,7 +16,6 @@ public:
 
 	GameEngineImageRenderer* ImageRenderer;
 	GameEngineCollision* Collision;
-	GameEngineFSM StateManager_;
 
 	LeftRight Direction;
 

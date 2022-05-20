@@ -11,7 +11,7 @@
 
 
 FinalBoss::FinalBoss() // default constructer 디폴트 생성자
-	: HP(10), Speed(400.0f), GetDamage(false), ImmuneTime(0.0f), GroundAttackCount(0), JumpReadyTime(0.0f), TurnTime(0.0f), JumpPower({ 0.0f,0.0f,0.0f }), FloorCheck(false)
+	: HP(10), Speed(400.0f), GetDamage(false), ImmuneTime(0.0f), GroundAttackCount(0), AttackReadyTime(0.0f), TurnTime(0.0f), JumpPower({ 0.0f,0.0f,0.0f }), FloorCheck(false)
 {
 
 }
@@ -132,6 +132,14 @@ void FinalBoss::Walk()
 			JumpPower = float4::UP * 1000.0f;
 			GroundAttackCount += 1;
 			StateManager_.ChangeState("Jump");
+			//if (GroundAttackCount < 3)
+			//{
+			//	StateManager_.ChangeState("Jump");
+			//}
+			//else if (GroundAttackCount >= 3)
+			//{
+			//	StateManager_.ChangeState("AttackReady");
+			//}
 		}
 	);
 
