@@ -251,12 +251,12 @@ void FinalBoss::SetCallBackFunc()
 
 			if (Direction == LeftRight::LEFT)
 			{
-				AttackCollision->GetTransform()->SetLocalScaling(float4{ 300.0f, 600.0f, 1.0f });
+				AttackCollision->GetTransform()->SetLocalScaling(float4{ 400.0f, 600.0f, 1.0f });
 				AttackCollision->GetTransform()->SetLocalPosition(ImageRenderer->GetTransform()->GetLocalPosition() += {-200.0f, 0.0f, -1.0f});
 			}
 			else if (Direction == LeftRight::RIGHT)
 			{
-				AttackCollision->GetTransform()->SetLocalScaling(float4{ 300.0f,600.0f, 1.0f });
+				AttackCollision->GetTransform()->SetLocalScaling(float4{ 400.0f,600.0f, 1.0f });
 				AttackCollision->GetTransform()->SetLocalPosition(ImageRenderer->GetTransform()->GetLocalPosition() += {200.0f, 0.0f, -1.0f});
 			}
 
