@@ -173,11 +173,11 @@ void FinalBoss::Jump()
 
 	if (Direction == LeftRight::RIGHT)
 	{
-		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * 50.0f);
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * 100.0f);
 	}
 	else
 	{
-		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * 50.0f);
+		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * 100.0f);
 	}
 
 	if (0 > JumpPower.y)

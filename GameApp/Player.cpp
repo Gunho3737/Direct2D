@@ -1124,3 +1124,6 @@ void Player::FloorCollisionCheck()
 		}
 	);
 }
+
+void Player::Blink(float _DeltaTime)
+{}

@@ -95,5 +95,6 @@ private:
 	void Death();
 
 	void FloorCollisionCheck();
+	void Blink(float _DeltaTime);
 };
 
