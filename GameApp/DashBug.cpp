@@ -60,7 +60,7 @@ void DashBug::Start()
 
 void DashBug::Update(float _DeltaTime)
 {
-	StateManager_.Update();
+	StateManager_.Update(_DeltaTime);
 
 	MapBotCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {0.0f, 0.0f, 0.0f});
 	MapLeftCollisionColor = BitMap::GetColor(GetTransform()->GetWorldPosition() += {-50.0f, 30.0f, 0.0f});

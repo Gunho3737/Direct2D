@@ -17,7 +17,7 @@ GameEngineFSM::~GameEngineFSM()
 	}
 }
 
-void GameEngineFSM::Update()
+void GameEngineFSM::Update(float _Time)
 {
 	if (nullptr != Next_)
 	{
@@ -26,6 +26,7 @@ void GameEngineFSM::Update()
 			Current_->End_();
 		}
 		Current_ = Next_;
+		Current_->Time = 0.0f;
 
 		if (nullptr != Current_->End_)
 		{
@@ -40,6 +41,7 @@ void GameEngineFSM::Update()
 		return;
 	}
 
+	Current_->Time += _Time;
 	Current_->Update_();
 }
 

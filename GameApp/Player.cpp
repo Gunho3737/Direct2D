@@ -145,7 +145,7 @@ void Player::Update(float _DeltaTime)
 
 
 
-	StateManager_.Update();
+	StateManager_.Update(_DeltaTime);
 
 	//콜리전만이 꺼진거로는 충돌상태가 꺼지지 않음
 	if (Immune == true)

@@ -64,7 +64,7 @@ void FinalBoss::Start()
 
 void FinalBoss::Update(float _DeltaTime)
 {
-	StateManager_.Update();
+	StateManager_.Update(_DeltaTime);
 
 	MapBotCollisionColor = BitMap::GetColor(GetTransform());
 
@@ -138,6 +138,7 @@ void FinalBoss::Walk()
 			//}
 			//else if (GroundAttackCount >= 3)
 			//{
+			//	AttackReadyTime = 0.5f;
 			//	StateManager_.ChangeState("AttackReady");
 			//}
 		}
@@ -155,7 +156,9 @@ void FinalBoss::Walk()
 }
 
 void FinalBoss::AttackReady()
-{}
+{
+	ImageRenderer->SetChangeAnimation("AttackReady");
+}
 
 void FinalBoss::Attack() 
 {}

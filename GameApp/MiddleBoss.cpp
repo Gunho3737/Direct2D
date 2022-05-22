@@ -79,7 +79,7 @@ void MiddleBoss::Start()
 
 void MiddleBoss::Update(float _DeltaTime)
 {
-	StateManager_.Update();
+	StateManager_.Update(_DeltaTime);
 
 	if (true == GetLevel()->IsDebugCheck())
 	{
