@@ -294,7 +294,6 @@ void FinalBoss::JumpAttackRecover()
 
 void FinalBoss::Damage()
 {
-	Collision->GetTransform()->SetLocalScaling(float4{ 100.0f, 100.0f, 1.0f });
 	Collision->Off();
 
 	ImageRenderer->SetChangeAnimation("Damage");
@@ -315,7 +314,8 @@ void FinalBoss::Damage()
 	if (time >= 2.0f)
 	{
 		Collision->On();
-		
+		Collision->GetTransform()->SetLocalScaling(float4{ 100.0f, 100.0f, 1.0f });
+
 		if (Direction == LeftRight::RIGHT)
 		{
 			Collision->GetTransform()->SetLocalPosition(float4{130.0f, 50.0f, -10.0f});
@@ -352,6 +352,7 @@ void FinalBoss::DirectionCheck()
 	if (Direction == LeftRight::RIGHT)
 	{
 		ImageRenderer->GetTransform()->SetLocalScaling(float4{ 1400.0f, 1400.0f, 1.0f });
+		RealBodyRenderer->GetTransform()->SetLocalScaling(float4{ 1400.0f, 1400.0f, 1.0f });
 		Collision->GetTransform()->SetLocalPosition({ 50.0f, 160.0f, -10.0f });
 		RangeCollision->GetTransform()->SetLocalPosition({ 50.0f, 130.0f, -10.0f });
 		ViewCollision->GetTransform()->SetLocalPosition({ 50.0f, 130.0f, -10.0f });
@@ -359,6 +360,7 @@ void FinalBoss::DirectionCheck()
 	else
 	{
 		ImageRenderer->GetTransform()->SetLocalScaling(float4{ 1400.0f, 1400.0f, 1.0f } *= float4::XFLIP);
+		RealBodyRenderer->GetTransform()->SetLocalScaling(float4{ 1400.0f, 1400.0f, 1.0f } *= float4::XFLIP);
 		Collision->GetTransform()->SetLocalPosition({ -50.0f, 160.0f, -10.0f });
 		RangeCollision->GetTransform()->SetLocalPosition({ -50.0f, 130.0f, -10.0f });
 		ViewCollision->GetTransform()->SetLocalPosition({ -50.0f, 130.0f, -10.0f });
