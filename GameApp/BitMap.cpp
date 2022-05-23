@@ -83,6 +83,10 @@ void BitMap::Start()
 		MIddleBossLeftMoveBlockCollision->GetTransform()->SetLocalScaling(float4{ 10.0f, 300.0f, 1.0f });
 		MIddleBossLeftMoveBlockCollision->GetTransform()->SetLocalPosition(float4{ 7150.0f, -2100.0f, -10.0f });
 	}
+
+	{
+		FinalBossLeftMoveBlockCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERMOVESTOP));
+	}
 }
 
 void BitMap::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)

@@ -11,7 +11,7 @@
 
 
 FinalBoss::FinalBoss() // default constructer 디폴트 생성자
-	: HP(10), Speed(400.0f), GetDamage(false), ImmuneTime(0.0f), GroundAttackCount(0), AttackReadyTime(0.0f), TurnTime(0.0f), JumpPower({ 0.0f,0.0f,0.0f }), FloorCheck(false)
+	: HP(10), Speed(400.0f), GetDamage(false), ImmuneTime(0.0f), GroundAttackCount(0), TurnTime(0.0f), JumpPower({ 0.0f,0.0f,0.0f }), FloorCheck(false)
 {
 
 }
@@ -29,7 +29,7 @@ void FinalBoss::Start()
 	ImageRenderer->CreateAnimation("FinalBoss.png", "Walk", 10, 13, 0.1f);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "AttackReady", 24, 29, 0.1f, false);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "Attack", 30, 32, 0.1f, false);
-	ImageRenderer->CreateAnimation("FinalBoss.png", "AttackRecover", 33, 37, 0.1f, false);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "AttackRecover", 33, 37, 0.15f, false);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "Jump", 38, 42, 0.1f, false);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "JumpAttack", 43, 44, 0.1f, false);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "JumpAttackRecover", 45, 48, 0.1f, false);
@@ -57,6 +57,9 @@ void FinalBoss::Start()
 	StateManager_.CreateState("Jump", std::bind(&FinalBoss::Jump, this));
 	StateManager_.CreateState("JumpAttack", std::bind(&FinalBoss::JumpAttack, this));
 	StateManager_.CreateState("JumpAttackRecover", std::bind(&FinalBoss::JumpAttackRecover, this));
+	StateManager_.CreateState("AttackReady", std::bind(&FinalBoss::AttackReady, this));
+	StateManager_.CreateState("Attack", std::bind(&FinalBoss::Attack, this));
+	StateManager_.CreateState("AttackRecover", std::bind(&FinalBoss::AttackRecover, this));
 	StateManager_.ChangeState("Idle");
 
 	SetCallBackFunc();
@@ -132,15 +135,15 @@ void FinalBoss::Walk()
 			JumpPower = float4::UP * 1000.0f;
 			GroundAttackCount += 1;
 			StateManager_.ChangeState("Jump");
-			//if (GroundAttackCount < 3)
-			//{
-			//	StateManager_.ChangeState("Jump");
-			//}
-			//else if (GroundAttackCount >= 3)
-			//{
-			//	AttackReadyTime = 0.5f;
-			//	StateManager_.ChangeState("AttackReady");
-			//}
+			if (GroundAttackCount < 1)
+			{
+				StateManager_.ChangeState("Jump");
+			}
+			else if (GroundAttackCount >= 1)
+			{
+				JumpPower = float4::ZERO;
+				StateManager_.ChangeState("AttackReady");
+			}
 		}
 	);
 
@@ -158,13 +161,24 @@ void FinalBoss::Walk()
 void FinalBoss::AttackReady()
 {
 	ImageRenderer->SetChangeAnimation("AttackReady");
+
+	//float Time = StateManager_.GetCurrentState()->Time;
+	//
+	//if (Time >= 1.0f)
+	//{
+	//	StateManager_.ChangeState("Attack");
+	//}
 }
 
 void FinalBoss::Attack() 
-{}
+{
+	ImageRenderer->SetChangeAnimation("Attack");
+}
 
 void FinalBoss::AttackRecover()
-{}
+{
+	ImageRenderer->SetChangeAnimation("AttackRecover");
+}
 
 
 void FinalBoss::Jump()
@@ -284,4 +298,37 @@ void FinalBoss::SetCallBackFunc()
 			StateManager_.ChangeState("Idle");
 		}
 	);
+
+	ImageRenderer->SetEndCallBack("AttackReady", [&]()
+		{
+			StateManager_.ChangeState("Attack");
+		}
+	);
+
+	ImageRenderer->SetEndCallBack("Attack", [&]()
+		{
+			StateManager_.ChangeState("AttackRecover");
+			if (Direction == LeftRight::RIGHT)
+			{
+				GroundWave* WaveAttackRight = GetLevel()->CreateActor<GroundWave>();
+				WaveAttackRight->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() += {0.0f, 55.0f, -2.0f});
+				WaveAttackRight->Direction = LeftRight::RIGHT;
+
+			}
+			else if (Direction == LeftRight::LEFT)
+			{
+				GroundWave* WaveAttackLeft = GetLevel()->CreateActor<GroundWave>();
+				WaveAttackLeft->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() += {0.0f, 55.0f, -2.0f});
+				WaveAttackLeft->Direction = LeftRight::LEFT;
+			}
+		}
+	);
+
+	ImageRenderer->SetEndCallBack("AttackRecover", [&]()
+		{
+			StateManager_.ChangeState("Idle");
+		}
+	);
+
+
 }
