@@ -34,10 +34,20 @@ void FinalBoss::Start()
 	ImageRenderer->CreateAnimation("FinalBoss.png", "JumpAttack", 43, 44, 0.1f, false);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "JumpAttackRecover", 45, 48, 0.1f, false);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "Damage", 49, 58, 0.07f, false);
-	ImageRenderer->CreateAnimation("FinalBoss.png", "FaceOff", 59, 62, 0.07f, false);
-	ImageRenderer->CreateAnimation("FinalBoss.png", "Faint", 63, 65, 0.07f, false);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "FaceOff", 59, 62, 0.1f, false);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "Faint", 63, 65, 0.1f, false);
+	ImageRenderer->CreateAnimation("FinalBoss_2.png", "GetUp", 0, 4, 0.07f, false);
+	ImageRenderer->CreateAnimation("FinalBoss_2.png", "Rampage", 5, 12, 0.07f);
 	ImageRenderer->SetChangeAnimation("Idle");
 	ImageRenderer->GetTransform()->SetLocalScaling({ 1400.0f, 1400.0f, 1.0f });
+
+	RealBodyRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	RealBodyRenderer->CreateAnimation("FinalBoss.png", "FaceBlow", 75, 78, 0.1f, false);
+	RealBodyRenderer->CreateAnimation("FinalBoss.png", "FaceIdle", 79, 83, 0.1f, false);
+	RealBodyRenderer->CreateAnimation("FinalBoss.png", "FaceHit", 84, 86, 0.1f, false);
+	RealBodyRenderer->GetTransform()->SetLocalScaling({ 1400.0f, 1400.0f, 1.0f });
+	RealBodyRenderer->SetChangeAnimation("FaceIdle");
+	RealBodyRenderer->Off();
 
 	Collision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTER));
 	Collision->GetTransform()->SetLocalScaling(float4{ 300.0f, 300.0f, 1.0f });
@@ -103,7 +113,7 @@ void FinalBoss::Update(float _DeltaTime)
 	if (HP <= 0)
 	{
 		JumpPower = float4::ZERO;
-		HP = 15;
+		HP = 9999;
 		StateManager_.ChangeState("Damage");
 	}
 
@@ -284,6 +294,7 @@ void FinalBoss::JumpAttackRecover()
 
 void FinalBoss::Damage()
 {
+	Collision->GetTransform()->SetLocalScaling(float4{ 100.0f, 100.0f, 1.0f });
 	Collision->Off();
 
 	ImageRenderer->SetChangeAnimation("Damage");
@@ -304,23 +315,17 @@ void FinalBoss::Damage()
 	if (time >= 2.0f)
 	{
 		Collision->On();
-		Collision->GetTransform()->SetLocalScaling(float4{ 100.0f, 100.0f, 1.0f });
-		BodyHP = 10;
+		
 		if (Direction == LeftRight::RIGHT)
 		{
-			Collision->GetTransform()->SetLocalPosition(float4{100.0f, 150.0f, -10.0f});
+			Collision->GetTransform()->SetLocalPosition(float4{130.0f, 50.0f, -10.0f});
 		}
-		else if (Direction == LeftRight::RIGHT)
+		else if (Direction == LeftRight::LEFT)
 		{
-			Collision->GetTransform()->SetLocalPosition(float4{ -100.0f, 150.0f, -10.0f });
+			Collision->GetTransform()->SetLocalPosition(float4{ -130.0f, 50.0f, -10.0f });
 		}
 		StateManager_.ChangeState("FaceOff");
 	}
-}
-
-void FinalBoss::Faint()
-{
-	ImageRenderer->SetChangeAnimation("Faint");
 }
 
 void FinalBoss::FaceOff()
@@ -328,8 +333,16 @@ void FinalBoss::FaceOff()
 	ImageRenderer->SetChangeAnimation("FaceOff");
 }
 
+void FinalBoss::Faint()
+{
+	ImageRenderer->SetChangeAnimation("Faint");
+	RealBodyRenderer->SetChangeAnimation("FaceIdle");
+}
+
 void FinalBoss::GetUp() 
-{}
+{
+	ImageRenderer->SetChangeAnimation("GetUp");
+}
 
 void FinalBoss::Death() 
 {}
@@ -437,6 +450,16 @@ void FinalBoss::SetCallBackFunc()
 	ImageRenderer->SetEndCallBack("FaceOff", [&]()
 		{
 			StateManager_.ChangeState("Faint");
+			BodyHP = 10;
+			RealBodyRenderer->On();
+			if (Direction == LeftRight::RIGHT)
+			{
+				RealBodyRenderer->GetTransform()->SetLocalPosition(float4{ 135.0f, 0.0f });
+			}
+			else if (Direction == LeftRight::LEFT)
+			{
+				RealBodyRenderer->GetTransform()->SetLocalPosition(float4{ -135.0f, 0.0f });
+			}
 		}
 	);
 

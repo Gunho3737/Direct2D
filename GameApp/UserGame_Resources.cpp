@@ -64,6 +64,9 @@ void UserGame::ResourcesLoad()
 
 		Texture = GameEngineTextureManager::GetInst().Find("FinalBoss.png");
 		Texture->Cut(10, 11);
+
+		Texture = GameEngineTextureManager::GetInst().Find("FinalBoss_2.png");
+		Texture->Cut(10, 2);
 	}
 
 	{
