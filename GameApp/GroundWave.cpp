@@ -21,7 +21,7 @@ void GroundWave::Start()
 	ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	ImageRenderer->CreateAnimationFolder("BossGroundWave", "BossGroundWave", 0.07f, false);
 	ImageRenderer->SetChangeAnimation("BossGroundWave");
-	ImageRenderer->GetTransform()->SetLocalScaling(ImageRenderer->GetFolderTextureImageSize() *= float4{1.2f, 1.2f, 1.0f, 1.0f});
+	ImageRenderer->GetTransform()->SetLocalScaling(ImageRenderer->GetFolderTextureImageSize());
 
 	Collision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTER));
 	Collision->GetTransform()->SetLocalScaling(float4{ 300.0f, 120.0f, 1.0f });
@@ -70,13 +70,13 @@ void GroundWave::Update(float _DeltaTime)
 	case LeftRight::LEFT:
 	{
 		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
-		ImageRenderer->GetTransform()->SetLocalScaling(ImageRenderer->GetFolderTextureImageSize());
+		ImageRenderer->GetTransform()->SetLocalScaling(ImageRenderer->GetFolderTextureImageSize() *= float4::DOUBLE);
 	}
 		break;
 	case LeftRight::RIGHT:
 	{
 		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
-		ImageRenderer->GetTransform()->SetLocalScaling(ImageRenderer->GetFolderTextureImageSize() *= float4::XFLIP);
+		ImageRenderer->GetTransform()->SetLocalScaling(ImageRenderer->GetFolderTextureImageSize() *float4::DOUBLE *= float4::XFLIP);
 	}
 		break;
 	default:

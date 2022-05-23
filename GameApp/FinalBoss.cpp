@@ -99,12 +99,41 @@ void FinalBoss::Idle()
 {
 	ImageRenderer->SetChangeAnimation("Idle");
 
+	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+	float4 MonsterPos = Collision->GetTransform()->GetWorldPosition();
+	LeftRight PostDirection = Direction;
+
+	if (PlayerPos.x >= MonsterPos.x)
+	{
+		Direction = LeftRight::RIGHT;
+	}
+	else if (PlayerPos.x < MonsterPos.x)
+	{
+		Direction = LeftRight::LEFT;
+	}
+
+	if (-3.0f <= (PlayerPos.x - MonsterPos.x) &&
+		3.0f >= (PlayerPos.x - MonsterPos.x)
+		)
+	{
+		Direction = PostDirection;
+	}
+
+	DirectionCheck();
+
 	ViewCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
 		[this](GameEngineCollision* _OtherCollision)
 		{
 			StateManager_.ChangeState("Walk");
 		}
 	);
+
+	if (GroundAttackCount >= 3)
+	{
+		GroundAttackCount = 0;
+		JumpPower = float4::ZERO;
+		StateManager_.ChangeState("AttackReady");
+	}
 }
 
 void FinalBoss::Walk() 
@@ -135,20 +164,15 @@ void FinalBoss::Walk()
 			JumpPower = float4::UP * 1000.0f;
 			GroundAttackCount += 1;
 			StateManager_.ChangeState("Jump");
-			if (GroundAttackCount < 1)
+			if (GroundAttackCount < 3)
 			{
 				StateManager_.ChangeState("Jump");
-			}
-			else if (GroundAttackCount >= 1)
-			{
-				JumpPower = float4::ZERO;
-				StateManager_.ChangeState("AttackReady");
 			}
 		}
 	);
 
-	if (-2.0f <= (PlayerPos.x - MonsterPos.x) &&
-		2.0f >= (PlayerPos.x - MonsterPos.x)
+	if (-3.0f <= (PlayerPos.x - MonsterPos.x) &&
+		3.0f >= (PlayerPos.x - MonsterPos.x)
 		)
 	{
 		Direction = PostDirection;
@@ -311,14 +335,14 @@ void FinalBoss::SetCallBackFunc()
 			if (Direction == LeftRight::RIGHT)
 			{
 				GroundWave* WaveAttackRight = GetLevel()->CreateActor<GroundWave>();
-				WaveAttackRight->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() += {0.0f, 55.0f, -2.0f});
+				WaveAttackRight->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() += {100.0f, 55.0f, -2.0f});
 				WaveAttackRight->Direction = LeftRight::RIGHT;
 
 			}
 			else if (Direction == LeftRight::LEFT)
 			{
 				GroundWave* WaveAttackLeft = GetLevel()->CreateActor<GroundWave>();
-				WaveAttackLeft->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() += {0.0f, 55.0f, -2.0f});
+				WaveAttackLeft->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition() += {-100.0f, 55.0f, -2.0f});
 				WaveAttackLeft->Direction = LeftRight::LEFT;
 			}
 		}

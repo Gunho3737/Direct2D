@@ -28,6 +28,7 @@ public:
 	static const float4 NONE;
 
 	static const float4 XFLIP;
+	static const float4 DOUBLE;
 
 public:
 	// 1 0 0 0 

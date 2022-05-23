@@ -86,6 +86,14 @@ void BitMap::Start()
 
 	{
 		FinalBossLeftMoveBlockCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERMOVESTOP));
+		FinalBossLeftMoveBlockCollision->GetTransform()->SetLocalScaling(float4{ 10.0f, 300.0f, 1.0f });
+		FinalBossLeftMoveBlockCollision->GetTransform()->SetLocalPosition(float4{ 2400.0f, -700.0f, -10.0f });
+	}
+
+	{
+		FinalBossRightMoveBlockCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTERMOVESTOP));
+		FinalBossRightMoveBlockCollision->GetTransform()->SetLocalScaling(float4{ 10.0f, 300.0f, 1.0f });
+		FinalBossRightMoveBlockCollision->GetTransform()->SetLocalPosition(float4{ 370.0f, -700.0f, -10.0f });
 	}
 }
 
