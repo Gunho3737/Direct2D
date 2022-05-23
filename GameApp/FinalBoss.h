@@ -15,7 +15,7 @@ public:
 	~FinalBoss(); // default destructer 디폴트 소멸자
 
 	GameEngineImageRenderer* ImageRenderer;
-	GameEngineImageRenderer* AttackEffectRenderer;
+	GameEngineImageRenderer* RealBodyRenderer;
 
 	//보스자체의콜리전
 	GameEngineCollision* Collision;
@@ -61,6 +61,9 @@ private:
 	void Jump();
 	void JumpAttack();
 	void JumpAttackRecover();
+	void Damage();
+	void FaceOff();
+	void Faint();
 	void GetUp();
 	void Death();
 	void DirectionCheck();
@@ -72,7 +75,14 @@ public:
 	bool GetDamage;
 	bool FloorCheck;
 
+	//갑옷 HP
 	int HP;
+
+	//본체 HP
+	int BodyHP;
+
+	//바닥꺼지는 연출을 위한 bool
+	bool DeathOn;
 
 	//충격파를 사용하기위한 공격횟수카운트
 	int GroundAttackCount;

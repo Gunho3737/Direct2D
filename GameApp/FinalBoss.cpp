@@ -11,7 +11,7 @@
 
 
 FinalBoss::FinalBoss() // default constructer 디폴트 생성자
-	: HP(10), Speed(400.0f), GetDamage(false), ImmuneTime(0.0f), GroundAttackCount(0), TurnTime(0.0f), JumpPower({ 0.0f,0.0f,0.0f }), FloorCheck(false)
+	: HP(1),BodyHP(0), DeathOn(false), Speed(400.0f), GetDamage(false), ImmuneTime(0.0f), GroundAttackCount(0), TurnTime(0.0f), JumpPower({ 0.0f,0.0f,0.0f }), FloorCheck(false)
 {
 
 }
@@ -33,6 +33,9 @@ void FinalBoss::Start()
 	ImageRenderer->CreateAnimation("FinalBoss.png", "Jump", 38, 42, 0.1f, false);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "JumpAttack", 43, 44, 0.1f, false);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "JumpAttackRecover", 45, 48, 0.1f, false);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "Damage", 49, 58, 0.07f, false);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "FaceOff", 59, 62, 0.07f, false);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "Faint", 63, 65, 0.07f, false);
 	ImageRenderer->SetChangeAnimation("Idle");
 	ImageRenderer->GetTransform()->SetLocalScaling({ 1400.0f, 1400.0f, 1.0f });
 
@@ -60,6 +63,10 @@ void FinalBoss::Start()
 	StateManager_.CreateState("AttackReady", std::bind(&FinalBoss::AttackReady, this));
 	StateManager_.CreateState("Attack", std::bind(&FinalBoss::Attack, this));
 	StateManager_.CreateState("AttackRecover", std::bind(&FinalBoss::AttackRecover, this));
+	StateManager_.CreateState("Damage", std::bind(&FinalBoss::Damage, this));
+	StateManager_.CreateState("FaceOff", std::bind(&FinalBoss::FaceOff, this));
+	StateManager_.CreateState("Faint", std::bind(&FinalBoss::Faint, this));
+	StateManager_.CreateState("GetUp", std::bind(&FinalBoss::GetUp, this));
 	StateManager_.ChangeState("Idle");
 
 	SetCallBackFunc();
@@ -70,7 +77,6 @@ void FinalBoss::Update(float _DeltaTime)
 	StateManager_.Update(_DeltaTime);
 
 	MapBotCollisionColor = BitMap::GetColor(GetTransform());
-
 
 	if (true == GetLevel()->IsDebugCheck())
 	{
@@ -93,6 +99,43 @@ void FinalBoss::Update(float _DeltaTime)
 			GetLevel()->PushDebugRender(AttackCollision->GetTransform(), CollisionType::Rect);
 		}
 	}
+
+	if (HP <= 0)
+	{
+		JumpPower = float4::ZERO;
+		HP = 15;
+		StateManager_.ChangeState("Damage");
+	}
+
+	if (true == GetDamage)
+	{
+		ImmuneTime -= _DeltaTime;
+
+		if (ImmuneTime <= 0.0f)
+		{
+			GetDamage = false;
+			Collision->On();
+			ImageRenderer->SetPlusColor({ 0.0f, 0.0f, 0.0f, 0.0f });
+		}
+	}
+
+	if (false == GetDamage)
+	{
+		Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::ATTACK,
+			[&](GameEngineCollision* _OtherCollision)
+			{
+				HP -= 1;
+				GetDamage = true;
+				ImmuneTime = 0.2f;
+				Collision->Off();
+				if ("Death" != ImageRenderer->GetCurrentAnimationName())
+				{
+					ImageRenderer->SetPlusColor({ 1.0f, 1.0f, 1.0f, 0.0f });
+				}
+			}
+		);
+	}
+
 }
 
 void FinalBoss::Idle() 
@@ -138,7 +181,6 @@ void FinalBoss::Idle()
 
 void FinalBoss::Walk() 
 {
-
 	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 	float4 MonsterPos = Collision->GetTransform()->GetWorldPosition();
 	LeftRight PostDirection = Direction;
@@ -156,7 +198,6 @@ void FinalBoss::Walk()
 		Direction = LeftRight::LEFT;
 		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
 	}
-
 
 	RangeCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
 		[this](GameEngineCollision* _OtherCollision)
@@ -185,13 +226,6 @@ void FinalBoss::Walk()
 void FinalBoss::AttackReady()
 {
 	ImageRenderer->SetChangeAnimation("AttackReady");
-
-	//float Time = StateManager_.GetCurrentState()->Time;
-	//
-	//if (Time >= 1.0f)
-	//{
-	//	StateManager_.ChangeState("Attack");
-	//}
 }
 
 void FinalBoss::Attack() 
@@ -246,6 +280,52 @@ void FinalBoss::JumpAttack()
 void FinalBoss::JumpAttackRecover()
 {
 	ImageRenderer->SetChangeAnimation("JumpAttackRecover");
+}
+
+void FinalBoss::Damage()
+{
+	Collision->Off();
+
+	ImageRenderer->SetChangeAnimation("Damage");
+
+	float DropSpeed = 500.0f;
+
+	FloorCollisionCheck();
+
+	if (MapBotCollisionColor == float4::BLACK || FloorCheck == true)
+	{
+		DropSpeed = 0.0f;
+	}
+
+	GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * DropSpeed);
+
+	float time = StateManager_.GetCurrentState()->Time;
+
+	if (time >= 2.0f)
+	{
+		Collision->On();
+		Collision->GetTransform()->SetLocalScaling(float4{ 100.0f, 100.0f, 1.0f });
+		BodyHP = 10;
+		if (Direction == LeftRight::RIGHT)
+		{
+			Collision->GetTransform()->SetLocalPosition(float4{100.0f, 150.0f, -10.0f});
+		}
+		else if (Direction == LeftRight::RIGHT)
+		{
+			Collision->GetTransform()->SetLocalPosition(float4{ -100.0f, 150.0f, -10.0f });
+		}
+		StateManager_.ChangeState("FaceOff");
+	}
+}
+
+void FinalBoss::Faint()
+{
+	ImageRenderer->SetChangeAnimation("Faint");
+}
+
+void FinalBoss::FaceOff()
+{
+	ImageRenderer->SetChangeAnimation("FaceOff");
 }
 
 void FinalBoss::GetUp() 
@@ -351,6 +431,12 @@ void FinalBoss::SetCallBackFunc()
 	ImageRenderer->SetEndCallBack("AttackRecover", [&]()
 		{
 			StateManager_.ChangeState("Idle");
+		}
+	);
+
+	ImageRenderer->SetEndCallBack("FaceOff", [&]()
+		{
+			StateManager_.ChangeState("Faint");
 		}
 	);
 
