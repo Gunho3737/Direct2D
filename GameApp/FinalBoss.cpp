@@ -3,6 +3,8 @@
 #include "GameEngine/GameEngineRenderer.h"
 #include "GameEngine/GameEngineImageRenderer.h"
 #include <GameEngine\GameEngineCollision.h>
+#include "CollapseFloor.h"
+
 
 #include <GameApp/BitMap.h>
 #include "Player.h"
@@ -11,7 +13,7 @@
 
 
 FinalBoss::FinalBoss() // default constructer 디폴트 생성자
-	: HP(1),BodyHP(0), DeathOn(false), Speed(400.0f), GetDamage(false), ImmuneTime(0.0f), GroundAttackCount(0), TurnTime(0.0f), JumpPower({ 0.0f,0.0f,0.0f }), FloorCheck(false)
+	: HP(1),BodyHP(10), DeathOn(false), Speed(400.0f), GetDamage(false), ImmuneTime(0.0f), GroundAttackCount(0), TurnTime(0.0f), JumpPower({ 0.0f,0.0f,0.0f }), FloorCheck(false)
 {
 
 }
@@ -37,7 +39,10 @@ void FinalBoss::Start()
 	ImageRenderer->CreateAnimation("FinalBoss.png", "FaceOff", 59, 62, 0.1f, false);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "Faint", 63, 65, 0.1f, false);
 	ImageRenderer->CreateAnimation("FinalBoss_2.png", "GetUp", 0, 4, 0.07f, false);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "RampagePosition", 38, 42, 0.1f, false);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "RampageReady", 24, 29, 0.1f, false);
 	ImageRenderer->CreateAnimation("FinalBoss_2.png", "Rampage", 5, 12, 0.07f);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "DeathReady", 38, 42, 0.1f, false);
 	ImageRenderer->SetChangeAnimation("Idle");
 	ImageRenderer->GetTransform()->SetLocalScaling({ 1400.0f, 1400.0f, 1.0f });
 
@@ -77,6 +82,10 @@ void FinalBoss::Start()
 	StateManager_.CreateState("FaceOff", std::bind(&FinalBoss::FaceOff, this));
 	StateManager_.CreateState("Faint", std::bind(&FinalBoss::Faint, this));
 	StateManager_.CreateState("GetUp", std::bind(&FinalBoss::GetUp, this));
+	StateManager_.CreateState("RampagePosition", std::bind(&FinalBoss::RampagePosition, this));
+	StateManager_.CreateState("RampageReady", std::bind(&FinalBoss::RampageReady, this));
+	StateManager_.CreateState("Rampage", std::bind(&FinalBoss::Rampage, this));
+	StateManager_.CreateState("DeathReady", std::bind(&FinalBoss::DeathReady, this));
 	StateManager_.ChangeState("Idle");
 
 	SetCallBackFunc();
@@ -114,7 +123,7 @@ void FinalBoss::Update(float _DeltaTime)
 	{
 		JumpPower = float4::ZERO;
 		BodyHP = 10;
-		HP = 999;
+		HP = 99;
 		StateManager_.ChangeState("Damage");
 	}
 
@@ -368,6 +377,108 @@ void FinalBoss::GetUp()
 	ImageRenderer->SetChangeAnimation("GetUp");
 }
 
+void FinalBoss::RampagePosition()
+{
+
+	ImageRenderer->SetChangeAnimation("RampagePosition");
+
+	JumpPower += float4::DOWN * GameEngineTime::GetInst().GetDeltaTime() * 1500.0f;
+
+	GetTransform()->SetLocalDeltaTimeMove(float4::UP * JumpPower);
+
+	switch (Direction)
+	{
+	case LeftRight::LEFT: 
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+		break;
+	}
+	case LeftRight::RIGHT:
+	{
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+		break;
+	}
+	default:
+		break;
+	}
+
+	FloorCollisionCheck();
+
+
+	if (0 > JumpPower.y)
+	{
+		if (MapBotCollisionColor == float4::BLACK || FloorCheck == true)
+		{
+			StateManager_.ChangeState("RampageReady");
+		}
+	}
+
+}
+
+void FinalBoss::RampageReady()
+{
+	ImageRenderer->SetChangeAnimation("RampageReady");
+
+	float time = StateManager_.GetCurrentState()->Time;
+
+	if (time >= 1.0f)
+	{
+		StateManager_.ChangeState("Rampage");
+	}
+}
+
+void FinalBoss::Rampage()
+{
+	ImageRenderer->SetChangeAnimation("Rampage");
+
+	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
+	float4 MonsterPos = Collision->GetTransform()->GetWorldPosition();
+
+	float time = StateManager_.GetCurrentState()->Time;
+
+	if (time >= 3.0f)
+	{
+		JumpPower = float4::UP * 1000.0f;
+
+		if (PlayerPos.x > MonsterPos.x)
+		{
+			Direction = LeftRight::RIGHT;
+			ImageRenderer->GetTransform()->SetLocalScaling(float4{ 1400.0f, 1400.0f, 1.0f });
+		}
+		else
+		{
+			Direction = LeftRight::LEFT;
+			ImageRenderer->GetTransform()->SetLocalScaling(float4{ 1400.0f, 1400.0f, 1.0f } *= float4::XFLIP);
+		}
+		StateManager_.ChangeState("DeathReady");
+	}
+}
+
+void FinalBoss::DeathReady()
+{
+	ImageRenderer->SetChangeAnimation("DeathReady");
+
+	JumpPower += float4::DOWN * GameEngineTime::GetInst().GetDeltaTime() * 1500.0f;
+
+
+	GetTransform()->SetLocalDeltaTimeMove(float4::UP * JumpPower);
+
+	FloorCollisionCheck();
+	
+	if (0 > JumpPower.y)
+	{
+		if (FloorCheck == true)
+		{
+			int a = 0;
+		}
+	}
+
+
+}
+
+void FinalBoss::DeathFallDown()
+{}
+
 void FinalBoss::Death() 
 {}
 
@@ -481,11 +592,11 @@ void FinalBoss::SetCallBackFunc()
 			RealBodyRenderer->SetChangeAnimation("FaceIdle");
 			if (Direction == LeftRight::RIGHT)
 			{
-				RealBodyRenderer->GetTransform()->SetLocalPosition(float4{ 135.0f, 0.0f });
+				RealBodyRenderer->GetTransform()->SetLocalPosition(float4{ 150.0f, 0.0f });
 			}
 			else if (Direction == LeftRight::LEFT)
 			{
-				RealBodyRenderer->GetTransform()->SetLocalPosition(float4{ -135.0f, 0.0f });
+				RealBodyRenderer->GetTransform()->SetLocalPosition(float4{ -150.0f, 0.0f });
 			}
 		}
 	);
@@ -498,7 +609,21 @@ void FinalBoss::SetCallBackFunc()
 	ImageRenderer->SetEndCallBack("GetUp", [&]()
 		{
 			Collision->GetTransform()->SetLocalScaling(float4{ 300.0f, 300.0f, 1.0f });
-			StateManager_.ChangeState("Idle");
+			Collision->GetTransform()->SetLocalPosition({ 0.0f, 160.0f, -10.0f });
+			
+			JumpPower = float4::UP * 1000.0f;
+			float MonsterPos = GetTransform()->GetLocalPosition().x;
+
+			if (MonsterPos <= 1650.0f)
+			{
+				Direction = LeftRight::RIGHT;
+			}
+			else if (MonsterPos > 1650.0f)
+			{
+				Direction = LeftRight::LEFT;
+			}
+
+			StateManager_.ChangeState("RampagePosition");
 		}
 	);
 }

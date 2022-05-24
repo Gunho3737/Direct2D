@@ -65,6 +65,11 @@ private:
 	void FaceOff();
 	void Faint();
 	void GetUp();
+	void RampagePosition();
+	void RampageReady();
+	void Rampage();
+	void DeathReady();
+	void DeathFallDown();
 	void Death();
 	void DirectionCheck();
 
