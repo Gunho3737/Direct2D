@@ -358,7 +358,8 @@ void FinalBoss::Faint()
 	
 	if (BodyHP <= 0)
 	{
-		int a = 0;
+		RealBodyRenderer->Off();
+		StateManager_.ChangeState("GetUp");
 	}
 }
 
@@ -494,5 +495,10 @@ void FinalBoss::SetCallBackFunc()
 		}
 	);
 
-
+	ImageRenderer->SetEndCallBack("GetUp", [&]()
+		{
+			Collision->GetTransform()->SetLocalScaling(float4{ 300.0f, 300.0f, 1.0f });
+			StateManager_.ChangeState("Idle");
+		}
+	);
 }
