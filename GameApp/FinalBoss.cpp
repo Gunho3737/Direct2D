@@ -113,7 +113,8 @@ void FinalBoss::Update(float _DeltaTime)
 	if (HP <= 0)
 	{
 		JumpPower = float4::ZERO;
-		HP = 9999;
+		BodyHP = 10;
+		HP = 999;
 		StateManager_.ChangeState("Damage");
 	}
 
@@ -125,7 +126,9 @@ void FinalBoss::Update(float _DeltaTime)
 		{
 			GetDamage = false;
 			Collision->On();
+			RealBodyRenderer->SetPlusColor({ 0.0f, 0.0f, 0.0f, 0.0f });
 			ImageRenderer->SetPlusColor({ 0.0f, 0.0f, 0.0f, 0.0f });
+			
 		}
 	}
 
@@ -134,14 +137,23 @@ void FinalBoss::Update(float _DeltaTime)
 		Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::ATTACK,
 			[&](GameEngineCollision* _OtherCollision)
 			{
-				HP -= 1;
 				GetDamage = true;
 				ImmuneTime = 0.2f;
 				Collision->Off();
 				if ("Death" != ImageRenderer->GetCurrentAnimationName())
 				{
-					ImageRenderer->SetPlusColor({ 1.0f, 1.0f, 1.0f, 0.0f });
+					if (StateManager_.IsCurrentState("Faint"))
+					{
+						BodyHP -= 1;
+						RealBodyRenderer->SetPlusColor({ 1.0f, 1.0f, 1.0f, 0.0f });
+					}
+					else
+					{
+						HP -= 1;
+						ImageRenderer->SetPlusColor({ 1.0f, 1.0f, 1.0f, 0.0f });
+					}
 				}
+
 			}
 		);
 	}
@@ -210,7 +222,7 @@ void FinalBoss::Walk()
 	}
 
 	RangeCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
-		[this](GameEngineCollision* _OtherCollision)
+		[&](GameEngineCollision* _OtherCollision)
 		{
 			JumpPower = float4::UP * 1000.0f;
 			GroundAttackCount += 1;
@@ -336,7 +348,18 @@ void FinalBoss::FaceOff()
 void FinalBoss::Faint()
 {
 	ImageRenderer->SetChangeAnimation("Faint");
-	RealBodyRenderer->SetChangeAnimation("FaceIdle");
+
+	Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::ATTACK,
+		[&](GameEngineCollision* _OtherCollision)
+		{
+			RealBodyRenderer->SetChangeAnimation("FaceHit", true);
+		}
+	);
+	
+	if (BodyHP <= 0)
+	{
+		int a = 0;
+	}
 }
 
 void FinalBoss::GetUp() 
@@ -454,6 +477,7 @@ void FinalBoss::SetCallBackFunc()
 			StateManager_.ChangeState("Faint");
 			BodyHP = 10;
 			RealBodyRenderer->On();
+			RealBodyRenderer->SetChangeAnimation("FaceIdle");
 			if (Direction == LeftRight::RIGHT)
 			{
 				RealBodyRenderer->GetTransform()->SetLocalPosition(float4{ 135.0f, 0.0f });
@@ -462,6 +486,11 @@ void FinalBoss::SetCallBackFunc()
 			{
 				RealBodyRenderer->GetTransform()->SetLocalPosition(float4{ -135.0f, 0.0f });
 			}
+		}
+	);
+
+	RealBodyRenderer->SetEndCallBack("FaceHit", [&]()
+		{
 		}
 	);
 
