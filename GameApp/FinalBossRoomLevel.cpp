@@ -71,10 +71,14 @@ void FinalBossRoomLevel::LevelStart()
 
 	{
 		BossBlockDoor = CreateActor<Door>();
+		BossBlockDoor->DoorOn = false;
 	}
 
 	{
 		EndingBlockDoor = CreateActor<Door>();
+		//830 2080
+		EndingBlockDoor->DoorOn = true;
+		EndingBlockDoor->GetTransform()->SetWorldPosition({ 820.0f,-1950.0f , -90.0f});
 	}
 	
 	BossBattleOn = false;

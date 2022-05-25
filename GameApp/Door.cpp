@@ -25,7 +25,7 @@ void Door::Start()
 	ImageRenderer->SetChangeAnimation("DoorOff");
 
 	Collision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::WALL));
-	Collision->GetTransform()->SetLocalScaling({ 100.0f, 300.0f });
+	Collision->GetTransform()->SetLocalScaling({ 50.0f, 300.0f });
 	Collision->Off();
 }
 

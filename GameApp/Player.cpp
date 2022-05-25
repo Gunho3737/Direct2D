@@ -53,6 +53,11 @@ void Player::Start()
 		PlayerCollision->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetFolderTextureBotPivot() += {0.0f, 0.0f, -2.0f});
 	}
 
+	{
+		PlayerLeftRightCollision = CreateTransformComponent<GameEngineCollision>((int)ActorCollisionType::PLAYER);
+		PlayerLeftRightCollision->GetTransform()->SetLocalScaling(float4{ 30.0f, 100.0f, 1.0f });
+	}
+
 
 	{
 		PlayerSlashRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
@@ -178,6 +183,11 @@ void Player::Update(float _DeltaTime)
 		{
 			GetLevel()->PushDebugRender(PlayerSlashCollision->GetTransform(), CollisionType::Rect);
 		}
+
+		if (true == PlayerLeftRightCollision->IsUpdate())
+		{
+			GetLevel()->PushDebugRender(PlayerLeftRightCollision->GetTransform(), CollisionType::Rect);
+		}
 	}
 
 	//맵 이동 충돌체크
@@ -293,6 +303,7 @@ void Player::IdleToRun()
 	PlayerImageRenderer->SetChangeAnimation("IdleToRun");
 
 	FloorCollisionCheck();
+	WallCollisionCheck();
 
 	if (
 		MapLeftCollisionColor != float4::BLACK &&
@@ -305,7 +316,12 @@ void Player::IdleToRun()
 			{
 				PlayerDirection = LeftRight::LEFT;
 			}
+
+			if (WallCheck == false)
+			{
 			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+			}
+
 		}
 	}
 
@@ -319,7 +335,10 @@ void Player::IdleToRun()
 			{
 				PlayerDirection = LeftRight::RIGHT;
 			}
-			GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+			if (WallCheck == false)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+			}
 		}
 	}
 
@@ -373,6 +392,7 @@ void Player::Run()
 	PlayerImageRenderer->SetChangeAnimation("Run");
 
 	FloorCollisionCheck();
+	WallCollisionCheck();
 
 	if (MapLeftCollisionColor != float4::BLACK &&
 		MapTopLeftCollisionColor != float4::BLACK
@@ -384,7 +404,10 @@ void Player::Run()
 			{
 				PlayerDirection = LeftRight::LEFT;
 			}
-			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+			if (WallCheck == false)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+			}
 		}
 	}
 
@@ -398,7 +421,10 @@ void Player::Run()
 			{
 				PlayerDirection = LeftRight::RIGHT;
 			}
-			GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+			if (WallCheck == false)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+			}
 		}
 	}
 
@@ -491,6 +517,7 @@ void Player::Attack()
 	PlayerImageRenderer->SetChangeAnimation("Attack");
 
 	FloorCollisionCheck();
+	WallCollisionCheck();
 
 	if (0 <= JumpPower.y)
 	{
@@ -523,7 +550,11 @@ void Player::Attack()
 			{
 				PlayerDirection = LeftRight::LEFT;
 			}
+
+			if (WallCheck == false)
+			{
 			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+			}
 		}
 	}
 
@@ -538,7 +569,10 @@ void Player::Attack()
 			{
 				PlayerDirection = LeftRight::RIGHT;
 			}
-			GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+			if (WallCheck == false)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+			}
 		}
 	}
 
@@ -568,6 +602,7 @@ void Player::Airborne()
 {
 
 	FloorCollisionCheck();
+	WallCollisionCheck();
 
 	GetTransform()->SetLocalDeltaTimeMove(FallDownPower);
 
@@ -584,7 +619,10 @@ void Player::Airborne()
 			{
 				PlayerDirection = LeftRight::LEFT;
 			}
-			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+			if (WallCheck == false)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+			}
 		}
 	}
 
@@ -599,7 +637,10 @@ void Player::Airborne()
 			{
 				PlayerDirection = LeftRight::RIGHT;
 			}
-			GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+			if (WallCheck == false)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+			}
 		}
 	}
 
@@ -632,6 +673,7 @@ void Player::Airborne()
 
 void Player::Jump()
 {
+	WallCollisionCheck();
 
 	PlayerImageRenderer->SetChangeAnimation("Jump");
 	if (0 <= JumpPower.y)
@@ -659,7 +701,10 @@ void Player::Jump()
 			{
 				PlayerDirection = LeftRight::LEFT;
 			}
-			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+			if (WallCheck == false)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+			}
 		}
 	}
 
@@ -674,7 +719,10 @@ void Player::Jump()
 			{
 				PlayerDirection = LeftRight::RIGHT;
 			}
-			GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+			if (WallCheck == false)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+			}
 		}
 	}
 
@@ -701,6 +749,7 @@ void Player::Jump()
 void Player::UpAttack()
 {
 	FloorCollisionCheck();
+	WallCollisionCheck();
 
 	PlayerImageRenderer->SetChangeAnimation("UpAttack");
 
@@ -735,7 +784,10 @@ void Player::UpAttack()
 			{
 				PlayerDirection = LeftRight::LEFT;
 			}
-			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+			if (WallCheck == false)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+			}
 		}
 	}
 
@@ -750,7 +802,10 @@ void Player::UpAttack()
 			{
 				PlayerDirection = LeftRight::RIGHT;
 			}
-			GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+			if (WallCheck == false)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+			}
 		}
 	}
 
@@ -780,6 +835,7 @@ void Player::DownAttack()
 	PlayerImageRenderer->SetChangeAnimation("DownAttack");
 
 	FloorCollisionCheck();
+	WallCollisionCheck();
 
 	if (0 <= JumpPower.y)
 	{
@@ -812,7 +868,10 @@ void Player::DownAttack()
 			{
 				PlayerDirection = LeftRight::LEFT;
 			}
-			GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+			if (WallCheck == false)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+			}
 		}
 	}
 
@@ -827,7 +886,10 @@ void Player::DownAttack()
 			{
 				PlayerDirection = LeftRight::RIGHT;
 			}
-			GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+			if (WallCheck == false)
+			{
+				GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+			}
 		}
 	}
 
@@ -1121,6 +1183,34 @@ void Player::FloorCollisionCheck()
 		[&](GameEngineCollision* _OtherCollision)
 		{
 			FloorCheck = true;
+		}
+	);
+}
+
+void Player::WallCollisionCheck()
+{
+	WallCheck = false;
+
+	switch (PlayerDirection)
+	{
+	case LeftRight::LEFT:
+	{
+		PlayerLeftRightCollision->GetTransform()->SetLocalPosition({ -15.0f, 60.0f, 0.0f});
+	}
+		break;
+	case LeftRight::RIGHT:
+	{
+		PlayerLeftRightCollision->GetTransform()->SetLocalPosition({ 15.0f, 60.0f, 0.0f });
+	}
+		break;
+	default:
+		break;
+	}
+
+	PlayerLeftRightCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::WALL,
+		[&](GameEngineCollision* _OtherCollision)
+		{
+			WallCheck = true;
 		}
 	);
 }

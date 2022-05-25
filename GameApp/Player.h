@@ -28,6 +28,9 @@ protected:
 	GameEngineImageRenderer* PlayerSlashRenderer;
 	GameEngineCollision* PlayerSlashCollision;
 
+	//벽 콜리전과의 충돌을 체크하기 위한 collision
+	GameEngineCollision* PlayerLeftRightCollision;
+
 	GameEngineImageRenderer* PlayerEffectRenderer;
 	GameEngineImageRenderer* PlayerEffectRenderer2;
 
@@ -71,6 +74,9 @@ protected:
 	//보스전 바닥꺼짐을 위한 bool
 	bool FloorCheck;
 
+	//벽 콜리저 체크를 위한 bool
+	bool WallCheck;
+
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -95,6 +101,7 @@ private:
 	void Death();
 
 	void FloorCollisionCheck();
+	void WallCollisionCheck();
 	void Blink(float _DeltaTime);
 };
 
