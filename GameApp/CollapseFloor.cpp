@@ -4,6 +4,7 @@
 #include "GameEngine/GameEngineImageRenderer.h"
 #include <GameEngine\GameEngineCollision.h>
 
+CollapseFloor* CollapseFloor::FinalBossRoomFloor = nullptr;
 
 CollapseFloor::CollapseFloor() // default constructer 디폴트 생성자
 {
@@ -19,8 +20,8 @@ void CollapseFloor::Start()
 {
 	ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 
-	//ImageRenderer->SetImage("CollapseFloor_2.png");
-	//ImageRenderer->GetTransform()->SetLocalScaling(ImageRenderer->GetCurrentTexture()->GetTextureSize());
+	ImageRenderer->SetImage("CollapseFloor_2.png");
+	ImageRenderer->GetTransform()->SetLocalScaling(ImageRenderer->GetCurrentTexture()->GetTextureSize());
 
 	Collision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::FLOOR));
 	Collision->GetTransform()->SetLocalScaling({1000.0f, 30.0f});

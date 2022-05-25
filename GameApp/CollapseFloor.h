@@ -18,6 +18,14 @@ public:
 	GameEngineCollision* Collision;
 	GameEngineFSM StateManager_;
 
+	static CollapseFloor* FinalBossRoomFloor;
+
+public:
+	static void FloorOff(CollapseFloor* _Floor)
+	{
+		_Floor->Off();
+	}
+
 protected:		// delete constructer
 	CollapseFloor(const CollapseFloor& _other) = delete; // default Copy constructer 디폴트 복사생성자
 	CollapseFloor(CollapseFloor&& _other) = delete; // default RValue Copy constructer 디폴트 RValue 복사생성자

@@ -59,6 +59,7 @@ void FinalBossRoomLevel::LevelStart()
 	{
 		CollapseFloor* Floor = CreateActor<CollapseFloor>();
 		Floor->GetTransform()->SetWorldPosition({ 1650.0f,-842.0f, -90.0f });
+		CollapseFloor::FinalBossRoomFloor = Floor;
 	}
 
 	{

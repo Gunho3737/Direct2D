@@ -485,6 +485,7 @@ void FinalBoss::DeathReady()
 		{
 			DeathOn = true;
 			FinalBossRoomLevel::BossBattleOn = false;
+			CollapseFloor::FloorOff(CollapseFloor::FinalBossRoomFloor);
 			StateManager_.ChangeState("DeathFallDown");
 		}
 	}
