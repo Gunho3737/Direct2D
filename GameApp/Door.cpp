@@ -20,7 +20,7 @@ void Door::Start()
 {
 	ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	ImageRenderer->CreateAnimation("Door.png", "DoorDown", 0, 4, 0.1f, false);
-	ImageRenderer->CreateAnimation("Door.png", "DoorOff", 5, 6, 0.1f, false);
+	ImageRenderer->CreateAnimation("Door.png", "DoorOff", 6, 11, 0.1f, false);
 	ImageRenderer->GetTransform()->SetLocalScaling(float4{100.0f, 300.0f, 1.0f});
 	ImageRenderer->SetChangeAnimation("DoorOff");
 

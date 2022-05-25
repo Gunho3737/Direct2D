@@ -155,7 +155,7 @@ void UserGame::ResourcesLoad()
 		Texture->Cut(5, 4);
 
 		Texture = GameEngineTextureManager::GetInst().Find("Door.png");
-		Texture->Cut(5, 2);
+		Texture->Cut(6, 2);
 	
 	}
 

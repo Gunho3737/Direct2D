@@ -3,6 +3,8 @@
 #include <GameEngine/GameEngineCollision.h>
 #include "Player.h"
 #include "BitMap.h"
+#include "Door.h"
+#include "FinalBossRoomLevel.h"
 
 BitMap* BitMap::CurrentMap = nullptr;
 
@@ -95,6 +97,12 @@ void BitMap::Start()
 		FinalBossRightMoveBlockCollision->GetTransform()->SetLocalScaling(float4{ 10.0f, 300.0f, 1.0f });
 		FinalBossRightMoveBlockCollision->GetTransform()->SetLocalPosition(float4{ 370.0f, -700.0f, -10.0f });
 	}
+
+	{
+		FinalBossBattleOnCollision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::POSITION));
+		FinalBossBattleOnCollision->GetTransform()->SetLocalScaling(float4{ 10.0f, 500.0f, 1.0f });
+		FinalBossBattleOnCollision->GetTransform()->SetLocalPosition(float4{ 2200.0f, -550.0f, -10.0f });
+	}
 }
 
 void BitMap::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
@@ -156,6 +164,7 @@ void BitMap::Update(float DeltaTime_)
 
 		GetLevel()->PushDebugRender(MIddleBossRightMoveBlockCollision->GetTransform(), CollisionType::Rect);
 		GetLevel()->PushDebugRender(MIddleBossLeftMoveBlockCollision->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(FinalBossBattleOnCollision->GetTransform(), CollisionType::Rect);
 	}
 
 	switch (BitMap::Progress)
@@ -183,6 +192,15 @@ void BitMap::Update(float DeltaTime_)
 	default:
 		break;
 	}
+
+	FinalBossBattleOnCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
+		[&](GameEngineCollision* _OtherCollision)
+		{
+			FinalBossRoomLevel::BossBattleOn = true;
+			FinalBossRoomLevel::BossBlockDoor->DoorOn = true;
+		}
+	);
+
 
 	
 }

@@ -16,6 +16,8 @@
 #include <GameEngine/GameEngineRenderWindow.h>
 
 bool FinalBossRoomLevel::BossBattleOn = false;
+Door* FinalBossRoomLevel::BossBlockDoor = nullptr;
+Door* FinalBossRoomLevel::EndingBlockDoor = nullptr;
 
 FinalBossRoomLevel::FinalBossRoomLevel() // default constructer 디폴트 생성자
 {
@@ -70,17 +72,20 @@ void FinalBossRoomLevel::LevelStart()
 	}
 
 	{
-		BossBlockDoor = CreateActor<Door>();
-		BossBlockDoor->DoorOn = false;
+		FinalBossRoomLevel::BossBlockDoor = CreateActor<Door>();
+		//2370, 630
+		FinalBossRoomLevel::BossBlockDoor->DoorOn = false;
+		FinalBossRoomLevel::BossBlockDoor->GetTransform()->SetWorldPosition({ 2370.0f,-600.0f , -70.0f });
 	}
 
 	{
-		EndingBlockDoor = CreateActor<Door>();
+		FinalBossRoomLevel::EndingBlockDoor = CreateActor<Door>();
 		//830 2080
-		EndingBlockDoor->DoorOn = true;
-		EndingBlockDoor->GetTransform()->SetWorldPosition({ 820.0f,-1950.0f , -90.0f});
+		FinalBossRoomLevel::EndingBlockDoor->DoorOn = true;
+		FinalBossRoomLevel::EndingBlockDoor->GetTransform()->SetWorldPosition({ 820.0f,-1950.0f , -70.0f});
 	}
 	
+
 	BossBattleOn = false;
 }
 

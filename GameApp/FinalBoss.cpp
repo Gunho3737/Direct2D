@@ -5,7 +5,7 @@
 #include <GameEngine\GameEngineCollision.h>
 #include "CollapseFloor.h"
 #include "FinalBossRoomLevel.h"
-
+#include "Door.h"
 
 #include <GameApp/BitMap.h>
 #include "Player.h"
@@ -201,7 +201,6 @@ void FinalBoss::Idle()
 	ViewCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
 		[this](GameEngineCollision* _OtherCollision)
 		{
-			FinalBossRoomLevel::BossBattleOn = true;
 			StateManager_.ChangeState("Walk");
 		}
 	);
@@ -375,7 +374,7 @@ void FinalBoss::Faint()
 		RealBodyRenderer->Off();
 		if (DeathOn == true)
 		{
-			int a = 0;
+			FinalBossRoomLevel::EndingBlockDoor->DoorOn = false;
 		}
 		else if (DeathOn == false)
 		{

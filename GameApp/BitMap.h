@@ -41,6 +41,8 @@ protected:
 	GameEngineCollision* FinalBossLeftMoveBlockCollision;
 	GameEngineCollision* FinalBossRightMoveBlockCollision;
 
+	GameEngineCollision* FinalBossBattleOnCollision;
+
 
 	void Start() override;
 	void LevelChangeStartEvent(GameEngineLevel* _PrevLevel) override;

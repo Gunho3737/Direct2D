@@ -33,7 +33,8 @@ enum class ActorCollisionType
 	MONSTERVIEW,
 	MONSTERMOVESTOP,
 	FLOOR,
-	WALL
+	WALL,
+	POSITION
 };
 
 enum class LeftRight

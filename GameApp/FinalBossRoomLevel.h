@@ -29,14 +29,14 @@ public:
 	void CameraDown();
 
 	static bool BossBattleOn;
+	static Door* BossBlockDoor;
+	static Door* EndingBlockDoor;
 
 protected:
 	Player* PlayerActor;
 	BitMap* BitMapActor;
 	FinalBoss* FinalBossActor;
 	float4 PlayerPos;
-	Door* BossBlockDoor;
-	Door* EndingBlockDoor;
 
 private:
 	void LevelStart() override;
