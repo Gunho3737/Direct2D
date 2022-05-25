@@ -27,7 +27,7 @@ public:
 	void CameraUp();
 	void CameraDown();
 
-	bool BossBattleOn;
+	static bool BossBattleOn;
 
 protected:
 	Player* PlayerActor;

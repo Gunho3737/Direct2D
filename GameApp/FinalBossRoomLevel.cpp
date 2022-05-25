@@ -14,6 +14,8 @@
 #include <GameEngine/GameEngineGUI.h>
 #include <GameEngine/GameEngineRenderWindow.h>
 
+bool FinalBossRoomLevel::BossBattleOn = false;
+
 FinalBossRoomLevel::FinalBossRoomLevel() // default constructer 디폴트 생성자
 {
 

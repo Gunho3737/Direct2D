@@ -43,6 +43,7 @@ void FinalBoss::Start()
 	ImageRenderer->CreateAnimation("FinalBoss.png", "RampageReady", 24, 29, 0.1f, false);
 	ImageRenderer->CreateAnimation("FinalBoss_2.png", "Rampage", 5, 12, 0.07f);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "DeathReady", 38, 42, 0.1f, false);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "DeathFallDown", 66, 68, 0.1f, false);
 	ImageRenderer->SetChangeAnimation("Idle");
 	ImageRenderer->GetTransform()->SetLocalScaling({ 1400.0f, 1400.0f, 1.0f });
 
@@ -86,6 +87,7 @@ void FinalBoss::Start()
 	StateManager_.CreateState("RampageReady", std::bind(&FinalBoss::RampageReady, this));
 	StateManager_.CreateState("Rampage", std::bind(&FinalBoss::Rampage, this));
 	StateManager_.CreateState("DeathReady", std::bind(&FinalBoss::DeathReady, this));
+	StateManager_.CreateState("DeathFallDown", std::bind(&FinalBoss::DeathFallDown, this));
 	StateManager_.ChangeState("Idle");
 
 	SetCallBackFunc();
@@ -316,6 +318,7 @@ void FinalBoss::JumpAttackRecover()
 void FinalBoss::Damage()
 {
 	Collision->Off();
+	AttackCollision->Off();
 
 	ImageRenderer->SetChangeAnimation("Damage");
 
@@ -368,7 +371,14 @@ void FinalBoss::Faint()
 	if (BodyHP <= 0)
 	{
 		RealBodyRenderer->Off();
-		StateManager_.ChangeState("GetUp");
+		if (DeathOn == true)
+		{
+			int a = 0;
+		}
+		else if (DeathOn == false)
+		{
+			StateManager_.ChangeState("GetUp");
+		}
 	}
 }
 
@@ -444,11 +454,13 @@ void FinalBoss::Rampage()
 		{
 			Direction = LeftRight::RIGHT;
 			ImageRenderer->GetTransform()->SetLocalScaling(float4{ 1400.0f, 1400.0f, 1.0f });
+			RealBodyRenderer->GetTransform()->SetLocalScaling(float4{ 1400.0f, 1400.0f, 1.0f });
 		}
 		else
 		{
 			Direction = LeftRight::LEFT;
 			ImageRenderer->GetTransform()->SetLocalScaling(float4{ 1400.0f, 1400.0f, 1.0f } *= float4::XFLIP);
+			RealBodyRenderer->GetTransform()->SetLocalScaling(float4{ 1400.0f, 1400.0f, 1.0f } *= float4::XFLIP);
 		}
 		StateManager_.ChangeState("DeathReady");
 	}
@@ -469,7 +481,8 @@ void FinalBoss::DeathReady()
 	{
 		if (FloorCheck == true)
 		{
-			int a = 0;
+			DeathOn = true;
+			StateManager_.ChangeState("DeathFallDown");
 		}
 	}
 
@@ -477,7 +490,19 @@ void FinalBoss::DeathReady()
 }
 
 void FinalBoss::DeathFallDown()
-{}
+{
+	ImageRenderer->SetChangeAnimation("DeathFallDown");
+
+	JumpPower += float4::DOWN * GameEngineTime::GetInst().GetDeltaTime() * 1500.0f;
+
+	GetTransform()->SetLocalDeltaTimeMove(float4::UP * JumpPower);
+
+	if (MapBotCollisionColor == float4::BLACK)
+	{
+		BodyHP = 10;
+		StateManager_.ChangeState("Damage");
+	}
+}
 
 void FinalBoss::Death() 
 {}
