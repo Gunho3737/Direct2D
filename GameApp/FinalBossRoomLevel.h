@@ -5,6 +5,7 @@
 class Player;
 class BitMap;
 class FinalBoss;
+class Door;
 class FinalBossRoomLevel : public GameEngineLevel
 {
 public:
@@ -34,6 +35,8 @@ protected:
 	BitMap* BitMapActor;
 	FinalBoss* FinalBossActor;
 	float4 PlayerPos;
+	Door* BossBlockDoor;
+	Door* EndingBlockDoor;
 
 private:
 	void LevelStart() override;

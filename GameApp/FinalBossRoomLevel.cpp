@@ -7,6 +7,7 @@
 #include "ViewMap.h"
 #include "FinalBoss.h"
 #include "CollapseFloor.h"
+#include "Door.h"
 #include <GameEngine\PostFade.h>
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
@@ -66,6 +67,14 @@ void FinalBossRoomLevel::LevelStart()
 		FinalBossActor = CreateActor<FinalBoss>();
 		FinalBossActor->GetTransform()->SetWorldPosition({ 1000.0f,-700.0f});
 		FinalBossActor->Direction = LeftRight::RIGHT;
+	}
+
+	{
+		BossBlockDoor = CreateActor<Door>();
+	}
+
+	{
+		EndingBlockDoor = CreateActor<Door>();
 	}
 	
 	BossBattleOn = false;

@@ -33,7 +33,7 @@ protected:		// delete constructer
 private:		//delete operator
 	CollapseFloor& operator=(const CollapseFloor& _other) = delete; // default Copy operator 디s폴트 대입 연산자
 	CollapseFloor& operator=(const CollapseFloor&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
-
+	
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;

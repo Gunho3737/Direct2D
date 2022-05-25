@@ -29,6 +29,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="DashBug.cpp" />
+    <ClCompile Include="Door.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EndingLevel.cpp">
       <SubType>
       </SubType>
@@ -103,6 +107,10 @@
     </ClInclude>
     <ClInclude Include="CustomVertex.h" />
     <ClInclude Include="DashBug.h" />
+    <ClInclude Include="Door.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EndingLevel.h">
       <SubType>
       </SubType>

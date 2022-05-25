@@ -71,6 +71,9 @@
     <ClCompile Include="CollapseFloor.cpp">
       <Filter>Actor\PlayLevel\Map</Filter>
     </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Actor\PlayLevel\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -173,6 +176,9 @@
       <Filter>Actor\PlayLevel\Monster</Filter>
     </ClInclude>
     <ClInclude Include="CollapseFloor.h">
+      <Filter>Actor\PlayLevel\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
       <Filter>Actor\PlayLevel\Map</Filter>
     </ClInclude>
   </ItemGroup>
