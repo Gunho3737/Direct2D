@@ -28,5 +28,7 @@ public:
 
 	void FadeOn() override;
 	void FadeOff() override;
+
+	class PostFade* FadeEffect;
 };
 

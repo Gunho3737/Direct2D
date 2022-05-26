@@ -35,9 +35,6 @@
     <ClCompile Include="BitMap.cpp">
       <Filter>Actor\PlayLevel\Map</Filter>
     </ClCompile>
-    <ClCompile Include="TitleScreen.cpp">
-      <Filter>Actor\TitleLevel</Filter>
-    </ClCompile>
     <ClCompile Include="FinalBoss.cpp">
       <Filter>Actor\PlayLevel\Monster</Filter>
     </ClCompile>
@@ -74,6 +71,12 @@
     <ClCompile Include="Door.cpp">
       <Filter>Actor\PlayLevel\Map</Filter>
     </ClCompile>
+    <ClCompile Include="EndingScreen.cpp">
+      <Filter>Actor\EndingLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScreen.cpp">
+      <Filter>Actor\TitleLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -109,6 +112,9 @@
     <Filter Include="Actor\PlayLevel\Ammo">
       <UniqueIdentifier>{56507052-82c6-4396-8a10-c25c6807d9c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\EndingLevel">
+      <UniqueIdentifier>{5ae9f18d-fd03-4e6e-b608-ca3ae736619a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -141,9 +147,6 @@
     </ClInclude>
     <ClInclude Include="BitMap.h">
       <Filter>Actor\PlayLevel\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleScreen.h">
-      <Filter>Actor\TitleLevel</Filter>
     </ClInclude>
     <ClInclude Include="FinalBoss.h">
       <Filter>Actor\PlayLevel\Monster</Filter>
@@ -180,6 +183,12 @@
     </ClInclude>
     <ClInclude Include="Door.h">
       <Filter>Actor\PlayLevel\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="EndingScreen.h">
+      <Filter>Actor\EndingLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScreen.h">
+      <Filter>Actor\TitleLevel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

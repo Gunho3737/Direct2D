@@ -257,9 +257,3 @@ void FinalBossRoomLevel::FadeOff()
 {
 	FadeEffect->SetData(0.5f, FadeOption::DARK);
 }
-
-void FinalBossRoomLevel::CameraUp()
-{}
-
-void FinalBossRoomLevel::CameraDown()
-{}

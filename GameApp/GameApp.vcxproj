@@ -77,10 +77,11 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PreCompile.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="TitleLevel.cpp" />
-    <ClCompile Include="TitleScreen.cpp">
+    <ClCompile Include="EndingScreen.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TitleScreen.cpp" />
     <ClCompile Include="UI_HpBar.cpp">
       <SubType>
       </SubType>
@@ -146,10 +147,11 @@
     <ClInclude Include="BenchRoomLevel.h" />
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="TitleLevel.h" />
-    <ClInclude Include="TitleScreen.h">
+    <ClInclude Include="EndingScreen.h">
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TitleScreen.h" />
     <ClInclude Include="UI_HpBar.h">
       <SubType>
       </SubType>

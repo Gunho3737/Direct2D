@@ -404,12 +404,12 @@ void FinalBoss::RampagePosition()
 	{
 	case LeftRight::LEFT: 
 	{
-		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+		GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * 300.0f);
 		break;
 	}
 	case LeftRight::RIGHT:
 	{
-		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+		GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * 350.0f);
 		break;
 	}
 	default:
@@ -668,11 +668,11 @@ void FinalBoss::SetCallBackFunc()
 			JumpPower = float4::UP * 1000.0f;
 			float MonsterPos = GetTransform()->GetLocalPosition().x;
 
-			if (MonsterPos <= 1650.0f)
+			if (MonsterPos <= 1600.0f)
 			{
 				Direction = LeftRight::RIGHT;
 			}
-			else if (MonsterPos > 1650.0f)
+			else if (MonsterPos > 1600.0f)
 			{
 				Direction = LeftRight::LEFT;
 			}

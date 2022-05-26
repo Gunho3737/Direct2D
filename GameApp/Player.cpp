@@ -961,6 +961,11 @@ void Player::MapMove()
 		{
 			UserGame::LevelChange("FinalBossRoom");
 		}
+
+		if (GetLevel()->GetName() == "FinalBossRoom")
+		{
+			UserGame::LevelChange("Ending");
+		}
 	}
 }
 

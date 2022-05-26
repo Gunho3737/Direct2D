@@ -25,8 +25,6 @@ public:
 	void FadeOff() override;
 
 public:
-	void CameraUp();
-	void CameraDown();
 
 	static bool BossBattleOn;
 	static Door* BossBlockDoor;
