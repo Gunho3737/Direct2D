@@ -89,6 +89,9 @@ public:
 	//바닥꺼지는 연출을 위한 bool
 	bool DeathOn;
 
+	//사망후 굴러가는걸 표현을 위한 bool
+	bool DeathRoll;
+
 	//충격파를 사용하기위한 공격횟수카운트
 	int GroundAttackCount;
 

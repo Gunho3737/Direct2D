@@ -14,7 +14,7 @@
 
 
 FinalBoss::FinalBoss() // default constructer 디폴트 생성자
-	: HP(1),BodyHP(10), DeathOn(false), Speed(400.0f), GetDamage(false), ImmuneTime(0.0f), GroundAttackCount(0), TurnTime(0.0f), JumpPower({ 0.0f,0.0f,0.0f }), FloorCheck(false)
+	: HP(1),BodyHP(10), DeathOn(false), Speed(400.0f), GetDamage(false), ImmuneTime(0.0f), GroundAttackCount(0), TurnTime(0.0f), JumpPower({ 0.0f,0.0f,0.0f }), FloorCheck(false), DeathRoll(true)
 {
 
 }
@@ -45,11 +45,12 @@ void FinalBoss::Start()
 	ImageRenderer->CreateAnimation("FinalBoss_2.png", "Rampage", 5, 12, 0.07f);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "DeathReady", 38, 42, 0.1f, false);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "DeathFallDown", 66, 68, 0.1f, false);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "Death", 63, 65, 0.1f, false);
 	ImageRenderer->SetChangeAnimation("Idle");
 	ImageRenderer->GetTransform()->SetLocalScaling({ 1400.0f, 1400.0f, 1.0f });
 
 	RealBodyRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-	RealBodyRenderer->CreateAnimation("FinalBoss.png", "FaceBlow", 75, 78, 0.1f, false);
+	RealBodyRenderer->CreateAnimation("FinalBoss.png", "FaceBlow", 87, 99, 0.03f, false);
 	RealBodyRenderer->CreateAnimation("FinalBoss.png", "FaceIdle", 79, 83, 0.1f, false);
 	RealBodyRenderer->CreateAnimation("FinalBoss.png", "FaceHit", 84, 86, 0.1f, false);
 	RealBodyRenderer->GetTransform()->SetLocalScaling({ 1400.0f, 1400.0f, 1.0f });
@@ -89,6 +90,7 @@ void FinalBoss::Start()
 	StateManager_.CreateState("Rampage", std::bind(&FinalBoss::Rampage, this));
 	StateManager_.CreateState("DeathReady", std::bind(&FinalBoss::DeathReady, this));
 	StateManager_.CreateState("DeathFallDown", std::bind(&FinalBoss::DeathFallDown, this));
+	StateManager_.CreateState("Death", std::bind(&FinalBoss::Death, this));
 	StateManager_.ChangeState("Idle");
 
 	SetCallBackFunc();
@@ -371,13 +373,14 @@ void FinalBoss::Faint()
 	
 	if (BodyHP <= 0)
 	{
-		RealBodyRenderer->Off();
 		if (DeathOn == true)
 		{
 			FinalBossRoomLevel::EndingBlockDoor->DoorOn = false;
+			StateManager_.ChangeState("Death");
 		}
 		else if (DeathOn == false)
 		{
+			RealBodyRenderer->Off();
 			StateManager_.ChangeState("GetUp");
 		}
 	}
@@ -508,7 +511,30 @@ void FinalBoss::DeathFallDown()
 }
 
 void FinalBoss::Death() 
-{}
+{
+	ImageRenderer->SetChangeAnimation("Death");
+	RealBodyRenderer->SetChangeAnimation("FaceBlow");
+	Collision->Off();
+
+	if (DeathRoll == true)
+	{
+		switch (Direction)
+		{
+			case LeftRight::LEFT:
+			{
+				RealBodyRenderer->GetTransform()->SetLocalScaling(float4{ 1050.0f, 1050.0f, 1.0f } *= float4::XFLIP);
+				RealBodyRenderer->GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * Speed);
+				break;
+			}
+			case LeftRight::RIGHT:
+			{
+				RealBodyRenderer->GetTransform()->SetLocalScaling(float4{ 1050.0f, 1050.0f, 1.0f });
+				RealBodyRenderer->GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * Speed);
+				break;
+			}
+		}
+	}
+}
 
 void FinalBoss::DirectionCheck()
 {
@@ -654,4 +680,11 @@ void FinalBoss::SetCallBackFunc()
 			StateManager_.ChangeState("RampagePosition");
 		}
 	);
+
+	RealBodyRenderer->SetEndCallBack("FaceBlow", [&]()
+		{
+			DeathRoll = false;
+		}
+	);
+
 }
