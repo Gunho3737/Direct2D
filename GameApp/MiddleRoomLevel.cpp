@@ -12,6 +12,8 @@
 #include <GameEngine/CameraActor.h>
 #include <GameEngine/GameEngineGUI.h>
 #include <GameEngine/GameEngineRenderWindow.h>
+#include <GameApp/BenchRoomLevel.h>
+#include "GameEngineBase/GameEngineSoundPlayer.h"
 
 MiddleRoomLevel::MiddleRoomLevel() // default constructer 디폴트 생성자
 {
@@ -80,6 +82,8 @@ void MiddleRoomLevel::LevelStart()
 
 void MiddleRoomLevel::LevelUpdate(float _DeltaTime)
 {
+	BenchRoomLevel::PlayLevelBackGroundSoundPlayer->PlayAlone("Crossroads.mp3");
+
 	//프리카메라 상태 온오프
 	if (true == GameEngineInput::GetInst().Down("FreeCameraOn"))
 	{

@@ -3,6 +3,7 @@
 #include <GameEngine\PostFade.h>
 #include "GameEngineBase/GameEngineSoundPlayer.h"
 #include "EndingScreen.h"
+#include "GameEngineBase/GameEngineSoundPlayer.h"
 
 EndingLevel::EndingLevel() // default constructer 디폴트 생성자
 {

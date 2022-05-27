@@ -13,6 +13,8 @@
 #include <GameEngine/GameEngineGUI.h>
 #include <GameEngine/GameEngineRenderWindow.h>
 #include "MiddleBoss.h"
+#include "GameEngineBase/GameEngineSoundPlayer.h"
+#include <GameApp/BenchRoomLevel.h>
 
 MiddleBossRoomLevel::MiddleBossRoomLevel() // default constructer 디폴트 생성자
 {
@@ -180,6 +182,8 @@ void MiddleBossRoomLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 void MiddleBossRoomLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	FadeOn();
+
+	BenchRoomLevel::PlayLevelBackGroundSoundPlayer->PlayAlone("Crossroads.mp3");
 
 	Player::MainPlayer = PlayerActor;
 

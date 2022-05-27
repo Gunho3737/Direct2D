@@ -5,6 +5,7 @@
 #include "BitMap.h"
 #include <GameEngine\PostFade.h>
 #include "UserGame.h"
+#include "GameEngineBase/GameEngineSoundPlayer.h"
 
 Player* Player::MainPlayer = nullptr;
 

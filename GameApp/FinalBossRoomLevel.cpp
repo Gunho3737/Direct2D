@@ -14,6 +14,8 @@
 #include <GameEngine/CameraActor.h>
 #include <GameEngine/GameEngineGUI.h>
 #include <GameEngine/GameEngineRenderWindow.h>
+#include "GameEngineBase/GameEngineSoundPlayer.h"
+#include <GameApp/BenchRoomLevel.h>
 
 bool FinalBossRoomLevel::BossBattleOn = false;
 Door* FinalBossRoomLevel::BossBlockDoor = nullptr;
@@ -170,6 +172,7 @@ void FinalBossRoomLevel::LevelUpdate(float _DeltaTime)
 	}
 	else if (BossBattleOn == true)
 	{
+
 		if (GetMainCameraActor()->GetTransform()->GetLocalPosition().y < -450.0f)
 		{
 			GetMainCameraActor()->GetTransform()->SetLocalDeltaTimeMove(float4::UP * 200.0f);

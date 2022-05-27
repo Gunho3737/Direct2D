@@ -11,7 +11,9 @@
 #include <GameEngine/CameraActor.h>
 #include <GameEngine/GameEngineGUI.h>
 #include <GameEngine/GameEngineRenderWindow.h>
+#include "GameEngineBase/GameEngineSoundPlayer.h"
 
+GameEngineSoundPlayer* BenchRoomLevel::PlayLevelBackGroundSoundPlayer = nullptr;
 
 BenchRoomLevel::BenchRoomLevel()
 {
@@ -23,11 +25,15 @@ BenchRoomLevel::~BenchRoomLevel()
 
 void BenchRoomLevel::LevelStart()
 {
+	BenchRoomLevel::PlayLevelBackGroundSoundPlayer = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+
+
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCameraActor()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
 	FadeEffect = AddPostProcessCameraMergeNext<PostFade>();
 	FadeEffect->SetTarget(GameEngineDevice::GetBackBufferTarget());
+
 
 	{
 		BitMapActor = CreateActor<BitMap>();
@@ -62,6 +68,8 @@ void BenchRoomLevel::LevelStart()
 
 void BenchRoomLevel::LevelUpdate(float _DeltaTime)
 {
+	BenchRoomLevel::PlayLevelBackGroundSoundPlayer->PlayAlone("Crossroads.mp3");
+
 	//프리카메라 상태 온오프
 	if (true == GameEngineInput::GetInst().Down("FreeCameraOn"))
 	{
@@ -131,6 +139,7 @@ void BenchRoomLevel::LevelChangeEndEvent(GameEngineLevel* _NextLevel)
 void BenchRoomLevel::LevelChangeStartEvent(GameEngineLevel* _PrevLevel)
 {
 	FadeOn();
+
 
 	Player::MainPlayer = PlayerActor;
 

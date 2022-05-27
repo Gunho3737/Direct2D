@@ -10,11 +10,12 @@
 #include <GameApp/BitMap.h>
 #include "Player.h"
 #include "GroundWave.h"
-
+#include <GameApp/BenchRoomLevel.h>
+#include "GameEngineBase/GameEngineSoundPlayer.h"
 
 
 FinalBoss::FinalBoss() // default constructer 디폴트 생성자
-	: HP(1),BodyHP(10), DeathOn(false), Speed(400.0f), GetDamage(false), ImmuneTime(0.0f), GroundAttackCount(0), TurnTime(0.0f), JumpPower({ 0.0f,0.0f,0.0f }), FloorCheck(false), DeathRoll(true)
+	: HP(10),BodyHP(10), DeathOn(false), Speed(400.0f), GetDamage(false), ImmuneTime(0.0f), GroundAttackCount(0), TurnTime(0.0f), JumpPower({ 0.0f,0.0f,0.0f }), FloorCheck(false), DeathRoll(true)
 {
 
 }
@@ -32,7 +33,7 @@ void FinalBoss::Start()
 	ImageRenderer->CreateAnimation("FinalBoss.png", "Walk", 10, 13, 0.1f);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "AttackReady", 24, 29, 0.1f, false);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "Attack", 30, 32, 0.1f, false);
-	ImageRenderer->CreateAnimation("FinalBoss.png", "AttackRecover", 33, 37, 0.15f, false);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "AttackRecover", 33, 37, 0.1f, false);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "Jump", 38, 42, 0.1f, false);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "JumpAttack", 43, 44, 0.1f, false);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "JumpAttackRecover", 45, 48, 0.1f, false);
@@ -489,6 +490,7 @@ void FinalBoss::DeathReady()
 			FinalBossRoomLevel::BossBattleOn = false;
 			CollapseFloor::FloorOff(CollapseFloor::FinalBossRoomFloor);
 			StateManager_.ChangeState("DeathFallDown");
+			BenchRoomLevel::PlayLevelBackGroundSoundPlayer->Stop();
 		}
 	}
 

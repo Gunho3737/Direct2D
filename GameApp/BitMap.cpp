@@ -5,6 +5,9 @@
 #include "BitMap.h"
 #include "Door.h"
 #include "FinalBossRoomLevel.h"
+#include <GameApp/BenchRoomLevel.h>
+#include "GameEngineBase/GameEngineSoundPlayer.h"
+
 
 BitMap* BitMap::CurrentMap = nullptr;
 
@@ -206,8 +209,13 @@ void BitMap::Update(float DeltaTime_)
 	FinalBossBattleOnCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
 		[&](GameEngineCollision* _OtherCollision)
 		{
+			if (FinalBossRoomLevel::BossBattleOn == false)
+			{
 			FinalBossRoomLevel::BossBattleOn = true;
 			FinalBossRoomLevel::BossBlockDoor->DoorOn = true;
+			BenchRoomLevel::PlayLevelBackGroundSoundPlayer->Stop();
+			}
+			BenchRoomLevel::PlayLevelBackGroundSoundPlayer->PlayAlone("False_Knight.mp3");
 		}
 	);
 
