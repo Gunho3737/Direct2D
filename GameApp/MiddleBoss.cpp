@@ -35,6 +35,22 @@ void MiddleBoss::Start()
 	ImageRenderer->SetChangeAnimation("Idle");
 	ImageRenderer->GetTransform()->SetLocalScaling({ 1200.0f, 1200.0f, 1.0f });
 
+	{
+		DeathEffectRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+
+		DeathEffectRenderer->CreateAnimationFolder("MonsterStunEffect", "MiddleBossStun", 0.07f, false);
+		DeathEffectRenderer->SetChangeAnimation("MiddleBossStun");
+		DeathEffectRenderer->GetTransform()->SetLocalScaling(float4{616.0f, 540.0f});
+		DeathEffectRenderer->GetTransform()->SetLocalPosition(float4{ 0.0f, 50.0f, 0.0f });
+		DeathEffectRenderer->Off();
+
+
+		DeathEffectRenderer->SetEndCallBack("MiddleBossStun", [&]()
+			{
+				DeathEffectRenderer->Off();
+			}
+		);
+	}
 
 	AttackEffectRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	AttackEffectRenderer->CreateAnimation("MiddleBoss.png", "SmashEffectBack", 49, 49, 0.05f);
@@ -121,6 +137,9 @@ void MiddleBoss::Update(float _DeltaTime)
 
 	if (HP <= 0)
 	{
+		HP = 99;
+		DeathEffectRenderer->On();
+		DeathEffectRenderer->SetChangeAnimation("MiddleBossStun", true);
 		StateManager_.ChangeState("Death");
 	}
 

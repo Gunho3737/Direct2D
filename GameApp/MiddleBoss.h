@@ -16,6 +16,7 @@ public:
 
 	GameEngineImageRenderer* ImageRenderer;
 	GameEngineImageRenderer* AttackEffectRenderer;
+	GameEngineImageRenderer* DeathEffectRenderer;
 
 	//보스자체의콜리전
 	GameEngineCollision* Collision;

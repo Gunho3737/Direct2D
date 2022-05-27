@@ -14,6 +14,7 @@ public:
 	~DashBug(); // default destructer 디폴트 소멸자
 
 	GameEngineImageRenderer* ImageRenderer;
+	GameEngineImageRenderer* DeathEffectRenderer;
 
 	//몬스터자체의콜리전
 	GameEngineCollision* Collision;

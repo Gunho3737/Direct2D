@@ -55,6 +55,23 @@ void DashBug::Start()
 
 	StateManager_.ChangeState("Idle");
 
+	{
+		DeathEffectRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+
+		DeathEffectRenderer->CreateAnimationFolder("MonsterStunEffect", "DashBugStun", 0.07f, false);
+		DeathEffectRenderer->SetChangeAnimation("DashBugStun");
+		DeathEffectRenderer->GetTransform()->SetLocalScaling(DeathEffectRenderer->GetFolderTextureImageSize());
+		DeathEffectRenderer->GetTransform()->SetLocalPosition(float4{ 0.0f, 50.0f, 0.0f });
+		DeathEffectRenderer->Off();
+
+
+		DeathEffectRenderer->SetEndCallBack("DashBugStun", [&]()
+			{
+				DeathEffectRenderer->Off();
+			}
+		);
+	}
+
 	SetCallBackFunc();
 }
 
@@ -86,6 +103,9 @@ void DashBug::Update(float _DeltaTime)
 
 	if (HP <= 0)
 	{
+		HP = 99;
+		DeathEffectRenderer->On();
+		DeathEffectRenderer->SetChangeAnimation("DashBugStun", true);
 		StateManager_.ChangeState("Death");
 	}
 
