@@ -164,6 +164,22 @@ void UserGame::ResourcesLoad()
 		TextureDir.MoveParent("LGH_HollowKnight");
 		TextureDir.MoveChild("Resources");
 		TextureDir.MoveChild("Image");
+		TextureDir.MoveChild("Map");
+		TextureDir.MoveChild("CollapseFloorPiece");
+
+		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFile();
+
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+		}
+	}
+
+	{
+		GameEngineDirectory TextureDir;
+		TextureDir.MoveParent("LGH_HollowKnight");
+		TextureDir.MoveChild("Resources");
+		TextureDir.MoveChild("Image");
 		TextureDir.MoveChild("TitleScreen");
 
 		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFile();

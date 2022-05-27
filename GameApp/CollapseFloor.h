@@ -3,6 +3,7 @@
 #include <GameEngine/GameEngineFSM.h>
 #include <GameEngine/GameEngineCollision.h>
 #include <GameEngine/GameEngineImageRenderer.h>
+#include <vector>
 
 
 // ºÐ·ù : 
@@ -19,6 +20,8 @@ public:
 	GameEngineImageRenderer* ImageRenderer;
 	GameEngineCollision* Collision;
 	GameEngineFSM StateManager_;
+
+	std::vector<GameEngineImageRenderer*> CollapseFloorPieces;
 
 	static CollapseFloor* FinalBossRoomFloor;
 
