@@ -18,6 +18,8 @@ public:
 
 	GameEngineImageRenderer* PlayerImageRenderer;
 
+	GameEngineImageRenderer* DeathEffectRenderer;
+
 	GameEngineCollision* Collision;
 	GameEngineCollision* RangeCollision;
 

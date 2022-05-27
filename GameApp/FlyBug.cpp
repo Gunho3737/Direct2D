@@ -32,7 +32,7 @@ void FlyBug::Start()
 		PlayerImageRenderer->CreateAnimation("FlyBug.png", "Idle", 1, 6, 0.1f);
 		PlayerImageRenderer->CreateAnimation("FlyBug.png", "Startle", 10, 13, 0.1f);
 		PlayerImageRenderer->CreateAnimation("FlyBug.png", "Chase", 14, 19, 0.1f);
-		PlayerImageRenderer->CreateAnimation("FlyBug.png", "Die", 21, 23, 0.1f, false);
+		PlayerImageRenderer->CreateAnimation("FlyBug.png", "Die", 21, 23, 0.15f, false);
 		//	
 		//		//애니메이션의 첫프레임/마지막 프레임/애니메이션의x번째프레임을 지정해 특정 함수가 실행되도록한다
 		//		PlayerImageRenderer->SetStartCallBack("Test", std::bind(&FlyBug::TestStartCallBack, this));
@@ -42,6 +42,23 @@ void FlyBug::Start()
 		PlayerImageRenderer->GetTransform()->SetLocalScaling({ 300.0f, 300.0f, 1.0f });
 
 
+	}
+
+	{
+		DeathEffectRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+
+		DeathEffectRenderer->CreateAnimationFolder("MonsterStunEffect", "FlyBugStun", 0.07f, false);
+		DeathEffectRenderer->SetChangeAnimation("FlyBugStun");
+		DeathEffectRenderer->GetTransform()->SetLocalScaling(DeathEffectRenderer->GetFolderTextureImageSize());
+		DeathEffectRenderer->GetTransform()->SetLocalPosition(float4{ 0.0f, 50.0f, 0.0f });
+		DeathEffectRenderer->Off();
+
+
+		DeathEffectRenderer->SetEndCallBack("FlyBugStun", [&]()
+			{
+				DeathEffectRenderer->Off();
+			}
+		);
 	}
 
 	Collision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTER));
@@ -58,7 +75,6 @@ void FlyBug::Start()
 	StateManager_.CreateState("Die", std::bind(&FlyBug::Die, this));
 
 	StateManager_.ChangeState("Idle");
-
 
 }
 
@@ -90,6 +106,9 @@ void FlyBug::Update(float _DeltaTime)
 
 	if (HP <= 0)
 	{
+		HP = 99;
+		DeathEffectRenderer->On();
+		DeathEffectRenderer->SetChangeAnimation("FlyBugStun", true);
 		StateManager_.ChangeState("Die");
 	}
 

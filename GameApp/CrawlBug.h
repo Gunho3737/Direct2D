@@ -15,6 +15,7 @@ public:
 	~CrawlBug(); // default destructer 디폴트 소멸자
 
 	GameEngineImageRenderer* ImageRenderer;
+	GameEngineImageRenderer* DeathEffectRenderer;
 	GameEngineCollision* Collision;
 	GameEngineFSM StateManager_;
 	LeftRight Direction;

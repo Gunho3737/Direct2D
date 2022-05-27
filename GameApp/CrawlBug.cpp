@@ -38,6 +38,23 @@ void CrawlBug::Start()
 	StateManager_.ChangeState("Walk");
 
 	StartX = GetTransform()->GetWorldPosition().x;
+
+	{
+		DeathEffectRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+
+		DeathEffectRenderer->CreateAnimationFolder("MonsterStunEffect", "CrawlBugStun", 0.07f, false);
+		DeathEffectRenderer->SetChangeAnimation("CrawlBugStun");
+		DeathEffectRenderer->GetTransform()->SetLocalScaling(DeathEffectRenderer->GetFolderTextureImageSize());
+		DeathEffectRenderer->GetTransform()->SetLocalPosition(float4{ 0.0f, 50.0f, 0.0f });
+		DeathEffectRenderer->Off();
+
+
+		DeathEffectRenderer->SetEndCallBack("CrawlBugStun", [&]()
+			{
+				DeathEffectRenderer->Off();
+			}
+		);
+	}
 }
 
 void CrawlBug::Update(float _DeltaTime)
@@ -69,7 +86,9 @@ void CrawlBug::Update(float _DeltaTime)
 	if (HP <= 0)
 	{
 		SpinTime = 0.2f;
-		HP = 3;
+		HP = 99;
+		DeathEffectRenderer->On();
+		DeathEffectRenderer->SetChangeAnimation("CrawlBugStun", true);
 		StateManager_.ChangeState("Spin");
 	}
 

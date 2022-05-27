@@ -32,6 +32,14 @@ void JumpBug::Start()
 	ImageRenderer->SetChangeAnimation("Idle");
 	ImageRenderer->GetTransform()->SetLocalScaling({ 500.0f, 500.0f, 1.0f });
 
+	DeathEffectRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+
+	DeathEffectRenderer->CreateAnimationFolder("MonsterStunEffect", "JumpBugStun", 0.08f, false);
+	DeathEffectRenderer->SetChangeAnimation("JumpBugStun");
+	DeathEffectRenderer->GetTransform()->SetLocalScaling(DeathEffectRenderer->GetFolderTextureImageSize());
+	DeathEffectRenderer->GetTransform()->SetLocalPosition(float4{0.0f, 50.0f, 0.0f});
+	DeathEffectRenderer->Off();
+
 	Collision = CreateTransformComponent<GameEngineCollision>(int(ActorCollisionType::MONSTER));
 	Collision->GetTransform()->SetLocalScaling(float4{ 80.0f, 180.0f, 1.0f });
 	Collision->GetTransform()->SetLocalPosition({ 0.0f, 100.0f, -10.0f });
@@ -88,6 +96,9 @@ void JumpBug::Update(float _DeltaTime)
 	}
 		if (HP <= 0)
 		{
+			HP = 99;
+			DeathEffectRenderer->On();
+			DeathEffectRenderer->SetChangeAnimation("JumpBugStun", true);
 			StateManager_.ChangeState("Death");
 		}
 
@@ -243,6 +254,12 @@ void JumpBug::SetCallBackFunc()
 	ImageRenderer->SetEndCallBack("JumpAttack", [&]()
 		{
 			StateManager_.ChangeState("Walk");
+		}
+	);
+
+	DeathEffectRenderer->SetEndCallBack("JumpBugStun", [&]()
+		{
+			DeathEffectRenderer->Off();
 		}
 	);
 }
