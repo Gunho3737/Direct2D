@@ -15,7 +15,7 @@
 
 
 FinalBoss::FinalBoss() // default constructer 디폴트 생성자
-	: HP(10),BodyHP(10), DeathOn(false), Speed(400.0f), GetDamage(false), ImmuneTime(0.0f), GroundAttackCount(0), TurnTime(0.0f), JumpPower({ 0.0f,0.0f,0.0f }), FloorCheck(false), DeathRoll(true)
+	: HP(7),BodyHP(10), DeathOn(false), Speed(400.0f), GetDamage(false), ImmuneTime(0.0f), GroundAttackCount(0), TurnTime(0.0f), JumpPower({ 0.0f,0.0f,0.0f }), FloorCheck(false), DeathRoll(true)
 {
 
 }
@@ -49,6 +49,23 @@ void FinalBoss::Start()
 	ImageRenderer->CreateAnimation("FinalBoss.png", "Death", 63, 65, 0.1f, false);
 	ImageRenderer->SetChangeAnimation("Idle");
 	ImageRenderer->GetTransform()->SetLocalScaling({ 1400.0f, 1400.0f, 1.0f });
+
+	{
+		DeathEffectRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+
+		DeathEffectRenderer->CreateAnimationFolder("MonsterStunEffect", "FinalBossStun", 0.07f, false);
+		DeathEffectRenderer->SetChangeAnimation("FinalBossStun");
+		DeathEffectRenderer->GetTransform()->SetLocalScaling(DeathEffectRenderer->GetFolderTextureImageSize());
+		DeathEffectRenderer->GetTransform()->SetLocalPosition(float4{ 0.0f, 50.0f, 0.0f });
+		DeathEffectRenderer->Off();
+
+
+		DeathEffectRenderer->SetEndCallBack("FinalBossStun", [&]()
+			{
+				DeathEffectRenderer->Off();
+			}
+		);
+	}
 
 	RealBodyRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	RealBodyRenderer->CreateAnimation("FinalBoss.png", "FaceBlow", 87, 99, 0.03f, false);
@@ -374,6 +391,24 @@ void FinalBoss::Faint()
 	
 	if (BodyHP <= 0)
 	{
+		DeathEffectRenderer->On();
+		switch (Direction)
+		{
+		case LeftRight::LEFT:
+		{	
+			DeathEffectRenderer->GetTransform()->SetLocalPosition(float4{-150.0f, 60.0f});
+		}
+			break;
+		case LeftRight::RIGHT:
+		{	
+			DeathEffectRenderer->GetTransform()->SetLocalPosition(float4{150.0f, 60.0f });
+		}
+			break;
+		default:
+			break;
+		}
+		DeathEffectRenderer->SetChangeAnimation("FinalBossStun", true);
+
 		if (DeathOn == true)
 		{
 			FinalBossRoomLevel::EndingBlockDoor->DoorOn = false;

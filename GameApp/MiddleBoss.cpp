@@ -10,7 +10,7 @@
 
 
 MiddleBoss::MiddleBoss() // default constructer 디폴트 생성자
-	: HP(10), Speed(300.0f), GetDamage(false), ImmuneTime(0.0f), TurnOn(false), GroundAttackCount(0), JumpReadyTime(0.0f), TurnTime(0.0f)
+	: HP(7), Speed(300.0f), GetDamage(false), ImmuneTime(0.0f), TurnOn(false), GroundAttackCount(0), JumpReadyTime(0.0f), TurnTime(0.0f)
 {
 
 }
