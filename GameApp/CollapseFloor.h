@@ -1,6 +1,8 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
+#include <GameEngine/GameEngineCollision.h>
+#include <GameEngine/GameEngineImageRenderer.h>
 
 
 // ºÐ·ù : 
@@ -23,7 +25,8 @@ public:
 public:
 	static void FloorOff(CollapseFloor* _Floor)
 	{
-		_Floor->Off();
+		_Floor->Collision->Off();
+		_Floor->ImageRenderer->Off();
 	}
 
 protected:		// delete constructer

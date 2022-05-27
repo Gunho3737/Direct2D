@@ -39,7 +39,7 @@ void FinalBoss::Start()
 	ImageRenderer->CreateAnimation("FinalBoss.png", "JumpAttackRecover", 45, 48, 0.1f, false);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "Damage", 49, 58, 0.07f, false);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "FaceOff", 59, 62, 0.1f, false);
-	ImageRenderer->CreateAnimation("FinalBoss.png", "Faint", 63, 65, 0.1f, false);
+	ImageRenderer->CreateAnimation("FinalBoss.png", "Faint", 63, 65, 0.07f, false);
 	ImageRenderer->CreateAnimation("FinalBoss_2.png", "GetUp", 0, 4, 0.07f, false);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "RampagePosition", 38, 42, 0.1f, false);
 	ImageRenderer->CreateAnimation("FinalBoss.png", "RampageReady", 24, 29, 0.1f, false);
@@ -385,6 +385,7 @@ void FinalBoss::Faint()
 	Collision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::ATTACK,
 		[&](GameEngineCollision* _OtherCollision)
 		{
+			ImageRenderer->SetChangeAnimation("Faint", true);
 			RealBodyRenderer->SetChangeAnimation("FaceHit", true);
 		}
 	);
