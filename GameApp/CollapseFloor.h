@@ -21,16 +21,17 @@ public:
 	GameEngineCollision* Collision;
 	GameEngineFSM StateManager_;
 
-	std::vector<GameEngineImageRenderer*> CollapseFloorPieces;
+	GameEngineImageRenderer* CollapseImageRenderer0;
+	GameEngineImageRenderer* CollapseImageRenderer1;
+	GameEngineImageRenderer* CollapseImageRenderer2;
+
+	static bool CollapseOn;
+	//std::vector<GameEngineImageRenderer*> CollapseFloorPieces;
 
 	static CollapseFloor* FinalBossRoomFloor;
 
 public:
-	static void FloorOff(CollapseFloor* _Floor)
-	{
-		_Floor->Collision->Off();
-		_Floor->ImageRenderer->Off();
-	}
+
 
 protected:		// delete constructer
 	CollapseFloor(const CollapseFloor& _other) = delete; // default Copy constructer 디폴트 복사생성자
