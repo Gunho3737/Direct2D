@@ -616,7 +616,6 @@ void Player::Attack()
 
 void Player::Airborne()
 {
-
 	FloorCollisionCheck();
 	WallCollisionCheck();
 
@@ -680,6 +679,7 @@ void Player::Airborne()
 
 	if (MapBotCollisionColor == float4::BLACK || FloorCheck == true)
 	{
+		MoveSoundPlayer->PlayAlone("land.wav", 0);
 		StateManager_.ChangeState("Idle");
 	}
 
