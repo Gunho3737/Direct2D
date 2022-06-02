@@ -36,6 +36,11 @@ public:
 	GameEngineFSM StateManager_;
 	LeftRight Direction;
 
+	GameEngineSoundPlayer* MoveSoundPlayer;
+	GameEngineSoundPlayer* DamageSoundPlayer;
+	GameEngineSoundPlayer* AttackSoundPlayer;
+
+
 protected:		// delete constructer
 	MiddleBoss(const MiddleBoss& _other) = delete; // default Copy constructer 디폴트 복사생성자
 	MiddleBoss(MiddleBoss&& _other) = delete; // default RValue Copy constructer 디폴트 RValue 복사생성자

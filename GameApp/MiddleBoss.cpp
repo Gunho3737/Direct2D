@@ -2,6 +2,7 @@
 #include "GameEngine/GameEngineRenderer.h"
 #include "GameEngine/GameEngineImageRenderer.h"
 #include <GameEngine\GameEngineCollision.h>
+#include "GameEngineBase/GameEngineSoundPlayer.h"
 
 #include <GameApp/BitMap.h>
 #include "MiddleBoss.h"
@@ -22,6 +23,12 @@ MiddleBoss::~MiddleBoss() // default destructer 디폴트 소멸자
 
 void MiddleBoss::Start()
 {
+	{
+		MoveSoundPlayer = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+		DamageSoundPlayer = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+		AttackSoundPlayer = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+	}
+
 	ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 
 	ImageRenderer->CreateAnimation("MiddleBoss.png", "Idle", 6, 12, 0.1f);
@@ -140,6 +147,7 @@ void MiddleBoss::Update(float _DeltaTime)
 		HP = 99;
 		DeathEffectRenderer->On();
 		DeathEffectRenderer->SetChangeAnimation("MiddleBossStun", true);
+		AttackSoundPlayer->PlayOverLap("MiddleBoss_Death.wav", 0);
 		StateManager_.ChangeState("Death");
 	}
 
@@ -229,6 +237,7 @@ void MiddleBoss::Idle()
 	ViewCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
 		[this](GameEngineCollision* _OtherCollision)
 		{
+			AttackSoundPlayer->PlayOverLap("MiddleBoss_Awake.wav",0);
 			StateManager_.ChangeState("Walk");
 		}
 	);
@@ -238,6 +247,8 @@ void MiddleBoss::Idle()
 
 void  MiddleBoss::Walk()
 {
+	MoveSoundPlayer->PlayAlone("MiddleBoss_Walk.wav");
+
 	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 	float4 MonsterPos = Collision->GetTransform()->GetWorldPosition();
 	LeftRight PostDirection = Direction;
@@ -261,6 +272,7 @@ void  MiddleBoss::Walk()
 	RangeCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
 		[this](GameEngineCollision* _OtherCollision)
 		{
+			AttackSoundPlayer->PlayAlone("MiddleBoss_Attack.wav", 0);
 			StateManager_.ChangeState("Attack");
 		}
 	);
@@ -271,6 +283,7 @@ void  MiddleBoss::Walk()
 		RangeCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::MONSTERMOVESTOP,
 			[this](GameEngineCollision* _OtherCollision)
 			{
+				MoveSoundPlayer->Stop();
 				TurnCheckCollision->On();
 				StateManager_.ChangeState("Wait");
 			}
@@ -382,6 +395,8 @@ void MiddleBoss::SetCallBackFunc()
 				}
 
 				AttackCollision->On();
+				MoveSoundPlayer->PlayAlone("MiddleBoss_AttackEffect.wav", 0);
+		
 
 				if (Direction == LeftRight::LEFT)
 				{
@@ -416,6 +431,12 @@ void MiddleBoss::SetCallBackFunc()
 			}
 		);
 	}
+
+	ImageRenderer->SetStartCallBack("Jump", [&]()
+		{
+			AttackSoundPlayer->PlayAlone("MiddleBoss_Jump.wav", 0);
+		}
+	);
 
 		ImageRenderer->SetEndCallBack("Jump", [&]()
 			{
