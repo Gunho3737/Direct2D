@@ -5,7 +5,7 @@
 #include "FlyBug.h" 
 #include <GameApp/BitMap.h>
 #include "Player.h"
-
+#include "GameEngineBase/GameEngineSoundPlayer.h"
 
 
 FlyBug::FlyBug()
@@ -20,6 +20,9 @@ FlyBug::~FlyBug()
 
 void FlyBug::Start()
 {
+	MoveSoundPlayer = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+
+
 	{
 		PlayerImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		PlayerImageRenderer->SetImage("FlyBug.png");
@@ -221,6 +224,7 @@ void FlyBug::Startle()
 
 	PlayerImageRenderer->SetEndCallBack("Startle", [&]()
 		{
+			MoveSoundPlayer->PlayAlone("FlyBug_Notice.wav", 0);
 			StateManager_.ChangeState("Chase");
 		}
 	);

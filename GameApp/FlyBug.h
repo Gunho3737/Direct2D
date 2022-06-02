@@ -33,6 +33,8 @@ public:
 	float4 MapLeftCollisionColor;
 	float4 MapRightCollisionColor;
 
+	GameEngineSoundPlayer* MoveSoundPlayer;
+
 protected:
 
 	int HP;
