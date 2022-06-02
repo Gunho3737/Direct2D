@@ -940,6 +940,9 @@ void Player::DownAttack()
 
 void Player::MapMove()
 {
+	MoveSoundPlayer->Stop();
+	DamageSoundPlayer->Stop();
+	AttackSoundPlayer->Stop();
 
 	PlayerImageRenderer->SetChangeAnimation("MapMove");
 
@@ -989,6 +992,11 @@ void Player::MapMove()
 
 void Player::MapPrev()
 {
+	MoveSoundPlayer->Stop();
+	DamageSoundPlayer->Stop();
+	AttackSoundPlayer->Stop();
+
+
 	PlayerImageRenderer->SetChangeAnimation("MapMove");
 
 	TimeCheck -= GameEngineTime::GetInst().GetDeltaTime();

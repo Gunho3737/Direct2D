@@ -16,7 +16,7 @@
 
 
 FinalBoss::FinalBoss() // default constructer 디폴트 생성자
-	: HP(10),BodyHP(10), DeathOn(false), Speed(400.0f), GetDamage(false), ImmuneTime(0.0f), GroundAttackCount(0), TurnTime(0.0f), JumpPower({ 0.0f,0.0f,0.0f }), FloorCheck(false), DeathRoll(true)
+	: HP(1),BodyHP(10), DeathOn(false), Speed(400.0f), GetDamage(false), ImmuneTime(0.0f), GroundAttackCount(0), TurnTime(0.0f), JumpPower({ 0.0f,0.0f,0.0f }), FloorCheck(false), DeathRoll(true)
 {
 
 }
@@ -154,6 +154,7 @@ void FinalBoss::Update(float _DeltaTime)
 		JumpPower = float4::ZERO;
 		BodyHP = 10;
 		HP = 99;
+		AttackEffectSoundPlayer->PlayAlone("FinalBoss_Roll.wav", 0);
 		StateManager_.ChangeState("Damage");
 	}
 
@@ -183,7 +184,7 @@ void FinalBoss::Update(float _DeltaTime)
 				{
 					if (StateManager_.IsCurrentState("Faint"))
 					{
-						DamageSoundPlayer->PlayAlone("AttackEffectSoundPlayer.wav", 0);
+						DamageSoundPlayer->PlayAlone("FinalBoss_RealBodyHit.wav", 0);
 						BodyHP -= 1;
 						RealBodyRenderer->SetPlusColor({ 1.0f, 1.0f, 1.0f, 0.0f });
 					}
@@ -370,6 +371,7 @@ void FinalBoss::Damage()
 
 	if (time >= 2.0f)
 	{
+		AttackEffectSoundPlayer->Stop();
 		Collision->On();
 		Collision->GetTransform()->SetLocalScaling(float4{ 100.0f, 100.0f, 1.0f });
 
@@ -424,6 +426,8 @@ void FinalBoss::Faint()
 
 		if (DeathOn == true)
 		{
+			AttackVoiceSoundPlayer->Stop();
+			AttackVoiceSoundPlayer->PlayAlone("FinalBoss_Death.wav",0);
 			FinalBossRoomLevel::EndingBlockDoor->DoorOn = false;
 			StateManager_.ChangeState("Death");
 		}
@@ -472,6 +476,7 @@ void FinalBoss::RampagePosition()
 	{
 		if (MapBotCollisionColor == float4::BLACK || FloorCheck == true)
 		{
+			MoveSoundPlayer->PlayAlone("FinalBoss_Land.wav", 0);
 			StateManager_.ChangeState("RampageReady");
 		}
 	}
@@ -492,6 +497,8 @@ void FinalBoss::RampageReady()
 
 void FinalBoss::Rampage()
 {
+	AttackVoiceSoundPlayer->PlayAlone("FinalBoss_RamPage.wav",0);
+
 	ImageRenderer->SetChangeAnimation("Rampage");
 
 	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
@@ -515,6 +522,7 @@ void FinalBoss::Rampage()
 			ImageRenderer->GetTransform()->SetLocalScaling(float4{ 1400.0f, 1400.0f, 1.0f } *= float4::XFLIP);
 			RealBodyRenderer->GetTransform()->SetLocalScaling(float4{ 1400.0f, 1400.0f, 1.0f } *= float4::XFLIP);
 		}
+		AttackVoiceSoundPlayer->Stop();
 		StateManager_.ChangeState("DeathReady");
 	}
 }
@@ -537,6 +545,8 @@ void FinalBoss::DeathReady()
 			DeathOn = true;
 			FinalBossRoomLevel::BossBattleOn = false;
 			CollapseFloor::CollapseOn = true;
+			MoveSoundPlayer->PlayAlone("CollapseFloor.wav", 0);
+			AttackVoiceSoundPlayer->PlayAlone("FinalBoss_FallDown.wav", 0);
 			StateManager_.ChangeState("DeathFallDown");
 			BenchRoomLevel::PlayLevelBackGroundSoundPlayer->Stop();
 		}
