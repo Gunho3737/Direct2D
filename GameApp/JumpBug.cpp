@@ -2,6 +2,7 @@
 #include "GameEngine/GameEngineRenderer.h"
 #include "GameEngine/GameEngineImageRenderer.h"
 #include <GameEngine\GameEngineCollision.h>
+#include "GameEngineBase/GameEngineSoundPlayer.h"
 
 #include <GameApp/BitMap.h>
 #include "JumpBug.h"
@@ -21,6 +22,8 @@ JumpBug::~JumpBug() // default destructer 디폴트 소멸자
 
 void JumpBug::Start()
 {
+	MoveSoundPlayer = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+
 	ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 
 	ImageRenderer->CreateAnimation("JumpBug.png", "Idle", 0, 5, 0.1f);
@@ -147,6 +150,7 @@ void JumpBug::Idle()
 
 void JumpBug::Walk()
 {
+	MoveSoundPlayer->PlayAlone("BugWalk.wav");
 	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 	float4 MonsterPos = Collision->GetTransform()->GetWorldPosition();
 	LeftRight PostDirection = Direction;
@@ -170,6 +174,7 @@ void JumpBug::Walk()
 	RangeCollision->Collision(CollisionType::Rect, CollisionType::Rect, ActorCollisionType::PLAYER,
 		[this](GameEngineCollision* _OtherCollision)
 		{
+			MoveSoundPlayer->Stop();
 			StateManager_.ChangeState("JumpReady");
 		}
 	);
@@ -215,6 +220,7 @@ void JumpBug::Jump()
 	{
 		if (MapBotCollisionColor == float4::BLACK)
 		{
+			MoveSoundPlayer->Stop();
 			StateManager_.ChangeState("JumpAttack");
 		}
 	}
@@ -248,6 +254,12 @@ void JumpBug::SetCallBackFunc()
 		{
 			JumpPower = float4::UP * 700.0f;
 			StateManager_.ChangeState("Jump");
+		}
+	);
+
+	ImageRenderer->SetStartCallBack("Jump", [&]()
+		{
+			MoveSoundPlayer->PlayAlone("JumpBugAttack.wav");
 		}
 	);
 

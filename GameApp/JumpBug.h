@@ -33,6 +33,8 @@ public:
 	float4 MapLeftCollisionColor;
 	float4 MapRightCollisionColor;
 
+	GameEngineSoundPlayer* MoveSoundPlayer;
+
 protected:		// delete constructer
 	JumpBug(const JumpBug& _other) = delete; // default Copy constructer 디폴트 복사생성자
 	JumpBug(JumpBug&& _other) = delete; // default RValue Copy constructer 디폴트 RValue 복사생성자
