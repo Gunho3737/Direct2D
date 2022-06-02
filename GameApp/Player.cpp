@@ -252,6 +252,7 @@ void Player::Update(float _DeltaTime)
 				}
 				MoveSoundPlayer->Stop();
 				AttackSoundPlayer->Stop();
+				DamageSoundPlayer->PlayAlone("damage.wav", 0);
 				StateManager_.ChangeState("Damage");
 				Impact = true;
 			}
@@ -1084,6 +1085,7 @@ void Player::SetCallBackFunc()
 				PlayerSlashRenderer->SetChangeAnimation("SlashEffect", true);
 				if (PlayerDirection == LeftRight::LEFT)
 				{
+					AttackSoundPlayer->PlayOverLap("sword.wav", 0);
 					PlayerSlashRenderer->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
 					PlayerSlashRenderer->GetTransform()->SetLocalPosition(PlayerImageRenderer->GetTransform()->GetLocalPosition() += {-70.0f, 0.0f, -1.0f});
 					PlayerSlashCollision->GetTransform()->SetLocalScaling(float4{ 137.0f,114.0f, 1.0f });
@@ -1119,6 +1121,7 @@ void Player::SetCallBackFunc()
 			{
 				PlayerSlashRenderer->On();
 				PlayerSlashCollision->On();
+				AttackSoundPlayer->PlayOverLap("sword.wav", 0);
 
 				PlayerSlashRenderer->SetChangeAnimation("UpSlashEffect", true);
 				PlayerSlashRenderer->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
@@ -1143,6 +1146,7 @@ void Player::SetCallBackFunc()
 			{
 				PlayerSlashRenderer->On();
 				PlayerSlashCollision->On();
+				AttackSoundPlayer->PlayOverLap("sword.wav", 0);
 
 				PlayerSlashRenderer->SetChangeAnimation("DownSlashEffect", true);
 				PlayerSlashRenderer->GetTransform()->SetLocalScaling(float4{ 157.0f,114.0f, 1.0f });
