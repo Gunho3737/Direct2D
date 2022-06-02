@@ -23,6 +23,13 @@ void Player::Start()
 {
 
 	{
+		MoveSoundPlayer = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+		DamageSoundPlayer = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+		AttackSoundPlayer = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+	}
+
+
+	{
 		// Scale에 마이너스를 곱하면 대칭이 가능해진다
 		PlayerImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		PlayerImageRenderer->CreateAnimationFolder("Idle", "Idle", 0.2f);
@@ -243,7 +250,8 @@ void Player::Update(float _DeltaTime)
 					return;
 					//상대 몬스터의 콜리전이 꺼져있으면 바로 리턴, 충돌체크 안함
 				}
-
+				MoveSoundPlayer->Stop();
+				AttackSoundPlayer->Stop();
 				StateManager_.ChangeState("Damage");
 				Impact = true;
 			}
@@ -390,6 +398,8 @@ void Player::IdleToRun()
 void Player::Run()
 {
 
+	MoveSoundPlayer->PlayAlone("run.wav");
+
 	PlayerImageRenderer->SetChangeAnimation("Run");
 
 	FloorCollisionCheck();
@@ -434,6 +444,7 @@ void Player::Run()
 		true == GameEngineInput::GetInst().Free("MoveRight")
 		)
 	{
+		MoveSoundPlayer->Stop();
 		StateManager_.ChangeState("RunToIdle");
 		return;
 	}
@@ -442,11 +453,13 @@ void Player::Run()
 	{
 		if (true == GameEngineInput::GetInst().Press("AimUp"))
 		{
+			MoveSoundPlayer->Stop();
 			StateManager_.ChangeState("UpAttack");
 			return;
 		}
 		else
 		{
+			MoveSoundPlayer->Stop();
 			StateManager_.ChangeState("Attack");
 		}
 	}
@@ -454,6 +467,7 @@ void Player::Run()
 	if (true == GameEngineInput::GetInst().Down("Jump"))
 	{
 		JumpPower = BasicJumpPower;
+		MoveSoundPlayer->Stop();
 		StateManager_.ChangeState("Jump");
 	}
 
@@ -461,6 +475,7 @@ void Player::Run()
 	{
 		if (FloorCheck == false)
 		{
+		MoveSoundPlayer->Stop();
 		StateManager_.ChangeState("Airborne");
 		}
 	}
@@ -894,6 +909,7 @@ void Player::DownAttack()
 		}
 	}
 
+
 	PlayerImageRenderer->SetEndCallBack("DownAttack", [&]()
 		{
 			if (true == GameEngineInput::GetInst().Press("MoveLeft") || GameEngineInput::GetInst().Press("MoveRight"))
@@ -1049,6 +1065,15 @@ void Player::Death()
 
 void Player::SetCallBackFunc()
 {
+
+	{
+		PlayerImageRenderer->SetStartCallBack("Jump", [&]()
+			{
+				MoveSoundPlayer->PlayAlone("jump.wav", 0);
+			}
+		);
+	}
+
 	//기본Slash
 	{
 		PlayerImageRenderer->SetStartCallBack("Attack", [&]()

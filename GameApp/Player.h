@@ -22,6 +22,10 @@ public:
 	
 	static Player* MainPlayer;
 
+	GameEngineSoundPlayer* MoveSoundPlayer;
+	GameEngineSoundPlayer* DamageSoundPlayer;
+	GameEngineSoundPlayer* AttackSoundPlayer;
+
 protected:
 	GameEngineImageRenderer* PlayerImageRenderer;
 	GameEngineCollision* PlayerCollision;

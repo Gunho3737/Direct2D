@@ -26,7 +26,6 @@ public:
 	GameEngineImageRenderer* CollapseImageRenderer2;
 
 	static bool CollapseOn;
-	//std::vector<GameEngineImageRenderer*> CollapseFloorPieces;
 
 	static CollapseFloor* FinalBossRoomFloor;
 
