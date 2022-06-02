@@ -35,6 +35,36 @@ void UserGame::ResourcesLoad()
 	}
 
 	{
+		GameEngineDirectory SoundDir;
+		SoundDir.MoveParent("LGH_HollowKnight");
+		SoundDir.MoveChild("Resources");
+		SoundDir.MoveChild("Sound");
+		SoundDir.MoveChild("Monster");
+
+		std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile("wav");
+
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineSoundManager::GetInst().Load(AllFile[i].GetFullPath());
+		}
+	}
+
+	{
+		GameEngineDirectory SoundDir;
+		SoundDir.MoveParent("LGH_HollowKnight");
+		SoundDir.MoveChild("Resources");
+		SoundDir.MoveChild("Sound");
+		SoundDir.MoveChild("Player");
+
+		std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile("wav");
+
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineSoundManager::GetInst().Load(AllFile[i].GetFullPath());
+		}
+	}
+
+	{
 		GameEngineDirectory TextureDir;
 		TextureDir.MoveParent("LGH_HollowKnight");
 		TextureDir.MoveChild("Resources");
