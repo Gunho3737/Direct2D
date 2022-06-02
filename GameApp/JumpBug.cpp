@@ -102,6 +102,7 @@ void JumpBug::Update(float _DeltaTime)
 			HP = 99;
 			DeathEffectRenderer->On();
 			DeathEffectRenderer->SetChangeAnimation("JumpBugStun", true);
+			MoveSoundPlayer->PlayAlone("BugDeath.wav", 0);
 			StateManager_.ChangeState("Death");
 		}
 
@@ -233,6 +234,7 @@ void JumpBug::JumpAttack()
 
 void JumpBug::Death()
 {
+
 	ImageRenderer->SetChangeAnimation("Death");
 
 

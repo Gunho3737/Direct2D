@@ -68,7 +68,7 @@ void BenchRoomLevel::LevelStart()
 
 void BenchRoomLevel::LevelUpdate(float _DeltaTime)
 {
-	BenchRoomLevel::PlayLevelBackGroundSoundPlayer->PlayAlone("Crossroads.mp3");
+	//BenchRoomLevel::PlayLevelBackGroundSoundPlayer->PlayAlone("Crossroads.mp3");
 
 	//프리카메라 상태 온오프
 	if (true == GameEngineInput::GetInst().Down("FreeCameraOn"))

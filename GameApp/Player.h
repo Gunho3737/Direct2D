@@ -106,6 +106,5 @@ private:
 
 	void FloorCollisionCheck();
 	void WallCollisionCheck();
-	void Blink(float _DeltaTime);
 };
 
