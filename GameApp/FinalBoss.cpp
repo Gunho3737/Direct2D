@@ -6,6 +6,7 @@
 #include "CollapseFloor.h"
 #include "FinalBossRoomLevel.h"
 #include "Door.h"
+#include "GameEngineBase/GameEngineSoundPlayer.h"
 
 #include <GameApp/BitMap.h>
 #include "Player.h"
@@ -15,7 +16,7 @@
 
 
 FinalBoss::FinalBoss() // default constructer 디폴트 생성자
-	: HP(1),BodyHP(10), DeathOn(false), Speed(400.0f), GetDamage(false), ImmuneTime(0.0f), GroundAttackCount(0), TurnTime(0.0f), JumpPower({ 0.0f,0.0f,0.0f }), FloorCheck(false), DeathRoll(true)
+	: HP(10),BodyHP(10), DeathOn(false), Speed(400.0f), GetDamage(false), ImmuneTime(0.0f), GroundAttackCount(0), TurnTime(0.0f), JumpPower({ 0.0f,0.0f,0.0f }), FloorCheck(false), DeathRoll(true)
 {
 
 }
@@ -27,6 +28,12 @@ FinalBoss::~FinalBoss() // default destructer 디폴트 소멸자
 
 void FinalBoss::Start()
 {
+	MoveSoundPlayer = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+	DamageSoundPlayer = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+	AttackEffectSoundPlayer = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+	AttackVoiceSoundPlayer = GameEngineSoundManager::GetInst().CreateSoundPlayer();
+
+
 	ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 
 	ImageRenderer->CreateAnimation("FinalBoss.png", "Idle", 0, 4, 0.1f);
@@ -176,12 +183,14 @@ void FinalBoss::Update(float _DeltaTime)
 				{
 					if (StateManager_.IsCurrentState("Faint"))
 					{
+						DamageSoundPlayer->PlayAlone("AttackEffectSoundPlayer.wav", 0);
 						BodyHP -= 1;
 						RealBodyRenderer->SetPlusColor({ 1.0f, 1.0f, 1.0f, 0.0f });
 					}
 					else
 					{
 						HP -= 1;
+						DamageSoundPlayer->PlayAlone("FinalBoss_ArmourDamage.wav", 0);
 						ImageRenderer->SetPlusColor({ 1.0f, 1.0f, 1.0f, 0.0f });
 					}
 				}
@@ -235,6 +244,8 @@ void FinalBoss::Idle()
 
 void FinalBoss::Walk() 
 {
+	MoveSoundPlayer->PlayAlone("MiddleBoss_Walk.wav");
+
 	float4 PlayerPos = Player::MainPlayer->GetTransform()->GetWorldPosition();
 	float4 MonsterPos = Collision->GetTransform()->GetWorldPosition();
 	LeftRight PostDirection = Direction;
@@ -261,6 +272,7 @@ void FinalBoss::Walk()
 			StateManager_.ChangeState("Jump");
 			if (GroundAttackCount < 3)
 			{
+				AttackVoiceSoundPlayer->PlayAlone("FinalBoss_AttackShout.wav", 0);
 				StateManager_.ChangeState("Jump");
 			}
 		}
@@ -611,6 +623,8 @@ void FinalBoss::SetCallBackFunc()
 	ImageRenderer->SetFrameCallBack("JumpAttack", 44, [&]() 
 		{
 			AttackCollision->On();
+			AttackEffectSoundPlayer->PlayAlone("FinalBoss_Attack.wav", 0);
+			MoveSoundPlayer->PlayAlone("FinalBoss_Land.wav", 0);
 
 			if (Direction == LeftRight::LEFT)
 			{
@@ -647,6 +661,7 @@ void FinalBoss::SetCallBackFunc()
 
 	ImageRenderer->SetEndCallBack("AttackReady", [&]()
 		{
+			AttackVoiceSoundPlayer->PlayAlone("FinalBoss_AttackShout.wav", 0);
 			StateManager_.ChangeState("Attack");
 		}
 	);
@@ -654,6 +669,7 @@ void FinalBoss::SetCallBackFunc()
 	ImageRenderer->SetEndCallBack("Attack", [&]()
 		{
 			StateManager_.ChangeState("AttackRecover");
+			MoveSoundPlayer->PlayAlone("FinalBoss_Land.wav", 0);
 			if (Direction == LeftRight::RIGHT)
 			{
 				GroundWave* WaveAttackRight = GetLevel()->CreateActor<GroundWave>();

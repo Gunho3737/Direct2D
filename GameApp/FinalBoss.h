@@ -41,6 +41,11 @@ public:
 	float4 MapLeftCollisionColor;
 	float4 MapRightCollisionColor;
 
+	GameEngineSoundPlayer* MoveSoundPlayer;
+	GameEngineSoundPlayer* DamageSoundPlayer;
+	GameEngineSoundPlayer* AttackEffectSoundPlayer;
+	GameEngineSoundPlayer* AttackVoiceSoundPlayer;
+
 protected:		// delete constructer
 	FinalBoss(const FinalBoss& _other) = delete; // default Copy constructer 디폴트 복사생성자
 	FinalBoss(FinalBoss&& _other) = delete; // default RValue Copy constructer 디폴트 RValue 복사생성자
