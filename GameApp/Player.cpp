@@ -611,7 +611,12 @@ void Player::Attack()
 		}
 	);
 
-	
+	float time = StateManager_.GetCurrentState()->Time;
+
+	if (time >= 1.0f)
+	{
+		StateManager_.ChangeState("Idle");
+	}
 
 }
 
