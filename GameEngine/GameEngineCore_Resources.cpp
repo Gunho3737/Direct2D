@@ -93,9 +93,6 @@ void GameEngineCore::EngineResourcesLoad()
 		}
 	}
 
-	GameEngineSampler* NewRes = GameEngineSamplerManager::GetInst().Find("PointSmp");
-	NewRes->Info_.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-	NewRes->ReCreate();
 }
 void GameEngineCore::EngineResourcesCreate()
 {
