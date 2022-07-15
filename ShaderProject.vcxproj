@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\Example\AR38\EngineResources\Shader\CbufferHeader.fx" />
-    <FxCompile Include="..\Example\AR38\EngineResources\Shader\Color.fx" />
+    <FxCompile Include="EngineResources\Shader\CbufferHeader.fx" />
+    <FxCompile Include="EngineResources\Shader\Color.fx" />
     <FxCompile Include="EngineResources\Shader\Fade.fx" />
     <FxCompile Include="EngineResources\Shader\TargetMerge.fx" />
     <FxCompile Include="EngineResources\Shader\Texture.fx" />

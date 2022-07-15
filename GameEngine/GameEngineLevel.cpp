@@ -138,8 +138,8 @@ void GameEngineLevel::Render(float _DeltaTime)
 	}
 
 
-	GameEngineGUI::GetInst()->GUIRenderStart();
-	GameEngineGUI::GetInst()->GUIRenderEnd();
+//	GameEngineGUI::GetInst()->GUIRenderStart();
+//	GameEngineGUI::GetInst()->GUIRenderEnd();
 
 	// 충돌체 랜더링이 무조건 화면에 뚫고 나와야하는 애들은
 	GameEngineDevice::RenderEnd();
